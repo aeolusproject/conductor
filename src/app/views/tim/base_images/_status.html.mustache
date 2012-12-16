@@ -4,20 +4,26 @@
       <dt>
         <div class="build-actions">
           <h3>{{provider_type.name}}</h3>
-          {{#target_image.present?}}
-            {{#can_delete}}
-              <%= button_to(t('tim.base_images.show.delete'),
-                '{{delete_url}}',
-                :method => :delete) %>
-            {{/can_delete}}
-          {{/target_image.present?}}
-          {{^target_image.present?}}
-            {{#can_build}}
-              <%= button_to(t('tim.base_images.show.build'),
-                '{{build_url}}',
-                :method => :post) %>
-            {{/can_build}}
-          {{/target_image.present?}}
+          {{#delete_url.present?}}
+            <%= button_to(t('tim.base_images.show.delete'),
+              '{{delete_url}}',
+              :method => :delete) %>
+          {{/delete_url.present?}}
+          {{#build_url.present?}}
+            <%= button_to(t('tim.base_images.show.build'),
+              '{{build_url}}',
+              :method => :post) %>
+          {{/build_url.present?}}
+          {{#only_status.present?}}
+            {{status}}
+            {{#progress.present?}}
+              ({{progress}}%)
+            {{/progress.present?}}
+          {{/only_status.present?}}
+          <br>
+          {{#failed_attempts.present?}}
+            ({{failed_attempts}})
+          {{/failed_attempts.present?}}
         </div>
       </dt>
       <dd>
@@ -41,20 +47,25 @@
               <td class="light">{{provider.name }} </td>
               <td class="light">{{provider_image.external_image_id}}</td>
               <td class="light">
-              {{#provider_image.pushed?}}
-                {{#can_delete}}
+              {{#pimg_delete_url.present?}}
                 <%= button_to(t('tim.base_images.show.delete'),
-                  '{{delete_url}}',
+                  '{{pimg_delete_url}}',
                   :method => :delete) %>
-                {{/can_delete}}
-              {{/provider_image.pushed?}}
-              {{^provider_image.pushed?}}
-                {{#can_push}}
-                  <%= button_to(t('tim.base_images.show.push'),
-                    '{{push_url}}',
-                    :method => :post) %>
-                {{/can_push}}
-              {{/provider_image.pushed?}}
+              {{/pimg_delete_url.present?}}
+              {{#pimg_push_url.present?}}
+                <%= button_to(t('tim.base_images.show.push'),
+                  '{{pimg_push_url}}',
+                  :method => :post) %>
+              {{/pimg_push_url.present?}}
+              {{#pimg_only_status.present?}}
+                {{status}}
+                {{#pimg_progress.present?}}
+                  ({{pimg_progress}}%)
+                {{/pimg_progress.present?}}
+              {{/pimg_only_status.present?}}
+              {{#pimg_failed_attempts.present?}}
+                {{pimg_failed_attempts}}
+              {{/pimg_failed_attempts.present?}}
               </td>
             </tr>
           {{/provider_images}}

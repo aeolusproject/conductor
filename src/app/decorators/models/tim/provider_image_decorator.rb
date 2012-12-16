@@ -82,6 +82,20 @@ Tim::ProviderImage.class_eval do
     self.status == STATUS_COMPLETE || imported?
   end
 
+  def destroyable?
+    self.status == STATUS_FAILED || pushed?
+  end
+
+  def human_status
+    if built?
+      I18n.t('tim.base_images.provider_image.statuses.complete')
+    elsif status == STATUS_FAILED
+      I18n.t('tim.base_images.provider_image.statuses.failed')
+    else
+      # TODO: is it OK to consider nil status as pushing?
+      I18n.t('tim.base_images.provider_image.statuses.pushing')
+    end
+  end
 
   # imagefactory states are not standardized and it can return both
   # COMPLETE and COMPLETED states
