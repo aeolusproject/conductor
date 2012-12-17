@@ -30,4 +30,17 @@ class ProviderTypesController < ApplicationController
       format.xml
     end
   end
+
+  def destroy
+    @provider_type = ProviderType.find(params[:id])
+    respond_to do |format|
+      format.xml do
+        if @provider_type.safe_destroy
+          render :nothing => true, :status => :no_content
+        else
+          raise Aeolus::Conductor::API::Error.new(500, @provider_type.errors.full_messages.join(', '))
+        end
+      end
+    end
+  end
 end
