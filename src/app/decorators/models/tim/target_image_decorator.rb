@@ -79,6 +79,8 @@ Tim::TargetImage.class_eval do
   private
 
   def set_target
-    self.target ||= provider_type.imagefactory_target_name
+    if provider_type.present?
+      self.target ||= provider_type.imagefactory_target_name
+    end
   end
 end
