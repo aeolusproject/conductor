@@ -86,5 +86,53 @@ describe "Deployabless" do
         it_behaves_like "should return list of deployables"
       end
     end
+
+    context "#delete" do
+      context "no deployables/incorrect one" do
+        before do
+          delete 'deployables/-1234', nil, headers
+        end
+
+        it_behaves_like "http Not Found"
+      end
+
+      context "existing one" do
+        before do
+          FactoryGirl.create(:catalog_with_deployable)
+          @cat = FactoryGirl.create(:catalog_with_deployable)
+          @depl = @cat.deployables.first
+          @cnt  = Deployable.all.length
+          delete "deployables/#{@depl.id}", nil, headers
+        end
+
+        it_behaves_like "http No Content"
+        it "the deployable is gone" do
+          Deployable.find_all_by_id(@depl.id).should == []
+          @cat.deployables.map(&:id).should_not include(@depl.id)
+        end
+
+        it "others are still in place" do
+          Deployable.all.length.should == @cnt - 1
+        end
+      end
+
+      context "fails" do
+        before do
+          FactoryGirl.create(:catalog_with_deployable)
+          c = FactoryGirl.create(:catalog_with_deployable)
+          Deployable.any_instance.stub(:destroy).and_return(false)
+          Deployable.any_instance.stub(:has_privilege).and_return(true)
+          d = c.deployables.first
+          @cnt  = Deployable.all.length
+          delete "deployables/#{d.id}", nil, headers
+        end
+
+        it_behaves_like "http Forbidden"
+
+        it "deployable count stays the same" do
+          Deployable.all.length.should == @cnt
+        end
+      end
+    end
   end
 end
