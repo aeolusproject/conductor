@@ -22,11 +22,3 @@ Tim::ImageFactory::Base.site = "http://localhost:8075/imagefactory"
 # FIXME: We should be able to infer these from Routes
 Tim::ImageFactory::TargetImage.callback_url = "http://localhost:3000/tim/target_images/"
 Tim::ImageFactory::ProviderImage.callback_url = "http://localhost:3000/tim/provider_images/"
-
-Rails.application.config.to_prepare do
-  [Rails.root].flatten.map { |p|
-    Dir[p.join('app', 'decorators', '**', '*_decorator.rb')]
-  }.flatten.uniq.each do |decorator|
-    Rails.application.config.cache_classes ? require(decorator) : load(decorator)
-  end
-end
