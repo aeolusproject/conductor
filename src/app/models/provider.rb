@@ -74,9 +74,9 @@ class Provider < ActiveRecord::Base
           false
         end
       when "RHEV-M"
-        load_json(name, "rhevm")
+        load_json.present?
       when "VMware vSphere"
-        load_json(name, "vsphere")
+        load_json.present?
       when "Amazon EC2"
         if name.starts_with?("ec2-")
           true
@@ -249,6 +249,24 @@ class Provider < ActiveRecord::Base
 
   end
 
+  def imagefactory_info
+    if provider_type.deltacloud_driver == 'openstack'
+      uri = URI.parse(deltacloud_provider)
+      {
+        'glance-host' => uri.host,
+        'glance-port' => uri.port,
+      }
+    elsif ['rhevm', 'vsphere'].include?(provider_type.deltacloud_driver)
+      if json = load_json
+        json
+      else
+        raise I18n.t("providers.errors.json_conf_not_found", :provider => self.name)
+      end
+    else
+      {}
+    end
+  end
+
   protected
 
   def stop_instances(user)
@@ -302,20 +320,20 @@ class Provider < ActiveRecord::Base
     true
   end
 
-  def load_json(provider_name, provider_type)
-    path_to_json = "/etc/imagefactory/#{provider_type}.json"
+  def load_json
+    path_to_json = "/etc/imagefactory/#{provider_type.deltacloud_driver}.json"
     if File.exists?(path_to_json)
       json = File.read(path_to_json)
       json_hash = ActiveSupport::JSON.decode(json)
-      if json_hash.key?(provider_name)
-        true
+      if json_hash.key?(name)
+        json_hash[name]
       else
         errors.add(:name, :not_found_in_config)
-        false
+        nil
       end
     else
       errors.add(:name, :config_not_exist)
-      false
+      nil
     end
   end
 end
