@@ -227,6 +227,8 @@ class ProviderAccount < ActiveRecord::Base
         :value => c.value }
     end
 
+    apply_provider_specific_creds!(label_value_pairs)
+
     # The list is ordered by labels. That way we guarantee that the resulting
     # XML is always the same which makes it easier to verify in tests.
     label_value_pairs.sort { |a, b| a[:label] <=> b[:label] }
@@ -443,6 +445,20 @@ class ProviderAccount < ActiveRecord::Base
       includes(:provider => [:provider_type]).where("lower(provider_accounts.label) LIKE :search OR lower(providers.name) LIKE :search OR lower(provider_types.name) LIKE :search", :search => "%#{search.downcase}%")
     else
       scoped
+    end
+  end
+
+  def apply_provider_specific_creds!(label_value_pairs)
+    # for openstack we keep username and tenant in username field because of
+    # deltacloud, imagefactory expects separate fields,
+    # it also requires authentication strategy field
+    if provider.provider_type.deltacloud_driver == 'openstack' &&
+      userhash = label_value_pairs.find {|i| i[:label] == 'username'}
+
+      username, tenant = userhash[:value].split('+')
+      userhash[:value] = username
+      label_value_pairs << { :label => 'strategy', :value => 'keystone' }
+      label_value_pairs << { :label => 'tenant', :value => tenant }
     end
   end
 end

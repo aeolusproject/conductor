@@ -212,4 +212,8 @@ if CredentialDefinition.all.empty?
   CredentialDefinition.create!(:name => 'account_id', :label => 'account_number', :input_type => 'text', :provider_type_id => ec2.id)
   CredentialDefinition.create!(:name => 'x509private', :label => 'key', :input_type => 'file', :provider_type_id => ec2.id)
   CredentialDefinition.create!(:name => 'x509public', :label => 'certificate', :input_type => 'file', :provider_type_id => ec2.id)
+
+  # for openstack we add additional auth_url field
+  ptype = ProviderType.find_by_deltacloud_driver 'openstack'
+  CredentialDefinition.create!(:name => 'auth_url', :label => 'auth_url', :input_type => 'text', :provider_type_id => ptype.id)
 end
