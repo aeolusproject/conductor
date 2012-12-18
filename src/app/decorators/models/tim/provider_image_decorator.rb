@@ -117,6 +117,6 @@ Tim::ProviderImage.class_eval do
   # this is useless in conductor, but imagefactory requires provider
   # attr to be set
   def set_provider
-    self.provider = provider_account.provider.name
+    self.provider = provider_account.provider.imagefactory_info.to_json
   end
 end

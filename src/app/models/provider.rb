@@ -249,6 +249,18 @@ class Provider < ActiveRecord::Base
 
   end
 
+  def imagefactory_info
+    if provider_type.deltacloud_driver == 'openstack'
+      uri = URI.parse(deltacloud_provider)
+      {
+        'glance-host' => uri.host,
+        'glance-port' => uri.port,
+      }
+    else
+      {}
+    end
+  end
+
   protected
 
   def stop_instances(user)
