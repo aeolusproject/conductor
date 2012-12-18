@@ -1166,6 +1166,8 @@ en:
       description:
         quota_exceeded: "Quota limit of running Instances for %{name} account has been exceeded."
         quota_reached: "of Quota limit for running Instances for %{name} account has been reached."
+    errors:
+      json_conf_not_found: "Config for %{provider} was not found."
   provider_accounts:
     new_provider_account: New Account
     add_provider_account: Add Account
