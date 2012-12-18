@@ -15,6 +15,14 @@
 #
 
 Tim::TargetImage.class_eval do
+  # const in a class_eval block is defined in scope in which the block
+  # is called, also behavior is different in various versions of ruby
+  # -> full const path is used
+  Tim::TargetImage::STATUS_NEW       = 'NEW'
+  Tim::TargetImage::STATUS_BUILDING  = 'BUILDING'
+  Tim::TargetImage::STATUS_FAILED    = 'FAILED'
+  Tim::TargetImage::STATUS_COMPLETE  = 'COMPLETE'
+
   belongs_to :provider_type
 
   validates_presence_of :provider_type
@@ -43,12 +51,36 @@ Tim::TargetImage.class_eval do
   end
 
   def built?
-    status == 'COMPLETED' || imported?
+    status == Tim::TargetImage::STATUS_COMPLETE || imported?
+  end
+
+  def destroyable?
+    status == Tim::TargetImage::STATUS_FAILED || built?
+  end
+
+  def human_status
+    if built?
+      I18n.t('tim.base_images.target_images.statuses.complete')
+    elsif status == Tim::TargetImage::STATUS_FAILED
+      I18n.t('tim.base_images.target_images.statuses.failed')
+    else
+      # TODO: is it OK to consider nil status as building?
+      I18n.t('tim.base_images.target_images.statuses.building')
+    end
+  end
+
+  # imagefactory states are not standardized and it can return both
+  # COMPLETE and COMPLETED states
+  def status=(state)
+    state = Tim::TargetImage::STATUS_COMPLETE if state == 'COMPLETED'
+    write_attribute(:status, state)
   end
 
   private
 
   def set_target
-    self.target ||= provider_type.imagefactory_target_name
+    if provider_type.present?
+      self.target ||= provider_type.imagefactory_target_name
+    end
   end
 end
