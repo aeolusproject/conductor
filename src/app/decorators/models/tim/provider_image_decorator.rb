@@ -15,11 +15,14 @@
 #
 
 Tim::ProviderImage.class_eval do
-  STATUS_NEW       = 'NEW'
-  STATUS_PUSHING   = 'PUSHING'
-  STATUS_FAILED    = 'FAILED'
-  STATUS_COMPLETE  = 'COMPLETE'
-  STATUS_IMPORTED  = 'IMPORTED'
+  # const in a class_eval block is defined in scope in which the block
+  # is called, also behavior is different in various versions of ruby
+  # -> full const path is used
+  Tim::ProviderImage::STATUS_NEW       = 'NEW'
+  Tim::ProviderImage::STATUS_PUSHING   = 'PUSHING'
+  Tim::ProviderImage::STATUS_FAILED    = 'FAILED'
+  Tim::ProviderImage::STATUS_COMPLETE  = 'COMPLETE'
+  Tim::ProviderImage::STATUS_IMPORTED  = 'IMPORTED'
 
   belongs_to :provider_account
 
@@ -29,7 +32,8 @@ Tim::ProviderImage.class_eval do
   before_create :set_credentials
   before_create :set_provider
 
-  scope :complete,    :conditions => { :status => [STATUS_COMPLETE, STATUS_IMPORTED] }
+  scope :complete, :conditions => { :status => [
+    Tim::ProviderImage::STATUS_COMPLETE, Tim::ProviderImage::STATUS_IMPORTED] }
 
   def self.find_by_images(images)
     Tim::ProviderImage.joins(:target_image => :image_version).
@@ -75,21 +79,21 @@ Tim::ProviderImage.class_eval do
   end
 
   def pushing?
-    [STATUS_NEW, STATUS_PUSHING].include?(status)
+    [Tim::ProviderImage::STATUS_NEW, Tim::ProviderImage::STATUS_PUSHING].include?(status)
   end
 
   def pushed?
-    self.status == STATUS_COMPLETE || imported?
+    self.status == Tim::ProviderImage::STATUS_COMPLETE || imported?
   end
 
   def destroyable?
-    self.status == STATUS_FAILED || pushed?
+    self.status == Tim::ProviderImage::STATUS_FAILED || pushed?
   end
 
   def human_status
     if built?
       I18n.t('tim.base_images.provider_image.statuses.complete')
-    elsif status == STATUS_FAILED
+    elsif status == Tim::ProviderImage::STATUS_FAILED
       I18n.t('tim.base_images.provider_image.statuses.failed')
     else
       # TODO: is it OK to consider nil status as pushing?
@@ -100,7 +104,7 @@ Tim::ProviderImage.class_eval do
   # imagefactory states are not standardized and it can return both
   # COMPLETE and COMPLETED states
   def status=(state)
-    state = STATUS_COMPLETE if state == 'COMPLETED'
+    state = Tim::ProviderImage::STATUS_COMPLETE if state == 'COMPLETED'
     write_attribute(:status, state)
   end
 
