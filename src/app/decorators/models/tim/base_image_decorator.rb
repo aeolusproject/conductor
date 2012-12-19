@@ -64,6 +64,7 @@ Tim::BaseImage.class_eval do
 
   def last_provider_image(account)
     Tim::ProviderImage.find_by_provider_account_and_image(account, self).
+      where(:status => Tim::ProviderImage::STATUS_COMPLETE).
       order('tim_image_versions.created_at DESC').first
   end
 
