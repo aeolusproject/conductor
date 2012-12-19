@@ -56,7 +56,7 @@ class InstancesController < ApplicationController
         render :partial => @details_tab[:view] and return
       end
       format.json { render :json => @instance }
-      format.xml { render :show, :locals => { :instance => @instance } }
+      format.xml
     end
   end
 
