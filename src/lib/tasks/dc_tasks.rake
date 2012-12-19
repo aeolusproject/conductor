@@ -208,6 +208,18 @@ namespace :dc do
         end
       end
     end
+
+    Role.transaction do
+      provider_type_owner_role = Role.where(:name => 'base.admin').first
+      if provider_type_owner_role and provider_type_owner_role.privileges.
+        where(:target_type => "ProviderType").empty?
+        ["mod"].each do |action|
+          Privilege.create!(:role => provider_type_owner_role,
+                            :target_type => "ProviderType",
+                            :action => action)
+        end
+      end
+    end
   end
 
   task :admin_exists => :environment do

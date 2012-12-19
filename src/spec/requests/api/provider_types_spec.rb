@@ -107,4 +107,40 @@ describe "ProviderTypes" do
        it_behaves_like "responding with XML"
     end
   end
+
+  describe "DELETE /api/provider_types/:id" do
+    let!(:provider_type) { FactoryGirl.create(:provider_type_with_credential_definitions) }
+
+    context "provider type exists" do
+      before(:each) do
+        @provider_type_count = ProviderType.count
+        delete "/api/provider_types/#{provider_type.id}", nil, headers
+      end
+
+      it_behaves_like "http No Content"
+
+      it "should be deleted" do
+        expect { ProviderType.find(provider_type.id) }.to raise_error( ActiveRecord::RecordNotFound )
+      end
+
+      it "should not delete other provider types" do
+        ( @provider_type_count - ProviderType.count ).should eql( 1 )
+      end
+    end
+
+    context "provider type does not exist" do
+      before(:each) do
+        ProviderType.destroy(provider_type.id)
+        @provider_type_count = ProviderType.count
+        delete "/api/provider_types/#{provider_type.id}", nil, headers
+      end
+
+      it_behaves_like "http Not Found"
+      it_behaves_like "responding with XML"
+
+      it "should not delete any provider type" do
+        ProviderType.count.should eql( @provider_type_count )
+      end
+    end
+  end
 end

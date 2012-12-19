@@ -38,6 +38,16 @@ class ProviderType < ActiveRecord::Base
   validates_presence_of :deltacloud_driver
   validates_uniqueness_of :deltacloud_driver
 
+  include PermissionedObject
+
+  has_many :permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "permissions.id ASC"
+  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
+           :include => [:role],
+           :order => "derived_permissions.id ASC"
+
+
   # TODO: this is little bit hacky, it would be cleaner to ask directly
   # dc-api in what state instance will be after creation, but
   # this method is called for each instance in periodic instance check from

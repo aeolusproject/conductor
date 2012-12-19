@@ -30,10 +30,25 @@ Given /^there are some provider types$/ do
   3.times do
     FactoryGirl.create(:provider_type)
   end
-  ProviderType.count.should be_eql(3)
+  @provider_type_count = ProviderType.count
+  @provider_type_count.should be_eql(3)
 end
 
 Given /^there is a provider type$/ do
   ProviderType.destroy_all
   @provider_type = FactoryGirl.create(:provider_type)
+end
+
+Then /^the provider type should be deleted$/ do
+  ProviderType.where(:name => @provider_type.name, :deltacloud_driver => @provider_type.deltacloud_driver).should be_empty
+end
+
+Then /^no provider type should be deleted$/ do
+  ProviderType.count.should be_eql(@provider_type_count)
+end
+
+Given /^the specified provider type does not exist in the system$/ do
+  @provider_type = FactoryGirl.create(:provider_type)
+  ProviderType.destroy(@provider_type.id)
+  ProviderType.where(:id => @provider_type.id).should be_empty
 end
