@@ -129,7 +129,7 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def check_provider_images!
-    imgs = provider_images.map {|pi| pi.target_image.build.image.name}
+    imgs = provider_images.map {|pi| pi.target_image.image_version.base_image.name}
     if imgs.empty?
       true
     else
