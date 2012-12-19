@@ -313,10 +313,8 @@ class DeployablesController < ApplicationController
         if deployable.destroyed?
           render :text => '', :status => :no_content
         else
-          # TODO: this is wrong'n'ugly, please come with smtg better
-          render :xml => "<error>\n<code>Forbidden</code>\n<message>\
-#{t('deployables.flash.error.not_deleted.one', :not_deleted => deployable.name)}\
-</message></error>", :status => :forbidden
+          raise Aeolus::Conductor::API::Error.new(500,
+            deployable.errors.full_messages.join(', '))
         end
       end
     end
