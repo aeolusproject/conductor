@@ -29,4 +29,12 @@ module InstancesHelper
       {:name => t('instances.list.table.owner'), :sortable => false }
     ]
   end
+
+  def api_instances_collection_href(deployment = nil)
+    if deployment
+      api_deployment_instances_url(deployment)
+    else
+      api_instances_url
+    end
+  end
 end

@@ -319,7 +319,9 @@ Conductor::Application.routes.draw do
     resources :catalogs, :only => [:index, :show, :create, :update, :destroy] do
       resources :deployables, :only => [:index]
     end
-    resources :deployments, :only => [:index, :show]
+    resources :deployments, :only => [:index, :show] do
+      resources :instances, :only => [:index]
+    end
     resources :deployables, :only => [:index, :show, :destroy]
     resources :provider_realms, :only => [:index, :show]
     resources :instances, :only => [:index, :show]
