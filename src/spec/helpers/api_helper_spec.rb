@@ -35,6 +35,12 @@ describe ApiHelper do
 
       it { should == "2012-11-05T09:15:03.45+01:00" }
     end
+
+    context "nil datetime" do
+      let(:datetime) { nil }
+
+      it { should == "" }
+    end
   end
 
   describe "xmlschema_absolute_duration" do
@@ -80,6 +86,12 @@ describe ApiHelper do
       let(:duration) { BigDecimal.new('10') }
 
       it { should == "P0DT0H0M10S" }
+    end
+
+    context "nil duration" do
+      let(:duration) { nil }
+
+      it { should == "" }
     end
   end
 
