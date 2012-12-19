@@ -1,0 +1,4 @@
+!!! XML
+%instances
+  - @instances.each do |instance|
+    %instance{:id => instance.id, :href => api_instance_url(instance)}
