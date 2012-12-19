@@ -1,19 +1,19 @@
 !!! XML
 %instance{:id => instance.id, :href => api_instance_url(instance)}
-  %name= instance.name
-  %external_key= instance.external_key
-  %hardware_profile{:id => instance.hardware_profile.id, :href=> api_hardware_profile_url(instance.hardware_profile)}
-  %pool{:id => instance.pool.id, :href=> api_pool_url(instance.pool)}
-  %deployment{:id => instance.deployment.id, :href=> api_deployment_url(instance.deployment)}
-  %provider_account{:id => instance.provider_account.id, :href=> api_provider_account_url(instance.provider_account)}
-  %public_addresses= instance.public_addresses
-  %private_addresses= instance.private_addresses
-  %created_at= xmlschema_datetime(instance.created_at)
-  %updated_at= xmlschema_datetime(instance.updated_at)
-  - # TODO add deployment
-  %assembly_xml= raw instance.assembly_xml
-  %instance_config_xml= raw instance.instance_config_xml
-  %user_data= instance.user_data
-  - if instance.instance_key
-    %ssh_key{:href => key_instance_url(instance.instance_key)}
-    %ssh_key_name= instance.instance_key.name
+  - unless shallow
+    %name= instance.name
+    %external_key= instance.external_key
+    %hardware_profile{:id => instance.hardware_profile.id, :href=> api_hardware_profile_url(instance.hardware_profile)}
+    %pool{:id => instance.pool.id, :href=> api_pool_url(instance.pool)}
+    %deployment{:id => instance.deployment.id, :href=> api_deployment_url(instance.deployment)}
+    %provider_account{:id => instance.provider_account.id, :href=> api_provider_account_url(instance.provider_account)}
+    %public_addresses= instance.public_addresses
+    %private_addresses= instance.private_addresses
+    %created_at= xmlschema_datetime(instance.created_at)
+    %updated_at= xmlschema_datetime(instance.updated_at)
+    %assembly_xml= raw instance.assembly_xml
+    %instance_config_xml= raw instance.instance_config_xml
+    %user_data= instance.user_data
+    - if instance.instance_key
+      %ssh_key{:href => key_instance_url(instance.instance_key)}
+      %ssh_key_name= instance.instance_key.name

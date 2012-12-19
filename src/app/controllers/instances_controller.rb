@@ -30,7 +30,7 @@ class InstancesController < ApplicationController
       format.html
       format.js { render :partial => 'list' }
       format.json { render :json => @instances.map{ |instance| view_context.instance_for_mustache(instance) } }
-      format.xml { render :partial => 'list.xml' }
+      format.xml { @deployment = @instances.first.deployment if params[:deployment_id] }
     end
   end
 
