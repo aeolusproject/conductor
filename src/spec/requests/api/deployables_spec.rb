@@ -127,7 +127,7 @@ describe "Deployabless" do
           delete "deployables/#{d.id}", nil, headers
         end
 
-        it_behaves_like "http Forbidden"
+        it_behaves_like "http Internal Server Error"
 
         it "deployable count stays the same" do
           Deployable.all.length.should == @cnt
