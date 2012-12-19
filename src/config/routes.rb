@@ -319,9 +319,12 @@ Conductor::Application.routes.draw do
     resources :catalogs, :only => [:index, :show, :create, :update, :destroy] do
       resources :deployables, :only => [:index]
     end
-    resources :deployments, :only => [:index, :show]
+    resources :deployments, :only => [:index, :show] do
+      resources :instances, :only => [:index]
+    end
     resources :deployables, :only => [:index]
     resources :provider_realms, :only => [:index, :show]
+    resources :instances, :only => [:index, :show]
   end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'

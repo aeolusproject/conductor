@@ -1,0 +1,4 @@
+!!! XML
+%instances{ :href => instances_href }
+  - @instances.each do |instance|
+    =render '/instances/detail', :instance => instance, :shallow => shallow
