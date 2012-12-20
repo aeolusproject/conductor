@@ -308,6 +308,15 @@ class DeployablesController < ApplicationController
           redirect_to deployables_path
         end
       end
+
+      format.xml do
+        if deployable.destroyed?
+          render :text => '', :status => :no_content
+        else
+          raise Aeolus::Conductor::API::Error.new(500,
+            deployable.errors.full_messages.join(', '))
+        end
+      end
     end
   end
 
