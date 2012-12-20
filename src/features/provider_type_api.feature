@@ -21,3 +21,16 @@ Feature: Manage Provider Types via API
   Scenario: Get details for non existing provider type
     When I ask for details of non existing provider type
     Then I should receive Not Found error
+
+  Scenario: Delete Provider Type
+    Given there is a provider type
+    When I delete that provider type via XML
+    Then I should receive a No Content message
+    And the provider type should be deleted
+
+  Scenario: Attempt to delete non-existant provider type
+    Given there are some provider types
+    And the specified provider type does not exist in the system
+    When I attempt to delete the provider type
+    Then I should receive Not Found error
+    And no provider type should be deleted
