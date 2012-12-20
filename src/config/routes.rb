@@ -320,7 +320,7 @@ Conductor::Application.routes.draw do
       resources :deployables, :only => [:index]
     end
     resources :deployments, :only => [:index, :show]
-    resources :deployables, :only => [:index, :destroy]
+    resources :deployables, :only => [:index, :show, :destroy]
     resources :provider_realms, :only => [:index, :show]
   end
 
