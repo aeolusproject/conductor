@@ -142,6 +142,11 @@ class DeployablesController < ApplicationController
       format.json do
         render :json => { :image_status => @image_status }
       end
+      format.xml do
+        render :partial => 'show', :locals =>
+          {:deployable => @deployable, :catalog => @catalog,
+           :images => images}
+      end
     end
 
   end

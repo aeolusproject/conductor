@@ -40,6 +40,32 @@ describe "Deployabless" do
       it { response.body.should be_xml }
     end
 
+    shared_examples_for "return xml" do
+      it { response.should have_content_type("application/xml") }
+      it { response.body.should be_xml }
+    end
+
+    shared_examples_for "correct xml" do
+      it "is correct indeed" do
+        doc = Nokogiri::XML(response.body)
+        depl = doc.xpath('/deployable')
+
+        depl.xpath('./@id').text.should == @d.id.to_s
+        depl.xpath('./@href').text.should == deployable_url(@d)
+        depl.xpath('./name').text.should == @d.name
+        depl.xpath('./description').text.should == @d.description
+        depl.xpath('./xml_filename').text.should == @d.xml_filename.to_s
+        depl.xpath('./owner/@id').text.should == @d.owner.id.to_s
+        depl.xpath('./owner/@href').text.should == user_url(@d.owner)
+        depl.xpath('./catalog/@href').text.should == catalog_url(@c)
+        depl.xpath('./catalog/@id').text.should == @c.id.to_s
+        depl.xpath('./pool_family/@id').text.should == @d.pool_family.id.to_s
+        depl.xpath('./pool_family/@href').text.should == pool_family_url(@d.pool_family)
+
+        #TODO add check for images
+      end
+    end
+
     context "#index/list" do
       context "no deployables" do
         before do
@@ -84,6 +110,61 @@ describe "Deployabless" do
         it_behaves_like "response should be success & return xml"
 
         it_behaves_like "should return list of deployables"
+      end
+    end
+
+    context '#show' do
+      context 'no deployables/incorrect one' do
+        before do
+          get '/deployables/-2134', nil, headers
+        end
+
+        it_behaves_like 'return xml'
+        it_behaves_like 'http Not Found'
+
+      end
+
+      context 'there is some deployable' do
+        before do
+          @c = FactoryGirl.create(:catalog_with_deployable)
+          @d = @c.deployables.first
+
+          get "/deployables/#{@d.id}", nil, headers
+        end
+
+        it_behaves_like 'return xml'
+        it_behaves_like 'http OK'
+
+        it_behaves_like 'correct xml'
+      end
+
+      context 'there is some catalog with deployable' do
+        before do
+          @c = FactoryGirl.create(:catalog_with_deployable)
+          @d = @c.deployables.first
+
+          get "/catalogs/#{@c.id}/deployables/#{@d.id}", nil, headers
+        end
+
+        it_behaves_like 'return xml'
+        it_behaves_like 'http OK'
+
+        it_behaves_like 'correct xml'
+      end
+
+      context 'there is some pool with deployable' do
+        before do
+          _p = FactoryGirl.create(:pool_with_catalog_with_deployable)
+          @c = _p.catalogs.first
+          @d = @c.deployables.first
+
+          get "/catalogs/#{@c.id}/deployables/#{@d.id}", nil, headers
+        end
+
+        it_behaves_like 'return xml'
+        it_behaves_like 'http OK'
+
+        it_behaves_like 'correct xml'
       end
     end
   end
