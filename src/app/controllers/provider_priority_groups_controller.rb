@@ -102,7 +102,13 @@ class ProviderPriorityGroupsController < ApplicationController
   end
 
   def load_providers
-    @providers = Provider.list_for_user(current_session, current_user, Privilege::USE)
+    @providers = Provider.joins(:provider_accounts => {:pool_families => :pools}).
+      where(:pools => {:id => @pool.id}).
+        list_for_user(current_session, current_user, Privilege::USE).uniq
+    @provider_account_ids = ProviderAccount.joins(:pool_families => :pools).
+        where(:pools => {:id => @pool.id}).
+        list_for_user(current_session, current_user, Privilege::USE).
+          collect(&:id)
   end
 
   def require_privileged_user_for_modify
