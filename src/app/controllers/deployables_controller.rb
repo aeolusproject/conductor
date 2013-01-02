@@ -208,11 +208,10 @@ class DeployablesController < ApplicationController
         flash[:warning]+=warnings
       end
 
-    rescue => e
+    rescue => ex
       @deployable.errors.add(:url, error) if error
       if @deployable.errors.empty?
-        logger.error e.message
-        logger.error e.backtrace.join("\n ")
+        log_backtrace(ex)
         flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message)
       end
       if params[:create_from_image].present?

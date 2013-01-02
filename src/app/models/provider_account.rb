@@ -209,11 +209,10 @@ class ProviderAccount < ActiveRecord::Base
       client = DeltaCloud.new(credentials_hash['username'],
                               credentials_hash['password'],
                               provider.url)
-      return client.with_config(opts)
-    rescue Exception => e
-      logger.error("Error connecting to framework: #{e.message}")
-      logger.error("Backtrace: #{e.backtrace.join("\n")}")
-      return nil
+      client.with_config(opts)
+    rescue Exception => ex
+      log_backtrace(ex, 'Error connecting to framework')
+      nil
     end
   end
 

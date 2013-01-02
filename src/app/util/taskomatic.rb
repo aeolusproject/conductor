@@ -135,8 +135,7 @@ module Taskomatic
   end
 
   def self.handle_create_instance_error(task, ex)
-    Rails.logger.error ex.message
-    Rails.logger.error ex.backtrace.join("\n")
+    log_backtrace(ex)
     task.state = Task::STATE_FAILED
     task.instance.state = Instance::STATE_CREATE_FAILED
     create_failure_events(task.instance, ex)

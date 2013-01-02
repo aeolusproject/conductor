@@ -121,9 +121,8 @@ describe Provider do
     it "should log errors when connecting to invalid url" do
       @logger = mock('Logger').as_null_object
       @provider = Factory.build(:mock_provider)
-      @provider.stub!(:logger).and_return(@logger)
-
-      @provider.logger.should_receive(:error).twice
+      Rails.stub!(:logger).and_return(@logger)
+      @logger.should_receive(:error).exactly(3).times
       @provider.url = "http://invalid.provider/url"
       @provider.connect.should be_nil
     end

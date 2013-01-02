@@ -385,10 +385,9 @@ class DeploymentsController < ApplicationController
             instance.stop(current_user)
             notices << "#{log_prefix}: #{t('instances.flash.notice.stop')}"
           end
-        rescue Exception => err
-          errors << "#{log_prefix}: #{err}"
-          logger.error err.message
-          logger.error err.backtrace.join("\n ")
+        rescue Exception => ex
+          errors << "#{log_prefix}: #{ex}"
+          log_backtrace(ex)
         end
       end
     end
