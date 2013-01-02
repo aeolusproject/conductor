@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/aeolus-incubator/tim.git
-  revision: d8c193adf2061445d4c7ec73af53625392543d10
+  revision: 2eba454103548afbac8a47d7b3711ea0dd66aaef
   specs:
     tim (0.1.2)
       haml
