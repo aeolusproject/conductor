@@ -153,10 +153,9 @@ class InstancesController < ApplicationController
           instance.stop(current_user)
           notices << "#{instance.name}: #{t('instances.flash.notice.stop')}"
         end
-      rescue Exception => err
-        errors << "#{instance.name}: " + err.message
-        logger.error err.message
-        logger.error err.backtrace.join("\n ")
+      rescue Exception => ex
+        errors << "#{instance.name}: " + ex.message
+        log_backtrace(ex)
       end
     end
     errors = t('instances.none_selected') if errors.blank? && notices.blank?
@@ -194,10 +193,9 @@ class InstancesController < ApplicationController
         require_privilege(Privilege::USE,instance)
         instance.reboot(current_user)
         notices << "#{instance.name}: #{t('instances.flash.notice.reboot', :name => instance.name)}"
-      rescue Exception => err
-        errors << "#{instance.name}: " + err.message
-        logger.error err.message
-        logger.error err.backtrace.join("\n ")
+      rescue Exception => ex
+        errors << "#{instance.name}: " + ex.message
+        log_backtrace(ex)
       end
     end
     # If nothing is selected, display an error message:

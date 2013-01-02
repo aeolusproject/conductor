@@ -65,3 +65,11 @@ def get_csv_class
    Object.const_defined?(:CSV) or require 'csv'
    CSV
 end
+
+# log exception and backtrace
+def log_backtrace(exception, message=nil, severity=:error)
+    Rails.logger.send(severity, message.to_s.empty? ? exception.message :
+                        "#{message}: #{exception.message}")
+    Rails.logger.send(severity, 'backtrace follows')
+    Rails.logger.send(severity, exception.backtrace.join("\n\t"))
+end

@@ -42,14 +42,13 @@ class RegistrationService
             Permission.create!(:entity => @user.entity, :role => default_role, :permission_object => default_obj)
           end
         return true
-      rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.error e.message
-        Rails.logger.error e.backtrace.join("\n  ")
-        @error = e.message
+      rescue ActiveRecord::RecordInvalid => ex
+        log_backtrace(ex)
+        @error = ex.message
         raise ActiveRecord::Rollback
       end
     end
-    return false
+    false
   end
 
   def valid?

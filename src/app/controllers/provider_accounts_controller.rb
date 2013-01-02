@@ -117,18 +117,17 @@ class ProviderAccountsController < ApplicationController
         end
       end
     end
-  rescue Exception => e
-    logger.warn "Exception caught: #{e.message}"
-    logger.warn "#{e.backtrace.join("\n")}"
+  rescue Exception => ex
+    log_backtrace(ex, 'Exception caught', :warn)
 
     respond_to do |format|
       format.html do
-        error = humanize_error(e.message, :context => :deltacloud)
+        error = humanize_error(ex.message, :context => :deltacloud)
         flash[:error] = t('provider_accounts.flash.error.account_not_added',
                           :list => @provider_account.name, :count => 1) + ": #{error}"
         render :action => 'new'
       end
-      format.xml { render 'api/error', :locals => { :error => e }, :status => 500 }
+      format.xml { render 'api/error', :locals => { :error => ex }, :status => 500 }
     end
   end
 

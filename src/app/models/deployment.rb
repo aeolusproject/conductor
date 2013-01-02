@@ -224,8 +224,7 @@ class Deployment < ActiveRecord::Base
       return true
     rescue
       errors.add(:base, $!.message)
-      logger.error $!.message
-      logger.error $!.backtrace.join("\n    ")
+      log_backtrace($!)
     end
     false
   end
@@ -793,8 +792,7 @@ class Deployment < ActiveRecord::Base
         )
         update_attribute(:state, STATE_FAILED)
         cleanup_failed_launch
-        logger.error $!.message
-        logger.error $!.backtrace.join("\n    ")
+        log_backtrace($!)
       end
     end
   end

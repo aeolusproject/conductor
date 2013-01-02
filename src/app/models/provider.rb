@@ -110,10 +110,9 @@ class Provider < ActiveRecord::Base
   def connect
     begin
       connect!
-    rescue Exception => e
-      logger.error("Error connecting to framework: #{e.message}")
-      logger.error("Backtrace: #{e.backtrace.join("\n")}")
-      return nil
+    rescue Exception => ex
+      log_backtrace(ex, 'Error connecting to framework')
+      nil
     end
   end
 
@@ -146,8 +145,7 @@ class Provider < ActiveRecord::Base
         rescue
           true
           # this should never happen, so display an error only in log file
-          logger.warn "failed to stop instance #{i.name}: #{$!.message}"
-          logger.warn $!.backtrace.join("\n ")
+          log_backtrace($!, "Failed to stop instance #{i.name}")
         end
       end
     end
@@ -251,11 +249,9 @@ class Provider < ActiveRecord::Base
     stoppable_instances.each do |instance|
       begin
         instance.stop(user)
-      rescue Exception => e
-        err = "Error while stopping an instance #{instance.name}: #{e.message}"
-        errs << err
-        logger.error err
-        logger.error e.backtrace.join("\n  ")
+      rescue Exception => ex
+        log_backtrace(ex, text="Error while stopping an instance #{instance.name}")
+        errs << "#{text}: #{ex.message}"
       end
     end
     errs
@@ -281,10 +277,9 @@ class Provider < ActiveRecord::Base
   def valid_framework?
     begin
       !! connect!
-    rescue Exception => e
-      logger.error("Error connecting to framework: #{e.message}")
-      logger.error("Backtrace: #{e.backtrace.join("\n")}")
-      e.message =~ /401 : Not authorized/ ? true : false
+    rescue Exception => ex
+      log_backtrace(ex, "Error connecting to framework")
+      ex.message =~ /401 : Not authorized/ ? true : false
     end
   end
 
