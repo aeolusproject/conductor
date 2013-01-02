@@ -21,7 +21,7 @@ Feature: Manage Users
     When I fill in "user[password]" with ""
     And I fill in "user[password_confirmation]" with "new password"
     And I press "Update User"
-    Then I should see "Can't be blank."
+    Then I should see "Must be a unique password with at least 4 character"
     When I fill in "user[password]" with "new password"
     And I fill in "user[password_confirmation]" with "new password"
     And I press "Update User"
