@@ -5,7 +5,8 @@
   %provider_accounts
     - @provider_accounts.each do |paccount|
       %provider_account{:id => paccount.id, :href => api_provider_account_url(paccount)}
-  %frontend_realms
-    - @frontend_realms.each do |frontend_realm|
-      %frontend_realm{:id => frontend_realm.id}
+  =render '/frontend_realms/list',
+          :realms => provider_realm.frontend_realms,
+          :shallow => true,
+          :frontend_realms_href => api_provider_realm_frontend_realms_url(provider_realm)
   %provider{:id => provider_realm.provider.id, :href => api_provider_url(provider_realm.provider)}

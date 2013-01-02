@@ -42,8 +42,9 @@ describe Api::EntrypointController do
         api = resp['api']
         api['builds']['href'].should == api_builds_url
         api['catalogs']['href'].should == api_catalogs_url
-        api['deployments']['href'].should == api_deployments_url
         api['deployables']['href'].should == api_deployables_url
+        api['deployments']['href'].should == api_deployments_url
+        api['frontend_realms']['href'].should == api_frontend_realms_url
         api['images']['href'].should == api_images_url
         api['instances']['href'].should == api_instances_url
         api['pools']['href'].should == api_pools_url

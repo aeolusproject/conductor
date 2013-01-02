@@ -55,6 +55,12 @@ describe "ProviderRealms" do
           text.should == api_provider_url(@provider)
         xml.xpath("/provider_realm/provider_accounts/provider_account[@id='#{@provider_account.id}']/@href").
           text.should == api_provider_account_url(@provider_account)
+
+        xml.xpath("/provider_realm/frontend_realms/@href").text.should == api_provider_realm_frontend_realms_url(provider_realm)
+        provider_realm.frontend_realms.size.should > 0
+        provider_realm.frontend_realms.each do |frealm|
+          xml.xpath("/provider_realm/frontend_realms/frontend_realm[@id='#{frealm.id}']/@href").text.should == api_frontend_realm_url(frealm)
+        end
       end
 
       it "show nonexistent provider realm" do
