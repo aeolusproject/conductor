@@ -368,10 +368,9 @@ class Instance < ActiveRecord::Base
     # try to get architecture of the image associated with this instance
     # for imported images template is empty -> architecture is not set,
     # in this case we omit this check
-    return image.architecture
+    image.architecture
   rescue => e
-    logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{e}"
-    logger.warn e.backtrace.join("\n  ")
+    log_backtrace(e, "Failed to get image architecture for instance '#{name}', skipping architecture check", :warn)
     nil
   end
 
@@ -473,8 +472,7 @@ class Instance < ActiveRecord::Base
       :summary => "Failed to stop instance #{self.name}",
       :description => $!.message
     )
-    logger.error $!.message
-    logger.error $!.backtrace.join("\n  ")
+    log_backtrace($!)
     false
   end
 

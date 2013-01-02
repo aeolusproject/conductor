@@ -237,8 +237,7 @@ class HardwareProfilesController < ApplicationController
     rescue Exception => ex
       flash[:error] = t('hardware_profiles.flash.error.failed_to_update_cost',
                         :message => ex.message)
-      logger.error ex.message
-      logger.error ex.backtrace.join("\n ")
+      log_backtrace(ex)
       set_edit_cost_variables
       render :action => 'edit_cost_billing'
     end
@@ -286,8 +285,7 @@ class HardwareProfilesController < ApplicationController
     rescue Exception => ex
       flash[:error] = t('hardware_profiles.flash.error.failed_to_update_cost',
                         :message => ex.message)
-      logger.error ex.message
-      logger.error ex.backtrace.join("\n ")
+      log_backtrace(ex)
       set_edit_cost_variables
       render :action => 'edit_cost'
     end

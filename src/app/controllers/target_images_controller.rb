@@ -31,8 +31,7 @@ class TargetImagesController < ApplicationController
       )
       timage.save!
     rescue
-      logger.error $!.message
-      logger.error $!.backtrace.join("\n  ")
+      log.backtrace($!)
       flash[:warning] = $!.message
     end
     redirect_to image_path(params[:image_id], :build => params[:build_id])

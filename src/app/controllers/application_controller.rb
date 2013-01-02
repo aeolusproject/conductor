@@ -80,8 +80,7 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_error(hash)
-    logger.fatal(hash[:error].to_s) if hash[:error]
-    logger.fatal(hash[:error].backtrace.join("\n ")) if hash[:error]
+    log_backtrace(hash[:error]) if hash[:error]
     msg = hash[:message] || hash[:error].message
     title = hash[:title] || t('application_controller.internal_server_error')
     status = hash[:status] || t('application_controller.internal_server_error')
