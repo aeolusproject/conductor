@@ -1,0 +1,4 @@
+!!! XML
+%frontend_realms{ :href => frontend_realms_href }
+  - realms.each do |frealm|
+    =render '/frontend_realms/detail', :frontend_realm => frealm, :shallow => shallow
