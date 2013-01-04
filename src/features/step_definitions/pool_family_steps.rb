@@ -14,10 +14,6 @@
 #   limitations under the License.
 #
 
-Given /I'm connected to the warehouse/ do
-  use_cassette('pool_families')
-end
-
 Given /^there are these pool families:$/ do |table|
   table.hashes.each do |hash|
     FactoryGirl.create(:pool_family, :name => hash['name'])
