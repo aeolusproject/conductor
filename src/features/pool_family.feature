@@ -4,7 +4,6 @@ Feature: Pool Families
   I want to manage pool families
 
   Background: Privileged User
-    Given I'm connected to the warehouse
     And I am an authorised user
     And I am logged in
 
