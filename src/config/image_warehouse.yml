@@ -1,3 +1,0 @@
-baseurl: http://localhost:9090
-# to set up the bucket, run:
-# curl -X PUT http://localhost:9090/templates
