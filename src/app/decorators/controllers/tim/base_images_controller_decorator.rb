@@ -52,10 +52,14 @@ Tim::BaseImagesController.class_eval do
 
   def edit_xml
     @base_image = Tim::BaseImage.new(params[:base_image])
+    if params[:template_source]
+      @base_image.template = set_template(params[:template_source],
+                                          @base_image.pool_family_id)
+    end
 
-    #TODO: template fetching sets image.errors
-    if @base_image.errors.present? or !@base_image.valid?
-      flash.now[:error] = @base_image.errors.full_messages
+    if !@base_image.valid?
+      flash.now[:error] ||= []
+      flash.now[:error] += @base_image.errors.full_messages
       # if only error is with template XMl, go to edit_xml page
       if @base_image.errors.count == 1 && @base_image.errors['template.xml'].present?
         @base_image.template ||= Tim::Template.new
@@ -66,7 +70,6 @@ Tim::BaseImagesController.class_eval do
       end
       return
     end
-
     render :overview unless params[:edit]
   end
 
@@ -304,5 +307,23 @@ Tim::BaseImagesController.class_eval do
       ].include?(attr)
       obj.errors.full_message(attr, error)
     end.uniq
+  end
+
+  def set_template(source, pool_family_id)
+    xml = nil
+    xml = case source.class.name
+          when 'String'
+            downloader = DownloadService.new(source)
+            unless content = downloader.download
+              flash.now[:error] = [downloader.error]
+            end
+            content
+          when 'ActionDispatch::Http::UploadedFile'
+            source.read
+          else
+            nil
+          end
+    return unless xml
+    Tim::Template.new(:xml => xml, :pool_family_id => pool_family_id)
   end
 end
