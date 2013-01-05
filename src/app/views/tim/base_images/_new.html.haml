@@ -31,9 +31,9 @@
               .input
                 = f.text_field :name, :class => 'em'
             .field
-              = label_tag :template_file, t('.choose_file')
+              = label_tag :template_source, t('.choose_file')
               .input
-                = f.file_field :template_file
+                = file_field_tag :template_source, :id => 'template_file'
             .field
               = label_tag :edit, t('.edit_file'), :class => 'checkbox'
               .input
@@ -53,9 +53,9 @@
               .input
                 = f.text_field :name, :class => 'em'
             .field
-              = label_tag :template_url, t('.template_url')
+              = label_tag :template_source, t('.template_url')
               .input
-                = f.text_field :template_url
+                = text_field_tag :template_source, :id => 'template_url'
             .field
               = label_tag :edit, t('.edit_file'), :class => 'checkbox'
               .input
