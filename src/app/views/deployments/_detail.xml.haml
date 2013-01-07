@@ -9,3 +9,6 @@
     -#   %frontend_realm{:id => deployment.frontend_realm.id, :href => api_frontend_realm_url(deployment.frontend_realm)}
     %uuid= deployment.uuid
     %scheduled_for_deletion= deployment.scheduled_for_deletion
+    %uptime_all= xmlschema_absolute_duration(deployment.uptime_all, 0)
+    %uptime_1st_instance= xmlschema_absolute_duration(deployment.uptime_1st_instance, 0)
+    %deployable_xml= raw deployment.deployable_xml
