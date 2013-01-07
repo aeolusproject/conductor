@@ -12,13 +12,13 @@ About
 Aeolus Conductor is a Ruby-based web application for cloud management.  It
 is one component of the [Aeolus Project](http://www.aeolusproject.org/).
 For a chart of how Conductor fits with the other components, see:
-[Aeolus Components](https://www.aeolusproject.org/redmine/projects/aeolus/wiki/Aeolus_Components)
+[Aeolus Components](http://www.aeolusproject.org/redmine/projects/aeolus/wiki/Aeolus_Components)
 
 Just Want To Try It Out?
 ------------------------
 
 If you just want to try it out, start here:
-[Get It](https://www.aeolusproject.org/get_it.html)
+[Get It](http://www.aeolusproject.org/get_it.html)
 
 Otherwise, if you are a developer who wants to set up a development
 environment using the latest upstream code, this document is for you.
