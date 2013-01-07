@@ -19,7 +19,7 @@ Feature: Manage Images
     And I am on the pool families page
     And I am on the new image page for "testpoolfamily"
     When I fill in "base_image_name" with "my template"
-    And I attach the file "features/upload_files/template.xml" to "base_image_template_file"
+    And I attach the file "features/upload_files/template.xml" to "template_file"
     And I check "edit"
     And I press "file_button"
     Then I should be on the edit xml images page

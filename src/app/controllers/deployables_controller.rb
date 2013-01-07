@@ -139,8 +139,14 @@ class DeployablesController < ApplicationController
     end
 
     if params.has_key? :url
-      xml, error = import_xml_from_url(params[:url])
-      unless xml.nil?
+      # TODO: this whole action should be refactored,
+      # for now add at least flash message if download from
+      # URL fails
+      downloader = DownloadService.new(params[:url])
+      xml = downloader.download
+      if xml.nil?
+        flash.now[:error] = downloader.error
+      else
         #store xml_filename for url (i.e. url ends to: foo || foo.xml)
         @deployable.xml_filename =  File.basename(URI.parse(params[:url]).path)
         @deployable.xml = xml
@@ -177,7 +183,6 @@ class DeployablesController < ApplicationController
       end
 
     rescue => e
-      @deployable.errors.add(:url, error) if error
       if @deployable.errors.empty?
         logger.error e.message
         logger.error e.backtrace.join("\n ")
