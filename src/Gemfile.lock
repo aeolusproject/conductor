@@ -51,12 +51,12 @@ GEM
     childprocess (0.3.2)
       ffi (~> 1.0.6)
     chunky_png (1.2.5)
-    compass (0.11.7)
+    compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
     compass-960-plugin (0.10.4)
-      compass (>= 0.10.0)
+      compass (>= 0.12.2)
     crack (0.3.1)
     cucumber (1.2.0)
       builder (>= 2.1.2)
@@ -203,7 +203,7 @@ PLATFORMS
 DEPENDENCIES
   aeolus-image!
   capybara
-  compass (>= 0.11.5, < 0.12)
+  compass (>= 0.12.2)
   compass-960-plugin (>= 0.10.4)
   cucumber
   cucumber-rails
