@@ -33,8 +33,9 @@ Source0:    aeolus-conductor-%{version}.tar.gz
 
 Requires: ruby >= %{rubyver}
 Requires: ruby(abi) = %{rubyabi}
-Requires: rubygem(rails) >= 3.0.7
-Requires: rubygem(haml) >= 3.1
+Requires: rubygem(rails) => 3.2.3
+Requires: rubygem(rails) < 3.3
+Requires: rubygem(haml-rails)
 Requires: rubygem(mustache) >= 0.99.4
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate) >= 3.0
@@ -53,8 +54,7 @@ Requires: rubygem(ldap_fluff)
 Requires: rubygem(rake)
 Requires: rubygem(delayed_job) >= 2.1.4
 Requires: rubygem(paranoia)
-Requires: rubygem(compass) >= 0.11.5
-Requires: rubygem(compass-960-plugin) >= 0.10.4
+Requires: rubygem(compass-rails) >= 0.11.5
 Requires: rubygem(simple_form) >= 2.0.3
 Requires: rubygem(alchemy)
 Requires: postgresql
@@ -72,10 +72,12 @@ Requires: rubygem(ruby-net-ldap)
 # and is accessible in the init script
 Requires: curl
 
-BuildRequires: rubygem(sass)
-BuildRequires: rubygem(compass) >= 0.11.5
-BuildRequires: rubygem(compass-960-plugin) >= 0.10.4
+BuildRequires: rubygem(haml-rails)
+BuildRequires: rubygem(sass-rails)
+BuildRequires: rubygem(compass-rails)
 BuildRequires: rubygem(alchemy) >= 1.0.0
+BuildRequires: rubygem(uglifier)
+BuildRequires: rubygem(therubyracer)
 
 BuildArch: noarch
 
@@ -159,7 +161,6 @@ run aeolus-configure to configure everything.
 %setup -q
 
 %build
-
 # precompile assets
 pushd ./src
 #have to swich to dev. env. because of premissions errors
