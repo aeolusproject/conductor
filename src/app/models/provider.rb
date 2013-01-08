@@ -244,7 +244,9 @@ class Provider < ActiveRecord::Base
 
   def imagefactory_info
     if provider_type.deltacloud_driver == 'openstack'
-      uri = URI.parse(deltacloud_provider)
+      # TODO: We might want to pull this up to the Provider, really
+      acct = provider_accounts.first
+      uri = URI.parse(acct.credentials_hash['glance_url'])
       {
         'glance-host' => uri.host,
         'glance-port' => uri.port,

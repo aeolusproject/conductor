@@ -215,4 +215,9 @@ if CredentialDefinition.all.empty?
   CredentialDefinition.create!(:name => 'account_id', :label => 'account_number', :input_type => 'string', :provider_type_id => ec2.id)
   CredentialDefinition.create!(:name => 'x509private', :label => 'key', :input_type => 'file', :provider_type_id => ec2.id)
   CredentialDefinition.create!(:name => 'x509public', :label => 'certificate', :input_type => 'file', :provider_type_id => ec2.id)
+
+  # For OpenStack provider type:
+  if openstack = ProviderType.find_by_deltacloud_driver('openstack')
+    CredentialDefinition.create!(:name => 'glance_url', :label => 'glance_url', :input_type => 'text', :provider_type_id => openstack.id)
+  end
 end
