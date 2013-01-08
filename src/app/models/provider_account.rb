@@ -316,7 +316,15 @@ class ProviderAccount < ActiveRecord::Base
       node << credential_node
       root << node
 
-      creds_label_hash.each do |h|
+      # This is a method, but we want to modify it:
+      _creds = creds_label_hash
+
+      # Image Factory needs this additional parameter for OpenStack setups:
+      if 'openstack' == provider.provider_type.deltacloud_driver
+        _creds << {:label => 'auth_url', :value => provider.deltacloud_provider}
+      end
+
+      _creds.each do |h|
         element = Nokogiri::XML::Node.new(h[:label], doc)
         element.content = h[:value]
         credential_node << element
