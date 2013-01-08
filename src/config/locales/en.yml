@@ -689,6 +689,7 @@ en:
     hardware: Hardware
     hardware_profile: Hardware Profile
     hardware_profiles: Hardware Profiles
+    no_hwp: No Hardware Profiles
     index:
       hardware_profile_name: Hardware Profile Name
       architecture: Architecture

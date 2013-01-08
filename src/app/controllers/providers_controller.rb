@@ -323,12 +323,16 @@ class ProvidersController < ApplicationController
     @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity'},
              {:name => t('accounts'), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
              {:name => t('provider_realms.provider_realms'), :view => 'provider_realms/list', :id => 'realms', :count => @realms.count},
+             {:name => t('hardware_profiles.hardware_profiles'),
+              :view => 'hardware_profiles',
+              :id => 'hardware_profiles',
+              :count => @provider.hardware_profiles.count}
              #{:name => 'Roles & Permissions', :view => @view, :id => 'roles', :count => @provider.permissions.count},
     ]
     add_permissions_tab(@provider, "edit_")
     details_tab_name = params[:details_tab].blank? ? 'connectivity' : params[:details_tab]
     details_tab_name = 'connectivity' unless
-      ['connectivity', 'accounts', 'realms', 'permissions'].include?(details_tab_name)
+      ['connectivity', 'accounts', 'realms', 'hardware_profiles', 'permissions'].include?(details_tab_name)
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
     if @details_tab[:id] == 'accounts'
@@ -337,6 +341,8 @@ class ProvidersController < ApplicationController
                         params[:provider_accounts_preset_filter],
                       :search_filter => params[:provider_accounts_search]).
         list_for_user(current_session, current_user, Privilege::VIEW)
+    elsif @details_tab[:id] == 'hardware_profiles'
+      @hardware_profiles = @provider.hardware_profiles
     end
     #@permissions = @provider.permissions if @details_tab[:id] == 'roles'
 
