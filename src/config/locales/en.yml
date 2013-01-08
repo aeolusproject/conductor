@@ -1156,6 +1156,8 @@ en:
       description:
         quota_exceeded: "Quota limit of running Instances for %{name} account has been exceeded."
         quota_reached: "of Quota limit for running Instances for %{name} account has been reached."
+    errors:
+      json_conf_not_found: "Config for %{provider} was not found."
   provider_accounts:
     new_provider_account: New Account
     add_provider_account: Add Account
@@ -1557,6 +1559,16 @@ en:
           one: '1 failed push attempt'
           other: '%{count} failed push attempts'
         push_started: 'Push is about to start'
+      target_images:
+        statuses:
+          complete: Complete
+          failed: Failed
+          building: Building
+      provider_images:
+        statuses:
+          complete: Complete
+          failed: Failed
+          pushing: Pushing
       flash:
         notice:
           deleted: Image Deleted
