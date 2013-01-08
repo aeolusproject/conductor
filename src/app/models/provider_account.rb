@@ -466,6 +466,9 @@ class ProviderAccount < ActiveRecord::Base
       userhash[:value] = username
       label_value_pairs << { :label => 'strategy', :value => 'keystone' }
       label_value_pairs << { :label => 'tenant', :value => tenant }
+
+      # Also add Keystone URL as auth_url for Factory:
+      label_value_pairs << { :label => 'auth_url', :value => provider.deltacloud_provider }
     end
   end
 end
