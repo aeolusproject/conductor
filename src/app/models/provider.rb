@@ -122,7 +122,16 @@ class Provider < ActiveRecord::Base
             :driver => provider_type.deltacloud_driver }
     opts[:provider] = deltacloud_provider if deltacloud_provider
     client = DeltaCloud.new(nil, nil, url)
-    client.with_config(opts)
+    begin
+      client.with_config(opts)
+    rescue Exception => e
+      # Some providers will return a 401 - Unauthorized, which is okay at this stage:
+      if e.is_a?(DeltaCloud::HTTPError::Unauthorized)
+        return true
+      else
+        raise e # Re-raise
+      end
+    end
   end
 
   def pools
