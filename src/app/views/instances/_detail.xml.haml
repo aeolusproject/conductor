@@ -6,7 +6,8 @@
     %hardware_profile{:id => instance.hardware_profile.id, :href=> api_hardware_profile_url(instance.hardware_profile)}
     %pool{:id => instance.pool.id, :href=> api_pool_url(instance.pool)}
     %deployment{:id => instance.deployment.id, :href=> api_deployment_url(instance.deployment)}
-    %provider_account{:id => instance.provider_account.id, :href=> api_provider_account_url(instance.provider_account)}
+    - unless instance.provider_account.nil?
+      %provider_account{:id => instance.provider_account.id, :href=> api_provider_account_url(instance.provider_account)}
     %public_addresses= instance.public_addresses
     %private_addresses= instance.private_addresses
     %created_at= xmlschema_datetime(instance.created_at)
