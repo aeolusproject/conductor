@@ -1213,6 +1213,7 @@ en:
         account_number: 'Account Number'
         key: 'Key'
         certificate: 'Certificate'
+        glance_url: 'Glance URL'
     history:
       history_for: History for
     list:
