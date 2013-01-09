@@ -111,7 +111,8 @@ describe "Deployments API" do
         :pool => Pool.first,
         :owner => @user,
         :frontend_realm => Factory.create(:frontend_realm),
-        :deployable_xml => '<deployable name="mock deployable"></deployable>',
+        :deployable_xml => '<deployable name="mock deployable">
+</deployable>',
       })
       deployment.stub(:uptime_1st_instance).and_return(40)
       deployment.stub(:uptime_all).and_return(10)

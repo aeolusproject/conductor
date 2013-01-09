@@ -55,13 +55,13 @@ Feature: Manage Provider Accounts
     And I press "Delete"
     Then I should be on the mockprovider's edit provider page
     And I should see "was not deleted"
-    And there should be 1 provider account
+    And I should have a provider account named "testaccount"
     When I delete all instances from the account
     And I check the "testaccount" account
     And I press "Delete"
     Then I should be on the mockprovider's edit provider page
     And I should see "was deleted"
-    And there should be no provider accounts
+    And there should be no provider account "testaccount"
 
   Scenario: Delete a provider account with stopped instances
     Given there is a provider named "mockprovider"
@@ -74,13 +74,14 @@ Feature: Manage Provider Accounts
     And I press "Delete"
     Then I should be on the mockprovider's edit provider page
     And I should see "was deleted"
-    And there should be no provider accounts
+    And there should be no provider account "testaccount"
 
   Scenario: Edit a existing Provider Account
     Given there is a provider named "mockprovider"
     And there is a provider account named "testaccount"
     And I am on the mockprovider's provider accounts page
     And I follow "testaccount"
+    And show me the page
     When I follow "Edit"
     And I fill in "provider_account[label]" with "testaccount_updated"
     And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
