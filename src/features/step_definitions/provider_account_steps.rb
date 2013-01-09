@@ -31,6 +31,10 @@ When /^I delete all instances from the account$/ do
   end
 end
 
+Then /^there should be no provider account "([^"]*)"$/ do |arg1|
+  ProviderAccount.find_by_label(arg1).should be_nil
+end
+
 Then /^there should be no provider accounts$/ do
   ProviderAccount.all.should be_empty
 end
