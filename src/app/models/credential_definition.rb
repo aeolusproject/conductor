@@ -36,5 +36,5 @@ class CredentialDefinition < ActiveRecord::Base
   validates_presence_of :label
   validates_presence_of :input_type
   validates_presence_of :provider_type_id
-  CREDENTIAL_DEFINITIONS_ORDER = ["username", "password", "account_id", "x509private", "x509public"]
+  CREDENTIAL_DEFINITIONS_ORDER = ["username", "password", "account_id", "x509private", "x509public", "auth_url"]
 end
