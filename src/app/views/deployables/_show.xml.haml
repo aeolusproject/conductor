@@ -9,4 +9,4 @@
   :href => api_pool_family_url(deployable.pool_family)}
   %images
     - images.each do |image|
-      %image{:id => image.id, :href => api_image_url(image.id)}
+      %image{:id => image.id, :href => tim.base_image_url(image.id)}
