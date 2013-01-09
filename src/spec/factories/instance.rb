@@ -23,14 +23,17 @@ FactoryGirl.define do
     association :provider_account, :factory => :mock_provider_account
     association :pool, :factory => :pool
     association :owner, :factory => :user
-    association :deployment, :factory => :deployment
     state Instance::STATE_RUNNING
     public_addresses "server1.example.org"
     private_addresses "0.0.0.1"
     user_data "test-user-data"
-    assembly_xml "<assembly name='frontend' hwp='front_hwp1'>
-                    <image id='invalid-uuid' build='invalid-uuid'></image>
-                  </assembly>"
+    after_build do |instance|
+      instance.deployment ||= Factory.build :deployment
+      assembly = instance.deployment.deployable_xml.assemblies[0]
+      instance.image_uuid = assembly.image_id
+      instance.image_build_uuid = assembly.image_build
+      instance.assembly_xml = assembly.to_s
+    end
   end
 
   factory :instance_with_provider_image, :parent => :instance do
@@ -44,7 +47,8 @@ FactoryGirl.define do
       instance.image_build_uuid = pimg.target_image.image_version.uuid
       instance.provider_account = pimg.provider_account
       instance.assembly_xml = "<assembly name='frontend' hwp='front_hwp1'>
-                                 <image id='#{instance.image_uuid}' build='#{instance.image_build_uuid}'></image>
+                                 <image id='#{instance.image_uuid}' build='#{instance.image_build_uuid}'>
+                                 </image>
                                </assembly>"
     end
   end
