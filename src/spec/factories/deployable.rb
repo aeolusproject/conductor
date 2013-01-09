@@ -27,10 +27,12 @@ FactoryGirl.define do
               <description>This is my testing image</description>
               <assemblies>
                 <assembly name='frontend' hwp='front_hwp1'>
-                  <image id='#{pimg.target_image.image_version.base_image.uuid}' build='#{pimg.target_image.image_version.uuid}'></image>
+                  <image id='#{pimg.target_image.image_version.base_image.uuid}' build='#{pimg.target_image.image_version.uuid}'>
+                  </image>
                 </assembly>
                 <assembly name='backend' hwp='front_hwp2'>
-                  <image id='#{pimg.target_image.image_version.base_image.uuid}' build='#{pimg.target_image.image_version.uuid}'></image>
+                  <image id='#{pimg.target_image.image_version.base_image.uuid}' build='#{pimg.target_image.image_version.uuid}'>
+                  </image>
                 </assembly>
               </assemblies>
             </deployable>"
@@ -45,10 +47,12 @@ FactoryGirl.define do
               <description>This is my testing image</description>
               <assemblies>
                 <assembly name='frontend' hwp='front_hwp1'>
-                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
+                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'>
+                  </image>
                 </assembly>
                 <assembly name='frontend' hwp='front_hwp2'>
-                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'></image>
+                  <image id='53d2a281-448b-4872-b1b0-680edaad5922' build='63838705-8608-44c6-aded-7c243137172c'>
+                  </image>
                 </assembly>
               </assemblies>
             </deployable>"
