@@ -20,7 +20,7 @@ describe Deployment do
   before(:each) do
     @quota = FactoryGirl.create :quota
     @pool = FactoryGirl.create(:pool, :quota_id => @quota.id)
-    @deployment = Factory.build(:deployment, :pool_id => @pool.id)
+    @deployment = Factory.build(:deployment_with_uploaded_images, :pool_id => @pool.id)
     @hwp1 = FactoryGirl.create(:front_hwp1)
     @hwp2 = FactoryGirl.create(:front_hwp2)
     @actions = ['start', 'stop']

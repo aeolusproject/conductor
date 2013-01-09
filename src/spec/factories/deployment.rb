@@ -19,11 +19,29 @@ FactoryGirl.define do
     sequence(:name) { |n| "deployment#{n}" }
     association :pool, :factory => :pool
     association :owner, :factory => :user
+    deployable_xml "<?xml version=\"1.0\"?>
+<deployable version='1.0' name='my'>
+  <description>This is my testing image</description>
+  <assemblies>
+    <assembly name='frontend' hwp='front_hwp1'>
+      <image id='invalid_id'>
+      </image>
+    </assembly>
+    <assembly name='backend' hwp='front_hwp2'>
+      <image id='invalid_id'>
+      </image>
+    </assembly>
+  </assemblies>
+</deployable>"
+  end
+
+  factory :deployment_with_uploaded_images, :parent => :deployment  do
     after_build do |deployment|
       deployable = FactoryGirl.create(:deployable, :catalogs => [FactoryGirl.create(:catalog)])
       deployment.deployable_xml = deployable.xml
     end
   end
+
   factory :deployment_with_launch_parameters, :parent => :deployment do
     after_build do |deployment|
       deployment.deployable_xml = DeployableXML.import_xml_from_url("http://localhost/deployables/deployable_with_launch_parameters.xml")

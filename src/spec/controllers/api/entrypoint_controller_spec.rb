@@ -44,7 +44,6 @@ describe Api::EntrypointController do
         api['deployables']['href'].should == api_deployables_url
         api['deployments']['href'].should == api_deployments_url
         api['frontend_realms']['href'].should == api_frontend_realms_url
-        api['images']['href'].should == api_images_url
         api['instances']['href'].should == api_instances_url
         api['pools']['href'].should == api_pools_url
         api['pool_families']['href'].should == api_pool_families_url
