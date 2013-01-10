@@ -1,0 +1,27 @@
+%section.content-section
+  %header
+    %h2=t'hardware_profiles.hardware_profiles'
+  .content
+    - if @hardware_profiles.count > 0
+      %table.flat
+        %thead
+          %tr
+            - hardware_profiles_headers.each do |header|
+              %th=header
+          - @hardware_profiles.each do |hwp|
+            %tr
+              %td
+                = link_to hwp.name, hardware_profile_path(hwp)
+              %td
+                =hwp.architecture.to_s
+              %td
+                =hwp.memory.to_s
+              %td
+                =hwp.storage.to_s
+              %td
+                =hwp.cpu.to_s
+              %td
+                =hwp.default_cost_per_hour.nil? ? "N/A" : "%.3f" % hwp.default_cost_per_hour
+
+    - else
+      %h3= t('hardware_profiles.no_hwp')

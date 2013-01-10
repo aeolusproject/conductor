@@ -74,6 +74,13 @@ Feature: Manage Providers
     And I should see "Provider is disabled."
     And provider "mock1" should have all instances stopped
 
+  Scenario: Show hardware profiles for provider
+    Given there is a provider named "mock"
+    And this provider has 1 hardware profiles
+    When I go to the mock's edit provider page
+    And I follow "details_hardware_profiles"
+    Then I should see "hardware_profile"
+
 #  Scenario: Search for hardware profiles
 #    Given there are these providers:
 #    | name          | url                         |
