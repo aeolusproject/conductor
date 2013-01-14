@@ -55,7 +55,7 @@
             .field
               = label_tag :template_source, t('.template_url')
               .input
-                = text_field_tag :template_source, :id => 'template_url'
+                = text_field_tag :template_source, nil, :id => 'template_url'
             .field
               = label_tag :edit, t('.edit_file'), :class => 'checkbox'
               .input
