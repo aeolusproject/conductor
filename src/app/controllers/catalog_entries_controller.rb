@@ -37,7 +37,12 @@ class CatalogEntriesController < ApplicationController
     require_privilege(Privilege::MODIFY, @catalog_entry.catalog)
     require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
     @catalog_entry.destroy
-    redirect_to catalog_deployable_path(catalog, deployable), :notice => t('catalog_entries.flash.notice.deleted', :catalog => catalog.name)
+
+    if deployable.destroyed?
+      redirect_to catalog_path(catalog), :notice => t('catalog_entries.flash.notice.deleted', :catalog => catalog.name)
+    else
+      redirect_to deployable_path(deployable), :notice => t('catalog_entries.flash.notice.deleted', :catalog => catalog.name)
+    end
   end
 
 end
