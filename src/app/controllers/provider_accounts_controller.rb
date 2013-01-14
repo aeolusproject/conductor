@@ -17,7 +17,7 @@
 class ProviderAccountsController < ApplicationController
   include QuotaAware
   before_filter :require_user
-  before_filter :load_provider, :only => [:index]
+  before_filter :load_provider, :only => [:index,:update]
   before_filter :load_accounts, :only => [:index,:show]
   before_filter ResourceLinkFilter.new({ :provider_account => :provider }),
                 :only => [:create, :update]
@@ -135,6 +135,7 @@ class ProviderAccountsController < ApplicationController
     @provider_account = ProviderAccount.find(params[:id])
     @title = t('provider_accounts.edit.account', :name => @provider_account.name)
     require_privilege(Privilege::MODIFY,@provider_account)
+    load_provider
   end
 
   def update
