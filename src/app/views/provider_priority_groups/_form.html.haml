@@ -38,6 +38,7 @@
                   %th= t('provider_priority_groups.index.quota_maximum_running_instances')
 
                 - provider.provider_accounts.each do |account|
+                - next unless @provider_account_ids.index(account.id) # FIXME: all this view is an ugly PHP stuff, refactor it!
                   %tr
                     %td= check_box_tag("provider_account_ids[]", account.id, @priority_group.include?(account), :class => 'provider-account-checkbox')
                     %td= link_to account.name, provider_provider_account_path(account.provider, account)
