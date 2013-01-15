@@ -279,6 +279,10 @@ Conductor::Application.routes.draw do
     resources :hooks
   end
 
+  scope "/api/tim", :as => 'api_tim', :module => 'tim' do
+    resources :base_images, :templates, :image_versions, :provider_images, :target_images
+  end
+
   scope "/api", :as => 'api' do
     resources :providers, :only => [:index, :show, :create, :update, :destroy] do
       resources :provider_accounts, :only => [:index, :create]
