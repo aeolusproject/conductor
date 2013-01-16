@@ -1,6 +1,8 @@
 source :rubygems
 
-gem 'rails'
+# This is in between 3.2.11 and 3.2.12, and should be removed once 3.2.12 is released.
+# See - https://github.com/rails/rails/pull/8895#issuecomment-12156101
+gem 'rails', :git => "git://github.com/rails/rails", :ref => '63970dc7db273551f977483109dde936c8a7554f'
 
 gem 'deltacloud-client', :require => 'deltacloud'
 gem 'sass'
