@@ -1,11 +1,11 @@
 GIT
   remote: git://github.com/aeolus-incubator/tim.git
-  revision: 2eba454103548afbac8a47d7b3711ea0dd66aaef
+  revision: 41e4db50aa9419cc75a2b2f09282554ad4b96ce5
   specs:
     tim (0.1.2)
       haml
       nokogiri
-      rails (~> 3.2.8)
+      rails (~> 3.2)
 
 GIT
   remote: git://github.com/aeolusproject/aeolus-image-rubygem
