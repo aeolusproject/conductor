@@ -103,6 +103,8 @@ class UsersController < ApplicationController
   def update
     @user = params[:id] ? User.find(params[:id]) : current_user
     require_privilege(Privilege::MODIFY, User) unless @user == current_user
+    # A user should not be able to edit their own quota:
+    params[:user].delete(:quota_attributes) unless check_privilege(Privilege::MODIFY, User)
 
     if params[:commit] == "Reset"
       redirect_to edit_user_url(@user) and return

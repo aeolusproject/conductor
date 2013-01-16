@@ -105,4 +105,13 @@ describe UsersController do
     response.should redirect_to(user_path(@tuser))
   end
 
+  it "disallows user from changing own quota" do
+    mock_warden(@tuser)
+    put(:update, :id => @tuser.id, :user => {
+      :quota_attributes => {:maximum_running_instances => 10000}},
+      :commit => 'Save')
+    @tuser.reload
+    @tuser.quota.maximum_running_instances.should == 10
+  end
+
 end
