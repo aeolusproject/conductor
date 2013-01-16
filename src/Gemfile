@@ -31,6 +31,7 @@ gem 'tim', :git => 'git://github.com/aeolus-incubator/tim.git'
 
 platforms :ruby_18 do
   gem 'fastercsv'
+  gem 'require_relative'
 end
 
 group :development, :test do
