@@ -97,5 +97,14 @@ describe Tim::BaseImagesController do
       delete :destroy, :id => @base_image.id
       response.status.should == 302
     end
+
+    describe "#edit_xml" do
+      it "should gently refuse request larger then 31457280 bytes" do
+         request.env["HTTP_REFERER"] = url = " Somewhere over the rainbow"
+         post :edit_xml, :image_file => 'x'*31457280
+         response.should redirect_to(url)
+         flash[:error].should_not be_empty
+      end
+    end
   end
 end
