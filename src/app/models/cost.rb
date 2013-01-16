@@ -24,7 +24,7 @@ class Cost < ActiveRecord::Base
   # price might be null for per_property billing model
   validates_numericality_of :price,
     :greater_than_or_equal_to => 0,
-    :less_then => 10**8,
+    :less_than => 10**3,
     :if => proc { |cost| cost.billing_model != 'per_property' }
 
   def self.for_chargeable_and_period(chargeable_type, chargeable_id, from, to)
