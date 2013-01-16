@@ -267,7 +267,7 @@ describe ProvidersController do
           context "non existing provider" do
 
             before(:each) do
-              provider.delete
+              provider.destroy
               delete :destroy, :id => provider.id
             end
 
@@ -344,7 +344,7 @@ describe ProvidersController do
           context "non existing provider" do
 
             before(:each) do
-              orig_provider.delete
+              orig_provider.destroy
               put :update, :id => orig_provider.id
             end
 
