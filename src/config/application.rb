@@ -63,7 +63,6 @@ module Conductor
     config.encoding = "utf-8"
 
     require File.dirname(__FILE__) + '/../lib/exceptions'
-    require File.dirname(__FILE__) + '/../lib/image'
 
     # Read settings config (accessible at Conductor::Application::SETTINGS_CONFIG)
     ::SETTINGS_CONFIG = YAML.load_file("#{::Rails.root.to_s}/config/settings.yml")
