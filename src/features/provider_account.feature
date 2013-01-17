@@ -81,7 +81,6 @@ Feature: Manage Provider Accounts
     And there is a provider account named "testaccount"
     And I am on the mockprovider's provider accounts page
     And I follow "testaccount"
-    And show me the page
     When I follow "Edit"
     And I fill in "provider_account[label]" with "testaccount_updated"
     And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
