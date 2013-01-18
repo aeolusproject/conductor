@@ -66,7 +66,12 @@ module ActionController
                     :action => route[:action])
             end
           end
-          Conductor::Application.routes_reloader.paths.each { |path| load(path) }
+          #Conductor::Application.routes_reloader.paths.each { |path| load(path) }
+          # the above ^ doesn't work properly if engines routes are
+          # extended/changed in main app routes configuration - patchs are
+          # loaded in wrong order and extensions defined in main app are then
+          # overwritten
+          Conductor::Application.reload_routes!
           ActiveSupport.on_load(:action_controller) { route_set.finalize! }
         ensure
           route_set.disable_clear_and_finalize = false
