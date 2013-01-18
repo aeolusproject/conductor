@@ -97,6 +97,18 @@ describe DeployablesController do
       c2 = Deployable.all.size
       (c2 - c1).should eql(1)
     end
+
+    it "returns flash[:warning] when there is no selected_catalog" do
+      Catalog.stub(:find).and_return(Catalog.where('1=0'))
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :deployable => {:name => @image.name},
+           :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
+      response.should be_success
+      flash[:warning].should eql("Deployable was not created: No Catalogs selected")
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(0)
+    end
   end
 
   describe "#destroy" do
