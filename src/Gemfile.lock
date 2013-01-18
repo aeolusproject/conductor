@@ -157,6 +157,7 @@ GEM
     rake (10.0.3)
     rdoc (3.12)
       json (~> 1.4)
+    require_relative (1.0.3)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.6.0)
@@ -240,6 +241,7 @@ DEPENDENCIES
   rack-restful_submit
   rails!
   rails_warden
+  require_relative
   rest-client
   rspec-rails
   ruby-net-ldap
