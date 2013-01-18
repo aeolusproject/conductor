@@ -75,6 +75,15 @@ describe DeployablesController do
       c2 = Deployable.all.size
       (c2 - c1).should eql(1)
     end
+
+    it "should redirect if :cancel is in params and there should be no new deployable" do
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :cancel => true, :create_from_image => @image.id, :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
+      response.should be_redirect  # getting 500 instead
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(0)
+    end
   end
 
   describe "#destroy" do
