@@ -11,6 +11,6 @@
     %h2.settings=t'settings.settings'
 
   .content
-    = conductor_form_for(@provider_account, :error_partial => 'layouts/error_messages', :url => provider_provider_account_path(@provider_account)) do |f|
+    = conductor_form_for(@provider_account, :error_partial => 'layouts/error_messages', :url => provider_provider_account_path(@provider_account.provider, @provider_account)) do |f|
       = render :partial => "form", :locals => { :form => f }
       = f.button :form_buttons, :cancel => edit_provider_path(@provider_account.provider, :details_tab => 'accounts')
