@@ -1,14 +1,4 @@
 GIT
-  remote: git://github.com/aeolusproject/aeolus-image-rubygem
-  revision: 4bffe3f60ce36a9815b479b6381544cf030d912a
-  specs:
-    aeolus-image (0.6.0)
-      activeresource
-      nokogiri
-      oauth (= 0.4.4)
-      rest-client
-
-GIT
   remote: git://github.com/rails/rails
   revision: 63970dc7db273551f977483109dde936c8a7554f
   ref: 63970dc7db273551f977483109dde936c8a7554f
@@ -213,7 +203,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aeolus-image!
   capybara
   compass (>= 0.12.2)
   compass-960-plugin (>= 0.10.4)

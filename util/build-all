@@ -8,8 +8,6 @@ make clean
 make rpms
 cd ../aeolus-configure
 rake rpms
-cd ../aeolus-image-rubygem
-rake rpms
 cd ../aeolus-cli
 rake rpms
 sudo yum --nogpgcheck -y install ~/rpmbuild/RPMS/noarch/rubygem-* \
