@@ -56,6 +56,7 @@ describe DeployablesController do
   describe "#create" do
     before(:each) do
       @image = FactoryGirl.create(:base_image_with_template)
+      @catalog2 = FactoryGirl.create(:catalog)
     end
 
     it "shows 'new' deployable from image via UI" do
@@ -83,6 +84,18 @@ describe DeployablesController do
       response.should be_redirect  # getting 500 instead
       c2 = Deployable.all.size
       (c2 - c1).should eql(0)
+    end
+
+    it "creates new deployable from image when more catalogs are spec'd + shows notice" do
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :create_from_image => @image.id,
+           :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id,
+           :catalog_id => [@catalog.id, @catalog2.id])
+      response.should be_redirect
+      flash[:notice].should eql("Deployable added to Catalog #{@catalog.name}, #{@catalog2.name}.")
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(1)
     end
   end
 
