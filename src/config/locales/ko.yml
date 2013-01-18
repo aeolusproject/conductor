@@ -817,7 +817,6 @@ ko:
     flash:
       error:
         default_pool_not_deleted: "디폴트 풀은 삭제할 수 없음 "
-        iwhd_unavailable: "카탈로그 이미지를 사용할 수 없습니다. 이미지 웨어하우스에 연결할 수 없는것 같습니다 "
         not_updated: "풀이 업데이트되지 않았습니다! "
         pool_not_deleted:
           one: "풀 %{list}이 삭제되지 않았습니다. 이와 연결된 인스턴스가 있습니다. "

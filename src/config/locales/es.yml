@@ -817,7 +817,6 @@ es:
     flash:
       error:
         default_pool_not_deleted: "El grupo predeterminado no puede ser borrado"
-        iwhd_unavailable: "Imágenes de catálogo no están disponibles. Parece que el Depósito de no se puede acceder"
         not_updated: "iGrupo no fue actualizado!"
         pool_not_deleted:
           one: "Grupo %{list} no fue borrado. Hay instancias asociadas a él."

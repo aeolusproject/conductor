@@ -817,7 +817,6 @@ fr:
     flash:
       error:
         default_pool_not_deleted: "Le pool par défaut ne peut pas être supprimé"
-        iwhd_unavailable: "Les images du catalogue sont indisponibles. Il semble que Image Warehouse n'est pas joignable"
         not_updated: "Le pool n'a pas été mis à jour !"
         pool_not_deleted:
           one: "Le pool %{list} n'a pas été supprimé. Des instances y sont associées."
