@@ -109,6 +109,18 @@ describe DeployablesController do
       c2 = Deployable.all.size
       (c2 - c1).should eql(0)
     end
+
+    it "returns flash[:error] when there is invalid url" do
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :url => 't1s1s1nval1d',
+           :deployable => {:name => @image.name},
+           :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
+      response.should be_success
+      flash[:error].should_not eql(nil)
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(0)
+    end
   end
 
   describe "#destroy" do
