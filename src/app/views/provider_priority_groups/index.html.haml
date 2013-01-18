@@ -10,7 +10,9 @@
 %section.content-section
   %header
     .section-controls
-      = link_to(t('provider_priority_groups.index.add_new'), new_pool_provider_selection_provider_priority_group_path(@pool), :class => 'button')
+      = link_to(t('provider_priority_groups.index.add_new'),
+          new_pool_provider_selection_provider_priority_group_path(@pool),
+          :class => 'button', :id => 'add_new')
     %h2= t('provider_priority_groups.index.edit_strict_order_strategy')
   .content
     - if @priority_groups.any?

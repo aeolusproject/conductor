@@ -19,6 +19,22 @@ Feature: Manage Pools
     When I press "config_submit"
     Then I should see "Successfully updated Cost Order strategy"
 
+  Scenario: Change Strict Order Provider Selection Params and Priority Groups
+    Given a pool "mockpool" exists
+    Given I am viewing the pool "mockpool"
+    And I follow "provider_selection_button"
+    Then I should be on the provider selection page for "mockpool" pool
+    When I click "strict_order" toggle
+    Then I should be on the provider selection page for "mockpool" pool
+    When I follow link with text "Configure"
+    Then I should see "No available priority group to display"
+    When I follow "add_new"
+    Then I should see "Add new Priority Group"
+    When I fill in "provider_priority_group_name" with "test PG"
+    And I fill in "provider_priority_group_score" with "30"
+    And I press "Create Priority Group"
+    Then I should see "Priority Group successfully created"
+
   Scenario: Create a new Pool
     Given I am on the pools page
     And there is not a pool named "mockpool"
