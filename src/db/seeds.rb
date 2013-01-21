@@ -218,6 +218,6 @@ if CredentialDefinition.all.empty?
 
   # For OpenStack provider type:
   if openstack = ProviderType.find_by_deltacloud_driver('openstack')
-    CredentialDefinition.create!(:name => 'glance_url', :label => 'glance_url', :input_type => 'text', :provider_type_id => openstack.id)
+    CredentialDefinition.create!(:name => 'glance_url', :label => 'glance_url', :input_type => 'string', :provider_type_id => openstack.id)
   end
 end
