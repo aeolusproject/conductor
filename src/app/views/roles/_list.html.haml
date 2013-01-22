@@ -1,10 +1,10 @@
 %section.content-section.roles
   %header
-    %h2= t 'roles.list.roles_list'
+    %h2= _("Roles List")
 
   .content
     - content_for :form_header do
-      %li= restful_submit_tag t('delete'), "destroy", multi_destroy_roles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= restful_submit_tag _("Delete"), "destroy", multi_destroy_roles_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
     = filter_table(roles_header, @roles) do |role|
       %tr{:class => cycle('nostripe','stripe')}

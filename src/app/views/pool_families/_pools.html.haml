@@ -9,4 +9,4 @@
     %td{:class => 'center'}= pool_stats[:quota_percent]
     %td{:class => 'center'}= pool_stats[:used_quota]
     %td{:class => 'center'}= pool_stats[:available_quota].nil? ? raw('&infin;') : pool_stats[:available_quota]
-    %td= link_to t(:edit), edit_pool_path(pool)
+    %td= link_to _("Edit"), edit_pool_path(pool)

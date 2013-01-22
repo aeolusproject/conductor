@@ -4,33 +4,33 @@
   .obj_actions
     .button-group
       - if modify_perm
-        = link_to t('.edit'), edit_polymorphic_path([@catalog, @deployable]), :class => 'button', :id => 'edit_button'
-        = link_to t('.edit_xml'), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
-        = button_to t('.delete'), polymorphic_path([@catalog, @deployable]), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :class => 'button danger', :id => 'delete'
+        = link_to _("Edit"), edit_polymorphic_path([@catalog, @deployable]), :class => 'button', :id => 'edit_button'
+        = link_to _("Edit XML"), edit_polymorphic_path([@catalog, @deployable], :edit_xml => true), :class => 'button', :id => 'edit_xml_button'
+        = button_to _("Delete"), polymorphic_path([@catalog, @deployable]), :method => 'delete', :confirm => "#{_("Are you sure you want to delete?")}", :class => 'button danger', :id => 'delete'
 
     - launch_deployment_button_path = launch_new_deployments_path(:deployable_id => @deployable.id, :deployment => { :name => @deployable.name, :pool_id => @catalog.pool }, :backlink => request.fullpath)
     - if @catalog.present? && @deployable_errors.empty? && @pushed_count > 0
-      = link_to t('.launch'), launch_deployment_button_path, :id => :launch_deployment_button, :'data-path' => launch_deployment_button_path
+      = link_to _("Launch"), launch_deployment_button_path, :id => :launch_deployment_button, :'data-path' => launch_deployment_button_path
     -else
-      %a{:id => :launch_deployment_button, :class => 'disabled', :'data-path' => launch_deployment_button_path}= t('.launch')
+      %a{:id => :launch_deployment_button, :class => 'disabled', :'data-path' => launch_deployment_button_path}= _("Launch")
   %h1.catalog_entries= @deployable.name
 
 %section.content-section
   %header
-    %h2.images= t('.images')
+    %h2.images= _("Images")
   .content
     %table.light_table
       %thead
         %tr
           %th.status
           %th
-            %strong=t'.name'
-          %th.align-center=t'.images'
-          %th=t'.hw_profile'
-          %th.align-center=t'.hdd'
-          %th.align-center=t'.ram'
-          %th.align-center=t'.arch'
-          %th=t(".uuids")
+            %strong=_("Name")
+          %th.align-center=_("Images")
+          %th=_("Default Hardware Profile")
+          %th.align-center=_("HDD")
+          %th.align-center=_("RAM")
+          %th.align-center=_("ARCH")
+          %th=_("UUIDs")
       %tbody
         - @images_details.each do |assembly|
           %tr
@@ -44,9 +44,9 @@
             %td.align-center=assembly[:hwp_arch]
             %td.align-center
               - if assembly[:build_and_target_uuids].nil?
-                = t(".n_a")
+                = _("N/A")
               - else
-                %a.control{:href => '#'}=t(".show_hide_uuids")
+                %a.control{:href => '#'}=_("Show/Hide")
           - unless assembly[:build_and_target_uuids].nil?
             %tr.collapsed
               %td
@@ -57,7 +57,7 @@
 %section.content-section
   - if @missing_images.empty?
     %header
-      %h2.build= t('.build_status')
+      %h2.build= _("Build Status")
 
     .content
       %ul#providers-list.catalog_pretty
@@ -66,11 +66,11 @@
                    :mustache => image_status_for_account
   - else
     %header
-      %h2.build= t('.build_status')
+      %h2.build= _("Build Status")
     .content
       .centered.align-center
         %strong Assemblies in Deployable XML arent properly configured.
-      %strong= t('.missing_images')
+      %strong= _("Images missing from the Image Warehouse")
       %ul#missing-images-list
         - @missing_images.each do |uuid|
           %li= uuid
@@ -80,11 +80,11 @@
     .section-controls
       -if modify_perm
         = form_for(:catalog_entry, :url => catalog_entries_path) do |f|
-          = f.label :catalog_id, t('.choose_catalog')
+          = f.label :catalog_id, _("Choose a Catalog to enable access:")
           = f.select :catalog_id, options_for_select(@catalogs_options.map {|c| [c.name, c.id]})
           = f.hidden_field(:deployable_id, :value => @deployable.id)
-          = f.submit t('.add_catalog'), :id => :add_catalog, :class => 'button primary', :disabled => @catalogs_options.empty?
-    %h2.catalogs= t('.catalogs')
+          = f.submit _("Add New Catalog"), :id => :add_catalog, :class => 'button primary', :disabled => @catalogs_options.empty?
+    %h2.catalogs= _("Catalogs")
   .content
     .centered
       %table.light_table
@@ -92,20 +92,20 @@
           %th.remove_catalog
           %th
             %label
-              %strong= t('.catalog_name')
+              %strong= _("Catalog Name")
           %th
             %label
-              %strong= t('.environment')
+              %strong= _("Environment: %{environment}")
         - @deployable.catalog_entries.each do |catalog_entry|
           %tr
-            %td.remove_catalog= button_to "", catalog_entry_path(catalog_entry), :method => 'delete', :confirm => "#{t'catalog_entries.show.confirm_delete'}", :id => 'delete', :class => 'remove_catalog'
+            %td.remove_catalog= button_to "", catalog_entry_path(catalog_entry), :method => 'delete', :confirm => "#{_("Are you sure you want to delete?")}", :id => 'delete', :class => 'remove_catalog'
             %td= catalog_entry.catalog.name
             %td= catalog_entry.catalog.pool.pool_family.name
 
 - if check_privilege(Privilege::PERM_VIEW,@permission_object)
   %section.content-section
     %header
-      %h2.roles= t('role_assignments')
+      %h2.roles= _("Role Assignments")
     .content
       = render :partial => 'permissions/permissions'
 

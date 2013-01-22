@@ -9,7 +9,7 @@
         %ul.actions
           = yield form_header
 
-  %table.flat.checkbox_table{ 'data-none_selected' => t("default_none_selected_message"), 'data-confirm' => t("default_confirm_message") }
+  %table.flat.checkbox_table{ 'data-none_selected' => _("Please make a selection first."), 'data-confirm' => _("Are you sure you want to proceed?") }
     %thead
       %tr
         - columns.each do |column|
@@ -19,7 +19,7 @@
             %th{:class => column[:class]}= column[:name]
       - if !rows.any?
         %tr
-          %td{:colspan => columns.size}= t('search.no_results')
+          %td{:colspan => columns.size}= _("No matching results.")
     = rows.collect {|row| capture_haml(row, &block)}.join.html_safe
 
   - if content_for? form_footer

@@ -117,7 +117,7 @@ class Deployment < ActiveRecord::Base
     rescue DeployableXML::ValidationError => e
       errors.add(:deployable_xml, e.message)
     rescue Nokogiri::XML::SyntaxError => e
-      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))
+      errors.add(:base, _("seems to be not valid Deployable XML: %s") % e.message)
     end
   end
 
@@ -134,8 +134,8 @@ class Deployment < ActiveRecord::Base
   end
 
   def pool_must_be_enabled
-    errors.add(:pool, I18n.t('pools.errors.must_be_enabled')) unless pool and pool.enabled?
-    errors.add(:pool, I18n.t('pools.errors.providers_disabled')) if pool and pool.pool_family.all_providers_disabled?
+    errors.add(:pool, _("must be enabled")) unless pool and pool.enabled?
+    errors.add(:pool, _("has all associated Providers disabled")) if pool and pool.pool_family.all_providers_disabled?
   end
 
   def perm_ancestors
@@ -241,15 +241,13 @@ class Deployment < ActiveRecord::Base
         :source => self,
         :event_time => DateTime.now,
         :status_code => 'deployment_launch_match',
-        :summary => I18n.t('deployments.events.launch_attempt',
-                           :account => account.name)
+        :summary => _("Attempting to launch this deployment on provider account %s") % account.name
       )
     else
       if errs.any?
-        raise I18n.t('deployments.errors.match_not_found_with_errors',
-                     :errors => errs.join(", "))
+        raise _("Match not found: %s") % errs.join(", ")
       else
-        raise I18n.t('deployments.errors.match_not_found')
+        raise _("Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images.")
       end
     end
 
@@ -315,7 +313,7 @@ class Deployment < ActiveRecord::Base
       deployable_xml.validate!
       true
     rescue
-      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{$!.message}"))
+      errors.add(:base, _("seems to be not valid Deployable XML: %s") % $!.message )
       false
     end
   end
@@ -362,7 +360,7 @@ class Deployment < ActiveRecord::Base
       deployable_xml.assemblies.each do |assembly|
         hw_profile = permissioned_frontend_hwprofile(permission_session,
                                                      user, assembly.hwp)
-        raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
+        raise _("You do not have sufficient permission to access the %s Hardware Profile.") % assembly.hwp unless hw_profile
         instance = Instance.new(
           :deployment => self,
           :name => "#{name}/#{assembly.name}",
@@ -378,30 +376,30 @@ class Deployment < ActiveRecord::Base
         instances << instance
         possibles, errors = instance.matches
         if possibles.empty? and not errors.empty?
-          raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), errors)
+          raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(_("Some Assemblies will not be launched:"), errors)
         end
       end
 
       deployment_errors = []
 
       unless provider_selection_match_exists?
-        deployment_errors << I18n.t('deployments.errors.match_not_found')
+        deployment_errors << _("Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images.")
       end
 
       unless pool.quota.can_start?(instances)
-        deployment_errors << I18n.t('instances.errors.pool_quota_reached')
+        deployment_errors << _("Pool quota reached")
       end
 
       unless pool.pool_family.quota.can_start?(instances)
-        deployment_errors << I18n.t('instances.errors.pool_family_quota_reached')
+        deployment_errors << _("Environment quota reached")
       end
 
       unless user.quota.can_start?(instances)
-        deployment_errors << I18n.t('instances.errors.user_quota_reached')
+        deployment_errors << _("User quota reached")
       end
 
       if deployment_errors.any?
-        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(I18n.t('deployments.flash.error.not_launched'), deployment_errors)
+        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(_("Some Assemblies will not be launched:"), deployment_errors)
       end
     rescue
       errs << $!.message
@@ -478,11 +476,11 @@ class Deployment < ActiveRecord::Base
     json = super(options).merge({
       :deployable_xml_name => deployable_xml.name,
       :status => state,
-      :translated_state => I18n.t("deployments.status.#{state}"),
-      :status_description => I18n.t("deployments.status_description.#{state}"),
+      :translated_state => _(state),
+      :status_description => state_description,
       :instances_count => instances.count,
       :failed_instances_count => failed_instances.count,
-      :instances_count_text => I18n.t('instances.instances', :count => instances.count.to_i),
+      :instances_count_text => n_("Instance","Instances",instances.count),
       :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
       :pool => {
         :name => pool.name,
@@ -532,6 +530,31 @@ class Deployment < ActiveRecord::Base
                               instance_ids, self.id],
               :order => "created_at ASC")
 
+  end
+
+  def state_description
+    case state
+      when STATE_NEW
+        _("Deployment wasn't started")
+      when STATE_PENDING
+        _("Deployment is starting up")
+      when STATE_RUNNING
+        _("All Instances are running")
+      when STATE_INCOMPLETE
+        _("Some Instances are not running")
+      when STATE_SHUTTING_DOWN
+        _("Deployment is shutting down")
+      when STATE_STOPPED
+        _("All Instances are stopped")
+      when STATE_FAILED
+        _("All Instances are in failed state")
+      when STATE_ROLLBACK_IN_PROGRESS
+        _("Launch failed, rollback is in progress")
+      when STATE_ROLLBACK_COMPLETE
+        _("Rollback successfully completed")
+      when STATE_ROLLBACK_FAILED
+        _("Rollback failed, re-launch terminated")
+    end
   end
 
   PRESET_FILTERS_OPTIONS = [
@@ -637,7 +660,7 @@ class Deployment < ActiveRecord::Base
     deployable_xml.assemblies.each do |assembly|
       hw_profile = permissioned_frontend_hwprofile(permission_session,
                                                    user, assembly.hwp)
-      raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
+      raise _("You do not have sufficient permission to access the %s Hardware Profile.") % assembly.hwp unless hw_profile
       Instance.transaction do
         instance = Instance.create!(
           :deployment => self,
@@ -763,8 +786,7 @@ class Deployment < ActiveRecord::Base
         :source => self,
         :event_time => DateTime.now,
         :status_code => self.state,
-        :summary => I18n.t('deployments.events.state_changed',
-                           :state => self.state)
+        :summary => _("State changed to %s") % self.state
       )
     end
   end
@@ -782,7 +804,7 @@ class Deployment < ActiveRecord::Base
           :source => self,
           :event_time => DateTime.now,
           :status_code => 'deployment_launch_failed',
-          :summary => I18n.t('deployments.errors.launch_failed'),
+          :summary => _("Failed to launch deployment"),
           :description => $!.message
         )
         update_attribute(:state, STATE_FAILED)

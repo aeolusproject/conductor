@@ -2,9 +2,9 @@
 - prevent_admin_deletion = has_admin_perms && !(@show_inherited || @show_global) && (@permission_object == BasePermissionObject.general_permission_scope) && (BasePermissionObject.global_admin_permission_count == 1)
 - content_for :permissions_form_header do
   - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
-    %li= link_to t('permissions.form.grant_access'), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
-    %li= restful_submit_tag t('permissions.revoke_access'), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
-    %li= restful_submit_tag t('edit'), "multi_update", multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
+    %li= link_to _("Grant Access"), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
+    %li= restful_submit_tag _("Revoke Access"), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
+    %li= restful_submit_tag _("Edit"), "multi_update", multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
     = hidden_field_tag :permission_object_type, @permission_object.class.name
     = hidden_field_tag :permission_object_id, @permission_object.id
 
@@ -17,24 +17,24 @@
   %span{:id => ("tab-container-1-nav" unless @inline)}
     - unless @permission_object == BasePermissionObject.general_permission_scope
       - if @show_inherited
-        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
-        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
+        %li= link_to _("Direct Access"), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
+        %li= link_to _("Global Access"), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
       - elsif @show_global
-        %li= link_to t('permissions.direct_access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
-        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
+        %li= link_to _("Direct Access"), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
+        %li= link_to _("Inherited Access"), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
       - else
-        %li= link_to t('permissions.inherited_access'), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
-        %li= link_to t('permissions.global_access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
+        %li= link_to _("Inherited Access"), params.merge(:show_inherited => true, :show_global => false, :page => 1), { :class => 'button', :id => 'inherited_permission_button'}
+        %li= link_to _("Global Access"), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
 
 - content_for :permissions_filter_controls do
   %li
-    = label_tag :permissions_preset_filter, t('filter_table.viewing')
-    = select_tag(:permissions_preset_filter, preset_filters_options_for_select(Permission::PRESET_FILTERS_OPTIONS, params[:permissions_preset_filter]), :include_blank => t("permissions.preset_filters.all_permissions"), :disabled => false)
+    = label_tag :permissions_preset_filter, _("Viewing")
+    = select_tag(:permissions_preset_filter, preset_filters_options_for_select(Permission::PRESET_FILTERS_OPTIONS, params[:permissions_preset_filter]), :include_blank => _("All Permissions"), :disabled => false)
     = hidden_field_tag :current_path, request.fullpath
-    = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_permissions_path, 'POST', :class => 'button', :id => 'apply_permissions_preset_filter'
+    = restful_submit_tag _("Apply filters"), "filter", filter_permissions_path, 'POST', :class => 'button', :id => 'apply_permissions_preset_filter'
     %span.label.badge.dark= @permissions.count
   %li.table-search-filter
-    = text_field_tag :permissions_search, params[:permissions_search], :placeholder => t("filter_table.search")
+    = text_field_tag :permissions_search, params[:permissions_search], :placeholder => _("Search")
     = restful_submit_tag "", "search", filter_permissions_path, 'POST', :class => 'button', :id => 'apply_permissions_search'
 
   :javascript

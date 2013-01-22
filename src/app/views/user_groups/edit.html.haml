@@ -2,8 +2,8 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'return_to'
-      = link_to "#{t'user_groups.groups'}", user_groups_path
+      =_("Return to:")
+      = link_to "#{_("User Groups")}", user_groups_path
   %h1.users= @title
 
 %section.content-section.user_groups

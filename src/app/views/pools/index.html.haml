@@ -5,9 +5,9 @@
       = pretty_filter_toggle(pools_path(:view => 'pretty', :page => params[:page]),
                              pools_path(:view => 'filter', :page => params[:page]))
     - if check_privilege(Privilege::CREATE, Pool)
-      = link_to t('pools.new_pool'), new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
-    = link_to t('pools.logs'), logs_path, { :class => 'button primary', :id => 'logs_button' }
-  %h1.section-index= t 'pools.index.overview'
+      = link_to _("New Pool"), new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
+    = link_to _("Logs"), logs_path, { :class => 'button primary', :id => 'logs_button' }
+  %h1.section-index= _("Overview")
 
 %div{:id => 'scoreboard', :class => 'scoreboard'}
   = render :partial => 'scoreboard_index', :mustache => user_info_for_mustache

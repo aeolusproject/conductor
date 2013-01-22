@@ -27,6 +27,7 @@ gem 'delayed_job', '~> 2.1.4'
 gem 'paranoia'
 gem 'simple_form', '~> 2.0.3'
 gem 'tim'
+gem 'gettext_i18n_rails'
 
 platforms :ruby_18 do
   gem 'fastercsv'
@@ -44,4 +45,6 @@ group :development, :test do
   gem 'vcr', '< 2.0.0'
   gem 'webmock'
   gem 'launchy'
+  gem 'gettext', '>=1.9.3', :require => false
+  gem 'ruby_parser'
 end

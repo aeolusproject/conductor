@@ -2,8 +2,8 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t'return_to'
-      = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts')
+      = _("Return to:")
+      = link_to _("Cloud Providers"), edit_provider_path(@provider, :details_tab => 'accounts')
   %h1.provider_accounts= @title
 
 %section.content-section.provider_accounts

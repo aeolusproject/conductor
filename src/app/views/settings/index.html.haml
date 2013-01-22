@@ -1,12 +1,12 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
-  %h1.settings=t 'settings.settings'
+  %h1.settings=_("Settings")
 
 %section.content-section.settings
   %header
-    %h2= t('.permissions')
+    %h2= _("Permissions")
   .content
     - if check_privilege(Privilege::MODIFY)
       %p
-        = t('.permissions_desc')
-        = link_to t(:continue), self_service_settings_path, :class => 'button'
+        = _("Modify default user settings")
+        = link_to _("Continue"), self_service_settings_path, :class => 'button'

@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
   .obj_actions
-    = link_to t('provider_accounts.new.new_provider_account'), new_provider_account_url, :class => 'button primary', :id => 'new_provider_account_button'
-  %h1.provider_accounts= t'provider_accounts.index.provider_accounts'
+    = link_to _("New Provider Account"), new_provider_account_url, :class => 'button primary', :id => 'new_provider_account_button'
+  %h1.provider_accounts= _("Provider Accounts")
 = render :partial => 'list'

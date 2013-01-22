@@ -24,9 +24,9 @@ class PasswordResetsController < ApplicationController
     user.send_password_reset if user
     respond_to do |format|
       # note: for security reasons we provide success message even if incorrect/non-existent email/username combination is filled in.
-      format.html{ redirect_to login_path, :notice => t("password_resets.reset_instructions_sent") }
+      format.html{ redirect_to login_path, :notice => _("Instructions for resetting your password have been emailed.") }
       format.js do
-        flash.now[:notice] = t("password_resets.reset_instructions_sent")
+        flash.now[:notice] = _("Instructions for resetting your password have been emailed.")
       end
     end
   end
@@ -34,7 +34,7 @@ class PasswordResetsController < ApplicationController
   def edit
     respond_to do |format|
       if @user.password_reset_sent_at < SETTINGS_CONFIG[:action_mailer][:password_reset_token_timeout].minutes.ago
-        format.html{ redirect_to new_user_sessions_path(:password_reset => true), :alert => t("password_resets.password_reset_expired") }
+        format.html{ redirect_to new_user_sessions_path(:password_reset => true), :alert => _("Your Password reset link has expired. Please re-apply for the new password reset by filling the form below.") }
       else
         format.html
       end
@@ -44,7 +44,7 @@ class PasswordResetsController < ApplicationController
   def update
     respond_to do |format|
       if @user.password_reset_sent_at < SETTINGS_CONFIG[:action_mailer][:password_reset_token_timeout].minutes.ago
-        format.html{ redirect_to new_user_sessions_path(:password_reset => true), :alert => t("password_resets.password_reset_expired") }
+        format.html{ redirect_to new_user_sessions_path(:password_reset => true), :alert => _("Your Password reset link has expired. Please re-apply for the new password reset by filling the form below.") }
       end
 
       # update the password and reset the 'password reset token' so that it cannot be reused
@@ -52,7 +52,7 @@ class PasswordResetsController < ApplicationController
       params[:user][:password_reset_sent_at] = nil
 
       if @user.update_attributes(params[:user])
-        flash[:notice] = t("password_resets.password_reset_success")
+        flash[:notice] = _("Password has been successfuly reset. Please log in.")
         format.html{ redirect_to login_path }
         format.js { render :js => "window.location.href = '#{login_path}'" }
       else
@@ -65,7 +65,7 @@ class PasswordResetsController < ApplicationController
   def find_user_by_reset_token
     @user = User.find_by_password_reset_token!(params[:id])
   rescue ActiveRecord::RecordNotFound => error
-    flash[:notice] = t("password_resets.invalid_token")
+    flash[:notice] = _("The Password Reset link is no longer valid. Please re-apply for the new link by completing the form below.")
     redirect_to login_path(:card => 'password_reset')
   end
 end

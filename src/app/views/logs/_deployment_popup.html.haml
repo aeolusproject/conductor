@@ -1,10 +1,10 @@
 %table.flat
   %tr
-    %td= t('logs.index.created_at')
+    %td= _("Created At")
     %td= deployment.created_at.strftime("%d-%b-%Y %H:%M:%S")
   %tr
-    %td= t('logs.index.uptime')
+    %td= _("Uptime")
     %td= ApplicationHelper.count_uptime(deployment.uptime_all)
   %tr
-    %td= t('logs.index.frontend_realm')
-    %td= deployment.frontend_realm.nil? ? t('logs.index.none') : deployment.frontend_realm.name
+    %td= _("Frontend Realm")
+    %td= deployment.frontend_realm.nil? ? _("None") : deployment.frontend_realm.name

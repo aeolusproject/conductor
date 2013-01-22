@@ -4,17 +4,17 @@
 <dl class="statistics">
   <ul class="groups">
     <li>
-      <dt><%= t('deployments.deployments')%></dt>
+      <dt><%= _("Deployments")%></dt>
       <dd class="count deployment">{{deployments_count}}</dd>
     </li>
     <li>
-      <dt><%= t('instances.instances.other')%></dt>
+      <dt><%= _("Instances")%></dt>
       <dd class="count instance">{{statistics.total_instances}}</dd>
       <dd class="count instance pending">{{statistics.instances_pending}}</dd>
       <dd class="count instance failure">{{statistics.instances_failed_count}}</dd>
     </li>
     <li>
-      <dt><%= t('quota_used')%></dt>
+      <dt><%= _("Quota Used")%></dt>
       <dd class="percentage_quota">{{statistics.quota_percent}}</dd>
     </li>
   </ul>
@@ -22,6 +22,6 @@
 
 <% unless @pools.count < 2 %>
   <a class="control" href="#">
-    <span><%= t('pools.index.pool_toggle') %></span>
+    <span><%= _("Expand/Collapse") %></span>
   </a>
 <% end %>

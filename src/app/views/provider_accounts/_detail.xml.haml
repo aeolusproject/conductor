@@ -15,4 +15,4 @@
       -if provider_account.quota.maximum_running_instances
         %quota{ :maximum_running_instances => provider_account.quota.maximum_running_instances }
       -else
-        %quota{ :maximum_running_instances => t('provider_accounts.properties.unlimited') }
+        %quota{ :maximum_running_instances => _("unlimited") }

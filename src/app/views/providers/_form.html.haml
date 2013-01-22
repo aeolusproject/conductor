@@ -4,7 +4,7 @@
 = form.input :deltacloud_provider, :required => true, :wrapper_html => { :id => 'deltacloud_provider_input_wrapper' }
 
 %fieldset#x-deltacloud-provider-legend
-  %legend= t('providers.form.x_deltacloud_provider_legend')
+  %legend= _("Legend for X-Deltacloud-Provider")
   - @labeled_provider_types.each do |type|
     = form.input :provider_type, :as => 'informative', :text => type[:label], :label => type[:name], :input_html => { :class => type[:id] }
 

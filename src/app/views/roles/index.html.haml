@@ -1,6 +1,6 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
   .obj_actions
-    = link_to t('roles.new_role'), new_role_url, :class => 'button primary', :id => 'new_role_button'
+    = link_to _("New Role"), new_role_url, :class => 'button primary', :id => 'new_role_button'
   %h1.no-icon Roles
 = render :partial => 'list'

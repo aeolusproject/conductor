@@ -32,7 +32,7 @@ class ProvidersController < ApplicationController
                  params[:to_date][:day].to_i)
 
     if @to_date < @from_date
-      flash[:error] = t('logs.flash.error.date_range')
+      flash[:error] = _("'From date' cannot be after 'To date'")
     end
 
     load_headers
@@ -55,12 +55,12 @@ class ProvidersController < ApplicationController
     @provider = Provider.new
     @provider.url = Provider::DEFAULT_DELTACLOUD_URL
     @provider.provider_type = ProviderType.find_by_deltacloud_driver('ec2')
-    @title = t("providers.new.new_provider")
+    @title = _("New Provider")
   end
 
   def edit
     @provider = Provider.find(params[:id])
-    @title = t 'cloud_providers'
+    @title = _("Cloud Providers")
     # requiring VIEW rather than MODIFY since edit doubles as the 'show' page
     # here -- actions must be hidden explicitly in template
     require_privilege(Privilege::VIEW, @provider)
@@ -86,8 +86,8 @@ class ProvidersController < ApplicationController
     @realm_names = @provider.provider_realms.collect { |r| r.name }
 
     require_privilege(Privilege::VIEW, @provider)
-    @tab_captions = [t("properties"), t('hw_profiles'), t('realm_s'), t("provider_accounts.index.provider_accounts"), t('services'), t('history'), t('permissions')]
-    @details_tab = params[:details_tab].blank? ? t("properties") : params[:details_tab]
+    @tab_captions = [_("Properties"), _("HW Profiles"), _("Realms"), _("Provider Accounts"), _("Services"), _("History"), _("Permissions")]
+    @details_tab = params[:details_tab].blank? ? _("Properties") : params[:details_tab]
     @details_tab = 'properties' unless ['properties', 'hw_profiles', 'realms',
                                         'provider_accounts', 'services', 'history',
                                         'permissions'].include?(@details_tab)
@@ -109,7 +109,7 @@ class ProvidersController < ApplicationController
   end
 
   def create
-    @title = t("providers.new.new_provider")
+    @title = _("New Provider")
     require_privilege(Privilege::CREATE, Provider)
     @provider = Provider.new(params[:provider])
 
@@ -117,7 +117,7 @@ class ProvidersController < ApplicationController
       @provider.assign_owner_roles(current_user)
       respond_to do |format|
         format.html do
-          flash[:notice] = t("providers.flash.notice.added")
+          flash[:notice] = _("Provider added.")
           redirect_to edit_provider_path(@provider)
         end
         format.xml do
@@ -144,8 +144,8 @@ class ProvidersController < ApplicationController
     @provider.assign_owner_roles(current_user)
     respond_to do |format|
       format.html do
-        flash[:notice] = t("providers.flash.notice.added")
-        flash[:warning] = t("providers.flash.warning.check_config_file")
+        flash[:notice] = _("Provider added.")
+        flash[:warning] = _("Cannot check if provider name is right. Please check config file")
         redirect_to edit_provider_path(@provider)
       end
     end
@@ -167,7 +167,7 @@ class ProvidersController < ApplicationController
       @provider.update_availability
       respond_to do |format|
         format.html do
-          flash[:notice] = t("providers.flash.notice.updated")
+          flash[:notice] = _("Provider updated.")
           redirect_to edit_provider_path(@provider)
         end
         format.xml { render :partial => 'detail', :locals => { :provider => @provider } }
@@ -194,8 +194,8 @@ class ProvidersController < ApplicationController
     @provider.save
     respond_to do |format|
       format.html do
-        flash[:notice] = t"providers.flash.notice.updated"
-        flash[:warning] = t"providers.flash.warning.check_config_file"
+        flash[:notice] = _("Provider updated.")
+        flash[:warning] = _("Cannot check if provider name is right. Please check config file")
         redirect_to edit_provider_path(@provider)
       end
     end
@@ -209,14 +209,13 @@ class ProvidersController < ApplicationController
       if provider.safe_destroy
         session[:current_provider_id] = nil
         format.html do
-          flash[:notice] = t("providers.flash.notice.deleted")
+          flash[:notice] = _("Provider has been deleted.")
           redirect_to providers_path
         end
         format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
-          flash[:error] = t("providers.flash.error.not_deleted_with_err",
-                            :err => provider.errors.full_messages.join(', '))
+          flash[:error] = _("Provider was not deleted: %s") % provider.errors.full_messages.join(', ')
           redirect_to providers_path
         end
         # FIXME: what to return in body of response, if anything?
@@ -232,9 +231,9 @@ class ProvidersController < ApplicationController
   def test_connection(provider)
     @provider.errors.clear
     if @provider.update_availability
-      flash.now[:notice] = t"providers.flash.notice.connected"
+      flash.now[:notice] = _("Successfully connected to Provider")
     else
-      flash.now[:warning] = t"providers.flash.warning.connect_failed"
+      flash.now[:warning] = _("Failed to connect to Provider")
       @provider.errors.add :url
     end
   end
@@ -254,16 +253,16 @@ class ProvidersController < ApplicationController
     res = @provider.disable(current_user)
     if res[:failed_to_stop].present?
       flash[:error] = {
-        :summary => t("providers.flash.warning.not_stopped_instances"),
+        :summary => _("Provider was not disabled. Failed to stop following instances:"),
         :failures => res[:failed_to_stop]
       }
     elsif res[:failed_to_terminate].present?
       flash[:error] = {
-        :summary => t("providers.flash.warning.not_terminated_instances"),
+        :summary => _("Provider was not disabled. Failed to change status to 'stopped' for following instances:"),
         :failures => res[:failed_to_terminate].map {|i| i.name}
       }
     else
-      flash[:notice] = t"providers.flash.notice.disabled"
+      flash[:notice] = _("Provider disabled.")
     end
     redirect_to edit_provider_path(@provider)
   end
@@ -277,10 +276,10 @@ class ProvidersController < ApplicationController
         if provider_account.quota.maximum_running_instances < provider_account.quota.running_instances
           alerts << {
             :class => "critical",
-            :subject => "#{t'providers.alerts.subject.quota'}",
-            :alert_type => "#{t'providers.alerts.alert_type.quota_exceeded'}",
+            :subject => "#{_("Quota")}",
+            :alert_type => "#{_("Account Quota Exceeded")}",
             :path => edit_provider_provider_account_path(@provider,provider_account),
-            :description => "#{t'providers.alerts.description.quota_exceeded', :name => "#{provider_account.name}"}",
+            :description => _("Quota limit of running Instances for %s account has been exceeded.") % provider_account.name,
             :account_id => provider_account.id
           }
         end
@@ -288,10 +287,10 @@ class ProvidersController < ApplicationController
         if (70..100) === provider_account.quota.percentage_used.round
           alerts << {
             :class => "warning",
-            :subject => "#{t'providers.alerts.subject.quota'}",
-            :alert_type => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.alert_type.quota_reached'}",
+            :subject => "#{_("Quota")}",
+            :alert_type => "#{provider_account.quota.percentage_used.round}% #{_("Account Quota Reached")}",
             :path => provider_provider_account_path(@provider,provider_account),
-            :description => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.description.quota_reached', :name => "#{provider_account.name}" }",
+            :description => "#{provider_account.quota.percentage_used.round}% " + _("of Quota limit for running Instances for %s account has been reached.") % provider_account.name,
             :account_id => provider_account.id
           }
         end
@@ -319,10 +318,10 @@ class ProvidersController < ApplicationController
   def load_provider_tabs
     @realms = @provider.provider_realms.apply_filters(:preset_filter_id => params[:provider_realms_preset_filter], :search_filter => params[:provider_realms_search])
     #TODO add links to real data for history,properties,permissions
-    @tabs = [{:name => t('connectivity'), :view => 'edit', :id => 'connectivity'},
-             {:name => t('accounts'), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
-             {:name => t('provider_realms.provider_realms'), :view => 'provider_realms/list', :id => 'realms', :count => @realms.count},
-             {:name => t('hardware_profiles.hardware_profiles'),
+    @tabs = [{:name => _("Connectivity"), :view => 'edit', :id => 'connectivity'},
+             {:name => _("Accounts"), :view => 'provider_accounts/list', :id => 'accounts', :count => @provider.provider_accounts.count},
+             {:name => _("Provider Realms"), :view => 'provider_realms/list', :id => 'realms', :count => @realms.count},
+             {:name => _("Hardware Profiles"),
               :view => 'hardware_profiles',
               :id => 'hardware_profiles',
               :count => @provider.hardware_profiles.count}
@@ -350,19 +349,19 @@ class ProvidersController < ApplicationController
 
   def load_headers
     @header = [
-      { :name => t('providers.index.provider_name'), :class => 'center',
+      { :name => _("Provider Name"), :class => 'center',
                  :sortable => false },
-      { :name => t('providers.index.provider_type'), :class => 'center',
+      { :name => _("Provider Type"), :class => 'center',
                  :sortable => false },
-      { :name => t('providers.index.running_instances'), :class => 'center',
+      { :name => _("Running Instances (Current)"), :class => 'center',
                  :sortable => false },
-      { :name => t('providers.index.pending_instances'), :class => 'center',
+      { :name => _("Pending (Current)"), :class => 'center',
                  :sortable => false },
-      { :name => t('providers.index.error_instances'), :class => 'center',
+      { :name => _("Errors (Current)"), :class => 'center',
                  :sortable => false },
-      { :name => t('providers.index.historical_running_instances'), :class => 'center',
+      { :name => _("Running (Historical)"), :class => 'center',
                  :sortable => false },
-      { :name => t('providers.index.historical_error_instances'), :class => 'center',
+      { :name => _("Errors (Historical)"), :class => 'center',
                  :sortable => false },
     ]
   end

@@ -46,14 +46,14 @@ class Quota < ActiveRecord::Base
                             :less_than_or_equal_to => 2147483647,
                             :only_integer => true,
                             :allow_nil => true,
-                            :message => I18n.t("quotas.flash.error.must_be_positive")
+                            :message => _("must be a positive whole number less than 2147483647")
 
   validates_numericality_of :maximum_running_instances,
                             :greater_than_or_equal_to => 0,
                             :less_than_or_equal_to => 2147483647,
                             :only_integer => true,
                             :allow_nil => true,
-                            :message => I18n.t("quotas.flash.error.must_be_positive")
+                            :message => _("must be a positive whole number less than 2147483647")
 
   QuotaResource = Struct.new(:name, :used, :max, :available, :unit)
 
@@ -66,7 +66,7 @@ class Quota < ActiveRecord::Base
   RESOURCE_NAMES = [ RESOURCE_RUNNING_INSTANCES, RESOURCE_TOTAL_INSTANCES ]
 
   def set_maximum_running_instances(value)
-    if value.blank? || value == I18n.t('provider_accounts.properties.unlimited')
+    if value.blank? || value == _("unlimited")
       self.maximum_running_instances = Quota::NO_LIMIT
     else
       self.maximum_running_instances = value

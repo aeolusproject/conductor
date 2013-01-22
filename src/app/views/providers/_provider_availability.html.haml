@@ -1,4 +1,4 @@
 - unless @provider.available
   %section.content-section
     %header.align-center
-      %h2.disabled= t('providers.edit.provider_unavailable', :name => @provider.name)
+      %h2.disabled= _("The Provider %s is currently not available.") % @provider.name

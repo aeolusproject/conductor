@@ -77,6 +77,14 @@ class ProviderAccount < ActiveRecord::Base
   # will result in an exception.
   attr_protected :credentials_hash
 
+  N_("Username")
+  N_("Password")
+  N_("Access Key")
+  N_("Secret Access Key")
+  N_("Account Number")
+  N_("Key")
+  N_("Certificate")
+
   # Validations
   validates :label, :presence => true,
                     :uniqueness => true,
@@ -143,17 +151,17 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
-      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")} #{I18n.t('errors.messages.blank')}") if credentials_hash[cd.name].blank?
+      errors.add(:base, _(cd.label.capitalize) + " " +_("can't be blank")) if credentials_hash[cd.name].blank?
     end
   end
 
   def validate_credentials
     begin
       unless valid_credentials?
-        errors.add(:base, I18n.t('provider_accounts.errors.invalid_credentials'))
+        errors.add(:base, _("Login credentials are invalid for this Provider."))
       end
     rescue
-      errors.add(:base, I18n.t('provider_accounts.errors.exception_while_validating'))
+      errors.add(:base, _("An error occurred when checking Provider credentials. Please check your setup and try again."))
     end
   end
 
@@ -181,8 +189,7 @@ class ProviderAccount < ActiveRecord::Base
       true
     else
       raise Aeolus::Conductor::Base::NotDestroyable,
-        I18n.t('provider_accounts.errors.associated_images',
-               :images => imgs.join(', '))
+        _("There are following associated provider images: %s. Delete them first.") % imgs.join(', ')
     end
   end
 
@@ -192,9 +199,7 @@ class ProviderAccount < ActiveRecord::Base
       true
     else
       raise Aeolus::Conductor::Base::NotDestroyable,
-        I18n.t('provider_accounts.errors.not_destroyable_deployments',
-               :deployments => not_destroyable_instances.
-               map{|i| i.deployment.nil? ? i.name : i.deployment.name}.uniq.join(', '))
+        _("The following Deployments have not been stopped: %s") % not_destroyable_instances.map{|i| i.deployment.nil? ? i.name : i.deployment.name}.uniq.join(', ')
     end
   end
 
@@ -235,7 +240,7 @@ class ProviderAccount < ActiveRecord::Base
     begin
       populate_hardware_profiles
     rescue
-      errors.add(:base, I18n.t("provider_accounts.errors.populate_hardware_profiles_failed", :message => $!.message))
+      errors.add(:base, _("Failed to populate hardware_profiles: %s") % $!.message)
       return false
     end
     true
@@ -245,7 +250,7 @@ class ProviderAccount < ActiveRecord::Base
     begin
       populate_realms
     rescue
-      errors.add(:base, I18n.t("provider_accounts.errors.populate_realms_failed", :message => $!.message))
+      errors.add(:base, _("Failed to populate Realms: %s") % $!.message)
       raise
     end
     true
@@ -377,19 +382,19 @@ class ProviderAccount < ActiveRecord::Base
 
   def instance_matches(instance, matched, errors)
     if !provider.enabled?
-      errors << I18n.t('instances.errors.must_be_enabled', :account_name => name)
+      errors << _("%s: Provider must be enabled") % name
     elsif !provider.available?
-      errors << I18n.t('instances.errors.provider_not_available', :account_name => name)
+      errors << _("%s: Provider is not available") % name
     elsif quota.reached?
-      errors << I18n.t('instances.errors.provider_account_quota_reached', :account_name => name)
+      errors << _("%s: Provider Account quota reached") % name
     # match_provider_hardware_profile returns a single provider
     # hardware_profile that can satisfy the input hardware_profile
     elsif !(hwp = HardwareProfile.match_provider_hardware_profile(provider, instance.hardware_profile))
-      errors << I18n.t('instances.errors.hw_profile_match_not_found', :account_name => name)
+      errors << _("%s: Hardware Profile match not found") % name
     elsif !(account_image = instance.provider_image_for_account(self))
-      errors << I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => name)
+      errors << _("%s: Image is not pushed to this Provider Account") % name
     elsif instance.requires_config_server? and config_server.nil?
-      errors << I18n.t('instances.errors.no_config_server_available', :account_name => name)
+      errors << _("%s: no Config Server available for Provider Account") % name
     else
       if not instance.frontend_realm.nil?
         brealms = instance.frontend_realm.realm_backend_targets.select do |brealm_target|
@@ -398,7 +403,7 @@ class ProviderAccount < ActiveRecord::Base
                                                  provider_realms.include?(brealm_target.target_realm)))
         end
         if brealms.empty?
-          errors << I18n.t('instances.errors.realm_not_mapped', :account_name => name, :frontend_realm_name => instance.frontend_realm.name)
+          errors << _("%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm") % [name, instance.frontend_realm.name]
         else
           brealms.each do |brealm_target|
             # add match if realm is mapped to provider or if it's mapped to

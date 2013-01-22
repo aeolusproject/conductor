@@ -2,12 +2,12 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'users.return_to'
-      = link_to "#{t'users.users'}", users_path
+      =_("Return to:")
+      = link_to "#{_("Users")}", users_path
   - if check_privilege(Privilege::MODIFY, User)
     %h1.users= @title
   - else
-    %h1.users=t'users.edit.edit_account'
+    %h1.users=_("Edit Account")
 
 %section.content-section.user
   .content

@@ -3,18 +3,18 @@
   -# (vs. the all-or-nothing check here)
   - if check_privilege(Privilege::MODIFY, FrontendRealm)
     - if @provider.nil?
-      %li= link_to t('realms.new_realm'), new_frontend_realm_path, :id => 'new_realm_button', :class => 'button primary'
-    %li= restful_submit_tag t('delete'), "destroy", multi_destroy_frontend_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
+      %li= link_to _("New Realm"), new_frontend_realm_path, :id => 'new_realm_button', :class => 'button primary'
+    %li= restful_submit_tag _("Delete"), "destroy", multi_destroy_frontend_realms_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 
 - content_for :filter_controls do
   %li
-    = label_tag :realms_preset_filter, t('filter_table.viewing')
+    = label_tag :realms_preset_filter, _("Viewing")
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:realms_preset_filter, preset_filters_options_for_select(FrontendRealm::PRESET_FILTERS_OPTIONS, params[:realms_preset_filter]), :include_blank => t("realms.preset_filters.all_realms"), :disabled => true)
-    = restful_submit_tag t("filter_table.apply_filters"), "index", filter_frontend_realms_path, 'POST', :class => 'button', :id => 'apply_realms_preset_filter'
+    = select_tag(:realms_preset_filter, preset_filters_options_for_select(FrontendRealm::PRESET_FILTERS_OPTIONS, params[:realms_preset_filter]), :include_blank => _("All Realms"), :disabled => true)
+    = restful_submit_tag _("Apply filters"), "index", filter_frontend_realms_path, 'POST', :class => 'button', :id => 'apply_realms_preset_filter'
     %span.label.badge.dark= @realms.count
   %li.table-search-filter
-    = text_field_tag :realms_search, params[:realms_search], :placeholder => t("filter_table.search")
+    = text_field_tag :realms_search, params[:realms_search], :placeholder => _("Search")
     = restful_submit_tag "", "index", filter_frontend_realms_path, 'POST', :class => 'button', :id => 'apply_realms_search'
 
   :javascript

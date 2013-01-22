@@ -20,7 +20,7 @@ class CatalogsController < ApplicationController
                 :only => [:create, :update]
 
   def index
-    @title = t('catalogs.catalogs')
+    @title = _("Catalogs")
     clear_breadcrumbs
     @catalogs = Catalog.
       apply_filters(:preset_filter_id => params[:catalogs_preset_filter],
@@ -42,7 +42,8 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
     load_pools
     require_privilege(Privilege::CREATE, Catalog, @pools.first)
-    @title = t('catalogs.new.new_catalog')
+    @title = _("Add New Catalog")
+
   end
 
   def show
@@ -53,8 +54,8 @@ class CatalogsController < ApplicationController
     save_breadcrumb(catalog_path(@catalog), @catalog.name)
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t("catalog_entries.index.name"), :sort_attr => :name },
-      { :name => t('catalog_entries.index.deployable_xml'), :sortable => false }
+      { :name => _("Name"), :sort_attr => :name },
+      { :name => _("Deployable XML"), :sortable => false }
     ]
   end
 
@@ -66,7 +67,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if @catalog.save
         format.html do
-          flash[:notice] = t('catalogs.flash.notice.created', :count => 1)
+          flash[:notice] = _("Catalog created")
           redirect_to catalogs_path and return
         end
         format.xml do
@@ -75,7 +76,7 @@ class CatalogsController < ApplicationController
         end
       else
         format.html do
-          @title = t('catalogs.new.new_catalog')
+          @title = _("New Catalog")
           render :new
         end
         format.xml  { render :template => 'api/validation_error',
@@ -87,7 +88,7 @@ class CatalogsController < ApplicationController
 
   def edit
     @catalog = Catalog.find(params[:id])
-    @title = t('catalogs.edit.edit_catalog')
+    @title = _("Editing Catalog")
     load_pools
     require_privilege(Privilege::MODIFY, @catalog)
   end
@@ -104,7 +105,7 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if @catalog.update_attributes(params[:catalog])
         format.html do
-          flash[:notice] = t('catalogs.flash.notice.updated', :count => 1)
+          flash[:notice] = _("Catalog updated successfully")
           redirect_to catalogs_url
         end
         format.xml do
@@ -113,7 +114,7 @@ class CatalogsController < ApplicationController
         end
       else
         format.html do
-          @title = t('catalogs.edit.edit_catalog')
+          @title = _("Edit Catalog")
           render :action => 'edit'
         end
         format.xml  do
@@ -141,11 +142,11 @@ class CatalogsController < ApplicationController
         not_deleted_perms << catalog.name
       end
     end
-    flash[:notice] = t("catalogs.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
+    flash[:notice] = n_("Catalog %{deleted} deleted","%{count} Catalogs %{deleted} deleted",deleted.count) % {:deleted => deleted.join(', '), :count => deleted.count} unless deleted.empty?
     unless not_deleted.empty? and not_deleted_perms.empty?
       flasherr = []
-      flasherr = t("catalogs.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
-      flasherr = t("catalogs.flash.error.not_deleted_perms", :count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')) unless not_deleted_perms.empty?
+      flasherr = n_("Catalog %{not_deleted} cannot be deleted. At least one Deployable has a reference to this Catalog.", "These Catalogs %{not_deleted} cannot be deleted. Some Deployables still have references to these Catalogs.",not_deleted.count) % {:not_deleted => not_deleted.join(', ')} unless not_deleted.empty?
+      flasherr = n_("Insufficient permissions to delete Catalog %{not_deleted}","Insufficient permissions to delete %{count} Catalogs %{not_deleted}",not_deleted_perms.count) % {:count => not_deleted_perms.count,:not_deleted => not_deleted_perms.join(', ')} unless not_deleted_perms.empty?
       flash[:error] = flasherr
     end
     redirect_to catalogs_path
@@ -157,13 +158,13 @@ class CatalogsController < ApplicationController
     respond_to do |format|
       if catalog.destroy
         format.html do
-          flash[:notice] = t("catalogs.flash.notice.one_deleted")
+          flash[:notice] = _("Catalog deleted")
           redirect_to catalogs_path
         end
         format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
-          flash[:error] = t("catalogs.flash.error.one_not_deleted")
+          flash[:error] = _("Catalog cannot be deleted. At least one Deployable has a reference to this Catalog.")
           redirect_to catalog_path(catalog)
         end
         format.xml do
@@ -182,8 +183,8 @@ class CatalogsController < ApplicationController
   def set_header
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t("catalogs.index.name"), :sort_attr => :name },
-      { :name => t('pools.index.pool_name'), :sortable => false }
+      { :name => _("Name"), :sort_attr => :name },
+      { :name => _("Pool name"), :sortable => false }
     ]
   end
 

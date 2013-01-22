@@ -8,13 +8,13 @@
       = form.text_area :xml, :class => 'edit_xml'
   - else
     .field
-      = label_tag :catalog_id, t('.catalog')
+      = label_tag :catalog_id, _("Catalog")
       .input
         %span.text_instead_input
           - if @catalog.present?
             =@catalog.name
           - else
-            %em=t('deployables.new.no_catalog_selected')
+            %em=_("no Catalog selected")
     .field
       = form.label :name, :class => 'em'
       .input
@@ -26,8 +26,8 @@
     .field
       = form.label :xml
       .input
-        %span.text_instead_input= link_to t("deployables.properties.edit_deployable_xml"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
+        %span.text_instead_input= link_to _("Edit Deployable XML"), edit_polymorphic_path([@catalog, @deployable], :edit_xml=>true)
 
 %fieldset.options
-  = submit_tag t('save'), :name => 'save', :class => 'button primary', :id => 'save_button'
-  = link_to t('cancel'), polymorphic_path([@catalog, @deployable]), :class => 'button danger'
+  = submit_tag _("Save"), :name => 'save', :class => 'button primary', :id => 'save_button'
+  = link_to _("Cancel"), polymorphic_path([@catalog, @deployable]), :class => 'button danger'

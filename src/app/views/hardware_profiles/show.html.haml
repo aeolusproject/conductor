@@ -2,17 +2,17 @@
 %header.page-header
   .obj_actions
     - if check_privilege(Privilege::CREATE, HardwareProfile)
-      = link_to t('hardware_profiles.list.new_hardware'), new_hardware_profile_url, :class => 'button primary', :id => 'new_role_button'
+      = link_to _("New Hardware Profile"), new_hardware_profile_url, :class => 'button primary', :id => 'new_role_button'
     .button-group
       - if check_privilege(Privilege::MODIFY, @hardware_profile) && !@hardware_profile.provider_hardware_profile?
-        = link_to t('edit'), edit_hardware_profile_path(@hardware_profile), :class => 'button', :id => 'edit_button'
-        = button_to t('delete'), hardware_profile_path(@hardware_profile), :method => :delete, :confirm => t('general.delete_confirmation'), :class => 'button danger'
+        = link_to _("Edit"), edit_hardware_profile_path(@hardware_profile), :class => 'button', :id => 'edit_button'
+        = button_to _("Delete"), hardware_profile_path(@hardware_profile), :method => :delete, :confirm => _("Are you sure you want to delete?"), :class => 'button danger'
       - if check_privilege(Privilege::MODIFY, @hardware_profile) && @hardware_profile.provider_hardware_profile?
         = link_to t('hardware_profiles.edit_cost'), edit_cost_hardware_profile_path(@hardware_profile), :class => 'button', :id => 'edit_cost_button'
   %h1.hardware_profiles= @title
 %section.content-section.hardware_profile
   %header
-    %h2=t 'properties'
+    %h2=_("Properties")
   .content
     %table.flat
       %thead

@@ -3,7 +3,7 @@
   %h1.no-icon Roles
 %section.content-section.users
   %header
-    %h2=t'roles.new_role'
+    %h2=_("New Role")
 
   .content
     = form_for @role, :url => roles_path, :html => {:class => 'generic horizontal'} do |f|

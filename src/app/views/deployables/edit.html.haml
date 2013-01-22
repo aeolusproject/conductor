@@ -4,7 +4,7 @@
 
 %section.content-section.user
   %header
-    %h2=t'catalog_entries.edit.editing_catalog_entry'
+    %h2=_("Editing Deployable")
 
   .content
     = form_for @deployable, :url => polymorphic_path([@catalog, @deployable]), :html => { :method => :put, :class => params[:edit_xml] ? "generic" : "generic horizontal" } do |f|

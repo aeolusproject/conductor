@@ -159,6 +159,7 @@ en:
         members_not_removed: "Could not remove these users"
         not_a_local_group: 'Only locally-managed groups can be managed here.'
         select_to_add_members: 'You must select at least one user to add.'
+        select_to_remove_members: 'You must select at least one user to remove'
     preset_filters:
       all_user_groups: "All User Groups"
       local: "Locally-managed User Groups"
@@ -413,18 +414,14 @@ en:
         failed_to_launch_assemblies: "Failed to launch following Assemblies:"
         not_deleted: "The Deployment %{name} could not be deleted: %{error}"
         none_selected: "You must select one or more Deployments."
-        not_updated:
-          one: "The Deployment %{list} could not be updated."
-          other: "The Deployments %{list} could not be updated."
+        not_updated: "The Deployment %{list} could not be updated."
         no_hwp_permission: "You do not have sufficient permission to access the %{hwp} Hardware Profile."
         cant_stop: "The Deployment %{name} could not be stopped. Only running Deployments can be stopped."
       success:
         deleted:
           one: "The Deployment %{list} was scheduled for deletion."
           other: "The Deployments %{list} were scheduled for deletion."
-        updated:
-          one: "The Deployment %{list} was successfully updated."
-          other: "The Deployments %{list} were successfully updated."
+        updated: "The Deployment %{list} was successfully updated."
     errors:
       config_server_connection: 'Cannot connect to the Config Server'
       cannot_stop: "The Deployment %{name} can not be deleted because following instances can not be stopped:"
@@ -525,18 +522,14 @@ en:
       warning:
         ssh_key_not_found: "SSH Key not found for this Instance."
       error:
-        not_updated:
-          one: "The Instance %{list} could not be updated."
-          other: "The Instances %{list} could not be updated."
+        not_updated: "The Instance %{list} could not be updated."
         not_deleted:
           one: "The Instance %{list} could not be deleted."
           other: "The Instances %{list} could not be deleted."
         reboot: "The Instance %{name} was not rebooted because %{err}"
         stop: "The Instance %{name} was not stopped because %{err}"
       success:
-        updated:
-          one: "The Instance %{list} was successfully updated."
-          other: "The Instances %{list} were successfully updated."
+        updated: "The Instance %{list} was successfully updated."
         deleted:
           one: "The Instance %{list} was successfully deleted."
           other: "The Instances %{list} were successfully deleted."
@@ -585,10 +578,6 @@ en:
   searches: Searches
   image_factory: Image Factory
   administration: Administration
-  roles:
-    roles: Roles
-    index:
-      role_name: Role Name
   cloud_providers: Cloud Providers
   provider_accounts_item: Provider Account
   cloud_engine_hardware_profiles: Hardware Profiles
@@ -927,12 +916,8 @@ en:
       cancel_editing: Cancel Editing
     flash:
       notice:
-        updated:
-          one: Catalog updated successfully
-          other: Catalogs updated successfully
-        created:
-          one: Catalog created
-          other: Catalogs created
+        updated: Catalog updated successfully
+        created: Catalog created
         deleted:
           one: Catalog %{deleted} deleted
           other: "%{count} Catalogs %{deleted} deleted"
@@ -1066,7 +1051,7 @@ en:
           one: "Deployable %{deleted} removed successfully."
           other: "%{count} Deployables %{deleted} were removed."
     error:
-      attribute_not_exists: invalid
+      attribute_not_exist: invalid
       hwp_not_exists: "Hardware Profile %{name}, which is specified in XML, does not exist."
       audrey_api_incompatibility: "The Deployable uses features not supported by the Audrey agent installed in the latest built image."
     properties:
@@ -1404,6 +1389,9 @@ en:
         not_updated: "Could not update quota. Please check you have entered valid values"
         must_be_positive: "must be a positive whole number less than 2147483647"
   roles:
+    roles: Roles
+    index:
+      role_name: Role Name
     new_role: New Role
     tab_captions:
       properties: Properties

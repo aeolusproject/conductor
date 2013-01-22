@@ -65,7 +65,7 @@ module ApplicationService
     @perm_obj = perm_obj
     unless check_privilege(action, *type_and_perm_obj)
       raise PermissionError.new(
-               t('application_controller.permission_denied'))
+               _("You have insufficient privileges to perform the selected action."))
     end
   end
 end

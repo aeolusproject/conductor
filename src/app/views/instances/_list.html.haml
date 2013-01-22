@@ -1,22 +1,22 @@
 - content_for :form_header do
-  %li= restful_submit_tag t('instances.list.stop_selected_instances'), 'stop', multi_stop_instances_path, 'GET', :class => 'button', :id => 'stop_selected_instances', 'data-none_selected' => t('instances.none_selected')
-  %li= restful_submit_tag t('instances.list.reboot_selected_instances'), 'reboot', multi_reboot_instances_path, 'GET', :class => 'button', :id => 'reboot_selected_instances', 'data-none_selected' => t('instances.none_selected_to_reboot')
+  %li= restful_submit_tag _("Stop selected Instances"), 'stop', multi_stop_instances_path, 'GET', :class => 'button', :id => 'stop_selected_instances', 'data-none_selected' => _("You must select one or more Instances to stop.")
+  %li= restful_submit_tag _("Reboot selected Instances"), 'reboot', multi_reboot_instances_path, 'GET', :class => 'button', :id => 'reboot_selected_instances', 'data-none_selected' => _("You must select one or more Instances to reboot.")
   %li.more_actions
     %span
       = image_tag "more_actions_drop.png"
     %ul
-      %li= link_to "#{t'instances.list.export_events'}", export_events_instances_path(:deployment_id => @deployment)
+      %li= link_to "#{_("Export events")}", export_events_instances_path(:deployment_id => @deployment)
   = hidden_field_tag 'backlink', request.url
 
 - content_for :filter_controls do
   %li
-    = label_tag :instances_preset_filter, t('filter_table.viewing')
-    = select_tag(:instances_preset_filter, preset_filters_options_for_select(Instance::PRESET_FILTERS_OPTIONS, params[:instances_preset_filter]), :include_blank => t("instances.preset_filters.all_instances"))
+    = label_tag :instances_preset_filter, _("Viewing")
+    = select_tag(:instances_preset_filter, preset_filters_options_for_select(Instance::PRESET_FILTERS_OPTIONS, params[:instances_preset_filter]), :include_blank => _("All Instances"))
     = hidden_field_tag :current_path, request.fullpath
-    = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_instances_path, 'POST', :class => 'button', :id => 'apply_instances_preset_filter'
+    = restful_submit_tag _("Apply filters"), "filter", filter_instances_path, 'POST', :class => 'button', :id => 'apply_instances_preset_filter'
     %span.label.badge.dark= @instances.count
   %li.table-search-filter
-    = text_field_tag :instances_search, params[:instances_search], :placeholder => t("filter_table.search")
+    = text_field_tag :instances_search, params[:instances_search], :placeholder => _("Search")
     = restful_submit_tag "", "search", filter_instances_path, 'POST', :class => 'button', :id => 'apply_instances_search', :name => "apply_search"
 
   :javascript

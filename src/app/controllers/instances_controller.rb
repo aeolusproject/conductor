@@ -22,7 +22,7 @@ class InstancesController < ApplicationController
 
   def index
     @params = params
-    @title = t("instances.instances.other")
+    @title = _("Instances")
     save_breadcrumb(instances_path(:viewstate => viewstate_id))
     load_instances
 
@@ -42,9 +42,9 @@ class InstancesController < ApplicationController
     @details_tab = 'properties' unless ['properties', 'history',
                                         'parameters', 'permissions'].include?(@details_tab)
     @tabs = [
-      {:name => t('properties'), :view => @view, :id => 'properties'},
-      {:name => t('instances.parameters.config_parameters'), :view => 'parameters', :id => 'parameters'},
-      {:name => t('history'), :view => 'history', :id => 'history'}
+      {:name => _("Properties"), :view => @view, :id => 'properties'},
+      {:name => _("Config Parameters"), :view => 'parameters', :id => 'parameters'},
+      {:name => _("History"), :view => 'history', :id => 'history'}
     ]
     @details_tab = @tabs.find {|t| t[:view] == @view}
     respond_to do |format|
@@ -77,12 +77,12 @@ class InstancesController < ApplicationController
     params[:instance].each_pair{|k,v| attrs[k] = v if Instance::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
       if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
-        flash[:success] = t('instances.flash.success.updated', :count => 1, :list => @instance.name)
+        flash[:success] = _("The Instance %s was successfully updated.") % @instance.name
         format.html { redirect_to @instance }
         format.js { render :partial => 'properties' }
         format.json { render :json => @instance }
       else
-        flash[:error] = t('instances.flash.error.not_updated', :count =>1, :list => @instance.name)
+        flash[:error] = _("The Instance %s could not be updated.") % @instance.name
         format.html { render :action => :edit }
         format.js { render :partial => 'edit' }
         format.json { render :json => @instance.errors, :status => :unprocessable_entity }
@@ -101,8 +101,8 @@ class InstancesController < ApplicationController
         failed << instance.name
       end
     end
-    flash[:success] = t('instances.flash.success.deleted', :list => destroyed.to_sentence, :count => destroyed.size) if destroyed.present?
-    flash[:error] = t('instances.flash.error.not_deleted', :list => failed.to_sentence, :count => failed.size) if failed.present?
+    flash[:success] = n_("The Instance %s was successfully deleted.","The Instances %s were successfully deleted.",destroyed.size) % destroyed.to_sentence  if destroyed.present?
+    flash[:error] = n_("The Instance %s could not be deleted.","The Instances %s could not be deleted.",failed.size) % failed.to_sentence if failed.present?
     respond_to do |format|
       # FIXME: _list does not show flash messages, but I'm not sure that showing _list is proper anyway
       format.html { render :action => :show }
@@ -118,7 +118,7 @@ class InstancesController < ApplicationController
   def key
     respond_to do |format|
       if @instance.instance_key.nil?
-        flash[:warning] = t "instances.flash.warning.ssh_key_not_found"
+        flash[:warning] = _("SSH Key not found for this Instance.")
         format.html { redirect_to instance_path(@instance) }
         format.js { render :partial => 'properties' }
         format.json { render :json => flash[:warning], :status => :not_found }
@@ -148,17 +148,17 @@ class InstancesController < ApplicationController
 
         if @inaccessible_instances.include?(instance)
           instance.forced_stop(current_user)
-          notices << "#{instance.name}: #{t('instances.flash.notice.forced_stop')}"
+          notices << "#{instance.name}: #{_("state changed to stopped.")}"
         else
           instance.stop(current_user)
-          notices << "#{instance.name}: #{t('instances.flash.notice.stop')}"
+          notices << "#{instance.name}: #{_("stop action was successfully queued.")}"
         end
       rescue Exception => ex
         errors << "#{instance.name}: " + ex.message
         log_backtrace(ex)
       end
     end
-    errors = t('instances.none_selected') if errors.blank? && notices.blank?
+    errors = _("You must select one or more Instances to stop.") if errors.blank? && notices.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
@@ -192,14 +192,14 @@ class InstancesController < ApplicationController
       begin
         require_privilege(Privilege::USE,instance)
         instance.reboot(current_user)
-        notices << "#{instance.name}: #{t('instances.flash.notice.reboot', :name => instance.name)}"
+        notices << "#{instance.name}: " +  _("%s: reboot action was successfully queued.") % instance.name
       rescue Exception => ex
         errors << "#{instance.name}: " + ex.message
         log_backtrace(ex)
       end
     end
     # If nothing is selected, display an error message:
-    errors = t('instances.none_selected_to_reboot') if errors.blank? && notices.blank?
+    errors = _("You must select one or more Instances to reboot.") if errors.blank? && notices.blank?
     flash[:notice] = notices unless notices.blank?
     flash[:error] = errors unless errors.blank?
     respond_to do |format|
@@ -235,11 +235,11 @@ class InstancesController < ApplicationController
 
   def set_view_vars
     @header = [
-      {:name => t('instances.headers.vm_name'), :sort_attr => 'name'},
-      {:name => t('instances.headers.status'), :sortable => false},
-      {:name => t('instances.headers.public_address'), :sort_attr => 'public_addresses'},
-      {:name => t('instances.headers.provider'), :sortable => false},
-      {:name => t('instances.headers.created_by'), :sort_attr => 'users.last_name'},
+      {:name => _("VM NAME"), :sort_attr => 'name'},
+      {:name => _("STATUS"), :sortable => false},
+      {:name => _("PUBLIC ADDRESS"), :sort_attr => 'public_addresses'},
+      {:name => _("PROVIDER"), :sortable => false},
+      {:name => _("CREATED BY"), :sort_attr => 'users.last_name'},
     ]
 
     @pools = Pool.list_for_user(current_session, current_user,
@@ -287,9 +287,23 @@ class InstancesController < ApplicationController
   def do_operation(operation)
     begin
       @instance.send(operation, current_user)
-      flash[:notice] = t("instances.flash.notice.#{operation}", :name => @instance.name)
+      flash[:notice] =
+          case operation
+            when :forced_stop
+              _("state changed to stopped.")
+            when :stop
+              _("stop action was successfully queued.")
+            when :reboot
+              _("%s: reboot action was successfully queued.") % @instance.name
+          end
     rescue Exception => err
-      flash[:error] = t("instances.flash.error.#{operation}", :name => @instance.name, :err => err)
+      flash[:error] =
+          case operation
+            when :stop
+              _("The Instance %{name} was not stopped because %{err}") % {:name => @instance.name, :err => err}
+            when :reboot
+              _("The Instance %{name} was not rebooted because %{err}") % {:name => @instance.name, :err => err}
+          end
     end
     respond_to do |format|
       format.html { redirect_to deployment_path(@instance.deployment, :details_tab => 'instances') }

@@ -1,7 +1,7 @@
 = render :partial => 'layouts/admin_nav'
 %header.page-header
   .obj_actions
-    = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
+    = link_to _("New Catalog"), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
   %h1.catalogs= @title
 
 %section.content-section.user

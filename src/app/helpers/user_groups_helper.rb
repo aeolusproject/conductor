@@ -17,8 +17,8 @@ module UserGroupsHelper
   def members_header
     [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t('users.index.username'), :sortable => false },
-      { :name => t('user_groups.index.name'), :sortable => false },
+      { :name => _("Username"), :sortable => false },
+      { :name => _("Name"), :sortable => false },
     ]
   end
 end

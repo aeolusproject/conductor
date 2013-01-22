@@ -4,7 +4,7 @@
   -if pool_family.quota.maximum_running_instances
     %quota{ :maximum_running_instances => pool_family.quota.maximum_running_instances}
   -else
-    %quota{ :maximum_running_instances => t('pools.form.unlimited')}
+    %quota{ :maximum_running_instances => _("unlimited")}
   %pools
     - pool_family.pools.each do |pool|
       %pool{:id => pool.id, :href => api_pool_url(pool.id)}

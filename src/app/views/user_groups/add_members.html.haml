@@ -2,18 +2,18 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t'return_to'
+      = _("Return to:")
       = link_to @user_group.name, user_group_path(@user_group), :id => 'user_group_button'
   %h1.user_groups= @user_group.name
 
 %section.content-section.user_groups
   %header
     .align-center
-      %strong= t("user_groups.choose_members")
+      %strong= _("Choose Users to add to this Group.")
   .content
     - content_for :form_footer do
-      = restful_submit_tag t('user_groups.show.add_members'), "add", add_members_user_group_path(@user_group), 'POST', :id => 'save_button', :class => 'button primary'
-      = link_to t('cancel'), user_group_path(@user_group), :class => 'button danger'
+      = restful_submit_tag _("Add Members"), "add", add_members_user_group_path(@user_group), 'POST', :id => 'save_button', :class => 'button primary'
+      = link_to _("Cancel"), user_group_path(@user_group), :class => 'button danger'
     = filter_table(members_header, @users) do |user|
       %tr{:class => cycle('nostripe','stripe')}
         %td{:class => 'checkbox'}

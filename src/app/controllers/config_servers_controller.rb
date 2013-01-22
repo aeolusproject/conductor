@@ -43,7 +43,7 @@ class ConfigServersController < ApplicationController
     if not config_server.connection_valid?
       flash[:error] = config_server.connection_error_msg
     else
-      flash[:notice] = t('config_servers.flash.notice.test_successful')
+      flash[:notice] = _("Test successful")
     end
     provider = provider_account.provider
     redirect_to provider_provider_account_path(provider, provider_account)
@@ -59,11 +59,11 @@ class ConfigServersController < ApplicationController
     @config_server = ConfigServer.new(params[:config_server])
     @config_server.provider_account = @provider_account
     if @config_server.invalid?
-      flash[:error] = t('config_servers.flash.error.invalid')
+      flash[:error] = _("The Config Server information is invalid.")
       render :action => 'new' and return
     end
     @config_server.save!
-    flash[:notice] = t('config_servers.flash.notice.added')
+    flash[:notice] = _("Config Server added.")
     redirect_to provider_provider_account_path(@provider_account.provider, @provider_account)
   end
 
@@ -74,10 +74,10 @@ class ConfigServersController < ApplicationController
 
     params[:config_server].each_value(&:strip!)
     if @config_server.update_attributes(params[:config_server])
-      flash[:notice] = t('config_servers.flash.notice.updated')
+      flash[:notice] = _("Config Server updated.")
       redirect_to provider_provider_account_path(@provider_account.provider, @provider_account)
     else
-      flash[:error] = t('config_servers.flash.error.not_updated')
+      flash[:error] = _("Config Server was not updated.")
       render :action => :edit
     end
   end
@@ -86,9 +86,9 @@ class ConfigServersController < ApplicationController
     @config_server = ConfigServer.find(params[:id])
     require_privilege(Privilege::MODIFY, @config_server.provider_account)
     if ConfigServer.destroy(params[:id])
-      flash[:notice] = t('config_servers.flash.notice.deleted')
+      flash[:notice] = _("Config Server was deleted.")
     else
-      flash[:error] = t('config_servers.flash.error.not_deleted')
+      flash[:error] = _("Config Server was not deleted.")
     end
     provider_account = @config_server.provider_account
     provider = provider_account.provider

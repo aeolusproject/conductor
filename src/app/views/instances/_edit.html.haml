@@ -1,9 +1,9 @@
 %header.page-header
-  %h1.no-icon= @instance.name.blank? ? t("instances.edit.edit_instance") : @instance.name
+  %h1.no-icon= @instance.name.blank? ? _("Edit Instance") : @instance.name
 
 %section.content-section
   %header
-    %h2= t'instances.edit.edit_instance'
+    %h2= _("Edit Instance")
   .content
     = form_for @instance, :html => {:class => 'generic'} do |form|
       - if @instance.errors.any?
@@ -13,5 +13,5 @@
           = label :instance, :name, :class => 'em'
           = text_field :instance, :name, :class => 'em long'
       %fieldset.options
-        = submit_tag t('save'), :name => 'save', :id => 'save', :class => 'button'
-        = link_to t('cancel'), @instance, :class => 'button danger'
+        = submit_tag _("Save"), :name => 'save', :id => 'save', :class => 'button'
+        = link_to _("Cancel"), @instance, :class => 'button danger'

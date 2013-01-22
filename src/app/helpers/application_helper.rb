@@ -165,7 +165,7 @@ module ApplicationHelper
   end
 
   def render_pagination(collection)
-    will_paginate(collection, :previous_label => t('will_paginate.previous_label'), :next_label => t('will_paginate.next_label'))
+    will_paginate(collection, :previous_label => _("&#8592; Previous"), :next_label => _("Next &#8594;"))
   end
 
   # FIXME: remove this once we remove nested routes for provider accounts.

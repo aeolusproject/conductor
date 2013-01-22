@@ -1,12 +1,12 @@
 - content_for :filter_controls do
   %li
-    = label_tag :provider_realms_preset_filter, t('filter_table.viewing')
+    = label_tag :provider_realms_preset_filter, _("Viewing")
     = hidden_field_tag :current_path, request.fullpath
-    = select_tag(:provider_realms_preset_filter, preset_filters_options_for_select(ProviderRealm::PRESET_FILTERS_OPTIONS, params[:provider_realms_preset_filter]), :include_blank => t("realms.preset_filters.all_realms"), :disabled => true)
-    = restful_submit_tag t("filter_table.apply_filters"), "index", filter_provider_realms_path, 'POST', :class => 'button', :id => 'apply_provider_realms_preset_filter'
+    = select_tag(:provider_realms_preset_filter, preset_filters_options_for_select(ProviderRealm::PRESET_FILTERS_OPTIONS, params[:provider_realms_preset_filter]), :include_blank => _("All Realms"), :disabled => true)
+    = restful_submit_tag _("Apply filters"), "index", filter_provider_realms_path, 'POST', :class => 'button', :id => 'apply_provider_realms_preset_filter'
     %span.label.badge.dark= @realms.count
   %li.table-search-filter
-    = text_field_tag :provider_realms_search, params[:provider_realms_search], :placeholder => t("filter_table.search")
+    = text_field_tag :provider_realms_search, params[:provider_realms_search], :placeholder => _("Search")
     = restful_submit_tag "", "index", filter_provider_realms_path, 'POST', :class => 'button', :id => 'apply_provider_realms_search'
 
   :javascript

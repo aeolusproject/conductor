@@ -2,49 +2,49 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t'return_to'
-      = link_to t("catalogs.catalogs"), catalogs_path
+      = _("Return to:")
+      = link_to _("Catalogs"), catalogs_path
     - if check_privilege(Privilege::CREATE, Catalog)
-      = link_to t('catalogs.new_catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
+      = link_to _("New Catalog"), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
     .button-group
       - if check_privilege(Privilege::MODIFY, @catalog)
-        = link_to t('edit'), edit_catalog_path(@catalog), :class => 'button', :id => 'edit_button'
-        = button_to t("delete"), catalog_path(@catalog), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger', :id => 'delete'
+        = link_to _("Edit"), edit_catalog_path(@catalog), :class => 'button', :id => 'edit_button'
+        = button_to _("Delete"), catalog_path(@catalog), :method => 'delete', :confirm => _("Are you sure you want to delete?"), :class => 'button danger', :id => 'delete'
   %h1.no-icon= @title
 
 %section.content-section.user
   %header
-    %h2=t'properties'
+    %h2=_("Properties")
 
   .content
     %table.properties_table
       %tbody
         %tr
-          %td= t('catalogs.index.name')
+          %td= _("Name")
           %td= @catalog.name
         %tr
-          %td= t('pools.pool')
+          %td= _("Pool")
           %td= @catalog.pool.name
 
 %section.content-section
   %header
-    %h2=t('catalog_entries.index.catalog_entries')
+    %h2=_("Deployables")
 
   .content
     - content_for :form_header do
       - if check_privilege(Privilege::CREATE, Deployable)
-        %li= link_to t("catalog_entries.new_catalog_entry"), new_catalog_deployable_path(@catalog), :class => 'button primary', :id => 'new_deployable_button'
-      %li= restful_submit_tag t("remove"), "destroy", multi_destroy_catalog_deployables_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
+        %li= link_to _("New Deployable"), new_catalog_deployable_path(@catalog), :class => 'button primary', :id => 'new_deployable_button'
+      %li= restful_submit_tag _("Remove"), "destroy", multi_destroy_catalog_deployables_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
 
     - content_for :filter_controls do
       %li
-        = label_tag :deployables_preset_filter, t('filter_table.viewing')
+        = label_tag :deployables_preset_filter, _("Viewing")
         = hidden_field_tag :current_path, request.fullpath
-        = select_tag(:deployables_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:deployables_preset_filter]), :include_blank => t("catalog_entries.preset_filters.all_catalog_entries"), :disabled => true)
-        = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_deployables_preset_filter'
+        = select_tag(:deployables_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:deployables_preset_filter]), :include_blank => _("All Deployables"), :disabled => true)
+        = restful_submit_tag _("Apply filters"), "filter", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_deployables_preset_filter'
         %span.label.badge.dark= @deployables.count
       %li.table-search-filter
-        = text_field_tag :deployables_search, params[:deployables_search], :placeholder => t("filter_table.search")
+        = text_field_tag :deployables_search, params[:deployables_search], :placeholder => _("Search")
         = restful_submit_tag "", "search", filter_catalog_deployables_path(@catalog), 'POST', :class => 'button', :id => 'apply_deployables_search'
 
       :javascript

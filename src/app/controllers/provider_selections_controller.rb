@@ -44,18 +44,18 @@ class ProviderSelectionsController < ApplicationController
     if provider_selection_strategy.save
       notice =
         if provider_selection_strategy.enabled
-          t('provider_selection.flash.successfully_enabled', :strategy_name => strategy.translated_name)
+          _("Successfully enabled %s strategy") % strategy.translated_name
         else
-          t('provider_selection.flash.successfully_disabled', :strategy_name => strategy.translated_name)
+          _("Successfully disabled %s strategy") % strategy.translated_name
         end
 
       redirect_to :back, :notice => notice
     else
       notice =
         if provider_selection_strategy.enabled
-          t('provider_selection.flash.failed_to_enable', :strategy_name => strategy.translated_name)
+          _("Failed to enable %s strategy") % strategy.translated_name
         else
-          t('provider_selection.flash.failed_to_disable', :strategy_name => strategy.translated_name)
+          _("Failed to disable %s strategy") % strategy.translated_name
         end
 
       redirect_to :back, :notice => notice
@@ -78,7 +78,7 @@ class ProviderSelectionsController < ApplicationController
       @provider_selection_strategy.update_attributes(:config => @config.to_hash)
 
       redirect_to pool_provider_selection_path(@pool),
-                  :notice => t('provider_selection.flash.config_successfully_saved', :strategy_name => @strategy.translated_name)
+                  :notice => _("Successfully updated %s strategy") % @strategy.translated_name
     else
       @edit_partial = @strategy.base_klass.properties[:edit_partial]
       render :edit_strategy

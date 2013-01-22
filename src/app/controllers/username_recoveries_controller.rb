@@ -23,9 +23,9 @@ class UsernameRecoveriesController < ApplicationController
     UserMailer.delay.send_usernames(users_ids) unless users_ids.blank?
     respond_to do |format|
       # note: for security reasons we provide success message even if incorrect/non-existent email is filled in.
-      format.html { redirect_to login_path, :notice => t("username_recoveries.usernames_sent") }
+      format.html { redirect_to login_path, :notice => _("Usernames have been sent to given e-mail address.") }
       format.js do
-        flash.now[:notice] = t("username_recoveries.usernames_sent")
+        flash.now[:notice] = _("Usernames have been sent to given e-mail address.")
       end
     end
   end

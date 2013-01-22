@@ -10,17 +10,17 @@
         <dd>{{uptime}}</dd>
       </li>
       <li>
-        <dt class="ip_address"><%= t('deployments.pretty_view_show.ip_address') %></dt>
+        <dt class="ip_address"><%= _("IP Address:") %></dt>
         <dd>{{public_addresses}}</dd>
       </li>
       <li>
-        <dt class="state"><%= t('deployments.pretty_view_show.state') %></dt>
+        <dt class="state"><%= _("State:") %></dt>
         <dd>{{translated_state}}</dd>
       </li>
     {{#instance_key_present}}
       <li>
         <dt></dt>
-        <dd><%= link_to(t('deployments.pretty_view_show.download_key'), key_instance_path('replace_id').sub('replace_id', '{{id}}')) %></dd>
+        <dd><%= link_to(_("Download key"), key_instance_path('replace_id').sub('replace_id', '{{id}}')) %></dd>
       </li>
     {{/instance_key_present}}
     </ul>
@@ -30,14 +30,14 @@
     <ul>
       {{#stop_enabled}}
         <li>
-          <%= button_to(t('deployments.pretty_view_show.stop'), stop_instance_path('replace_id').sub('replace_id', '{{id}}'),
+          <%= button_to(_("Stop"), stop_instance_path('replace_id').sub('replace_id', '{{id}}'),
                         :disabled => false, :class => 'button') %>
         </li>
       {{/stop_enabled}}
 
       {{#reboot_enabled}}
         <li>
-          <%= button_to(t('deployments.pretty_view_show.reboot'), reboot_instance_path('replace_id').sub('replace_id', '{{id}}'),
+          <%= button_to(_("Restart"), reboot_instance_path('replace_id').sub('replace_id', '{{id}}'),
                         :disabled => false, :class => 'button') %>
         </li>
       {{/reboot_enabled}}

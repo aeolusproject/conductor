@@ -2,17 +2,17 @@
 %header.page-header
   .obj_actions
     - if check_privilege(Privilege::CREATE, Deployment, @pool)
-      = link_to t('deployments.new_deployment'),
+      = link_to _("New Deployment"),
                 launch_new_deployments_path(:pool_id => @pool.id),
                 :class => 'button primary',
                 :id => 'new_deployment_button'
     .catalog_link
       = render :partial => 'layouts/catalog_dropdown', :locals => {:catalogs => @catalogs}
-    = link_to t('pool_families.index.provider_selection'), pool_provider_selection_path(@pool), :class => 'button primary', :id => 'provider_selection_button'
+    = link_to _("Provider Selection"), pool_provider_selection_path(@pool), :class => 'button primary', :id => 'provider_selection_button'
     .button-group
       - if check_privilege(Privilege::MODIFY, @pool)
-        = link_to t('edit'), edit_pool_path(@pool), :class => 'button', :id => 'edit_pool_button'
-        = button_to t('delete'), pool_path(@pool), :method => :delete, :confirm => t('pools.index.confirm_delete'), :class => "button danger", :id => 'delete_pool_button'
+        = link_to _("Edit"), edit_pool_path(@pool), :class => 'button', :id => 'edit_pool_button'
+        = button_to _("Delete"), pool_path(@pool), :method => :delete, :confirm => _("Are you sure you want to delete this Pool? All related Catalogs and Deployables will also be deleted."), :class => "button danger", :id => 'delete_pool_button'
   %h1.pools= @title
 
 = render :partial => 'scoreboard_show'

@@ -1,14 +1,14 @@
 - if !@quota
   %h1
-    =t('quotas.show.no_quota') + "#{@parent_type}"
+    =_("There is no Quota on this") + "#{@parent_type}"
 - else
   %table
     %thead
       %tr
-        %th{:scope => "col"}= t'quotas.show.resource'
-        %th{:scope => "col"}= t'quotas.show.max_capacity'
-        %th{:scope => "col"}= t'quotas.show.used'
-        %th{:scope => "col"}= t'quotas.show.available'
+        %th{:scope => "col"}= _("Resource")
+        %th{:scope => "col"}= _("Max Capacity")
+        %th{:scope => "col"}= _("Used")
+        %th{:scope => "col"}= _("Available")
     %tbody
       - quota_resources = @quota.quota_resources
       - quota_resources.each_value do |quota_resource|
@@ -17,5 +17,5 @@
           %td= quota_resource.max
           %td= quota_resource.used
           %td= quota_resource.available
-  = link_to t("edit"), {:action => "edit", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"
-  = link_to t("reset"), {:action => "reset", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"
+  = link_to _("Edit"), {:action => "edit", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"
+  = link_to _("Reset"), {:action => "reset", :id => @parent, :parent_type => @parent_type}, :class=>"actionlink"

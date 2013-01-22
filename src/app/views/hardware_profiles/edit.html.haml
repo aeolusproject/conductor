@@ -2,13 +2,13 @@
 
 %header.page-header
   .obj_actions
-    = link_to t('hardware_profiles.list.new_hardware'), hardware_profile_url, :class => 'button primary', :id => 'new_user_button'
-    = link_to t('hardware_profiles.edit.cancel_editing'), hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
-  %h1.hardware_profiles= @hardware_profile.name.blank? ? t("hardware_profiles.hardware_profile") : @hardware_profile.name
+    = link_to _("New Hardware Profile"), hardware_profile_url, :class => 'button primary', :id => 'new_user_button'
+    = link_to _("Cancel Editing"), hardware_profile_path(@hardware_profile), :class => 'button pill danger', :id => 'new_user_button'
+  %h1.hardware_profiles= @hardware_profile.name.blank? ? _("Hardware Profile") : @hardware_profile.name
 
 %section.content-section
   %header
-    %h2=t('hardware_profiles.edit.edit_hwp')
+    %h2=_("Edit Hardware Profile")
 
   .content
     = form_for @hardware_profile, :url => hardware_profile_path(@hardware_profile), :html => { :multipart => true, :class => 'generic' } do |hwp_form|

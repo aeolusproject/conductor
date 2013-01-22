@@ -2,8 +2,8 @@
 %header.page-header
   .obj_actions
     .button-group
-      = link_to t('edit'), edit_pool_family_path(@pool_family), :class => 'button'
-      = button_to t('delete'), pool_family_path(@pool_family), :method => :delete, :confirm => t("pool_families.confirm_delete"), :class => "button danger", :id => 'delete_pool_family_button'
+      = link_to _("Edit"), edit_pool_family_path(@pool_family), :class => 'button'
+      = button_to _("Delete"), pool_family_path(@pool_family), :method => :delete, :confirm => _("Are you sure you want to delete this Environment? All related Pools, Catalogs, and Deployables will be deleted."), :class => "button danger", :id => 'delete_pool_family_button'
   %h1.pool_families= @title
 
 %section.content-section.pool_families

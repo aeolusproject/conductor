@@ -16,12 +16,12 @@
 module ProviderRealmsHelper
   def provider_realms_header
     [
-      {:name => t("provider_realms.name"), :sort_attr => :name},
-      {:name => t("realms.index.realm_availability")}
+      {:name => _("Provider Realm Name"), :sort_attr => :name},
+      {:name => _("Available?")}
     ]
   end
 
   def availability_label(available)
-    available ? t('realms.index.realm_available.true_value') : t('realms.index.realm_available.false_value')
+    available ? _("Yes") : _("No")
   end
 end

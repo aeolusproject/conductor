@@ -77,8 +77,8 @@ class DeployablesController < ApplicationController
         require_privilege(Privilege::CREATE, Deployable, Catalog.find_by_id(catalog_id))
       end
       flasherr = []
-      flasherr << t("deployables.flash.error.no_catalog_exists") if @catalogs.empty?
-      flasherr << t("deployables.flash.error.no_hwp_exists") if @hw_profiles.empty?
+      flasherr << _("No Catalog exists. Please create one.") if @catalogs.empty?
+      flasherr << _("No Hardware Profile exists. Please create one.") if @hw_profiles.empty?
       @save_disabled = !(flasherr.empty?)
       flash[:error] = flasherr if not flasherr.empty?
     elsif params[:catalog_id].present?
@@ -130,7 +130,20 @@ class DeployablesController < ApplicationController
           :provider_name => provider_account.provider.name,
           :build_status => build_status,
           :translated_build_status =>
-            t("deployables.show.build_statuses_descriptions.#{build_status}")
+              case build_status
+                when :not_build
+                  _("Images are not Built")
+                when :building
+                   _("Images are being built.")
+                when :pushing
+                   _("Images are being pushed.")
+                when :not_pushed
+                   _("Some of the images are not pushed")
+                when :pushed
+                   _("All Images are pushed and recent.")
+                else
+                   build_status
+              end
         }
 
         @image_status.sort_by do |image_status_for_account|
@@ -192,13 +205,13 @@ class DeployablesController < ApplicationController
     end
 
     begin
-      raise t("deployables.flash.error.no_catalog") if @selected_catalogs.empty?
+      raise _("No Catalogs selected") if @selected_catalogs.empty?
       @deployable.transaction do
         @selected_catalogs.each do |catalog|
           @deployable.catalogs << catalog
         end
         @deployable.save!
-        flash[:notice] = t("catalog_entries.flash.notice.added", :catalog => @selected_catalogs.map{|c| c.name}.join(", "))
+        flash[:notice] = _("Deployable added to Catalog %s.") % @selected_catalogs.map{|c| c.name}.join(", ")
         if params[:edit_xml]
           redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
         elsif params[:create_from_image]
@@ -219,7 +232,7 @@ class DeployablesController < ApplicationController
     rescue => ex
       if @deployable.errors.empty?
         log_backtrace(ex)
-        flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message)
+        flash.now[:warning]= _("Deployable was not created: %s") % e.message
       end
       if params[:create_from_image].present?
         @image = Tim::BaseImage.find(params[:create_from_image])
@@ -256,7 +269,7 @@ class DeployablesController < ApplicationController
         flash[:warning]+=warnings
       end
 
-      flash[:notice] = t"catalog_entries.flash.notice.updated"
+      flash[:notice] = _("Deployable updated successfully")
       redirect_to polymorphic_path([@catalog, @deployable])
     else
       render :action => 'edit', :edit_xml => params[:edit_xml]
@@ -285,13 +298,13 @@ class DeployablesController < ApplicationController
       end
       unless not_deleted.empty? and not_deleted_perms.empty?
         flasherr = []
-        flasherr =  t("deployables.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
-        flasherr =  t("deployables.flash.error.not_deleted_perms", :count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')) unless not_deleted_perms.empty?
+        flasherr =  n_("Deployable %{not_deleted} removal failed.","%{count} Deployables %{not_deleted} were not removed.",not_deleted.count) % {:count => not_deleted.count, :not_deleted => not_deleted.join(', ')} unless not_deleted.empty?
+        flasherr =  n_("Insufficient permissions to remove Deployable %{not_deleted}.","Insufficient permissions to remove %{count} Deployables %{not_deleted}.",not_deleted_perms.count) % {:count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')} unless not_deleted_perms.empty?
         flash[:error] = flasherr
       end
-      flash[:notice] = t("deployables.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
+      flash[:notice] = n_("Deployable %{deleted} removed successfully.","%{count} Deployables %{deleted} were removed.", deleted.count) % {:count => deleted.count, :deleted => deleted.join(', ')} unless deleted.empty?
     else
-      flash[:error] = t("deployables.flash.error.not_selected")
+      flash[:error] = _("No Deployable was selected")
     end
 
     if @catalog.present?
@@ -306,9 +319,9 @@ class DeployablesController < ApplicationController
     @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
     require_privilege(Privilege::MODIFY, deployable)
     if deployable.destroy
-      flash[:notice] = t("deployables.flash.notice.deleted.one", :deleted => deployable.name)
+      flash[:notice] = _("Deployable %s removed successfully.") % deployable.name
     else
-      flash[:error] = t("deployables.flash.error.not_deleted.one", :not_deleted => deployable.name)
+      flash[:error] = _("Deployable %s removal failed.") % deployable.name
     end
 
     respond_to do |format|
@@ -340,9 +353,9 @@ class DeployablesController < ApplicationController
   def set_header
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-      { :name => t("catalog_entries.index.name"), :sort_attr => :name },
-      { :name => t("catalogs.index.catalog_name"), :sortable => false },
-      { :name => t("catalog_entries.index.deployable_xml"), :sortable => :url }
+      { :name => _("Name"), :sort_attr => :name },
+      { :name => _("Catalog Name"), :sortable => false },
+      { :name => _("Deployable XML"), :sortable => :url }
     ]
   end
 

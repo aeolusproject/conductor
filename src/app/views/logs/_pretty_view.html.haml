@@ -2,16 +2,16 @@
   %div.controls
     %ul.filter-controls
       %li
-        = label_tag "source_type", t('filter_table.viewing')
+        = label_tag "source_type", _("Viewing")
         = hidden_field_tag :view, @view
         = select_tag "source_type", options_for_select(@source_type_options, @source_type)
-        = t('logs.index.grouped_by')
+        = _("Grouped By")
         = select_tag "group", options_for_select(@group_options, @group)
-        = t('filter_table.from')
+        = _("From")
         = select_date @from_date, :prefix => :from_date
-        = t('filter_table.to')
+        = _("To")
         = select_date @to_date, :prefix => :to_date
-        = restful_submit_tag t("filter_table.apply_filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
+        = restful_submit_tag _("Apply filters"), "index", filter_logs_path, 'POST', :class => 'button', :id => 'apply_logs_filter'
 %br
 
 = render :partial => 'charts/time_chart', :locals => { :datasets => @datasets.to_a, :from_date => @from_date, :to_date => @to_date, :name => 'log-history-graph' }

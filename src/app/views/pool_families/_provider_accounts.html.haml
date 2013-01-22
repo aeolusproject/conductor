@@ -1,7 +1,7 @@
 - content_for :form_header do
   - if check_privilege(Privilege::MODIFY)
-    %li= link_to t('provider_accounts.add_provider_account'), add_provider_accounts_pool_family_path(@pool_family), { :class => 'button primary', :id => 'add_provider_accounts_button'}
-    %li= restful_submit_tag t('delete'), "destroy", remove_provider_accounts_pool_family_path(@pool_family), 'POST', :id => 'remove_button', :class => 'button danger'
+    %li= link_to _("Add Account"), add_provider_accounts_pool_family_path(@pool_family), { :class => 'button primary', :id => 'add_provider_accounts_button'}
+    %li= restful_submit_tag _("Delete"), "destroy", remove_provider_accounts_pool_family_path(@pool_family), 'POST', :id => 'remove_button', :class => 'button danger'
 
 = filter_table(provider_accounts_header(:without_alert => true), @pool_family.provider_accounts) do |account|
   %tr{:class => cycle('nostripe','stripe')}

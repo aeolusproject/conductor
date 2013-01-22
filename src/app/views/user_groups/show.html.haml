@@ -2,53 +2,53 @@
 %header.page-header
   .obj_actions
     .return_to
-      = t'return_to'
-      = link_to t("user_groups.groups"), user_groups_path
+      = _("Return to:")
+      = link_to _("User Groups"), user_groups_path
     - if check_privilege(Privilege::CREATE, User)
-      = link_to t('user_groups.new.new_user_group'), new_user_group_url, :class => 'button primary', :id => 'new_user_group_button' unless UserGroup.active_membership_sources.nil?
+      = link_to _("New User Group"), new_user_group_url, :class => 'button primary', :id => 'new_user_group_button' unless UserGroup.active_membership_sources.nil?
     .button-group
       - if check_privilege(Privilege::MODIFY, User)
-        = link_to t('edit'), edit_user_group_path(@user_group), :class => 'button', :id => 'edit_button'
-        = button_to t("delete"), user_group_path(@user_group), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger', :id => 'delete'
+        = link_to _("Edit"), edit_user_group_path(@user_group), :class => 'button', :id => 'edit_button'
+        = button_to _("Delete"), user_group_path(@user_group), :method => 'delete', :confirm => _("Are you sure you want to delete?"), :class => 'button danger', :id => 'delete'
   %h1.no-icon= @title
 
 %section.content-section.user
   %header
-    %h2=t'properties'
+    %h2=_("Properties")
 
   .content
     %table.properties_table
       %tbody
         %tr
-          %td= t('user_groups.show.type')
+          %td= _("Type")
           %td= @user_group.membership_source
         %tr
-          %td= t('user_groups.show.name')
+          %td= _("Name")
           %td= @user_group.name
         %tr
-          %td= t('user_groups.show.description')
+          %td= _("Description")
           %td= @user_group.description
 
 - if @user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
   %section.content-section
     %header
-      %h2=t('user_groups.show.members')
+      %h2=_("Members")
 
     .content
       - content_for :form_header do
         - if check_privilege(Privilege::CREATE, Deployable)
-          %li= link_to t("user_groups.show.add_members"), add_members_user_group_path(@user_group), :class => 'button primary', :id => 'add_members_button'
-          %li= restful_submit_tag t("remove"), "destroy", remove_members_user_group_path(@user_group), 'DELETE', :id => 'delete_button', :class => 'button danger'
+          %li= link_to _("Add Members"), add_members_user_group_path(@user_group), :class => 'button primary', :id => 'add_members_button'
+          %li= restful_submit_tag _("Remove"), "destroy", remove_members_user_group_path(@user_group), 'DELETE', :id => 'delete_button', :class => 'button danger'
 
       - content_for :filter_controls do
         %li
-          = label_tag :members_preset_filter, t('filter_table.viewing')
+          = label_tag :members_preset_filter, _("Viewing")
           = hidden_field_tag :current_path, request.fullpath
-          = select_tag(:members_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:members_preset_filter]), :include_blank => t("users.preset_filters.all_users"), :disabled => true)
-          = restful_submit_tag t("filter_table.apply_filters"), "filter", filter_members_user_group_path(@user_group), 'POST', :class => 'button', :id => 'apply_members_preset_filter'
+          = select_tag(:members_preset_filter, preset_filters_options_for_select(Deployable::PRESET_FILTERS_OPTIONS, params[:members_preset_filter]), :include_blank => _("All Users"), :disabled => true)
+          = restful_submit_tag _("Apply filters"), "filter", filter_members_user_group_path(@user_group), 'POST', :class => 'button', :id => 'apply_members_preset_filter'
           %span.label.badge.dark= @user_group.members.count
         %li.table-search-filter
-          = text_field_tag :members_search, params[:members_search], :placeholder => t("filter_table.search")
+          = text_field_tag :members_search, params[:members_search], :placeholder => _("Search")
           = restful_submit_tag "", "search", filter_members_user_group_path(@user_group), 'POST', :class => 'button', :id => 'apply_members_search'
 
         :javascript
@@ -71,6 +71,6 @@
             = member.name
 %section.content-section.permissions
   %header
-    %h2.permissions=t'instances.tab_captions.permissions'
+    %h2.permissions=_("Permissions")
   .content
     = render :partial => 'permissions/objects'

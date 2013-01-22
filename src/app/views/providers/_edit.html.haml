@@ -6,6 +6,6 @@
       .control_group.buttons
         .input
           = f.submit :class => 'btn primary'
-          = link_to(I18n.t('simple_form.buttons.cancel'), providers_path, :class => 'btn')
-          = link_to(I18n.t('providers.form.test_connection'), edit_provider_path(@provider, :test_provider => true), :class => "btn")
-          = link_to(I18n.t('providers.form.delete_provider'), provider_path(@provider), :method => :delete, :confirm => t('providers.confirm_delete'), :class => "btn warning")
+          = link_to _("Cancel"), providers_path, :class => 'btn'
+          = link_to _("Test Connection"), edit_provider_path(@provider, :test_provider => true), :class => "btn"
+          = link_to _("Delete Provider"), provider_path(@provider), :method => :delete, :confirm => _("Are you sure you want to delete this Provider?"), :class => "btn warning"
