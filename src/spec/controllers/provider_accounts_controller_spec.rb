@@ -65,7 +65,7 @@ describe ProviderAccountsController do
       @provider_account.quota = Quota.new
       @provider_account.save.should be_true
       post :update, :id => @provider_account.id, :provider_account => { :credentials_attributes => {:username => 'mockuser', :password => 'mockpassword'} }
-      response.should redirect_to edit_provider_path(@provider_account.provider_id, :details_tab => 'accounts')
+      response.should redirect_to provider_path(@provider_account.provider_id, :details_tab => 'accounts')
       ProviderAccount.find(@provider_account.id).credentials_hash['password'].should == "mockpassword"
     end
 
@@ -75,7 +75,7 @@ describe ProviderAccountsController do
       lambda do
         post :multi_destroy, :provider_id => @provider_account.provider_id, :accounts_selected => [@provider_account.id]
       end.should change(ProviderAccount, :count).by(-1)
-      response.should redirect_to edit_provider_path(@provider_account.provider_id, :details_tab => 'accounts')
+      response.should redirect_to provider_path(@provider_account.provider_id, :details_tab => 'accounts')
       ProviderAccount.find_by_id(@provider_account.id).should be_nil
     end
 

@@ -26,7 +26,7 @@ Feature: Manage Provider Accounts
     And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
     And I fill in "provider_account[quota_attributes][maximum_running_instances]" with "13"
     And I press "Create Provider Account"
-    Then I should be on the mockprovider's edit provider page
+    Then I should be on the mockprovider's show provider page
     And I should see "Account testaccount was added."
     And I should have a provider account named "testaccount"
 
@@ -52,14 +52,14 @@ Feature: Manage Provider Accounts
     And I am on the mockprovider's provider accounts page
     And there is not a provider account with provider images
     When I check the "testaccount" account
-    And I press "Delete"
-    Then I should be on the mockprovider's edit provider page
+    And I press "delete_provider_account_button"
+    Then I should be on the mockprovider's show provider page
     And I should see "was not deleted"
     And I should have a provider account named "testaccount"
     When I delete all instances from the account
     And I check the "testaccount" account
-    And I press "Delete"
-    Then I should be on the mockprovider's edit provider page
+    And I press "delete_provider_account_button"
+    Then I should be on the mockprovider's show provider page
     And I should see "was deleted"
     And there should be no provider account "testaccount"
 
@@ -71,8 +71,8 @@ Feature: Manage Provider Accounts
     And I am on the mockprovider's provider accounts page
     And there is not a provider account with provider images
     When I check the "testaccount" account
-    And I press "Delete"
-    Then I should be on the mockprovider's edit provider page
+    And I press "delete_provider_account_button"
+    Then I should be on the mockprovider's show provider page
     And I should see "was deleted"
     And there should be no provider account "testaccount"
 
@@ -107,7 +107,7 @@ Feature: Manage Provider Accounts
     And I fill in "provider_account[quota_attributes][maximum_running_instances]" with "1"
     And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
     And I press "Update Provider Account"
-    Then I should be on the mockprovider's edit provider page
+    Then I should be on the mockprovider's show provider page
     And I should see "Account Quota Reached"
 
   Scenario: Display alert when Provider Account Quota is exceeded
@@ -120,7 +120,7 @@ Feature: Manage Provider Accounts
     And I fill in "provider_account[quota_attributes][maximum_running_instances]" with "0"
     And I fill in "provider_account[credentials_attributes][password]" with "mockpassword"
     And I press "Update Provider Account"
-    Then I should be on the mockprovider's edit provider page
+    Then I should be on the mockprovider's show provider page
     And I should see "Account Quota Exceeded"
 
   Scenario: Test Provider Account connection

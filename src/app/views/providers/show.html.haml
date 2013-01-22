@@ -1,11 +1,51 @@
 = render :partial => 'layouts/admin_nav'
-= render :partial => 'page_header'
+
+%header.page-header
+  .obj_actions
+    .return_to
+      =t'return_to'
+      = link_to "#{t'providers.providers'}", providers_path
+    .button-group
+      - if check_privilege(Privilege::MODIFY, Provider)
+        = link_to t('edit'), edit_provider_path(@provider), :class => 'button'
+        = button_to t("delete"), provider_path(@provider), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger'
+  %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? t("providers.editing_provider") : @provider.name
+
 = render :partial => 'provider_availability'
 
-%section.content-section.provider
-  %header
-    %h2= t("properties")
+- unless @provider.enabled
+  %section.content-section
+    %header.align-center
+      %h2.disabled= t('providers.edit.provider_id_disabled')
+    %p.align-center
+      = t("providers.edit.provider_disabled", :name => @provider.name)
+      = t("providers.edit.enable_configure_providers")
 
-  .content
-    %div#view
-      = render :partial => 'properties'
+- unless @alerts.blank?
+  %section.content-section.alerts.collapse_entity
+    %header
+      .section-controls
+        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
+      %h2.alerts
+        = t("alerts_label")
+        %span.label.badge.count.alert= @alerts.count
+    .content.collapsible
+      %dl.alerts
+        %ul
+          - @alerts.each do |alert|
+            %li.alert
+              %dt.subject{ :class => alert[:class] }= alert[:subject]
+              %dd.type= link_to alert[:alert_type], alert[:path]
+              %dd.desc= alert[:description]
+
+%section.content-section
+  %header#tab-container-1
+    %nav.faceted
+      %ul#tab-container-1-nav
+        - @tabs.each do |tab|
+          %li
+            = link_to tab[:name], provider_path(@provider, :details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"
+            -if tab[:count]
+              %span.label.badge.count.dark=tab[:count]
+  .content#tab
+    = render :partial => @view

@@ -177,7 +177,6 @@ Conductor::Application.routes.draw do
     resources :provider_accounts do
       collection do
         delete 'multi_destroy'
-        get 'set_selected_provider'
         post :filter
       end
     end

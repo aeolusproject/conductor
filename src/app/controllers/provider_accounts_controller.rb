@@ -94,7 +94,7 @@ class ProviderAccountsController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
-          redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
+          redirect_to provider_path(@provider, :details_tab => 'accounts')
         end
         format.xml do
           render('show',
@@ -151,7 +151,7 @@ class ProviderAccountsController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = t("provider_accounts.flash.notice.updated")
-          redirect_to edit_provider_path(@provider_account.provider, :details_tab => 'accounts')
+          redirect_to provider_path(@provider_account.provider, :details_tab => 'accounts')
         end
         format.xml do
           render 'show',
@@ -184,7 +184,7 @@ class ProviderAccountsController < ApplicationController
       if @provider_account.safe_destroy
         format.html do
           flash[:notice] = t("provider_accounts.flash.notice.deleted")
-          redirect_to edit_provider_path(@provider_account.provider,
+          redirect_to provider_path(@provider_account.provider,
                                          :details_tab => 'accounts')
         end
         format.xml do
@@ -193,7 +193,7 @@ class ProviderAccountsController < ApplicationController
       else
         format.html do
           flash[:error] = @provider_account.errors.full_messages
-          redirect_to edit_provider_path(@provider_account.provider,
+          redirect_to provider_path(@provider_account.provider,
                                          :details_tab => 'accounts')
         end
         format.xml do
@@ -205,9 +205,12 @@ class ProviderAccountsController < ApplicationController
 
   def multi_destroy
     @provider = Provider.find(params[:provider_id])
+
     if params[:accounts_selected].blank?
-      flash[:warning] = t"provider_accounts.flash.warning.must_select_account"
-      redirect_to edit_provider_path(@provider, :details_tab => 'accounts') and return
+      flash[:warning] = t("provider_accounts.flash.warning.must_select_account")
+      redirect_to provider_path(@provider, :details_tab => 'accounts')
+
+      return
     end
 
     succeeded = []
@@ -231,25 +234,7 @@ class ProviderAccountsController < ApplicationController
                          :list => succeeded.join(', '))
     end
     flash[:error] = failed if failed.present?
-    redirect_to edit_provider_path(@provider, :details_tab => 'accounts')
-  end
-
-  def set_selected_provider
-    @quota = Quota.new
-    @provider_account = ProviderAccount.new
-    respond_to do |format|
-      format.html {
-        @providers = Provider.find(:all)
-        @provider = Provider.find(params[:provider_account][:provider_id])
-        render :action => 'new', :layout => true
-      }
-      format.js {
-        @providers = Provider.find(:all)
-        @provider = Provider.find(params[:provider_account][:provider_id])
-        render :partial => 'provider_selection'
-      }
-
-    end
+    redirect_to provider_path(@provider, :details_tab => 'accounts')
   end
 
   def filter

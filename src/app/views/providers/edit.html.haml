@@ -2,41 +2,14 @@
 = render :partial => 'page_header'
 = render :partial => 'provider_availability'
 
-- unless @provider.enabled
-  %section.content-section
-    %header.align-center
-      %h2.disabled= t('providers.edit.provider_id_disabled')
-    %p.align-center
-      = t("providers.edit.provider_disabled", :name => @provider.name)
-      = t("providers.edit.enable_configure_providers")
-      = image_tag "provider_enable_hint.png"
-
-- unless @alerts.blank?
-  %section.content-section.alerts.collapse_entity
-    %header
-      .section-controls
-        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
-      %h2.alerts
-        = t("alerts_label")
-        %span.label.badge.count.alert= @alerts.count
-    .content.collapsible
-      %dl.alerts
-        %ul
-          - @alerts.each do |alert|
-            %li.alert
-              %dt.subject{ :class => alert[:class] }= alert[:subject]
-              %dd.type= link_to alert[:alert_type], alert[:path]
-              %dd.desc= alert[:description]
-
 %section.content-section
-  %header#tab-container-1
-    %h2.settings= t("settings.settings")
-    %nav.faceted
-      %ul#tab-container-1-nav
-        - @tabs.each do |tab|
-          %li
-            = link_to tab[:name], edit_provider_path(@provider, :details_tab => tab[:id], :only_tab => true), :id => "details_#{tab[:id]}", :class => "#{'active' if @details_tab[:id] == tab[:id]} show"
-            -if tab[:count]
-              %span.label.badge.count.dark=tab[:count]
-  .content#tab
-    = render :partial => @view
+  .content
+    - can_edit = check_privilege(Privilege::MODIFY, @provider)
+    = conductor_form_for @provider do |f|
+      = render :partial => "form", :locals => { :form => f, :readonly => !can_edit }
+      - if can_edit
+        .control_group.buttons
+          .input
+            = f.submit :class => 'btn primary'
+            = link_to(I18n.t('simple_form.buttons.cancel'), provider_path(@provider), :class => 'btn')
+            = link_to(I18n.t('providers.form.test_connection'), edit_provider_path(@provider, :test_provider => true), :class => "btn")
