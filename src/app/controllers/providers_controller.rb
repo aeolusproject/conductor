@@ -347,19 +347,21 @@ class ProvidersController < ApplicationController
   def load_headers
     @header = [
       { :name => t('providers.index.provider_name'), :class => 'center',
-                 :sortable => false },
+        :sortable => false },
       { :name => t('providers.index.provider_type'), :class => 'center',
-                 :sortable => false },
+        :sortable => false },
       { :name => t('providers.index.running_instances'), :class => 'center',
-                 :sortable => false },
+        :sortable => false },
       { :name => t('providers.index.pending_instances'), :class => 'center',
-                 :sortable => false },
+        :sortable => false },
       { :name => t('providers.index.error_instances'), :class => 'center',
-                 :sortable => false },
+        :sortable => false },
       { :name => t('providers.index.historical_running_instances'), :class => 'center',
-                 :sortable => false },
+        :sortable => false },
       { :name => t('providers.index.historical_error_instances'), :class => 'center',
-                 :sortable => false },
+        :sortable => false },
+      { :name => t('providers.index.enabled'), :class => 'center',
+        :sortable => false },
     ]
   end
 

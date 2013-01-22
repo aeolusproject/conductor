@@ -2,15 +2,6 @@
 = render :partial => 'page_header'
 = render :partial => 'provider_availability'
 
-- unless @provider.enabled
-  %section.content-section
-    %header.align-center
-      %h2.disabled= t('providers.edit.provider_id_disabled')
-    %p.align-center
-      = t("providers.edit.provider_disabled", :name => @provider.name)
-      = t("providers.edit.enable_configure_providers")
-      = image_tag "provider_enable_hint.png"
-
 %section.content-section
   .content
     - can_edit = check_privilege(Privilege::MODIFY, @provider)
@@ -20,5 +11,5 @@
         .control_group.buttons
           .input
             = f.submit :class => 'btn primary'
-            = link_to(I18n.t('simple_form.buttons.cancel'), providers_path, :class => 'btn')
+            = link_to(I18n.t('simple_form.buttons.cancel'), provider_path(@provider), :class => 'btn')
             = link_to(I18n.t('providers.form.test_connection'), edit_provider_path(@provider, :test_provider => true), :class => "btn")

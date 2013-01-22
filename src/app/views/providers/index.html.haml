@@ -41,6 +41,7 @@
           %td{:class => 'error_instances'}= statistics["historical_error_instances"]
         - else
           %td.center= statistics["historical_error_instances"]
+        %td.center= t_boolean(provider.enabled)
 
 %section.content-section
   %header
