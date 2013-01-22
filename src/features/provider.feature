@@ -57,9 +57,10 @@ Feature: Manage Providers
     Given there is a provider named "mock1"
     And this provider has a provider account with 2 running instances
     When I go to the mock1's edit provider page
+    And I uncheck "Enabled"
     And I press "provider_submit"
-    Then I should be on the mock1's show provider page
-    And I should see "Provider is disabled."
+    Then I should be on the mock1's edit provider page
+    And I should see "Provider disabled."
     And I should not see "Error while stopping an instance"
 
   Scenario: Disable an inaccessible provider
@@ -67,11 +68,12 @@ Feature: Manage Providers
     And this provider has a provider account with 2 running instances
     And provider "mock1" is not accessible
     When I go to the mock1's edit provider page
+    And I uncheck "Enabled"
     And I press "provider_submit"
     Then I should see "Provider is not accessible. The status of following Instances will be changed to 'stopped' but their actual state is unknown."
     When I press "disable_button"
     Then I should be on the mock1's edit provider page
-    And I should see "Provider is disabled."
+    And I should see "Provider disabled."
     And provider "mock1" should have all instances stopped
 
   Scenario: Show hardware profiles for provider
