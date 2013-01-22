@@ -48,8 +48,12 @@ dist:
 		dist/aeolus-conductor-$(VERSION)
 
 	#bundle and .bundle folders removed to make bundler use system gems
-	find dist/aeolus-conductor-$(VERSION)/src/.bundle -mindepth 1 -maxdepth 1 | xargs rm -rf
-	find dist/aeolus-conductor-$(VERSION)/src/bundle -mindepth 1 -maxdepth 1 | xargs rm -rf
+	rm -rf dist/aeolus-conductor-$(VERSION)/src/bundle
+	rm -rf dist/aeolus-conductor-$(VERSION)/src/.bundle
+
+	# Avoid using bundler by renaming Gemfile to Gemfile.in
+	mv dist/aeolus-conductor-$(VERSION)/src/Gemfile dist/aeolus-conductor-$(VERSION)/src/Gemfile.in
+
 	tar -C dist -zcvf aeolus-conductor-$(VERSION).tar.gz aeolus-conductor-$(VERSION)
 
 
