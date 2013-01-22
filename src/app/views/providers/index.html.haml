@@ -19,7 +19,7 @@
     = filter_table(@header, @providers) do |provider|
       - statistics = @statistics[provider.id]
       %tr{:class => cycle('nostripe','stripe')}
-        %td= link_to provider.name, edit_provider_path(provider)
+        %td= link_to provider.name, provider_path(provider)
         %td= provider.provider_type.name
         - if statistics["running_instances"] > 0
           %td{:class => 'running_instances'}= statistics["running_instances"]

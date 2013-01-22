@@ -3,11 +3,11 @@
   .obj_actions
     .return_to
       = t'return_to'
-      = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts')
+      = link_to t('provider_accounts.new.cloud_providers'), provider_path(@provider, :details_tab => 'accounts')
   %h1.provider_accounts= @title
 
 %section.content-section.provider_accounts
   .content
     = conductor_form_for(@provider_account, :error_partial => 'layouts/error_messages', :url => provider_provider_accounts_path(@provider)) do |f|
       = render :partial => "form", :locals => { :form => f }
-      = f.button :form_buttons, :cancel => edit_provider_path(@provider, :details_tab => 'accounts')
+      = f.button :form_buttons, :cancel => provider_path(@provider, :details_tab => 'accounts')
