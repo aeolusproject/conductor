@@ -116,7 +116,15 @@ module CostEngine
       def cost
         start = instance[:time_last_running]
         return nil if start.nil?
-        stop = instance[:time_last_stopped] || Time.now
+
+        case instance.state
+        when ::Instance::STATE_RUNNING
+          stop = Time.now
+        when ::Instance::STATE_STOPPED
+          stop = instance[:time_last_stopped]
+        else
+          return nil
+        end
 
         hardware_profile.cost_in_time(start, start, stop, self)
       end
