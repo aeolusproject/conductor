@@ -75,6 +75,12 @@ Requires: curl
 BuildRequires: rubygem(haml-rails)
 BuildRequires: rubygem(sass-rails)
 BuildRequires: rubygem(compass-rails)
+BuildRequires: rubygem(simple-navigation)
+BuildRequires: rubygem(rest-client) >= 1.6.1
+BuildRequires: rubygem(rack-restful_submit)
+BuildRequires: rubygem(rspec-rails)
+BuildRequires: rubygem(activerecord)
+BuildRequires: rubygem(actionmailer)
 BuildRequires: rubygem(alchemy) >= 1.0.0
 BuildRequires: rubygem(uglifier)
 BuildRequires: rubygem(therubyracer)
@@ -287,7 +293,7 @@ done
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
-%{__cp} src/Gemfile %{buildroot}%{app_root}/Gemfile.in
+%{__cp} src/Gemfile.in %{buildroot}%{app_root}/Gemfile.in
 %{__cp} src/spec/fixtures/Gemfile.in %{buildroot}%{app_root}/spec/fixtures
 %{__cp} src/lib/aeolus/debug/aeolus-debug %{buildroot}%{_bindir}
 
