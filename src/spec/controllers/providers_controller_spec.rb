@@ -59,8 +59,7 @@ describe ProvidersController do
       end
 
       it { response.should be_success }
-      it { assigns[:realm_names].size.should == @provider.provider_realms.size }
-      it { response.should render_template(:partial => "providers/_realms") }
+      it { response.should render_template(:partial => "provider_realms/_list") }
     end
 
     describe "check availability" do

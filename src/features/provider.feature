@@ -29,7 +29,7 @@ Feature: Manage Providers
   Scenario: Create a new Provider
     Given I am on the new provider page
     And I attempt to add a valid provider
-    Then I should be on the ec2-testprovider's edit provider page
+    Then I should be on the ec2-testprovider's show provider page
     And I should see a confirmation message
     And I should have a provider named "ec2-testprovider"
 
@@ -46,8 +46,8 @@ Feature: Manage Providers
     And this provider has a realm
     And this provider has a provider account
     And there is not a provider account with provider images
-    When I go to the mock1's edit provider page
-    And I follow "Delete Provider"
+    When I go to the mock1's show provider page
+    And I press "Delete"
     Then there should not exist a provider named "mock1"
     And there should not be any hardware profiles
     And there should not be a provider account
@@ -58,7 +58,7 @@ Feature: Manage Providers
     And this provider has a provider account with 2 running instances
     When I go to the mock1's edit provider page
     And I press "provider_submit"
-    Then I should be on the mock1's edit provider page
+    Then I should be on the mock1's show provider page
     And I should see "Provider is disabled."
     And I should not see "Error while stopping an instance"
 
@@ -77,7 +77,7 @@ Feature: Manage Providers
   Scenario: Show hardware profiles for provider
     Given there is a provider named "mock"
     And this provider has 1 hardware profiles
-    When I go to the mock's edit provider page
+    When I go to the mock's show provider page
     And I follow "details_hardware_profiles"
     Then I should see "hardware_profile"
 
