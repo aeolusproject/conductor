@@ -11,5 +11,5 @@
     %ul.listing
       - @instances_to_terminate.each do |i|
         %li= i.name
-    = link_to t('cancel'), edit_provider_path(@provider), :class => 'button'
+    = link_to t('cancel'), provider_path(@provider), :class => 'button'
     = button_to "Disable", provider_path(@provider, :terminate => true, :provider => {:enabled => false}), :class => 'button', :method => :put, :id => 'disable_button'

@@ -183,4 +183,8 @@ module ApplicationHelper
     simple_form_for(object, options, &block)
   end
 
+  def t_boolean(value)
+    value ? t('yes') : t('no')
+  end
+
 end

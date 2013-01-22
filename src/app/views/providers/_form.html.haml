@@ -2,6 +2,7 @@
 = form.input :url
 = form.input :provider_type_id, :collection => @provider_type_options
 = form.input :deltacloud_provider, :required => true, :wrapper_html => { :id => 'deltacloud_provider_input_wrapper' }
+= form.input :enabled
 
 %fieldset#x-deltacloud-provider-legend
   %legend= t('providers.form.x_deltacloud_provider_legend')

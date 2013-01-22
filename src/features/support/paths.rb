@@ -64,17 +64,14 @@ module NavigationHelpers
     when /the new provider page/
       url_for :controller => 'providers', :action => 'new', :only_path => true
 
-    when /the show provider page/
-      url_for :controller => 'providers', :action => 'show', :only_path => true
-
-    when /the provider settings page/
-      url_for :controller => 'providers', :action => 'settings', :only_path => true
+    when /^the (.*)'s show provider page$/
+      provider_path(Provider.find_by_name($1))
 
     when /^the (.*)'s edit provider page$/
       edit_provider_path(Provider.find_by_name($1))
 
     when /^the (.*)'s provider accounts page$/
-      edit_provider_path(Provider.find_by_name($1), :details_tab => 'accounts')
+      provider_path(Provider.find_by_name($1), :details_tab => 'accounts')
 
     when /the settings page/
       settings_path

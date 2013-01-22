@@ -3,7 +3,7 @@
   .obj_actions
     .return_to
       =t'return_to'
-      = link_to t('provider_accounts.new.cloud_providers'), edit_provider_path(@provider, :details_tab => 'accounts')
+      = link_to t('provider_accounts.new.cloud_providers'), provider_path(@provider, :details_tab => 'accounts')
     .button-group
       = link_to t('edit'), edit_provider_provider_account_path(@provider, @provider_account), :class => "button", :title => t('edit_provider_account')
       = link_to t('provider_accounts.show.test_connection'), provider_provider_account_path(@provider, @provider_account, :test_account => true), :class => 'button'
