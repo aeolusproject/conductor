@@ -219,7 +219,7 @@ class DeployablesController < ApplicationController
     rescue => ex
       if @deployable.errors.empty?
         log_backtrace(ex)
-        flash.now[:warning]= t('deployables.flash.warning.failed', :message => e.message)
+        flash.now[:warning]= t('deployables.flash.warning.failed', :message => ex.message)
       end
       if params[:create_from_image].present?
         @image = Tim::BaseImage.find(params[:create_from_image])
