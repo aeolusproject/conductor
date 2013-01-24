@@ -136,7 +136,7 @@ class PoolsController < ApplicationController
           # 19sept2012 -- FIXME - These aren't really the correct translation names, but
           #  this patch is after string freeze so I'm confined to using them. --mawagner
           @header = [{:name => t("pools.images.catalog")}, {:name => t("catalog_entries.index.catalog_entry")},
-                     {:name => t("logs.index.image")}, {:name => t("images.show.providers_image_id")}]
+                     {:name => t("logs.index.image")}, {:name => t("tim.base_images.show.providers_image_id")}]
           @catalog_images = @pool.catalog_images_collection(@catalogs)
         when 'deployments'
           @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
