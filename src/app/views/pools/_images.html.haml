@@ -10,4 +10,7 @@
     %td=catalog_image[:catalog]
     %td=catalog_image[:deployable]
     %td=catalog_image[:image]
-    %td=catalog_image[:provider_images]
+    %td
+      %ul
+        - catalog_image[:provider_images].each do |img|
+          %li= img
