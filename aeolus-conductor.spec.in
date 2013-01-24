@@ -134,7 +134,6 @@ Summary:  A meta-package to pull in all components for Aeolus
 Group:    Applications/Internet
 Requires: aeolus-conductor-daemons = %{version}-%{release}
 Requires: aeolus-conductor-doc = %{version}-%{release}
-Requires: iwhd
 Requires: aeolus-configure
 Requires: imagefactory
 Requires: imagefactory-jeosconf-ec2-fedora

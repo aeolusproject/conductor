@@ -817,7 +817,6 @@ zh-CN:
     flash:
       error:
         default_pool_not_deleted: 无法删除默认池
-        iwhd_unavailable: 目录映像不可用。显示无法访问映像库。
         not_updated: 没有更新池！
         pool_not_deleted:
           one: "没有删除池 %{list}，有些实例与之关联。"

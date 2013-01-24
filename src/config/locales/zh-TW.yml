@@ -817,7 +817,6 @@ zh-TW:
     flash:
       error:
         default_pool_not_deleted: 無法刪除預設集區
-        iwhd_unavailable: 無法取得目錄映像。似乎是因為無法連上映像倉儲
         not_updated: 未更新集區！
         pool_not_deleted:
           one: "未刪除集區 %{list}。尚有 instance 與之相關連。"

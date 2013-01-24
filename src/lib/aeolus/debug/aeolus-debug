@@ -38,8 +38,6 @@ SOURCES = [
 "/etc/aeolus*/**/**",
 "/etc/imagefactory**/**",
 "/var/log/imagefactory.log",
-"/etc/iwhd**/**",
-"/var/log/iwhd.log",
 "/var/log/mongodb/mongodb.log",
 "/var/log/deltacloud-core**/**/*.log",
 "/var/log/libvirt*/**/**",
@@ -74,7 +72,7 @@ files.each do |source|
 end
 
 # Below are custom system calls to get more info
-system("rpm -qa | egrep 'aeolus|iwhd|deltacloud|imagefactory|oz' >> #{File.join(target_dir, 'packages')}")
+system("rpm -qa | egrep 'aeolus|deltacloud|imagefactory|oz' >> #{File.join(target_dir, 'packages')}")
 system("virsh capabilities >> #{File.join(target_dir, 'virsh_capabilities')}")
 
 # Tar the output and log it

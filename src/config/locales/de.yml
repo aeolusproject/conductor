@@ -817,7 +817,6 @@ de:
     flash:
       error:
         default_pool_not_deleted: "Der Standard-Pool kann nicht gelöscht werden"
-        iwhd_unavailable: "Katalog-Images sind nicht verfügbar. Das Image Warehouse ist anscheinend nicht erreichbar"
         not_updated: "Pool wurde nicht aktualisiert!"
         pool_not_deleted:
           one: "Pool %{list} wurde nicht gelöscht. Es gibt damit verknüpfte Instanzen."

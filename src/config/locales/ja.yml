@@ -817,7 +817,6 @@ ja:
     flash:
       error:
         default_pool_not_deleted: デフォルトのプールは削除できません
-        iwhd_unavailable: "カタログのイメージが使用不可になっています。 イメージウェアハウスに接続できないようです"
         not_updated: プールは更新されませんでした!
         pool_not_deleted:
           one: "%{list} プールは削除されませんでした。このプールに関連付けられたインスタンスがあります。"

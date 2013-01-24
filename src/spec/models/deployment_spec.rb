@@ -235,7 +235,7 @@ describe Deployment do
     end
   end
 
-  describe "using image from iwhd" do
+  describe "using image from tim" do
     before do
       base_image = Tim::BaseImage.find_by_uuid(@deployment.deployable_xml.image_uuids.first)
       @provider_image = Tim::ProviderImage.find_by_images([base_image]).first
