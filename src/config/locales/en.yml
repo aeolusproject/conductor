@@ -632,7 +632,7 @@ en:
       catalog: Catalog
       catalog_entry: Deployable
       image: "Image:"
-      pushed: "%{uuid} pushed to %{provider}"
+      pushed: "pushed to %{provider}, provider id: %{external_id}"
     properties:
       properties: Properties for %{pool}
     header_show:

@@ -58,6 +58,10 @@ Tim::BaseImage.class_eval do
       order('tim_image_versions.created_at DESC').first
   end
 
+  def provider_images
+    Tim::ProviderImage.find_by_images([self])
+  end
+
   private
 
   def generate_uuid
