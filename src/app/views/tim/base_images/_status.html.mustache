@@ -1,4 +1,4 @@
-{{#images}}
+{{#targets}}
   <li class="clearfix">
     <dl>
       <dt>
@@ -15,10 +15,10 @@
               :method => :post) %>
           {{/build_url.present?}}
           {{#only_status.present?}}
-            {{status}}
-            {{#progress.present?}}
-              ({{progress}}%)
-            {{/progress.present?}}
+            {{timg_status}}
+            {{#timg_progress.present?}}
+              ({{timg_progress}}%)
+            {{/timg_progress.present?}}
           {{/only_status.present?}}
           <br>
           {{#failed_attempts.present?}}
@@ -41,7 +41,7 @@
             <th class="image_controls"></th>
           </tr></thead>
           <tbody>
-          {{#provider_images}}
+          {{#provider_accounts}}
             <tr>
               <td><strong> {{provider_account.name}} </strong></td>
               <td class="light">{{provider.name }} </td>
@@ -68,10 +68,10 @@
               {{/pimg_failed_attempts.present?}}
               </td>
             </tr>
-          {{/provider_images}}
+          {{/provider_accounts}}
           </tbody>
         </table>
       </dd>
     </dl>
   </li>
-{{/images}}
+{{/targets}}

@@ -176,15 +176,15 @@ Tim::BaseImagesController.class_eval do
     end
   end
 
+  # This sets up @targets, which is a big hash with information on
+  # provider types, provider and target images, etc.
   def set_targets
-    return [] unless @version # Otherwise, there's no point
-
     # Preload up some data
     all_prov_accts = @base_image.pool_family.provider_accounts.
       list_for_user(current_session, current_user, Privilege::USE).
       includes(:provider => :provider_type)
     provider_types = available_provider_types_for_base_image(@base_image)
-    target_images = @version.target_images(:include => :provider_images)
+    target_images = @version ? @version.target_images(:include => :provider_images) : []
 
     # Run over all provider types
     @targets = provider_types.map do |provider_type|
@@ -192,95 +192,95 @@ Tim::BaseImagesController.class_eval do
         ti.provider_type_id == provider_type.id}
       get_target_info(target_images_for_type, provider_type, all_prov_accts)
     end
+     true
   end
 
   private
 
-  def get_provider_image_data(provider_images, provider_account, target_image)
-    # use last push - there can be multiple provider images with failed status
-    provider_image = provider_images.last
-    provider_image_data = {
-      :provider_account => provider_account,
-      :provider => provider_account.provider,
-      :provider_image => provider_image,
-      :status => provider_image && provider_image.status,
-      :pimg_progress => provider_image && provider_image.progress,
-    }
-
+  def get_provider_image_data(provider_image, provider_account, target_image)
+    info = {}
+    # Show push URL if pimg is missing of failed
     if (provider_image.nil? || provider_image.status == Tim::ProviderImage::STATUS_FAILED) &&
-      check_privilege(Privilege::MODIFY, @base_image) && target_image &&
-      target_image.built?
-
-        provider_image_data[:pimg_push_url] = tim.provider_images_path(
+      check_privilege(Privilege::MODIFY, @base_image) && target_image && target_image.built?
+        info[:pimg_push_url] = tim.provider_images_path(
           :provider_image => {
             :provider_account_id => provider_account.id,
             :target_image_id => target_image.id
           }
         )
-    elsif provider_image && provider_image.destroyable? &&
-      check_privilege(Privilege::MODIFY, @base_image)
-
-        provider_image_data[:pimg_delete_url] = tim.provider_image_path(provider_image.id)
+    # Otherwise, if it's destroyable and the user has permission, show delete link
+    elsif provider_image && provider_image.destroyable? && check_privilege(Privilege::MODIFY, @base_image)
+      info[:pimg_delete_url] = tim.provider_image_path(provider_image.id)
+    # Otherwise, we can neither show a push nor delete URL, so just show status:
     else
-      provider_image_data[:pimg_only_status] = true
+      info[:pimg_only_status] = true
     end
 
+    # Let's also keep a counter of failed attempts:
     if provider_image && provider_image.status == Tim::ProviderImage::STATUS_FAILED
-      provider_image_data[:pimg_failed_attempts] = t('tim.base_images.show.failed_push_attempts',
-                                 :count => provider_images.find_all {|i|
-                                   i.status == Tim::ProviderImage::STATUS_FAILED
-                                  }.count)
+      info[:pimg_failed_attempts] = t('tim.base_images.show.failed_push_attempts',
+        :count => target_image.provider_images.find_all {|i| i.status == Tim::ProviderImage::STATUS_FAILED}.count)
     end
-
-    provider_image_data
+    info
   end
 
+  def get_target_image_info(target_images, provider_type)
+    target_image = target_images.last
+    info = {}
+    # If there's no target image, or it's failed, show a build URL:
+    if (target_image.nil? || target_image.status == Tim::TargetImage::STATUS_FAILED) &&
+      check_privilege(Privilege::MODIFY, @base_image)
+        info[:build_url] = tim.target_images_path(:target_image => {
+          :provider_type_id => provider_type.id,
+          :image_version_id => @version ? @version.id : nil
+        })
+    # otherwise, if the image is destroyable, show a delete link
+    elsif target_image.present? && target_image.destroyable? &&
+      check_privilege(Privilege::MODIFY, @base_image)
+        info[:delete_url] = tim.target_image_path(target_image.id)
+    # Otherwise, we can't show either, so just show the status:
+    else
+      info[:only_status] = true
+    end
 
-  def get_target_info(target_images, provider_type, all_prov_accts)
+    # Show a counter for failed builds if needed:
+    if target_image && target_image.status == Tim::TargetImage::STATUS_FAILED
+      info[:failed_attempts] = t('tim.base_images.show.failed_build_attempts',
+        :count => target_images.find_all {|i| i.status == Tim::TargetImage::STATUS_FAILED}.count)
+    end
+    info
+  end
+
+  def get_target_info(target_images, provider_type, all_provider_accounts)
     # use last build - there can be multiple target images with failed status
     target_image = target_images.last
     info = {
       :provider_type => provider_type,
       :target_image => target_image,
-      :provider_images => [],
-      :status => target_image && target_image.human_status,
-      :progress => target_image && target_image.progress,
+      :timg_status => target_image && target_image.human_status,
+      :timg_progress => target_image && target_image.progress,
+      :provider_accounts => []
     }
-
-    if (target_image.nil? || target_image.status == Tim::TargetImage::STATUS_FAILED) &&
-      check_privilege(Privilege::MODIFY, @base_image)
-
-        info[:build_url] = tim.target_images_path(:target_image => {
-          :provider_type_id => provider_type.id,
-          :image_version_id => @version.id
-        })
-    elsif target_image.present? && target_image.destroyable? &&
-      check_privilege(Privilege::MODIFY, @base_image)
-
-        info[:delete_url] = tim.target_image_path(target_image.id)
-    else
-      info[:only_status] = true
+    info.merge!(get_target_image_info(target_images, provider_type))
+    accounts_for_provider_type(provider_type, all_provider_accounts).each do |prov_acct|
+      #next unless target_image # jump out of here if target_image is nil
+      pimg = target_image.provider_images.select{|pi| pi.provider_account_id ==
+        prov_acct.id}.last if target_image
+      pinfo = {
+        :provider => prov_acct.provider,
+        :provider_account => prov_acct,
+        :provider_image => pimg,
+        :pimg_status => pimg && pimg.status, # or status_detail ?
+        :pimg_progress => pimg && pimg.progress
+      }
+      # Merge in some URLs (from get_provider_image_data):
+      pinfo.merge!(get_provider_image_data(pimg, prov_acct, target_image))
+      info[:provider_accounts] << pinfo
     end
-
-    if target_image && target_image.status == Tim::TargetImage::STATUS_FAILED
-      info[:failed_attempts] = t('tim.base_images.show.failed_build_attempts',
-                                 :count => target_images.find_all {|i|
-                                   i.status == Tim::TargetImage::STATUS_FAILED
-                                 }.count)
-    end
-
-    provider_accounts = accounts_for_provider_type(provider_type, all_prov_accts)
-    provider_accounts.each do |provider_account|
-      provider_images = target_image.present? ?
-        target_image.provider_images.where(
-          :provider_account_id => provider_account.id) : []
-      info[:provider_images] << get_provider_image_data(provider_images,
-                                                        provider_account,
-                                                        target_image)
-    end
-
-    info
+    # When it's all done, return info:
+    return info
   end
+
 
   # We need this above. For a base image, find all _available_ ProviderTypes,
   # whether or not we have built for it.

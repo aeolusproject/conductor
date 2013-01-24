@@ -44,7 +44,7 @@
 
   .content
     %ul.image_builds
-      = render :partial => 'status', :mustache => {:images => @targets}
+      = render :partial => 'status', :mustache => {:targets => @targets}
 
 :javascript
   $(document).ready(function(){
