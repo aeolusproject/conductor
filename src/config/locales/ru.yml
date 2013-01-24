@@ -817,7 +817,6 @@ ru:
     flash:
       error:
         default_pool_not_deleted: "Текущая зона не может быть удалена."
-        iwhd_unavailable: "Образы каталогов недоступны: ошибка подключения к Image Warehouse."
         not_updated: "Зона не обновлена."
         pool_not_deleted:
           one: "Зона %{list} не удалена, так как с ней связаны экземпляры."

@@ -161,10 +161,6 @@ namespace :dc do
       puts "config/oauth.json already exists; not overwriting"
     else
       oauth_keys = {
-        :iwhd => {
-          :consumer_key => random_key,
-          :consumer_secret => random_key
-        },
         :factory => {
           :consumer_key => random_key,
           :consumer_secret => random_key

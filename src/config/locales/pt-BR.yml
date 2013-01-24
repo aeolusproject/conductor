@@ -817,7 +817,6 @@ pt-BR:
     flash:
       error:
         default_pool_not_deleted: "O Pool padrão não pode ser removido"
-        iwhd_unavailable: "As Imagens de Catálogo estão indisponíveis. Parece que a Image Warehouse não pode ser acessada."
         not_updated: "O Pool não foi atualizado!"
         pool_not_deleted:
           one: "O Pool %{list} não foi removido. Existem instâncias associadas à ele."

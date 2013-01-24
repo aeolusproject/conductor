@@ -651,7 +651,6 @@ en:
           one: Pool %{list} was not deleted. There are Instances associated with it.
           other: Pools %{list} were not deleted. They have Instances associated with them.
         default_pool_not_deleted: The default Pool cannot be deleted.
-        iwhd_unavailable: Catalog Images are unavailable. It appears the Image Warehouse is not reachable.
       warning:
         creation_failed: Pool creation failed.
     list:
