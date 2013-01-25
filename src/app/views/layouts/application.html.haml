@@ -3,7 +3,7 @@
   = "| #{@title}" unless @title.blank?
 
 = content_for :stylesheets_block do
-  = stylesheet_link_tag '/stylesheets/compiled/layout.css'
+  = stylesheet_link_tag 'layout'
   = stylesheet_link_tag 'jquery.ui-1.8.1/jquery-ui-1.8.1.custom.css'
   /[if lt IE 10]
     = stylesheet_link_tag '/stylesheets/layout_ie9.css'
@@ -22,22 +22,7 @@
     window.history.pushState || (window.history.pushState = function(){});
     window.history.replaceState || (window.history.replaceState = function(){});
 
-  = javascript_include_tag "converge-ui/vendor/jquery/jquery-1.6.2.js"
-  = javascript_include_tag "converge-ui/flash_messages.js"
-  = javascript_include_tag "jquery.ui-1.8.1/jquery-ui-1.8.1.custom.min.js"
-  = javascript_include_tag "mustache.min.js"
-  = javascript_include_tag "underscore-min.js"
-  = javascript_include_tag "backbone-min.js"
-
-  = javascript_include_tag "application.js"
-
-  = javascript_include_tag "backbone/models.js"
-  = javascript_include_tag "backbone/views.js"
-  = javascript_include_tag "backbone/routers.js"
-  = javascript_include_tag "converge-ui/vendor/rails.js"
-  = javascript_include_tag "lib/modernizr-custom.js"
-  = javascript_include_tag "converge-ui/vendor/jquery/plugins/flot-0.7/jquery.flot.js"
-  = javascript_include_tag "converge-ui/vendor/jquery/plugins/flot-0.7/excanvas.js"
+  = javascript_include_tag "manifests/application"
 
 = content_for :logo do
   = link_to t('layout.appname'), main_app.root_path, :class => "logo"
@@ -54,10 +39,10 @@
       %li.header-widget= link_to t('masthead.login'), main_app.login_path
 
 = content_for :content do
-  = render :partial => '/layouts/new_notification'# if flash.present? or content_for?(:error_messages)
+  = render :partial => '/layouts/new_notification'
   = yield
 
 = content_for :footer do
   = render :partial => 'layouts/footer'
 
-= render :file => "app/views/layouts/converge-ui/shell_layout"
+= render :template => "alchemy/layouts/shell_layout"
