@@ -10,10 +10,18 @@
   :enable_ldap: true
 
 :imagefactory:
-  :url: https://localhost:8075/imagefactory
-  # :oauth:
-  #   :consumer_key: consumer_key_here
-  #   :consumer_secret: consumer_secret_here
+  :url: http://localhost:8075/imagefactory
+  :callback_urls:
+    :target_image: http://localhost:3000/tim/target_images/
+    :provider_image: http://localhost:3000/tim/provider_images/
+  # uncomment provider types for which you want to use snapshot build mode,
+  #:snapshot_provider_types:
+  #  - ec2
+  #  - mock
+  #  - openstack
+  #:oauth:
+  #  :consumer_key: consumer_key_here
+  #  :consumer_secret: consumer_secret_here
 
 :session:
   :timeout: 15 # minutes
