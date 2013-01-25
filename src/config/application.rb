@@ -82,5 +82,14 @@ module Conductor
     #config.middleware.swap Rack::MethodOverride, Rack::RestfulSubmit
     config.middleware.insert_before(Rack::MethodOverride, Rack::RestfulSubmit)
     ActiveRecord::Base.include_root_in_json = false
+
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # partially load application when precompiling assets
+    config.assets.initialize_on_precompile = false
+
+    # Version of your assets, change this if you want to expire all your assets
+    config.assets.version = '1.0'
   end
 end

@@ -33,8 +33,9 @@ Source0:    aeolus-conductor-%{version}.tar.gz
 
 Requires: ruby >= %{rubyver}
 Requires: ruby(abi) = %{rubyabi}
-Requires: rubygem(rails) >= 3.0.7
-Requires: rubygem(haml) >= 3.1
+Requires: rubygem(rails) => 3.2.3
+Requires: rubygem(rails) < 3.3
+Requires: rubygem(haml-rails)
 Requires: rubygem(mustache) >= 0.99.4
 Requires: rubygem(nokogiri) >= 1.4.0
 Requires: rubygem(will_paginate) >= 3.0
@@ -53,9 +54,9 @@ Requires: rubygem(ldap_fluff)
 Requires: rubygem(rake)
 Requires: rubygem(delayed_job) >= 2.1.4
 Requires: rubygem(paranoia)
-Requires: rubygem(compass) >= 0.11.5
-Requires: rubygem(compass-960-plugin) >= 0.10.4
+Requires: rubygem(compass-rails) >= 0.11.5
 Requires: rubygem(simple_form) >= 2.0.3
+Requires: rubygem(alchemy)
 Requires: postgresql
 Requires: postgresql-server
 Requires: system-logos
@@ -71,10 +72,18 @@ Requires: rubygem(ruby-net-ldap)
 # and is accessible in the init script
 Requires: curl
 
-BuildRequires: rubygem(sass)
-BuildRequires: rubygem(compass) >= 0.11.5
-BuildRequires: rubygem(compass-960-plugin) >= 0.10.4
-BuildRequires: converge-ui-devel >= 1.2
+BuildRequires: rubygem(haml-rails)
+BuildRequires: rubygem(sass-rails)
+BuildRequires: rubygem(compass-rails)
+BuildRequires: rubygem(simple-navigation)
+BuildRequires: rubygem(rest-client) >= 1.6.1
+BuildRequires: rubygem(rack-restful_submit)
+BuildRequires: rubygem(rspec-rails)
+BuildRequires: rubygem(activerecord)
+BuildRequires: rubygem(actionmailer)
+BuildRequires: rubygem(alchemy) >= 1.0.0
+BuildRequires: rubygem(uglifier)
+BuildRequires: rubygem(therubyracer)
 
 BuildArch: noarch
 
@@ -157,9 +166,11 @@ run aeolus-configure to configure everything.
 %setup -q
 
 %build
-
-#copy converge-ui from converge-ui-devel
-cp -R /usr/share/converge-ui-devel/* ./src/vendor/converge-ui
+# precompile assets
+pushd ./src
+#have to swich to dev. env. because of premissions errors
+RAILS_ENV=development rake assets:precompile
+popd
 
 %pre
 getent group aeolus >/dev/null || /usr/sbin/groupadd -g 180 -r aeolus 2>/dev/null || :
@@ -210,10 +221,8 @@ fi
 # extension may exist.  For instance cgi="public" means that src/public/*.cgi
 # will be copied from the source into the RPM.
 builder="app/views/errors"
-css="public/stylesheets public/stylesheets/jquery.ui-1.8.1"
+css="public/stylesheets"
 feature="features"
-gif="public/images \
-     public/stylesheets/images"
 haml="app/views/hardware_profiles app/views/realm_mappings \
       app/views/users app/views/provider_accounts \
       app/views/provider_selections app/views/provider_priority_groups \
@@ -242,21 +251,9 @@ mustache="app/views/instances app/views/pools app/views/deployments \
           app/views/deployables app/views/images"
 html="public"
 ico="public"
-jpg="public/images \
-     public/stylesheets/images"
-js="public/javascripts \
-    public/javascripts/jquery.ui-1.8.1 \
-    public/javascripts/jquery.ui-1.8.1/ui/minified \
-    public/javascripts/lib \
-    public/javascripts/backbone"
 json="spec/fixtures"
 key="features/upload_files"
 opts="spec"
-png="public/images \
-     public/images/icons \
-     public/images/embed \
-     public/stylesheets/images \
-     public/stylesheets/jquery.ui-1.8.1/images"
 rake="lib/tasks"
 rb="app/models app/controllers app/controllers/api app/helpers app/mailers app/services app/util \
     config config/initializers config/environments db db/migrate \
@@ -269,10 +266,6 @@ rb="app/models app/controllers app/controllers/api app/helpers app/mailers app/s
     vendor/provider_selection/strategies/strict_order \
     vendor/provider_selection/strategies/penalty_for_failure"
 rhtml="app/views/layouts"
-svg="public/fonts public/images public/images/icons"
-ttf="public/fonts"
-eot="public/fonts"
-woff="public/fonts"
 txt="public"
 yml="config config/locales config/locales/defaults config/locales/emails config/locales/overrides
      config/locales/role_definitions config/locales/classnames config/locales/will_paginate \
@@ -292,30 +285,14 @@ for filetype in builder css eot feature gif haml erb mustache html ico jpg js js
 done
 %{__rm} %{buildroot}%{app_root}/config/initializers/secret_token.rb
 
-#copy converge-ui - it originates from converge-ui-devel package so we need all of it's files
-%{__cp} -R ./src/vendor/converge-ui %{buildroot}%{app_root}/vendor
-#we don't want the .git artifacts from converge-ui
-%{__rm} -rf %{buildroot}%{app_root}/vendor/converge-ui/.git
-%{__rm} -f %{buildroot}%{app_root}/vendor/converge-ui/.gitignore
-
-#copy the converge-ui symlinks
-%{__cp} -P ./src/app/helpers/converge-ui %{buildroot}%{app_root}/app/helpers
-%{__cp} -P ./src/app/views/layouts/converge-ui %{buildroot}%{app_root}/app/views/layouts
-%{__cp} -P ./src/public/images/converge-ui %{buildroot}%{app_root}/public/images
-%{__cp} -P ./src/public/javascripts/converge-ui %{buildroot}%{app_root}/public/javascripts
-%{__cp} -P ./src/public/fonts/converge-ui %{buildroot}%{app_root}/public/fonts
-
-# precompile stylesheets
-%{__mkdir} %{buildroot}%{app_root}/public/stylesheets/compiled
-pushd ./src
-compass compile
-popd
-%{__cp} ./src/public/stylesheets/compiled/* %{buildroot}%{app_root}/public/stylesheets/compiled
+# copy the public/assets directory
+%{__mkdir} -p %{buildroot}%{app_root}/public/assets
+%{__cp} -r src/public/assets/* %{buildroot}%{app_root}/public/assets
 
 # misc files
 %{__cp} src/Rakefile %{buildroot}%{app_root}
 %{__cp} src/config.ru %{buildroot}%{app_root}
-%{__cp} src/Gemfile %{buildroot}%{app_root}/Gemfile.in
+%{__cp} src/Gemfile.in %{buildroot}%{app_root}/Gemfile.in
 %{__cp} src/spec/fixtures/Gemfile.in %{buildroot}%{app_root}/spec/fixtures
 %{__cp} src/lib/aeolus/debug/aeolus-debug %{buildroot}%{_bindir}
 
