@@ -199,5 +199,5 @@ end
 
 Given /^the specified provider account does not exist in the system$/ do
   @provider_account = FactoryGirl.create(:mock_provider_account)
-  ProviderAccount.delete(@provider_account.id)
+  @provider_account.destroy
 end

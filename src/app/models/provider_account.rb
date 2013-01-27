@@ -42,6 +42,7 @@ class ProviderAccount < ActiveRecord::Base
 
   before_destroy :check_destroyable_instances!
   before_destroy :check_provider_images!
+  before_destroy :remove_pool_family_assoc
 
   # Relations
   belongs_to :provider
@@ -196,6 +197,10 @@ class ProviderAccount < ActiveRecord::Base
                :deployments => not_destroyable_instances.
                map{|i| i.deployment.nil? ? i.name : i.deployment.name}.uniq.join(', '))
     end
+  end
+
+  def remove_pool_family_assoc
+    pool_families.clear
   end
 
   def connect
