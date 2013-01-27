@@ -41,6 +41,7 @@ class PoolFamily < ActiveRecord::Base
   before_destroy :check_name!
   before_destroy :check_pools!
   before_destroy :check_images!
+  before_destroy :remove_provider_account_assoc
 
   has_many :pools,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
@@ -116,6 +117,10 @@ class PoolFamily < ActiveRecord::Base
         I18n.t('pool_families.errors.associated_images',
                :list => base_images.map {|i| i.name}.join(', '))
     end
+  end
+
+  def remove_provider_account_assoc
+    provider_accounts.clear
   end
 
   def all_providers_disabled?

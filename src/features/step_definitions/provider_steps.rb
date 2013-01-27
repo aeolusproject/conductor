@@ -57,7 +57,7 @@ end
 
 Given /^the specified provider does not exist in the system$/ do
   @provider = FactoryGirl.create(:mock_provider)
-  Provider.delete(@provider.id)
+  Provider.destroy(@provider.id)
   @provider_count = Provider.count
 end
 

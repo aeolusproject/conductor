@@ -267,7 +267,7 @@ describe "ProviderAccounts" do
 
     context "for non existing Provider Account" do
 
-      let(:provider_account) { provider_account = FactoryGirl.create(:mock_provider_account); ProviderAccount.delete(provider_account.id); provider_account }
+      let(:provider_account) { provider_account = FactoryGirl.create(:mock_provider_account); provider_account.destroy; provider_account }
       let(:xml) { "" }
 
       it_behaves_like "http Not Found"
