@@ -82,13 +82,6 @@ class Provider < ActiveRecord::Base
         load_json.present?
       when "VMware vSphere"
         load_json.present?
-      when "Amazon EC2"
-        if name.starts_with?("ec2-")
-          true
-        else
-          errors.add(:name, :start_with_ec2)
-          false
-        end
     end
   end
 
@@ -257,6 +250,8 @@ class Provider < ActiveRecord::Base
       else
         raise I18n.t("providers.errors.json_conf_not_found", :provider => self.name)
       end
+    elsif provider_type.deltacloud_driver == 'ec2'
+      {'name' => deltacloud_provider}
     else
       {}
     end

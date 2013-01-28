@@ -27,6 +27,7 @@ Tim::TargetImage.class_eval do
 
   validates_presence_of :provider_type
 
+  before_create :set_snapshot_build
   before_validation :set_provider_type
   before_validation :set_target
 
@@ -74,6 +75,13 @@ Tim::TargetImage.class_eval do
   def status=(state)
     state = Tim::TargetImage::STATUS_COMPLETE if state == 'COMPLETED'
     write_attribute(:status, state)
+  end
+
+  def set_snapshot_build
+    if SETTINGS_CONFIG[:imagefactory][:snapshot_provider_types] &&
+      SETTINGS_CONFIG[:imagefactory][:snapshot_provider_types].include?(provider_type.deltacloud_driver)
+        self.build_method = 'SNAPSHOT'
+    end
   end
 
   private
