@@ -27,7 +27,6 @@ gem 'haml-rails'
 gem 'sass-rails'
 gem 'compass-rails'
 gem "alchemy", ">= 1.0.1"
-gem 'foreigner'
 
 platforms :ruby_18 do
   gem 'fastercsv'
