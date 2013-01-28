@@ -100,7 +100,7 @@ class RolesController < ApplicationController
       flash[:notice] = "#{t('roles.flash.notice.more_deleted')} #{deleted.join(', ')}"
     end
     unless not_deleted.empty?
-      flash[:error] = "#{t('roles.flash.error.more_not_deletedX')} #{not_deleted.join(', ')}"
+      flash[:error] = "#{t('roles.flash.error.more_not_deleted')} #{not_deleted.join(', ')}"
     end
 
     redirect_to roles_url

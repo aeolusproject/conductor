@@ -3,7 +3,7 @@
 %fieldset
   .field
     = fields_for @hwp_cost do |cost_form|
-      = t('billing_model') + ': ' + CostEngine::BillingModel::find_name(@hwp_cost.billing_model)
+      = t('hardware_profiles.properties_headers.billing_model') + ': ' + CostEngine::BillingModel::find_name(@hwp_cost.billing_model)
       = link_to t('change'), edit_cost_billing_hardware_profile_path, :class => "button", :id => 'change_bm_button'
       = cost_form.hidden_field :billing_model
       - if @hwp_cost.billing_model != 'per_property'

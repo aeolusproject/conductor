@@ -92,12 +92,12 @@ Tim::ProviderImage.class_eval do
 
   def human_status
     if built?
-      I18n.t('tim.base_images.provider_image.statuses.complete')
+      I18n.t('tim.base_images.provider_images.statuses.complete')
     elsif status == Tim::ProviderImage::STATUS_FAILED
-      I18n.t('tim.base_images.provider_image.statuses.failed')
+      I18n.t('tim.base_images.provider_images.statuses.failed')
     else
       # TODO: is it OK to consider nil status as pushing?
-      I18n.t('tim.base_images.provider_image.statuses.pushing')
+      I18n.t('tim.base_images.provider_images.statuses.pushing')
     end
   end
 

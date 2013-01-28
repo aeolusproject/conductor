@@ -17,9 +17,6 @@
           %li
             %dt=t'alerts_label'
             %dd.count.alert{:title => t('pools.scoreboard.alerts')}= @statistics[:instances_failed_count]
-          /%li
-          /  %dt=t'updates'
-          /  %dd.count.update{:title => t('pools.scoreboard.updates')} 0
       %li
         %dt
           = t("pools.pool")
