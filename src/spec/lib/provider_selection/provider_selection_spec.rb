@@ -53,8 +53,8 @@ describe ProviderSelection::Strategies do
       matches = rank.default_priority_group.matches.sort!{ |m1,m2| m1.score <=> m2.score }
 
       # then the first one should be for the cheaper hardware_profile etc.
-      matches[0].hardware_profile.default_cost_per_hour.should < matches[1].hardware_profile.default_cost_per_hour
-      matches[1].hardware_profile.default_cost_per_hour.should < matches[2].hardware_profile.default_cost_per_hour
+      matches[0].hardware_profiles[0].default_cost_per_hour.should < matches[1].hardware_profiles[0].default_cost_per_hour
+      matches[1].hardware_profiles[0].default_cost_per_hour.should < matches[2].hardware_profiles[0].default_cost_per_hour
     end
   end
 

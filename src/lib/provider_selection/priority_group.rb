@@ -33,8 +33,8 @@ module ProviderSelection
       allowed_matches.each do |match|
         if possible_provider_accounts.include?(match.provider_account)
           matches << Match.new(:provider_account => match.provider_account,
-                               :hardware_profile => match.hardware_profile,
-                               :instance_hwp     => match.instance_hwp)
+                               :hardware_profiles => match.hardware_profiles,
+                               :instance_hwps     => match.instance_hwps)
         end
       end
 

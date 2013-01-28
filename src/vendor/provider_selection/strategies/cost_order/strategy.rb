@@ -29,8 +29,8 @@ module ProviderSelection
           @default_options
         end
 
-        def reward_for_cost(match)
-          price = match.hardware_profile.cost_per_hour(match.instance_hwp)
+        #price = hardware_profile.cost_per_hour(instance_hwp)
+        def reward_for_price(price)
           return 0 if price.nil?
           mode = @options.key?(:impact) ? @options[:impact] : 1
           base = 33.0 # may become a config option in the future
@@ -55,9 +55,28 @@ module ProviderSelection
           rank = @strategies.calculate
           rank.default_priority_group.matches.each do |match|
             old_score = match.calculated_score
-            match.reward_by(reward = reward_for_cost(match))
-            cost = match.hardware_profile.cost_per_hour(match.instance_hwp)
-            Rails.logger.debug("match hwp: #{match.hardware_profile.id}, cost: #{cost}, orig score: #{old_score}, reward for cost: #{reward}, new score: #{match.score}")
+
+            # calculate average price of hardware_profile in the match
+            sum = 0
+            have_costs = true
+            match.hardware_profiles.each_with_index do |hardware_profile,index|
+              instance_hwp = match.instance_hwps[index]
+              cost = hardware_profile.cost_per_hour(instance_hwp)
+              if cost.nil?
+                have_costs = false
+              else
+                sum += cost
+              end
+              Rails.logger.debug("match hwp #{index}: #{hardware_profile.id}, cost: #{cost}")
+            end
+
+            if have_costs
+              price = sum / match.hardware_profiles.length
+              match.reward_by(reward = reward_for_price(price))
+              Rails.logger.debug("avg cost: #{price}, orig score: #{old_score}, reward for cost: #{reward}, new score: #{match.score}")
+            else
+              Rails.logger.debug("sorry, a cost was missing, could not calculate the score")
+            end
           end
 
           rank
