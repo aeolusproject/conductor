@@ -375,4 +375,22 @@ describe Instance do
       @instance.instance_hwp.should_not be_nil
     end
   end
+
+  describe ".stopped_after_creation?" do
+    before(:each) do
+      @instance = FactoryGirl.create(:instance, :pool_id => @pool.id, :state => 'stopped')
+      @deployment = FactoryGirl.create :deployment
+      @deployment.instances << @instance
+    end
+
+    it "should be true if the deployment is pending and the provider doesn't start an instance automatically" do
+      @instance.provider_account.provider.provider_type.
+        stub!(:goes_to_stop_after_creation?).and_return(true)
+      @deployment.update_attribute(:state, Deployment::STATE_PENDING)
+      @instance.tasks << InstanceTask.create!({:user        => nil,
+                                 :task_target => @instance,
+                                 :action      => InstanceTask::ACTION_CREATE})
+      @instance.stopped_after_creation?.should be_true
+    end
+  end
 end
