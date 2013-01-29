@@ -522,7 +522,7 @@ class Instance < ActiveRecord::Base
       # also make sure that the 'create' task was created after
       # last deployment launch request - instance can be stopped
       # since previous rollback+retry request
-      last_task.created_at.to_i > last_launch_time.to_i &&
+      last_task.created_at.to_f > last_launch_time.to_f &&
       provider_account &&
       provider_account.provider.provider_type.goes_to_stop_after_creation?
   end
