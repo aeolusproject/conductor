@@ -27,18 +27,23 @@ Feature: Manage Images
     And I press "save_image"
     Then I should see an error message
 
-#
-# FIXME - This test is failing, but fixing it requires fixing a larger bug: we don't
-# use VCR the way we think we do when interacting with iwhd... That's a large can of worms.
-#
-#  Scenario: Show image details
-#    Given there is an image
-#    And I am on the images page
-#    When I click on the image
-#    Then I should be on the image's show page
-#    And I should see the image's name
+  Scenario: Show image details
+    Given there is an image "testimage"
+    And I am on the images page
+    When I follow link with text "testimage"
+    Then I should be on the testimage's show image page
+    And I should see "testimage"
 
-  # TODO: no simple way how to mockup this now
+  Scenario: Build an image
+    Given there is an image "testimage"
+    And there is a provider named "mockprovider"
+    And there is a provider account named "testaccount"
+    And I am on the testimage's show image page
+    And an image build request will succeed
+    When I press "Build"
+    Then I should be on the testimage's show image page
+    And I should see "Building"
+
   #Scenario: Delete an image
   #Scenario: Delete a provider image
   #Scenario: Push a provider image

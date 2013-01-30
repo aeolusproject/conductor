@@ -73,6 +73,12 @@ module NavigationHelpers
     when /^the (.*)'s provider accounts page$/
       provider_path(Provider.find_by_name($1), :details_tab => 'accounts')
 
+    when /^the (.*)'s show image page$/
+      tim.base_image_path(Tim::BaseImage.find_by_name($1))
+
+    when /the images page/
+      tim.base_images_path
+
     when /the settings page/
       settings_path
 
