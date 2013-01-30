@@ -47,7 +47,7 @@ class FrontendRealmsController < ApplicationController
   def update
     require_privilege(Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
-    @title = @realm.name || t("realms.realm")
+    @title = @realm.name || t("realms.index.realm")
 
     if @realm.update_attributes(params[:frontend_realm])
       flash[:notice] = t"realms.flash.notice.updated"
