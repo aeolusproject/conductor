@@ -161,6 +161,7 @@ en:
         members_not_removed: "Could not remove these users"
         not_a_local_group: 'Only locally-managed groups can be managed here.'
         select_to_add_members: 'You must select at least one user to add.'
+        select_to_remove_members: 'You must select at least one user to remove.'
     preset_filters:
       all_user_groups: "All User Groups"
       local: "Locally-managed User Groups"
@@ -290,6 +291,7 @@ en:
   choose: Choose
   default_none_selected_message: "Please make a selection first."
   default_confirm_message: "Are you sure you want to proceed?"
+  change: Change
   deployments:
     deployments: Deployments
     deployment: Deployment
@@ -587,10 +589,6 @@ en:
   searches: Searches
   image_factory: Image Factory
   administration: Administration
-  roles:
-    roles: Roles
-    index:
-      role_name: Role Name
   cloud_providers: Cloud Providers
   provider_accounts_item: Provider Account
   cloud_engine_hardware_profiles: Hardware Profiles
@@ -758,6 +756,7 @@ en:
       warning:
         cannot_edit_backend_hwp: "Cannot modify Provider Hardware Profiles"
         cannot_delete_backend_hwp: "Cannot delete Provider Hardware Profiles"
+        cannot_assign_cost_to_frontend_hwp: "Cannot assign cost to Frontend Hardware Profile"
     preset_filters:
       all_hardware_profiles: "All Hardware Profiles"
       x86_64architecture: "x86_64 architecture"
@@ -1405,7 +1404,10 @@ en:
         not_updated: "Could not update quota. Please check you have entered valid values"
         must_be_positive: "must be a positive whole number less than 2147483647"
   roles:
+    roles: Roles
     new_role: New Role
+    index:
+      role_name: Role Name
     tab_captions:
       properties: Properties
     list:
