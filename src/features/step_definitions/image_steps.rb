@@ -13,23 +13,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-Given /^there is an image$/ do
-  @image = FactoryGirl.create(:base_image_with_template)
-end
-
-When /^I click on the image$/ do
-  click_link(@image.name)
-end
-
-Then /^I should see the image's name$/ do
-  if page.respond_to? :should
-    page.should have_content(@image.name)
-  else
-    assert page.has_content?(@image.name)
-  end
+Given /^there is an image "([^"]*)"$/ do |name|
+  @image = FactoryGirl.create(:base_image_with_template, :name => name)
 end
 
 When /^I fill in "([^"]*)" with an invalid XML$/ do |arg1|
   xml = '<?xml version="1.0"?><template>'
   fill_in(arg1, :with => xml)
+end
+
+Given /^an image build request will succeed$/ do
+  Tim::TargetImage.any_instance.stub(:create_factory_target_image).and_return(true)
 end

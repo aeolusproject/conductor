@@ -232,8 +232,8 @@ Tim::BaseImagesController.class_eval do
       check_privilege(Privilege::MODIFY, @base_image)
         info[:build_url] = tim.target_images_path(:target_image => {
           :provider_type_id => provider_type.id,
-          :image_version_id => @version ? @version.id : nil
-        })
+          :image_version_id => @version ? @version.id : nil,
+        }, :base_image_id => @version ? nil : @base_image.id)
     # otherwise, if the image is destroyable, show a delete link
     elsif target_image.present? && target_image.destroyable? &&
       check_privilege(Privilege::MODIFY, @base_image)

@@ -51,6 +51,11 @@ Tim::TargetImagesController.class_eval do
 
   def check_create_permission
     @target_image = Tim::TargetImage.new(params[:target_image])
+    if @target_image.image_version.blank? && params[:base_image_id].present?
+      @target_image.image_version = Tim::ImageVersion.new(
+        :base_image_id => params[:base_image_id]
+      )
+    end
     require_privilege(Privilege::MODIFY, @target_image.base_image)
   end
 end
