@@ -157,19 +157,19 @@ end
 
 Then /^I should see the "([^"]*)" deployment$/ do |name|
   text_present(name)
-  localized_text_present('deployments.deployment_name')
+  text_present _('Name')
 end
 
 Then /^I should see the filter_view contents for pools index$/ do
   within("#tab-container-1-nav") do
-    localized_text_present('pools.pools')
-    localized_text_presen_('Instances')
-    localized_text_presen_('Deployments')
+    text_present _('Pools')
+    text_present _('Instances')
+    text_present _('Deployments')
   end
 end
 
 Then /^I should see the pretty_view contents for pools index$/ do
-  within("section.pools") { localized_text_present('pools.index.your_pools') }
+  within("section.pools") { text_present _('Your Pools') }
 end
 
 When /^I click "([^"]*)" toggle$/ do |toggle|
