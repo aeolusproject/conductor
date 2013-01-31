@@ -1,0 +1,144 @@
+[martin@test2 src]$ rails generate immigration AddKeys
+===== boot.rb will try and use bundler =========
+===== application.rb will try and use bundler =========
+/home/martin/devel/conductor/src/app/util/deployable_xml.rb:210: warning: already initialized constant DEPLOYABLE_VERSION
+WARNING: Skipping derived_permissions.permission_object_id: it has multiple associations referencing different keys/tables.
+WARNING: Skipping entities.entity_target_id: it has multiple associations referencing different keys/tables.
+WARNING: Skipping permissions.permission_object_id: it has multiple associations referencing different keys/tables.
+WARNING: Skipping realm_backend_targets.provider_realm_or_provider_id: it has multiple associations referencing different keys/tables.
+      create  db/migrate/20121202094114_add_keys.rb
+
+
+rspec ./spec/support/shared_examples_for_api.rb:55 # ProviderAccounts PUT /api/provider_accounts/:provider_account_id for non existing Provider Account behaves like http Not Found response status code
+rspec ./spec/support/shared_examples_for_api.rb:77 # ProviderAccounts PUT /api/provider_accounts/:provider_account_id for non existing Provider Account behaves like responding with XML response
+rspec ./spec/support/shared_examples_for_api.rb:81 # ProviderAccounts PUT /api/provider_accounts/:provider_account_id for non existing Provider Account behaves like responding with XML response body
+rspec ./spec/requests/api/provider_accounts_spec.rb:279 # ProviderAccounts PUT /api/provider_accounts/:provider_account_id for non existing Provider Account XML body have RecordNotFound error message
+rspec ./spec/support/shared_examples_for_api.rb:55 # ProvidersController API when requesting XML when using admin credentials#destroy non existing provider behaves like http Not Found response status code
+rspec ./spec/support/shared_examples_for_api.rb:77 # ProvidersController API when requesting XML when using admin credentials#destroy non existing provider behaves like responding with XML response
+rspec ./spec/support/shared_examples_for_api.rb:81 # ProvidersController API when requesting XML when using admin credentials#destroy non existing provider behaves like responding with XML response body
+rspec ./spec/controllers/providers_controller_spec.rb:281 # ProvidersController API when requesting XML when using admin credentials#destroy non existing provider XML body
+rspec ./spec/support/shared_examples_for_api.rb:55 # ProvidersController API when requesting XML when using admin credentials#update non existing provider behaves like http Not Found response status code
+rspec ./spec/support/shared_examples_for_api.rb:77 # ProvidersController API when requesting XML when using admin credentials#update non existing provider behaves like responding with XML response
+rspec ./spec/support/shared_examples_for_api.rb:81 # ProvidersController API when requesting XML when using admin credentials#update non existing provider behaves like responding with XML response body
+rspec ./spec/controllers/providers_controller_spec.rb:358 # ProvidersController API when requesting XML when using admin credentials#update non existing provider XML body
+rspec ./spec/controllers/provider_accounts_controller_spec.rb:72 # ProviderAccountsController UI should allow users with account modify permission to delete a cloud account
+rspec ./spec/controllers/provider_accounts_controller_spec.rb:226 # ProviderAccountsController API when requesting XML when using admin credentials#destroy when requested provider account exists
+
+
+Failing Scenarios:
+cucumber features/provider.feature:42 # Scenario: Delete a provider
+cucumber features/provider_account.feature:48 # Scenario: Delete a provider account
+cucumber features/provider_account.feature:66 # Scenario: Delete a provider account with stopped instances
+cucumber features/provider_account_api.feature:19 # Scenario: Attempt to get list of provider accounts for non existing provider via XML
+cucumber features/provider_account_api.feature:55 # Scenario: Attempt to update non existing provider account
+cucumber features/provider_api.feature:75 # Scenario: Attempt to delete non-existant provider
+cucumber features/provider_type_api.feature:21 #
+
+#############
+
+class AddKeys < ActiveRecord::Migration
+  def change
+#    add_foreign_key "catalog_entries", "catalogs", :name => "catalog_entries_catalog_id_fk"
+#    add_foreign_key "catalog_entries", "deployables", :name => "catalog_entries_deployable_id_fk"
+
+#    add_foreign_key "catalogs", "pool_families", :name => "catalogs_pool_family_id_fk"
+#    add_foreign_key "catalogs", "pools", :name => "catalogs_pool_id_fk"
+
+#   add_foreign_key "deployables", "users", :name => "deployables_owner_id_fk", :column => "owner_id"
+#   add_foreign_key "deployables", "pool_families", :name => "deployables_pool_family_id_fk"
+
+
+#   add_foreign_key "deployments", "frontend_realms", :name => "deployments_frontend_realm_id_fk"
+#   add_foreign_key "deployments", "users", :name => "deployments_owner_id_fk", :column => "owner_id"
+#   add_foreign_key "deployments", "pool_families", :name => "deployments_pool_family_id_fk"
+#   add_foreign_key "deployments", "pools", :name => "deployments_pool_id_fk"
+#   add_foreign_key "deployments", "provider_realms", :name => "deployments_provider_realm_id_fk"
+
+#   add_foreign_key "hardware_profiles", "hardware_profile_properties", :name => "hardware_profiles_architecture_id_fk", :column => "architecture_id"
+#   add_foreign_key "hardware_profiles", "hardware_profile_properties", :name => "hardware_profiles_cpu_id_fk", :column => "cpu_id"
+#   add_foreign_key "hardware_profiles", "hardware_profile_properties", :name => "hardware_profiles_memory_id_fk", :column => "memory_id"
+#   add_foreign_key "hardware_profiles", "providers", :name => "hardware_profiles_provider_id_fk"
+#   add_foreign_key "hardware_profiles", "hardware_profile_properties", :name => "hardware_profiles_storage_id_fk", :column => "storage_id"
+
+#   add_foreign_key "pool_families_provider_accounts", "pool_families", :name => "pool_families_provider_accounts_pool_family_id_fk"
+#   add_foreign_key "pool_families_provider_accounts", "provider_accounts", :name => "pool_families_provider_accounts_provider_account_id_fk"
+#
+#   add_foreign_key "pool_families", "quotas", :name => "pool_families_quota_id_fk"
+#
+#   add_foreign_key "pools", "pool_families", :name => "pools_pool_family_id_fk"
+#   add_foreign_key "pools", "quotas", :name => "pools_quota_id_fk"
+#
+#    # # FIXME:add_foreign_key "instances", "deployments", :name => "instances_deployment_id_fk"
+#    add_foreign_key "instances", "frontend_realms", :name => "instances_frontend_realm_id_fk"
+#    add_foreign_key "instances", "hardware_profiles", :name => "instances_hardware_profile_id_fk"
+#    add_foreign_key "instances", "instance_hwps", :name => "instances_instance_hwp_id_fk"
+#    add_foreign_key "instances", "users", :name => "instances_owner_id_fk", :column => "owner_id"
+#    add_foreign_key "instances", "pool_families", :name => "instances_pool_family_id_fk"
+#    add_foreign_key "instances", "pools", :name => "instances_pool_id_fk"
+#    add_foreign_key "instances", "provider_accounts", :name => "instances_provider_account_id_fk"
+#    # FIXME: add_foreign_key "instances", "hardware_profiles", :name => "instances_provider_hardware_profile_id_fk", :column => "provider_hardware_profile_id"
+
+    add_foreign_key "config_servers", "provider_accounts", :name => "config_servers_provider_account_id_fk"
+
+    add_foreign_key "credential_definitions", "provider_types", :name => "credential_definitions_provider_type_id_fk"
+
+    add_foreign_key "credentials", "credential_definitions", :name => "credentials_credential_definition_id_fk"
+    add_foreign_key "credentials", "provider_accounts", :name => "credentials_provider_account_id_fk"
+
+    add_foreign_key "derived_permissions", "entities", :name => "derived_permissions_entity_id_fk"
+    add_foreign_key "derived_permissions", "permissions", :name => "derived_permissions_permission_id_fk"
+    add_foreign_key "derived_permissions", "roles", :name => "derived_permissions_role_id_fk"
+
+    add_foreign_key "instance_hwps", "hardware_profiles", :name => "instance_hwps_hardware_profile_id_fk"
+    add_foreign_key "instance_keys", "instances", :name => "instance_keys_instance_id_fk"
+
+    # add_foreign_key "instance_parameters", "instances", :name => "instance_parameters_instance_id_fk"
+
+    add_foreign_key "members_user_groups", "users", :name => "members_user_groups_member_id_fk", :column => "member_id"
+    add_foreign_key "members_user_groups", "user_groups", :name => "members_user_groups_user_group_id_fk"
+
+    add_foreign_key "permission_sessions", "users", :name => "permission_sessions_user_id_fk"
+
+    add_foreign_key "permissions", "entities", :name => "permissions_entity_id_fk"
+    add_foreign_key "permissions", "roles", :name => "permissions_role_id_fk"
+
+
+    add_foreign_key "privileges", "roles", :name => "privileges_role_id_fk"
+
+    add_foreign_key "property_enum_entries", "hardware_profile_properties", :name => "property_enum_entries_hardware_profile_property_id_fk"
+
+    add_foreign_key "provider_accounts", "providers", :name => "provider_accounts_provider_id_fk"
+    add_foreign_key "provider_accounts", "quotas", :name => "provider_accounts_quota_id_fk"
+
+    add_foreign_key "provider_accounts_provider_realms", "provider_accounts", :name => "provider_accounts_provider_realms_provider_account_id_fk"
+    #FIXME: add_foreign_key "provider_accounts_provider_realms", "provider_realms", :name => "provider_accounts_provider_realms_provider_realm_id_fk"
+
+    add_foreign_key "provider_priority_group_elements", "provider_priority_groups", :name => "provider_priority_group_elements_provider_priority_group_id_fk"
+    add_foreign_key "provider_priority_groups", "pools", :name => "provider_priority_groups_pool_id_fk"
+
+    add_foreign_key "provider_realms", "providers", :name => "provider_realms_provider_id_fk"
+
+    add_foreign_key "provider_selection_strategies", "pools", :name => "provider_selection_strategies_pool_id_fk"
+
+    add_foreign_key "providers", "provider_types", :name => "providers_provider_type_id_fk"
+
+    add_foreign_key "realm_backend_targets", "frontend_realms", :name => "realm_backend_targets_frontend_realm_id_fk"
+
+    add_foreign_key "session_entities", "entities", :name => "session_entities_entity_id_fk"
+    add_foreign_key "session_entities", "permission_sessions", :name => "session_entities_permission_session_id_fk"
+    add_foreign_key "session_entities", "users", :name => "session_entities_user_id_fk"
+
+    add_foreign_key "tasks", "instances", :name => "tasks_task_target_id_fk", :column => "task_target_id"
+
+    add_foreign_key "users", "quotas", :name => "users_quota_id_fk"
+
+    add_foreign_key "view_states", "users", :name => "view_states_user_id_fk"
+  end
+end
+
+# FIXME:
+# /home/martin/devel/conductor/src/app/util/deployable_xml.rb:210: warning: already initialized constant DEPLOYABLE_VERSION
+# WARNING: Skipping derived_permissions.permission_object_id: it has multiple associations referencing different keys/tables.
+# WARNING: Skipping entities.entity_target_id: it has multiple associations referencing different keys/tables.
+# WARNING: Skipping permissions.permission_object_id: it has multiple associations referencing different keys/tables.
+# WARNING: Skipping realm_backend_targets.provider_realm_or_provider_id: it has multiple associations referencing different keys/tables.
