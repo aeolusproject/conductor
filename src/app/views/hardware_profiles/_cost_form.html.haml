@@ -3,8 +3,8 @@
 %fieldset
   .field
     = fields_for @hwp_cost do |cost_form|
-      = t('hardware_profiles.properties_headers.billing_model') + ': ' + CostEngine::BillingModel::find_name(@hwp_cost.billing_model)
-      = link_to t('change'), edit_cost_billing_hardware_profile_path, :class => "button", :id => 'change_bm_button'
+      = _('Billing Model') + ': ' + CostEngine::BillingModel::find_name(@hwp_cost.billing_model)
+      = link_to _('Change'), edit_cost_billing_hardware_profile_path, :class => "button", :id => 'change_bm_button'
       = cost_form.hidden_field :billing_model
       - if @hwp_cost.billing_model != 'per_property'
         = cost_form.label :profile_cost, :class => 'em'
@@ -27,5 +27,5 @@
             %td= text_field_tag(type.to_s + '_cost', @hwp_prop_costs[type].price)
 
 %fieldset.options
-  = hwp_form.submit t('save'), :class => 'submit button primary', :id => 'save_button'
-  = link_to t('cancel'), hardware_profiles_path, :class => "button danger"
+  = hwp_form.submit _('Save'), :class => 'submit button primary', :id => 'save_button'
+  = link_to _('Cancel'), hardware_profiles_path, :class => "button danger"

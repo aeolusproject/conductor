@@ -3,7 +3,7 @@
     .return_to
       = t :return_to
       = link_to t('tim.base_images.environment', :environment => @base_image.pool_family.name), main_app.pool_family_path(@base_image.pool_family)
-  %h1.no-icon= t('.import_image')
+  %h1.no-icon= _('Import Image')
 
 %section.content-section
 
@@ -16,15 +16,15 @@
           = ver_form.fields_for :target_images do |timg_form|
             = timg_form.fields_for :provider_images do |pimg_form|
               .field
-                = label_tag :provider_account_id, t('.provider_account')
+                = label_tag :provider_account_id, _('Provider Account')
                 .input
                   = pimg_form.select :provider_account_id, options_for_select(@accounts.collect{|x| [x.label, x.id]})
               .field
-                = label_tag :external_image_id, t('.image_id')
+                = label_tag :external_image_id, _('Image ID')
                 .input
                   = pimg_form.text_field :external_image_id
         .field
-          = label_tag :name, t('.name')
+          = label_tag :name, _('Must be a unique name with at least 1 character and at most 100 characters.')
           .input
             = f.text_field :name
 

@@ -150,9 +150,9 @@ end
 
 Then /^I should see the quota usage for the "([^"]*)" pool$/ do |pool|
   text_present(pool)
-  text_present(I18n.t('deployments.deployments') + ' 0')
-  text_present(I18n.t('instances.instances.other') + ' 0')
-  text_present(I18n.t('quota_used') + ' 80')
+  text_present(_('Deployments') + ' 0')
+  text_present(_('Instances') + ' 0')
+  text_present(_('Quota Used') + ' 80')
 end
 
 Then /^I should see the "([^"]*)" deployment$/ do |name|
@@ -163,8 +163,8 @@ end
 Then /^I should see the filter_view contents for pools index$/ do
   within("#tab-container-1-nav") do
     localized_text_present('pools.pools')
-    localized_text_present('instances.instances.other')
-    localized_text_present('deployments.deployments')
+    localized_text_presen_('Instances')
+    localized_text_presen_('Deployments')
   end
 end
 

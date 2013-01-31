@@ -5,14 +5,14 @@
         <div class="build-actions">
           <h3>{{provider_type.name}}</h3>
           {{#delete_url.present?}}
-            <%= button_to(t('tim.base_images.show.delete'),
-              '{{delete_url}}',
-              :method => :delete) %>
+            <%= button_to _("Delete"),
+              "{{delete_url}}",
+              :method => :delete %>
           {{/delete_url.present?}}
           {{#build_url.present?}}
-            <%= button_to(t('tim.base_images.show.build'),
-              '{{build_url}}',
-              :method => :post) %>
+            <%= button_to _("Build"),
+              "{{build_url}}",
+              :method => :post %>
           {{/build_url.present?}}
           {{#only_status.present?}}
             {{timg_status}}
@@ -30,13 +30,13 @@
         <table class="light_table">
           <thead>
             <tr><th>
-              <strong><%= t('tim.base_images.show.account') %></strong>
+              <strong><%= _("Account") %></strong>
             </th>
             <th>
-              <%= t('tim.base_images.show.provider') %>
+              <%= _("Provider") %>
             </th>
             <th>
-              <%= t('tim.base_images.show.providers_image_id') %>
+              <%= _("Provider's Image ID") %>
             </th>
             <th class="image_controls"></th>
           </tr></thead>
@@ -48,14 +48,14 @@
               <td class="light">{{provider_image.external_image_id}}</td>
               <td class="light">
               {{#pimg_delete_url.present?}}
-                <%= button_to(t('tim.base_images.show.delete'),
-                  '{{pimg_delete_url}}',
-                  :method => :delete) %>
+                <%= button_to _("Delete"),
+                  "{{pimg_delete_url}}",
+                  :method => :delete %>
               {{/pimg_delete_url.present?}}
               {{#pimg_push_url.present?}}
-                <%= button_to(t('tim.base_images.show.push'),
-                  '{{pimg_push_url}}',
-                  :method => :post) %>
+                <%= button_to _("Push"),
+                  "{{pimg_push_url}}",
+                  :method => :post %>
               {{/pimg_push_url.present?}}
               {{#pimg_only_status.present?}}
                 {{status}}

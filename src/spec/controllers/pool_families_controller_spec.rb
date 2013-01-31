@@ -58,7 +58,7 @@ describe PoolFamiliesController do
       :name => 'updated pool family',
       :quota_attributes => { :maximum_running_instances => 10 },
     }
-    flash[:notice].should eq(I18n.t("pool_families.flash.notice.updated"))
+    flash[:notice].should eq(_('Environment was updated.'))
     response.should redirect_to(pool_families_path)
   end
 
@@ -189,7 +189,7 @@ describe PoolFamiliesController do
         </pool_family>"
         post :create, Hash.from_xml(xmldata)
 
-        assert_pool_api_success_response(@test_name, I18n.t('pools.form.unlimited'), 0)
+        assert_pool_api_success_response(@test_name, _('unlimited'), 0)
 
         xml = Nokogiri::XML(response.body)
         pool_family_id = xml.xpath("/pool_family/@id").text

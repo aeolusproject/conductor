@@ -233,7 +233,7 @@ describe PoolsController do
         assert_pool_api_success_response(@test_pool_name,
                                          @pool_family.name,
                                          @pool_family.id,
-                                         I18n.t('pools.form.unlimited'),
+                                         _('unlimited'),
                                          "true")
 
         xml = Nokogiri::XML(response.body)

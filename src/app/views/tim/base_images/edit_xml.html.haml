@@ -14,11 +14,11 @@
       = f.hidden_field :name
       = f.fields_for :template do |tpl_form|
         .field
-          = label_tag :image_xml, t('.edit_xml')
+          = label_tag :image_xml, _('Edit XML')
           = tpl_form.text_area :xml, :class => 'edit_xml'
           = tpl_form.hidden_field :pool_family_id
 
       .centered
         %fieldset.align-center
-          = f.submit t('.save_and_continue'), :class => 'button primary', :id => 'save_image'
+          = f.submit _('Save and Continue'), :class => 'button primary', :id => 'save_image'
           = link_to t(:cancel), main_app.pool_families_path, :class => 'button danger'

@@ -3,31 +3,31 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'return_to'
-      = link_to "#{t'providers.providers'}", providers_path
+      =_('Return to:')
+      = link_to "#{_('Providers')}", providers_path
     .button-group
       - if check_privilege(Privilege::MODIFY, Provider)
-        = link_to t('edit'), edit_provider_path(@provider), :class => 'button'
-        = button_to t("delete"), provider_path(@provider), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger'
-  %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? t("providers.editing_provider") : @provider.name
+        = link_to _('Edit'), edit_provider_path(@provider), :class => 'button'
+        = button_to _('Delete'), provider_path(@provider), :method => 'delete', :confirm => _('Are you sure you want to delete?'), :class => 'button danger'
+  %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? _('Editing Provider') : @provider.name
 
 = render :partial => 'provider_availability'
 
 - unless @provider.enabled
   %section.content-section
     %header.align-center
-      %h2.disabled= t('providers.edit.provider_id_disabled')
+      %h2.disabled= _('Provider is disabled.')
     %p.align-center
       = t("providers.edit.provider_disabled", :name => @provider.name)
-      = t("providers.edit.enable_configure_providers")
+      = _('To enable and configure the Provider, click the Edit button.')
 
 - unless @alerts.blank?
   %section.content-section.alerts.collapse_entity
     %header
       .section-controls
-        = link_to t("providers.edit.toggle_alerts"), "#", :class => 'collapse alerts' unless @alerts.blank?
+        = link_to _('Toggle Alerts'), "#", :class => 'collapse alerts' unless @alerts.blank?
       %h2.alerts
-        = t("alerts_label")
+        = _('Alerts')
         %span.label.badge.count.alert= @alerts.count
     .content.collapsible
       %dl.alerts

@@ -1,6 +1,6 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'return_to'
-      = link_to "#{t'providers.providers'}", providers_path
-  %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? t("providers.editing_provider") : @provider.name
+      =_('Return to:')
+      = link_to "#{_('Providers')}", providers_path
+  %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? _('Editing Provider') : @provider.name

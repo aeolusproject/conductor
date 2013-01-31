@@ -11,5 +11,5 @@
         .control_group.buttons
           .input
             = f.submit :class => 'btn primary'
-            = link_to(I18n.t('simple_form.buttons.cancel'), provider_path(@provider), :class => 'btn')
-            = link_to(I18n.t('providers.form.test_connection'), edit_provider_path(@provider, :test_provider => true), :class => "btn")
+            = link_to(_('Cancel'), provider_path(@provider), :class => 'btn')
+            = link_to(_('Test Connection'), edit_provider_path(@provider, :test_provider => true), :class => "btn")

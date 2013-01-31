@@ -172,8 +172,8 @@ class Instance < ActiveRecord::Base
   end
 
   def pool_and_account_enabled_validation
-    errors.add(:pool, I18n.t('pools.errors.must_be_enabled')) unless pool and pool.enabled?
-    errors.add(:pool, I18n.t('pools.errors.providers_disabled')) if pool and pool.pool_family.all_providers_disabled?
+    errors.add(:pool, _('must be enabled')) unless pool and pool.enabled?
+    errors.add(:pool, _('has all associated Providers disabled')) if pool and pool.pool_family.all_providers_disabled?
   end
 
 
@@ -232,7 +232,7 @@ class Instance < ActiveRecord::Base
   def total_state_time(state)
 
     if !STATES.include?(state)
-      return I18n.t('instances.errors.invalid_state')
+      return _('Error, could not calculate state time: invalid state')
     end
 
     case state
@@ -265,7 +265,7 @@ class Instance < ActiveRecord::Base
         end
 
       else
-        return I18n.t('state_not_monitored')
+        return _('Error, could not calculate state time: state is not monitored')
     end
   end
 
@@ -318,7 +318,7 @@ class Instance < ActiveRecord::Base
     begin
       config_server.send_config(config)
     rescue Errno::ECONNREFUSED
-      raise I18n.t 'deployments.errors.config_server_connection'
+      raise _('Cannot connect to the Config Server')
     end
   end
 
@@ -376,11 +376,11 @@ class Instance < ActiveRecord::Base
   def matches
     errors = []
     if pool.pool_family.provider_accounts.empty?
-      errors << I18n.t('instances.errors.no_provider_accounts')
+      errors << _('There are no Provider Accounts associated with the selected Pool\'s Environment.')
     end
-    errors << I18n.t('instances.errors.pool_quota_reached') if pool.quota.reached?
-    errors << I18n.t('instances.errors.pool_family_quota_reached') if pool.pool_family.quota.reached?
-    errors << I18n.t('instances.errors.user_quota_reached') if owner.quota.reached?
+    errors << _('Pool quota reached') if pool.quota.reached?
+    errors << _('Environment quota reached') if pool.pool_family.quota.reached?
+    errors << _('User quota reached') if owner.quota.reached?
     errors << I18n.t('instances.errors.image_not_found', :b_uuid=> image_build_uuid, :i_uuid => image_uuid) if image_build.nil? and image.nil?
     arch = image_arch
     if arch.present? and hardware_profile.architecture and hardware_profile.architecture.value != arch
@@ -478,7 +478,7 @@ class Instance < ActiveRecord::Base
   def reboot(user)
     if tasks.where("action = :action AND time_submitted > :time_ago",
        {:action => "reboot", :time_ago => 2.minutes.ago}).present?
-      raise I18n.t("instances.errors.reboot_already_scheduled")
+      raise _('reboot is already scheduled.')
     else
       do_operation(user, 'reboot')
     end
@@ -564,7 +564,7 @@ class Instance < ActiveRecord::Base
   def destroy_on_provider
     if provider_account and provider_account.provider.provider_type.destroy_supported? and ![STATE_CREATE_FAILED, STATE_VANISHED].include?(state)
       task = self.queue_action(self.owner, 'destroy')
-      raise I18n.t("instances.errors.cannot_destroy") unless task
+      raise _('Destroy cannot be performed on this instance.') unless task
       Taskomatic.destroy_instance(task)
     end
   end

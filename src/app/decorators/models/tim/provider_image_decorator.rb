@@ -66,7 +66,7 @@ Tim::ProviderImage.class_eval do
 
     dc_image = conn.image(external_image_id) rescue nil
     if dc_image.blank?
-      errors.add(:external_image_id, I18n.t('tim.base_images.import.not_on_provider'))
+      errors.add(:external_image_id, _('was not found on the Provider.'))
       return false
     end
 
@@ -92,12 +92,12 @@ Tim::ProviderImage.class_eval do
 
   def human_status
     if built?
-      I18n.t('tim.base_images.provider_images.statuses.complete')
+      _('Complete')
     elsif status == Tim::ProviderImage::STATUS_FAILED
-      I18n.t('tim.base_images.provider_images.statuses.failed')
+      _('Failed')
     else
       # TODO: is it OK to consider nil status as pushing?
-      I18n.t('tim.base_images.provider_images.statuses.pushing')
+      _('Pushing')
     end
   end
 

@@ -184,7 +184,7 @@ describe Instance do
     @quota.maximum_running_instances = 1
     @quota.running_instances = 1
     @quota.save!
-    @instance.matches.last.should include(I18n.t('instances.errors.pool_quota_reached'))
+    @instance.matches.last.should include(_('Pool quota reached'))
   end
 
   it "shouldn't return any matches if pool family quota is reached" do
@@ -192,7 +192,7 @@ describe Instance do
     quota.maximum_running_instances = 1
     quota.running_instances = 1
     quota.save!
-    @instance.matches.last.should include(I18n.t('instances.errors.pool_family_quota_reached'))
+    @instance.matches.last.should include(_('Environment quota reached'))
   end
 
   it "shouldn't return any matches if user quota is reached" do
@@ -205,7 +205,7 @@ describe Instance do
 
   it "shouldn't return any matches if there are no provider accounts associated with pool family" do
     @instance.pool.pool_family.provider_accounts = []
-    @instance.matches.last.should include(I18n.t('instances.errors.no_provider_accounts'))
+    @instance.matches.last.should include(_('There are no Provider Accounts associated with the selected Pool\'s Environment.'))
   end
 
   it "should not return matches if account quota is exceeded" do
@@ -314,7 +314,7 @@ describe Instance do
     instance.pool.pool_family.stub(:all_providers_disabled?).and_return(true)
     instance.should_not be_valid
     instance.errors[:pool].should_not be_empty
-    instance.errors[:pool].first.should == I18n.t('pools.errors.providers_disabled')
+    instance.errors[:pool].first.should == _('has all associated Providers disabled')
   end
 
   context "When more instances of deployment are starting" do

@@ -61,12 +61,12 @@ Tim::TargetImage.class_eval do
 
   def human_status
     if built?
-      I18n.t('tim.base_images.target_images.statuses.complete')
+      _('Complete')
     elsif status == Tim::TargetImage::STATUS_FAILED
-      I18n.t('tim.base_images.target_images.statuses.failed')
+      _('Failed')
     else
       # TODO: is it OK to consider nil status as building?
-      I18n.t('tim.base_images.target_images.statuses.building')
+      _('Building')
     end
   end
 
