@@ -1,0 +1,3285 @@
+#
+#   Copyright 2011 Red Hat, Inc.
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: version 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-31 17:10+0100\n"
+"PO-Revision-Date: 2013-01-31 17:10+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: app/util/taskomatic.rb:156
+msgid "Could not connect to Provider Account.  Please contact an Administrator."
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:91
+msgid "The Image you tried to access cannot be found. It may have been deleted."
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:93
+msgid "Imported image can't be built or pushed"
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:109
+msgid "The provided image template is too large. Please provide an XML template."
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:137
+#: app/controllers/hardware_profiles_controller.rb:311
+#: app/controllers/hardware_profiles_controller.rb:341
+#: app/controllers/hardware_profiles_controller.rb:372
+#: app/controllers/permissions_controller.rb:198
+#: app/controllers/user_groups_controller.rb:241
+#: app/controllers/pool_families_controller.rb:227
+#: app/controllers/pool_families_controller.rb:265
+#: app/controllers/users_controller.rb:75
+#: app/controllers/application_controller.rb:414
+#: app/controllers/deployables_controller.rb:343
+#: app/helpers/user_groups_helper.rb:21
+#: app/helpers/instances_helper.rb:25
+#: app/views/instances/_properties.html.haml:3
+#: app/views/user_groups/show.html.haml:26
+msgid "Name"
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:138
+#: app/controllers/pools_controller.rb:389
+#: app/views/tim/base_images/show.html.haml:24
+msgid "Environment"
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:139
+#: app/controllers/pool_families_controller.rb:266
+msgid "OS"
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:140
+#: app/controllers/pool_families_controller.rb:267
+msgid "OS Version"
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:141
+#: app/controllers/hardware_profiles_controller.rb:353
+#: app/controllers/pool_families_controller.rb:268
+#: app/helpers/hardware_profiles_helper.rb:21
+#: app/helpers/providers_helper.rb:22
+#: app/views/instances/_properties.html.haml:21
+msgid "Architecture"
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:142
+#: app/controllers/pool_families_controller.rb:269
+msgid "Last Rebuild"
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:155
+msgid "Images cannot be imported. No Provider Accounts are currently enabled for this Environment."
+msgstr ""
+
+#:
+#: app/decorators/controllers/tim/base_images_controller_decorator.rb:156
+msgid "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
+msgstr ""
+
+#: app/decorators/models/tim/target_image_decorator.rb:64
+#: app/decorators/models/tim/provider_image_decorator.rb:95
+msgid "Complete"
+msgstr ""
+
+#: app/decorators/models/tim/target_image_decorator.rb:66
+#: app/decorators/models/tim/provider_image_decorator.rb:97
+#: app/controllers/pools_controller.rb:387
+msgid "Failed"
+msgstr ""
+
+#: app/decorators/models/tim/target_image_decorator.rb:69
+msgid "Building"
+msgstr ""
+
+#: app/decorators/models/tim/provider_image_decorator.rb:69
+msgid "was not found on the Provider."
+msgstr ""
+
+#: app/decorators/models/tim/provider_image_decorator.rb:100
+msgid "Pushing"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:25
+#: app/controllers/providers_controller.rb:321
+#: app/views/providers/_hardware_profiles.html.haml:3
+#: app/views/hardware_profiles/new.html.haml:7
+msgid "Hardware Profiles"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:54
+#: app/controllers/deployments_controller.rb:227
+#: app/controllers/instances_controller.rb:45
+#: app/controllers/roles_controller.rb:52
+#: app/controllers/provider_realms_controller.rb:35
+#: app/controllers/frontend_realms_controller.rb:112
+#: app/controllers/providers_controller.rb:310
+#: app/controllers/provider_accounts_controller.rb:38
+#: app/views/provider_accounts/show.html.haml:15
+#: app/views/provider_realms/show.html.haml:16
+#: app/views/frontend_realms/edit.html.haml:8
+#: app/views/frontend_realms/show.html.haml:17
+#: app/views/hardware_profiles/show.html.haml:15
+#: app/views/user_groups/show.html.haml:17
+#: app/views/roles/show.html.haml:13
+#: app/views/tim/base_images/show.html.haml:19
+msgid "Properties"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:54
+#: app/controllers/deployments_controller.rb:229
+#: app/controllers/instances_controller.rb:47
+#: app/controllers/provider_accounts_controller.rb:38
+msgid "History"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:54
+#: app/controllers/hardware_profiles_controller.rb:369
+#: app/views/hardware_profiles/_matching_provider_hardware_profiles.html.haml:3
+msgid "Matching Provider Hardware Profiles"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:76
+#: app/views/hardware_profiles/edit.html.haml:5
+#: app/views/hardware_profiles/_list.html.haml:3
+#: app/views/hardware_profiles/show.html.haml:5
+#: app/views/hardware_profiles/new.html.haml:8
+msgid "New Hardware Profile"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:89
+#: app/controllers/hardware_profiles_controller.rb:173
+#: app/views/hardware_profiles/_form.html.haml:28
+msgid "Check Matches"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:120
+msgid "Cannot delete Provider Hardware Profiles"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:136
+msgid "Hardware profile was deleted"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:142
+msgid "Hardware profile was not deleted"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:159
+msgid "Cannot modify Provider Hardware Profiles"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:182
+msgid "Hardware Profile updated"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:234
+#: app/controllers/hardware_profiles_controller.rb:283
+msgid "Hardware Profile cost updated"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:302
+msgid "Cannot assign cost to Frontend Hardware Profile"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:313
+#: app/views/hardware_profiles/_cost_form.html.haml:6
+msgid "Billing Model"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:315
+#: app/controllers/hardware_profiles_controller.rb:344
+msgid "Cost per Unit"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:342
+#: app/controllers/hardware_profiles_controller.rb:373
+msgid "Unit"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:343
+msgid "Value"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:351
+#: app/controllers/providers_controller.rb:349
+#: app/helpers/provider_accounts_helper.rb:27
+#: app/views/providers/_properties.html.haml:4
+#: app/views/provider_priority_groups/index.html.haml:36
+msgid "Provider Name"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:352
+#: app/helpers/hardware_profiles_helper.rb:20
+#: app/helpers/providers_helper.rb:21
+msgid "Hardware Profile Name"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:354
+#: app/helpers/hardware_profiles_helper.rb:22
+#: app/helpers/providers_helper.rb:23
+#: app/views/instances/_properties.html.haml:24
+msgid "Memory"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:355
+#: app/helpers/hardware_profiles_helper.rb:23
+#: app/helpers/providers_helper.rb:24
+#: app/views/instances/_properties.html.haml:27
+msgid "Storage"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:356
+#: app/helpers/hardware_profiles_helper.rb:24
+#: app/helpers/providers_helper.rb:25
+msgid "Virtual CPU"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:357
+#: app/helpers/providers_helper.rb:26
+msgid "Minimal Cost"
+msgstr ""
+
+#: app/controllers/hardware_profiles_controller.rb:374
+msgid "Minimum Value"
+msgstr ""
+
+#: app/controllers/user_sessions_controller.rb:23
+#: app/views/layouts/application.html.haml:39
+msgid "Login"
+msgstr ""
+
+#: app/controllers/user_sessions_controller.rb:41
+msgid "The Username or Password is incorrect, please try again."
+msgstr ""
+
+#: app/controllers/quotas_controller.rb:50
+#: app/controllers/quotas_controller.rb:68
+msgid "Quota updated"
+msgstr ""
+
+#: app/controllers/quotas_controller.rb:53
+msgid "Could not update quota. Please check you have entered valid values"
+msgstr ""
+
+#: app/controllers/permissions_controller.rb:32
+#: app/views/permissions/_form.html.haml:26
+#: app/views/permissions/_permissions.html.haml:5
+msgid "Grant Access"
+msgstr ""
+
+#: app/controllers/permissions_controller.rb:36
+#: app/controllers/application_controller.rb:295
+msgid "Global Role Grants"
+msgstr ""
+
+#: app/controllers/permissions_controller.rb:37
+msgid "Choose global role assignments for users"
+msgstr ""
+
+#: app/controllers/permissions_controller.rb:40
+msgid "Choose roles for users you would like to grant access to this"
+msgstr ""
+
+#: app/controllers/permissions_controller.rb:76
+msgid "No users selected"
+msgstr ""
+
+#: app/controllers/permissions_controller.rb:117
+msgid "All User Roles already set; no changes needed"
+msgstr ""
+
+#: app/controllers/permissions_controller.rb:199
+#: app/controllers/application_controller.rb:351
+#: app/controllers/application_controller.rb:415
+#: locale/model_attributes.rb:175
+msgid "Role"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:32
+#: app/controllers/pool_families_controller.rb:253
+#: app/controllers/pools_controller.rb:384
+#: app/views/pools/_scoreboard_show.html.haml:8
+#: app/views/pool_families/_list.html.haml:26
+msgid "Deployments"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:43
+#: app/controllers/deployments_controller.rb:71
+#: app/controllers/deployments_controller.rb:121
+#: app/views/pools/_pretty_list.html.haml:18
+#: app/views/pools/show.html.haml:5
+msgid "New Deployment"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:55
+msgid "Cannot launch a Deployment in this Pool. The Pool has been disabled."
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:78
+#: app/controllers/deployments_controller.rb:86
+msgid "You need to select a Deployable"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:164
+msgid "Back"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:176
+msgid "Deployment launched."
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:193
+#: app/controllers/deployments_controller.rb:520
+msgid "Deployment launch failed."
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:224
+#: app/controllers/deployments_controller.rb:450
+#: app/controllers/instances_controller.rb:25
+#: app/controllers/pools_controller.rb:385
+#: app/controllers/pools_controller.rb:399
+#: app/views/pools/_scoreboard_show.html.haml:11
+msgid "Instances"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:337
+msgid "All Instances must be stopped or running"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:344
+#: app/controllers/deployments_controller.rb:395
+#: app/views/deployments/_list.html.haml:2
+#: app/views/deployments/_list.html.haml:3
+msgid "You must select one or more Deployments."
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:446
+#: app/controllers/pools_controller.rb:395
+#: app/views/deployments/_launch_new.html.haml:23
+msgid "Deployment Name"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:447
+#: app/controllers/pools_controller.rb:396
+msgid "Deployed on"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:448
+#: app/controllers/pools_controller.rb:397
+msgid "Base Deployable"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:449
+#: app/controllers/pools_controller.rb:398
+#: app/helpers/instances_helper.rb:27
+msgid "State"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:451
+#: app/controllers/pools_controller.rb:400
+#: app/views/pools/_scoreboard_show.html.haml:22
+#: locale/model_attributes.rb:121
+msgid "Pool"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:452
+#: app/controllers/pools_controller.rb:401
+#: app/helpers/instances_helper.rb:29
+#: app/views/instances/_properties.html.haml:46
+msgid "Owner"
+msgstr ""
+
+#: app/controllers/deployments_controller.rb:453
+#: app/controllers/pools_controller.rb:402
+#: app/helpers/instances_helper.rb:28
+#: app/views/instances/_properties.html.haml:18
+#: locale/model_attributes.rb:137
+msgid "Provider"
+msgstr ""
+
+#: app/controllers/instances_controller.rb:46
+msgid "Config Parameters"
+msgstr ""
+
+#: app/controllers/instances_controller.rb:121
+msgid "SSH Key not found for this Instance."
+msgstr ""
+
+#: app/controllers/instances_controller.rb:161
+#: app/views/instances/_list.html.haml:2
+msgid "You must select one or more Instances to stop."
+msgstr ""
+
+#: app/controllers/instances_controller.rb:202
+#: app/views/instances/_list.html.haml:3
+msgid "You must select one or more Instances to reboot."
+msgstr ""
+
+#: app/controllers/instances_controller.rb:238
+msgid "VM NAME"
+msgstr ""
+
+#: app/controllers/instances_controller.rb:239
+msgid "STATUS"
+msgstr ""
+
+#: app/controllers/instances_controller.rb:240
+msgid "PUBLIC ADDRESS"
+msgstr ""
+
+#: app/controllers/instances_controller.rb:241
+msgid "PROVIDER"
+msgstr ""
+
+#: app/controllers/instances_controller.rb:242
+msgid "CREATED BY"
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:22
+#: app/controllers/application_controller.rb:294
+#: app/views/user_groups/edit.html.haml:6
+#: app/views/user_groups/show.html.haml:6
+#: app/views/user_groups/new.html.haml:6
+msgid "User Groups"
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:62
+#: app/controllers/user_groups_controller.rb:81
+#: app/views/user_groups/show.html.haml:8
+msgid "New User Group"
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:76
+msgid "User Group added"
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:93
+#: app/controllers/user_groups_controller.rb:107
+msgid "Edit User Group"
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:110
+msgid "User Group updated"
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:143
+msgid "User Group has been successfully deleted."
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:145
+msgid "Could not delete user group"
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:158
+#: app/controllers/user_groups_controller.rb:198
+msgid "Only locally-managed groups can be managed here."
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:171
+msgid "You must select at least one user to add."
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:207
+msgid "You must select at least one user to remove."
+msgstr ""
+
+#: app/controllers/user_groups_controller.rb:242
+#: app/controllers/users_controller.rb:76
+#: app/views/user_groups/show.html.haml:23
+msgid "Type"
+msgstr ""
+
+#: app/controllers/roles_controller.rb:41
+msgid "Role successfully saved."
+msgstr ""
+
+#: app/controllers/roles_controller.rb:80
+msgid "Role updated successfully."
+msgstr ""
+
+#: app/controllers/provider_priority_groups_controller.rb:59
+msgid "Priority Group successfully created"
+msgstr ""
+
+#: app/controllers/provider_priority_groups_controller.rb:90
+msgid "Priority Group successfully updated"
+msgstr ""
+
+#: app/controllers/provider_priority_groups_controller.rb:95
+msgid "Priority Group successfully deleted"
+msgstr ""
+
+#: app/controllers/provider_realms_controller.rb:35
+#: app/controllers/frontend_realms_controller.rb:112
+msgid "Mapping"
+msgstr ""
+
+#: app/controllers/provider_realms_controller.rb:67
+#: app/helpers/provider_realms_helper.rb:19
+#: app/views/provider_realms/_properties.html.haml:4
+msgid "Provider Realm Name"
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:22
+#: app/controllers/application_controller.rb:284
+#: app/views/provider_accounts/show.html.haml:22
+#: app/views/frontend_realms/show.html.haml:6
+#: app/views/frontend_realms/new.html.haml:6
+msgid "Realms"
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:50
+#: app/views/deployments/_overview.html.haml:46
+#: app/views/deployments/_launch_new.html.haml:38
+msgid "Realm"
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:53
+msgid "Realm updated"
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:66
+msgid "Realm was added"
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:77
+msgid "Realm was deleted"
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:79
+msgid "Realm was not deleted"
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:88
+msgid "You must select at least one Realm to delete."
+msgstr ""
+
+#: app/controllers/frontend_realms_controller.rb:155
+#: app/helpers/realms_helper.rb:20
+#: app/views/frontend_realms/_properties.html.haml:4
+msgid "Realm Name"
+msgstr ""
+
+#: app/controllers/username_recoveries_controller.rb:26
+#: app/controllers/username_recoveries_controller.rb:28
+msgid "Usernames have been sent to given e-mail address."
+msgstr ""
+
+#: app/controllers/password_resets_controller.rb:27
+#: app/controllers/password_resets_controller.rb:29
+msgid "Instructions for resetting your password have been emailed."
+msgstr ""
+
+#: app/controllers/password_resets_controller.rb:37
+#: app/controllers/password_resets_controller.rb:47
+msgid "Your Password reset link has expired. Please re-apply for the new password reset by filling the form below."
+msgstr ""
+
+#: app/controllers/password_resets_controller.rb:55
+msgid "Password has been successfuly reset. Please log in."
+msgstr ""
+
+#: app/controllers/password_resets_controller.rb:68
+msgid "The Password Reset link is no longer valid. Please re-apply for the new link by completing the form below."
+msgstr ""
+
+#: app/controllers/realm_mappings_controller.rb:22
+#: app/controllers/realm_mappings_controller.rb:34
+msgid "Create a new Realm Mapping"
+msgstr ""
+
+#: app/controllers/realm_mappings_controller.rb:31
+msgid "Realm mapping was added."
+msgstr ""
+
+#: app/controllers/realm_mappings_controller.rb:43
+msgid "You must select at least one mapping to delete."
+msgstr ""
+
+#: app/controllers/settings_controller.rb:40
+msgid "Could not update the default quota"
+msgstr ""
+
+#: app/controllers/settings_controller.rb:57
+msgid "Settings Updated"
+msgstr ""
+
+#: app/controllers/config_servers_controller.rb:46
+msgid "Test successful"
+msgstr ""
+
+#: app/controllers/config_servers_controller.rb:62
+msgid "The Config Server information is invalid."
+msgstr ""
+
+#: app/controllers/config_servers_controller.rb:66
+msgid "Config Server added."
+msgstr ""
+
+#: app/controllers/config_servers_controller.rb:77
+msgid "Config Server updated."
+msgstr ""
+
+#: app/controllers/config_servers_controller.rb:80
+msgid "Config Server was not updated."
+msgstr ""
+
+#: app/controllers/config_servers_controller.rb:89
+msgid "Config Server was deleted."
+msgstr ""
+
+#: app/controllers/config_servers_controller.rb:91
+msgid "Config Server was not deleted."
+msgstr ""
+
+#: app/controllers/providers_controller.rb:35
+msgid "'From date' cannot be after 'To date'"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:58
+#: app/controllers/providers_controller.rb:100
+msgid "New Provider"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:63
+#: app/views/provider_accounts/edit.html.haml:6
+#: app/views/provider_accounts/show.html.haml:6
+#: app/views/provider_accounts/new.html.haml:6
+#: app/views/pools/_scoreboard_show.html.haml:5 config/navigation.rb:26
+msgid "Cloud Providers"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:108
+#: app/controllers/providers_controller.rb:135
+msgid "Provider added."
+msgstr ""
+
+#: app/controllers/providers_controller.rb:136
+#: app/controllers/providers_controller.rb:186
+msgid "Cannot check if provider name is right. Please check config file"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:158
+#: app/controllers/providers_controller.rb:185
+msgid "Provider updated."
+msgstr ""
+
+#: app/controllers/providers_controller.rb:200
+msgid "Provider has been deleted."
+msgstr ""
+
+#: app/controllers/providers_controller.rb:223
+msgid "Successfully connected to Provider"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:225
+msgid "Failed to connect to Provider"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:245
+msgid "Provider was not disabled. Failed to stop following instances:"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:250
+msgid "Provider was not disabled. Failed to change status to 'stopped' for following instances:"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:254
+msgid "Provider disabled."
+msgstr ""
+
+#: app/controllers/providers_controller.rb:313
+#: app/controllers/pool_families_controller.rb:241
+msgid "Accounts"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:317
+#: app/views/provider_realms/show.html.haml:6
+msgid "Provider Realms"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:351
+#: app/helpers/provider_accounts_helper.rb:28
+#: app/views/providers/_properties.html.haml:10
+#: app/views/provider_priority_groups/index.html.haml:37
+msgid "Provider Type"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:353
+msgid "Running Instances (Current)"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:355
+msgid "Pending (Current)"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:357
+msgid "Errors (Current)"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:359
+msgid "Running (Historical)"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:361
+msgid "Errors (Historical)"
+msgstr ""
+
+#: app/controllers/providers_controller.rb:363
+#: app/views/pool_families/_list.html.haml:34
+msgid "Enabled"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:27
+#: app/controllers/application_controller.rb:303
+#: app/views/pool_families/edit.html.haml:7
+#: app/views/pool_families/new.html.haml:6 config/navigation.rb:24
+msgid "Environments"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:41
+#: app/controllers/pool_families_controller.rb:62
+#: app/views/pool_families/_list.html.haml:4
+msgid "New Environment"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:55
+msgid "Environment was added."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:88
+msgid "Environment was updated."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:136
+msgid "Environment was deleted."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:155
+msgid "There are no Provider Accounts available."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:169
+msgid "You must select at least one Provider Account to add."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:200
+msgid "You must select at least one Provider Account to remove."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:228
+#: app/controllers/pool_families_controller.rb:257
+#: app/controllers/users_controller.rb:188
+#: app/controllers/pools_controller.rb:388
+#: app/helpers/provider_accounts_helper.rb:30
+#: app/views/pools/_scoreboard_show.html.haml:23
+#: app/views/provider_priority_groups/index.html.haml:39
+#: app/views/provider_priority_groups/_form.html.haml:37
+#: app/views/pool_families/_list.html.haml:30
+msgid "Quota Used"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:229
+#: app/controllers/users_controller.rb:189
+#: app/helpers/provider_accounts_helper.rb:31
+#: app/views/provider_priority_groups/index.html.haml:40
+#: app/views/provider_priority_groups/_form.html.haml:38
+msgid "Quota Limit"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:240
+msgid "Pools"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:242
+#: app/controllers/application_controller.rb:304
+#: app/views/deployables/show.html.haml:20
+#: app/views/deployables/show.html.haml:28
+#: app/views/tim/base_images/show.html.haml:7
+msgid "Images"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:252
+#: app/views/pool_families/_list.html.haml:25
+msgid "Pool Name"
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:254
+#: app/views/pool_families/_list.html.haml:27
+msgid "Total Inst."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:255
+#: app/views/pool_families/_list.html.haml:28
+msgid "Pending Inst."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:256
+#: app/views/pool_families/_list.html.haml:29
+msgid "Failed Inst."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:258
+#: app/views/pool_families/_list.html.haml:32
+msgid "Active Inst."
+msgstr ""
+
+#: app/controllers/pool_families_controller.rb:259
+#: app/views/pool_families/_list.html.haml:33
+msgid "Available Inst."
+msgstr ""
+
+#: app/controllers/users_controller.rb:25
+#: app/controllers/application_controller.rb:293
+#: app/views/permissions/_new.html.haml:13
+#: app/views/users/edit.html.haml:6 app/views/users/show.html.haml:7
+#: app/views/users/new.html.haml:6 config/navigation.rb:23
+msgid "Users"
+msgstr ""
+
+#: app/controllers/users_controller.rb:40
+#: app/controllers/users_controller.rb:48
+msgid "New User"
+msgstr ""
+
+#: app/controllers/users_controller.rb:57
+msgid "User registered"
+msgstr ""
+
+#: app/controllers/users_controller.rb:60
+msgid "You have successfully registered."
+msgstr ""
+
+#: app/controllers/users_controller.rb:96
+#: app/controllers/users_controller.rb:101
+msgid "Edit User"
+msgstr ""
+
+#: app/controllers/users_controller.rb:116
+msgid "User updated"
+msgstr ""
+
+#: app/controllers/users_controller.rb:155
+msgid "User has been successfully deleted."
+msgstr ""
+
+#: app/controllers/users_controller.rb:185
+msgid "User ID"
+msgstr ""
+
+#: app/controllers/users_controller.rb:186
+msgid "Last Name"
+msgstr ""
+
+#: app/controllers/users_controller.rb:187
+msgid "First Name"
+msgstr ""
+
+#: app/controllers/users_controller.rb:190
+msgid "e-mail"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:138
+#: app/views/deployables/_from_url.html.haml:7
+#: app/views/deployables/_upload.html.haml:7
+#: app/views/deployables/_new_from_image.html.haml:23
+#: app/views/deployables/_form.html.haml:11
+#: locale/model_attributes.rb:4
+msgid "Catalog"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:138
+#: app/views/deployments/_launch_new.html.haml:32
+#: locale/model_attributes.rb:22
+msgid "Deployable"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:139
+msgid "Image"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:139
+msgid "Provider's Image ID"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:187
+#: app/controllers/pools_controller.rb:207
+#: app/views/pools/index.html.haml:8 app/views/pools/_list.html.haml:3
+#: app/views/pool_families/_list.html.haml:18
+msgid "New Pool"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:217
+msgid "Pool added."
+msgstr ""
+
+#: app/controllers/pools_controller.rb:242
+#: app/controllers/pools_controller.rb:275
+msgid "Edit Pool"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:262
+msgid "Pool updated."
+msgstr ""
+
+#: app/controllers/pools_controller.rb:296
+#: app/controllers/pools_controller.rb:344
+msgid "The default Pool cannot be deleted."
+msgstr ""
+
+#: app/controllers/pools_controller.rb:309
+#: app/controllers/pools_controller.rb:362
+#: app/services/application_service.rb:68
+msgid "You have insufficient privileges to perform the selected action."
+msgstr ""
+
+#: app/controllers/pools_controller.rb:383
+msgid "Pool name"
+msgstr ""
+
+#: app/controllers/pools_controller.rb:386
+msgid "Pending"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:38
+msgid "Credentials"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:38
+#: app/views/settings/index.html.haml:7
+#: app/views/user_groups/show.html.haml:74
+#: app/views/users/show.html.haml:57
+msgid "Permissions"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:69
+#: app/controllers/provider_accounts_controller.rb:110
+#: app/views/provider_accounts/index.html.haml:4
+msgid "New Provider Account"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:153
+msgid "Provider Account updated"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:167
+msgid "Provider Account wasn't updated"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:186
+msgid "Provider account was deleted"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:210
+msgid "You must select some accounts first."
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:248
+msgid "Test Connection Success: Valid Account Details"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:250
+msgid "Test Connection Failed: Invalid Account Details"
+msgstr ""
+
+#: app/controllers/provider_accounts_controller.rb:253
+msgid "Test Connection Failed: Could not connect to Provider"
+msgstr ""
+
+#: app/controllers/application_controller.rb:53
+msgid "Access denied"
+msgstr ""
+
+#: app/controllers/application_controller.rb:68
+msgid "Some actions failed"
+msgstr ""
+
+#: app/controllers/application_controller.rb:73
+msgid "Action Error"
+msgstr ""
+
+#: app/controllers/application_controller.rb:78
+#: app/controllers/application_controller.rb:85
+#: app/controllers/application_controller.rb:86
+msgid "Internal Server Error"
+msgstr ""
+
+#: app/controllers/application_controller.rb:119
+msgid "The record you tried to access does not exist. It may have been deleted"
+msgstr ""
+
+#: app/controllers/application_controller.rb:216
+msgid "Please log in first."
+msgstr ""
+
+#: app/controllers/application_controller.rb:236
+msgid "You must be logged out to access this page"
+msgstr ""
+
+#: app/controllers/application_controller.rb:283
+#: app/views/deployables/show.html.haml:89
+msgid "Catalogs"
+msgstr ""
+
+#: app/controllers/application_controller.rb:285
+msgid "Hardware"
+msgstr ""
+
+#: app/controllers/application_controller.rb:349
+msgid "Resource Type"
+msgstr ""
+
+#: app/controllers/application_controller.rb:350
+#: app/views/quotas/show.html.haml:8
+msgid "Resource"
+msgstr ""
+
+#: app/controllers/application_controller.rb:355
+#: app/controllers/application_controller.rb:419
+msgid "Inherited From"
+msgstr ""
+
+#: app/controllers/application_controller.rb:380
+#: app/views/provider_accounts/show.html.haml:30
+#: app/views/deployables/show.html.haml:108
+msgid "Role Assignments"
+msgstr ""
+
+#: app/controllers/deployables_controller.rb:80
+msgid "No Catalog exists. Please create one."
+msgstr ""
+
+#: app/controllers/deployables_controller.rb:81
+msgid "No Hardware Profile exists. Please create one."
+msgstr ""
+
+#: app/controllers/deployables_controller.rb:195
+msgid "No Catalogs selected"
+msgstr ""
+
+#: app/controllers/deployables_controller.rb:259
+msgid "Deployable updated successfully"
+msgstr ""
+
+#: app/controllers/deployables_controller.rb:294
+msgid "No Deployable was selected"
+msgstr ""
+
+#: app/controllers/deployables_controller.rb:344
+#: app/views/deployables/show.html.haml:95
+msgid "Catalog Name"
+msgstr ""
+
+#: app/controllers/deployables_controller.rb:345
+#: app/views/deployments/_overview.html.haml:38
+msgid "Deployable XML"
+msgstr ""
+
+#: app/helpers/provider_realms_helper.rb:20
+msgid "Available?"
+msgstr ""
+
+#: app/helpers/provider_realms_helper.rb:25
+#: app/helpers/application_helper.rb:187
+#: app/views/pool_families/_list.html.haml:49
+msgid "Yes"
+msgstr ""
+
+#: app/helpers/provider_realms_helper.rb:25
+#: app/helpers/application_helper.rb:187
+#: app/views/pool_families/_list.html.haml:49
+msgid "No"
+msgstr ""
+
+#: app/helpers/provider_accounts_helper.rb:25
+#: app/views/provider_priority_groups/index.html.haml:34
+#: app/views/provider_priority_groups/_form.html.haml:34
+msgid "Account Name"
+msgstr ""
+
+#: app/helpers/provider_accounts_helper.rb:26
+#: app/helpers/user_groups_helper.rb:20
+#: app/views/provider_priority_groups/index.html.haml:35
+#: app/views/provider_priority_groups/_form.html.haml:35
+#: app/views/user_sessions/new.html.haml:2
+#: app/views/users/show.html.haml:18
+msgid "Username"
+msgstr ""
+
+#: app/helpers/provider_accounts_helper.rb:29
+#: app/views/provider_accounts/_properties.html.haml:7
+msgid "Priority"
+msgstr ""
+
+#: app/helpers/roles_helper.rb:20
+msgid "Role Name"
+msgstr ""
+
+#: app/helpers/instances_helper.rb:26
+msgid "Public Address"
+msgstr ""
+
+#: app/helpers/application_helper.rb:168
+msgid "&#8592; Previous"
+msgstr ""
+
+#: app/helpers/application_helper.rb:168
+msgid "Next &#8594;"
+msgstr ""
+
+#: app/helpers/provider_selections_helper.rb:32
+#: app/helpers/provider_selections_helper.rb:35
+msgid "Configure"
+msgstr ""
+
+#: app/mailers/user_mailer.rb:21
+msgid "Password reset"
+msgstr ""
+
+#: app/mailers/user_mailer.rb:27
+msgid "Conductor Usernames"
+msgstr ""
+
+#: app/models/instance.rb:175 app/models/deployment.rb:137
+msgid "must be enabled"
+msgstr ""
+
+#: app/models/instance.rb:176 app/models/deployment.rb:138
+msgid "has all associated Providers disabled"
+msgstr ""
+
+#: app/models/instance.rb:235
+msgid "Error, could not calculate state time: invalid state"
+msgstr ""
+
+#: app/models/instance.rb:268
+msgid "Error, could not calculate state time: state is not monitored"
+msgstr ""
+
+#: app/models/instance.rb:321
+msgid "Cannot connect to the Config Server"
+msgstr ""
+
+#: app/models/instance.rb:379
+msgid "There are no Provider Accounts associated with the selected Pool's Environment."
+msgstr ""
+
+#: app/models/instance.rb:381 app/models/deployment.rb:392
+msgid "Pool quota reached"
+msgstr ""
+
+#: app/models/instance.rb:382 app/models/deployment.rb:396
+msgid "Environment quota reached"
+msgstr ""
+
+#: app/models/instance.rb:383 app/models/deployment.rb:400
+msgid "User quota reached"
+msgstr ""
+
+#: app/models/instance.rb:481
+msgid "reboot is already scheduled."
+msgstr ""
+
+#: app/models/instance.rb:567
+msgid "Destroy cannot be performed on this instance."
+msgstr ""
+
+#: app/models/deployment.rb:252 app/models/deployment.rb:388
+msgid "Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images."
+msgstr ""
+
+#: app/models/deployment.rb:381 app/models/deployment.rb:404
+msgid "Some Assemblies will not be launched:"
+msgstr ""
+
+#: app/models/deployment.rb:785
+msgid "Failed to launch deployment"
+msgstr ""
+
+#: app/models/template_xml.rb:31 app/models/template_xml.rb:36
+msgid "XML is not valid:"
+msgstr ""
+
+#: app/models/template_xml.rb:38
+msgid "Name is not set."
+msgstr ""
+
+#: app/models/user.rb:204
+msgid "Cannot edit LDAP user"
+msgstr ""
+
+#: app/models/deployable.rb:65
+msgid "file contains syntax errors"
+msgstr ""
+
+#: app/models/deployable.rb:67
+msgid "must contain unique Assembly names"
+msgstr ""
+
+#: app/models/deployable.rb:226
+msgid "Some attribute(s) are missing in the XML. Please check the file."
+msgstr ""
+
+#: app/models/quota.rb:49 app/models/quota.rb:56
+msgid "must be a positive whole number less than 2147483647"
+msgstr ""
+
+#: app/models/quota.rb:69
+#: app/views/provider_accounts/_list.html.haml:39
+#: app/views/provider_accounts/_properties.html.haml:5
+#: app/views/provider_accounts/_detail.xml.haml:20
+#: app/views/pools/_detail.xml.haml:8
+#: app/views/provider_priority_groups/index.html.haml:50
+#: app/views/provider_priority_groups/_form.html.haml:48
+#: app/views/pool_families/_detail.xml.haml:7
+msgid "unlimited"
+msgstr ""
+
+#: app/models/provider_account.rb:154
+msgid "Login credentials are invalid for this Provider."
+msgstr ""
+
+#: app/models/provider_account.rb:157
+msgid "An error occurred when checking Provider credentials. Please check your setup and try again."
+msgstr ""
+
+#: app/models/provider_account.rb:170
+#: app/models/provider_account.rb:171
+msgid "Username has already been taken"
+msgstr ""
+
+#: app/models/pool_family.rb:106
+msgid "The default Environment cannot be deleted."
+msgstr ""
+
+#: app/services/download_service.rb:34
+msgid "No URL is provided for XML import"
+msgstr ""
+
+#: app/services/download_service.rb:41
+msgid "Download of XML file failed"
+msgstr ""
+
+#: app/views/provider_accounts/index.html.haml:5
+msgid "Provider Accounts"
+msgstr ""
+
+#: app/views/provider_accounts/edit.html.haml:5
+#: app/views/provider_accounts/show.html.haml:5
+#: app/views/provider_accounts/new.html.haml:5
+#: app/views/providers/_page_header.html.haml:4
+#: app/views/providers/show.html.haml:6
+#: app/views/providers/new.html.haml:5
+#: app/views/provider_realms/show.html.haml:5
+#: app/views/frontend_realms/show.html.haml:5
+#: app/views/frontend_realms/new.html.haml:5
+#: app/views/hardware_profiles/new.html.haml:6
+#: app/views/settings/self_service.html.haml:5
+#: app/views/layouts/_nav_history.html.haml:5
+#: app/views/pool_families/edit.html.haml:6
+#: app/views/pool_families/new.html.haml:5
+#: app/views/pool_families/add_provider_accounts.html.haml:5
+#: app/views/permissions/_new.html.haml:4
+#: app/views/user_groups/edit.html.haml:5
+#: app/views/user_groups/show.html.haml:5
+#: app/views/user_groups/add_members.html.haml:5
+#: app/views/user_groups/new.html.haml:5
+#: app/views/users/edit.html.haml:5 app/views/users/show.html.haml:6
+#: app/views/users/new.html.haml:5
+#: app/views/tim/base_images/show.html.haml:6
+msgid "Return to:"
+msgstr ""
+
+#: app/views/provider_accounts/edit.html.haml:11
+#: app/views/settings/index.html.haml:3
+#: app/views/settings/self_service.html.haml:6 config/navigation.rb:27
+msgid "Settings"
+msgstr ""
+
+#: app/views/provider_accounts/_list.html.haml:4
+msgid "New Account"
+msgstr ""
+
+#: app/views/provider_accounts/_list.html.haml:6
+#: app/views/provider_accounts/_properties.html.haml:32
+#: app/views/pools/show.html.haml:15
+#: app/views/deployables/_list.html.haml:7
+#: app/views/deployables/show.html.haml:9
+#: app/views/providers/show.html.haml:11
+#: app/views/provider_priority_groups/index.html.haml:29
+#: app/views/frontend_realms/_list.html.haml:8
+#: app/views/frontend_realms/show.html.haml:12
+#: app/views/hardware_profiles/_list.html.haml:5
+#: app/views/hardware_profiles/show.html.haml:9
+#: app/views/pool_families/show.html.haml:6
+#: app/views/pool_families/_provider_accounts.html.haml:4
+#: app/views/deployments/_list.html.haml:3
+#: app/views/deployments/show.html.haml:9
+#: app/views/user_groups/_list.html.haml:6
+#: app/views/user_groups/show.html.haml:12
+#: app/views/roles/_list.html.haml:7 app/views/roles/show.html.haml:7
+#: app/views/users/_list.html.haml:6 app/views/users/show.html.haml:23
+#: app/views/tim/base_images/show.html.haml:14
+msgid "Delete"
+msgstr ""
+
+#: app/views/provider_accounts/_list.html.haml:9
+#: app/views/pools/_list.html.haml:8
+#: app/views/deployables/_list.html.haml:11
+#: app/views/instances/_list.html.haml:13
+#: app/views/provider_realms/_list.html.haml:3
+#: app/views/frontend_realms/_list.html.haml:12
+#: app/views/hardware_profiles/_list.html.haml:8
+#: app/views/deployments/_list.html.haml:8
+#: app/views/permissions/_form.html.haml:3
+#: app/views/permissions/_permissions.html.haml:33
+#: app/views/permissions/_objects.html.haml:19
+#: app/views/user_groups/_list.html.haml:10
+#: app/views/user_groups/show.html.haml:45
+#: app/views/users/_list.html.haml:10
+msgid "Viewing"
+msgstr ""
+
+#: app/views/provider_accounts/_list.html.haml:10
+msgid "All Accounts"
+msgstr ""
+
+#: app/views/provider_accounts/_list.html.haml:12
+#: app/views/pools/_list.html.haml:11
+#: app/views/deployables/_list.html.haml:14
+#: app/views/providers/index.html.haml:17
+#: app/views/instances/_list.html.haml:16
+#: app/views/provider_realms/_list.html.haml:6
+#: app/views/frontend_realms/_list.html.haml:15
+#: app/views/hardware_profiles/_list.html.haml:11
+#: app/views/deployments/_list.html.haml:11
+#: app/views/permissions/_form.html.haml:6
+#: app/views/permissions/_permissions.html.haml:36
+#: app/views/permissions/_objects.html.haml:22
+#: app/views/user_groups/_list.html.haml:13
+#: app/views/user_groups/show.html.haml:48
+#: app/views/users/_list.html.haml:13
+msgid "Apply filters"
+msgstr ""
+
+#: app/views/provider_accounts/_list.html.haml:15
+#: app/views/pools/_list.html.haml:14
+#: app/views/deployables/_list.html.haml:17
+#: app/views/instances/_list.html.haml:19
+#: app/views/provider_realms/_list.html.haml:9
+#: app/views/frontend_realms/_list.html.haml:17
+#: app/views/hardware_profiles/_list.html.haml:14
+#: app/views/deployments/_list.html.haml:14
+#: app/views/permissions/_form.html.haml:9
+#: app/views/permissions/_permissions.html.haml:38
+#: app/views/permissions/_objects.html.haml:26
+#: app/views/user_groups/_list.html.haml:23
+#: app/views/user_groups/show.html.haml:51
+#: app/views/users/_list.html.haml:23
+msgid "Search"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:4
+msgid "Running instances quota"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:11
+msgid "Account number"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:14
+msgid "Config Server"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:18
+#: app/views/deployables/_new_from_image.html.haml:25
+#: app/views/deployables/_new_from_image.html.haml:26
+#: app/views/instances/_parameters.haml:3
+msgid "None"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:22
+msgid "Add"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:26
+#: app/views/provider_accounts/show.html.haml:8
+#: app/views/pools/show.html.haml:14
+#: app/views/deployables/show.html.haml:7
+#: app/views/providers/show.html.haml:10
+#: app/views/instances/show.html.haml:5
+#: app/views/provider_priority_groups/index.html.haml:28
+#: app/views/frontend_realms/show.html.haml:11
+#: app/views/hardware_profiles/show.html.haml:8
+#: app/views/pool_families/show.html.haml:5
+#: app/views/deployments/show.html.haml:7
+#: app/views/quotas/show.html.haml:21
+#: app/views/permissions/_permissions.html.haml:7
+#: app/views/permissions/_objects.html.haml:10
+#: app/views/user_groups/show.html.haml:11
+#: app/views/roles/show.html.haml:6 app/views/users/show.html.haml:21
+msgid "Edit"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:29
+msgid "Test"
+msgstr ""
+
+#: app/views/provider_accounts/_properties.html.haml:32
+msgid "Are you sure you want to delete this Config Server?"
+msgstr ""
+
+#: app/views/provider_accounts/show.html.haml:8
+msgid "Edit Provider Account"
+msgstr ""
+
+#: app/views/provider_accounts/show.html.haml:9
+#: app/views/providers/edit.html.haml:15
+msgid "Test Connection"
+msgstr ""
+
+#: app/views/provider_accounts/show.html.haml:10
+msgid "Delete Account"
+msgstr ""
+
+#: app/views/provider_accounts/show.html.haml:10
+#: app/views/deployables/show.html.haml:9
+#: app/views/deployables/show.html.haml:101
+#: app/views/providers/show.html.haml:11
+#: app/views/frontend_realms/_mapping.html.haml:6
+#: app/views/frontend_realms/show.html.haml:12
+#: app/views/hardware_profiles/show.html.haml:9
+#: app/views/user_groups/show.html.haml:12
+#: app/views/tim/base_images/show.html.haml:14
+msgid "Are you sure you want to delete?"
+msgstr ""
+
+#: app/views/pools/index.html.haml:10
+#: app/views/deployables/_new_from_image.html.haml:11
+msgid "Logs"
+msgstr ""
+
+#: app/views/pools/index.html.haml:11
+msgid "Overview"
+msgstr ""
+
+#: app/views/pools/_pretty_list.html.haml:2
+msgid "Your Pools"
+msgstr ""
+
+#: app/views/pools/_list.html.haml:5
+msgid "Destroy"
+msgstr ""
+
+#: app/views/pools/_list.html.haml:9
+msgid "All Pools"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:6
+msgid "Total Cloud Providers"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:9
+msgid "Total Deployments"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:12
+msgid "Total Instances"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:13
+msgid "Instances pending"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:14
+msgid "Instances failed"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:18
+#: app/views/pools/_scoreboard_show.html.haml:19
+#: app/views/pools/_alerts_index.html.haml:7
+#: app/views/pools/_alerts_show.html.haml:7
+#: app/views/providers/show.html.haml:30
+msgid "Alerts"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:24
+msgid "Quota usage"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:27
+msgid "Running Instances"
+msgstr ""
+
+#: app/views/pools/_scoreboard_show.html.haml:29
+msgid "Total Instances available"
+msgstr ""
+
+#: app/views/pools/show.html.haml:11
+#: app/views/pool_families/_list.html.haml:54
+msgid "Provider Selection"
+msgstr ""
+
+#: app/views/pools/show.html.haml:15
+msgid "Are you sure you want to delete this Pool? All related Catalogs and Deployables will also be deleted."
+msgstr ""
+
+#: app/views/pools/_alerts_index.html.haml:5
+#: app/views/pools/_alerts_show.html.haml:5
+#: app/views/providers/show.html.haml:28
+msgid "Toggle Alerts"
+msgstr ""
+
+#: app/views/pools/_alerts_index.html.haml:15
+#: app/views/pools/_alerts_show.html.haml:15
+msgid "Instance Failure"
+msgstr ""
+
+#: app/views/deployables/index.html.haml:6
+msgid "New Deployable"
+msgstr ""
+
+#: app/views/deployables/index.html.haml:8
+msgid "Deployables"
+msgstr ""
+
+#: app/views/deployables/edit.html.haml:7
+msgid "Editing Deployable"
+msgstr ""
+
+#: app/views/deployables/_list.html.haml:3
+msgid "Deployables List"
+msgstr ""
+
+#: app/views/deployables/_list.html.haml:13
+msgid "All Deployables"
+msgstr ""
+
+#: app/views/deployables/_from_url.html.haml:13
+#: app/views/deployables/_upload.html.haml:13
+#: app/views/deployables/_form.html.haml:17
+msgid "no Catalog selected"
+msgstr ""
+
+#: app/views/deployables/_from_url.html.haml:23
+msgid "URL of Deployable XML"
+msgstr ""
+
+#: app/views/deployables/_from_url.html.haml:27
+#: app/views/deployables/_upload.html.haml:27
+msgid "Edit XML file after save"
+msgstr ""
+
+#: app/views/deployables/_from_url.html.haml:32
+#: app/views/deployables/_upload.html.haml:32
+#: app/views/deployables/_new_from_image.html.haml:41
+#: app/views/deployables/_form.html.haml:32
+#: app/views/instances/_edit.html.haml:16
+#: app/views/hardware_profiles/_cost_form_billing.html.haml:10
+#: app/views/hardware_profiles/_form.html.haml:27
+#: app/views/hardware_profiles/_cost_form.html.haml:31
+#: app/views/deployments/_edit.html.haml:17
+#: app/views/quotas/edit.html.haml:13 app/views/roles/_form.html.haml:9
+msgid "Save"
+msgstr ""
+
+#: app/views/deployables/_from_url.html.haml:34
+#: app/views/deployables/_from_url.html.haml:36
+#: app/views/deployables/_upload.html.haml:34
+#: app/views/deployables/_upload.html.haml:36
+#: app/views/deployables/_new_from_image.html.haml:42
+#: app/views/deployables/_form.html.haml:33
+#: app/views/providers/edit.html.haml:14
+#: app/views/instances/_edit.html.haml:17
+#: app/views/provider_priority_groups/edit.html.haml:16
+#: app/views/provider_priority_groups/new.html.haml:16
+#: app/views/hardware_profiles/_cost_form_billing.html.haml:11
+#: app/views/hardware_profiles/_form.html.haml:29
+#: app/views/hardware_profiles/_cost_form.html.haml:32
+#: app/views/pool_families/_add_provider_accounts_form.html.haml:2
+#: app/views/deployments/_launch_new.html.haml:44
+#: app/views/deployments/_edit.html.haml:18
+#: app/views/permissions/_form.html.haml:27
+#: app/views/user_groups/add_members.html.haml:16
+#: lib/simple_form_extension/form_buttons.rb:12
+msgid "Cancel"
+msgstr ""
+
+#: app/views/deployables/_upload.html.haml:23
+msgid "Choose Deployable XML file"
+msgstr ""
+
+#: app/views/deployables/_new.html.haml:2
+msgid "Add New Deployable"
+msgstr ""
+
+#: app/views/deployables/_new.html.haml:9
+#: app/views/tim/base_images/_new.html.haml:19
+msgid "Upload"
+msgstr ""
+
+#: app/views/deployables/_new.html.haml:11
+#: app/views/tim/base_images/_new.html.haml:22
+msgid "From URL"
+msgstr ""
+
+#: app/views/deployables/_new_from_image.html.haml:19
+#: app/views/deployables/show.html.haml:29
+msgid "Default Hardware Profile"
+msgstr ""
+
+#: app/views/deployables/_new_from_image.html.haml:25
+#: app/views/deployables/_new_from_image.html.haml:26
+msgid "Multiple"
+msgstr ""
+
+#: app/views/deployables/_new_from_image.html.haml:32
+msgid "No Catalog"
+msgstr ""
+
+#: app/views/deployables/_form.html.haml:29
+msgid "Edit Deployable XML"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:8
+#: app/views/tim/base_images/edit_xml.html.haml:17
+#: app/views/tim/base_images/overview.html.haml:25
+msgid "Edit XML"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:13
+#: app/views/deployables/show.html.haml:15
+#: app/views/deployments/_overview.html.haml:69
+msgid "Launch"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:27
+#: app/views/deployments/_overview.html.haml:27
+#: app/views/tim/base_images/_new.html.haml:30
+#: app/views/tim/base_images/_new.html.haml:52
+#: app/views/tim/base_images/_image_import.html.haml:29
+msgid "Must be a unique name with at least 1 character and at most 100 characters."
+msgstr ""
+
+#: app/views/deployables/show.html.haml:30
+msgid "HDD"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:31
+msgid "RAM"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:32
+msgid "ARCH"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:33
+msgid "UUIDs"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:47
+#: app/views/deployables/_image_uuids.html.haml:7
+#: app/views/deployables/_image_uuids.html.haml:12
+#: app/views/deployables/_image_uuids.html.haml:18
+#: app/views/instances/_properties.html.haml:50
+#: app/views/instances/_properties.html.haml:53
+msgid "N/A"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:49
+msgid "Show/Hide"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:60
+#: app/views/deployables/show.html.haml:69
+msgid "Build Status"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:73
+msgid "Images missing from the Image Warehouse"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:83
+msgid "Choose a Catalog to enable access:"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:86
+msgid "Add +"
+msgstr ""
+
+#: app/views/deployables/show.html.haml:98
+msgid "Environment: %{environment}"
+msgstr ""
+
+#: app/views/deployables/_image_uuids.html.haml:5
+msgid "Image UUID"
+msgstr ""
+
+#: app/views/deployables/_image_uuids.html.haml:10
+msgid "Latest Build UUID"
+msgstr ""
+
+#: app/views/deployables/_image_uuids.html.haml:15
+msgid "Target Images UUIDs"
+msgstr ""
+
+#: app/views/provider_selections/show.html.haml:8
+#: app/views/provider_priority_groups/index.html.haml:8
+msgid "Provider Selection Strategies"
+msgstr ""
+
+#: app/views/providers/index.html.haml:4
+#: app/views/providers/_page_header.html.haml:5
+#: app/views/providers/show.html.haml:7
+#: app/views/providers/new.html.haml:6
+msgid "Providers"
+msgstr ""
+
+#: app/views/providers/index.html.haml:8
+msgid "Create New Provider"
+msgstr ""
+
+#: app/views/providers/index.html.haml:13
+msgid "From"
+msgstr ""
+
+#: app/views/providers/index.html.haml:15
+msgid "To"
+msgstr ""
+
+#: app/views/providers/index.html.haml:51
+msgid "Activity"
+msgstr ""
+
+#: app/views/providers/_page_header.html.haml:6
+#: app/views/providers/show.html.haml:13
+msgid "Editing Provider"
+msgstr ""
+
+#: app/views/providers/_form.html.haml:8
+msgid "Legend for X-Deltacloud-Provider"
+msgstr ""
+
+#: app/views/providers/_properties.html.haml:7
+msgid "Provider URL"
+msgstr ""
+
+#: app/views/providers/_properties.html.haml:13
+msgid "X-Deltacloud-Driver"
+msgstr ""
+
+#: app/views/providers/_properties.html.haml:16
+msgid "X-Deltacloud-Provider"
+msgstr ""
+
+#: app/views/providers/show.html.haml:19
+msgid "Provider is disabled."
+msgstr ""
+
+#: app/views/providers/show.html.haml:22
+msgid "To enable and configure the Provider, click the Edit button."
+msgstr ""
+
+#: app/views/providers/_hardware_profiles.html.haml:27
+msgid "No Hardware Profiles"
+msgstr ""
+
+#: app/views/instances/_list.html.haml:2
+msgid "Stop selected Instances"
+msgstr ""
+
+#: app/views/instances/_list.html.haml:3
+msgid "Reboot selected Instances"
+msgstr ""
+
+#: app/views/instances/_list.html.haml:8
+msgid "Export events"
+msgstr ""
+
+#: app/views/instances/_list.html.haml:14
+msgid "All Instances"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:6
+msgid "Status"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:9
+msgid "Public Addresses"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:12
+msgid "Private Addresses"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:15
+msgid "Assembly"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:30
+msgid "Instantiation Time"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:33
+msgid "Current Alerts"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:36
+msgid "Console Connection"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:37
+msgid "via SSH"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:40
+msgid "SSH key"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:41
+msgid "Download"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:43
+msgid "SSH key name"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:49
+msgid "Shared to"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:52
+#: app/views/deployments/_properties.html.haml:14
+msgid "Cost Estimate"
+msgstr ""
+
+#: app/views/instances/_properties.html.haml:56
+msgid "Error"
+msgstr ""
+
+#: app/views/instances/_edit.html.haml:2
+#: app/views/instances/_edit.html.haml:6
+msgid "Edit Instance"
+msgstr ""
+
+#: app/views/provider_realms/_list.html.haml:5
+#: app/views/frontend_realms/_list.html.haml:14
+msgid "All Realms"
+msgstr ""
+
+#: app/views/provider_realms/show.html.haml:23
+msgid "Provider Realm Mapping"
+msgstr ""
+
+#: app/views/provider_priority_groups/index.html.haml:13
+msgid "Add new"
+msgstr ""
+
+#: app/views/provider_priority_groups/index.html.haml:16
+msgid "Edit Strict Order Strategy"
+msgstr ""
+
+#: app/views/provider_priority_groups/index.html.haml:29
+msgid "Are you sure you want to delete this priority group?"
+msgstr ""
+
+#: app/views/provider_priority_groups/index.html.haml:54
+#: app/views/provider_priority_groups/_form.html.haml:52
+msgid "No available priority group to display"
+msgstr ""
+
+#: app/views/provider_priority_groups/edit.html.haml:8
+msgid "Edit Priority Group"
+msgstr ""
+
+#: app/views/provider_priority_groups/edit.html.haml:15
+msgid "Save Priority Group"
+msgstr ""
+
+#: app/views/provider_priority_groups/_form.html.haml:6
+msgid "Basic Data"
+msgstr ""
+
+#: app/views/provider_priority_groups/_form.html.haml:18
+msgid "Providers & Provider Accounts"
+msgstr ""
+
+#: app/views/provider_priority_groups/new.html.haml:8
+msgid "Add new Priority Group"
+msgstr ""
+
+#: app/views/provider_priority_groups/new.html.haml:15
+msgid "Create Priority Group"
+msgstr ""
+
+#: app/views/frontend_realms/_list.html.haml:6
+#: app/views/frontend_realms/show.html.haml:8
+msgid "New Realm"
+msgstr ""
+
+#: app/views/frontend_realms/_mapping.html.haml:6
+msgid "Delete Selected"
+msgstr ""
+
+#: app/views/frontend_realms/_mapping.html.haml:9
+msgid "Add mapping to Provider Realm"
+msgstr ""
+
+#: app/views/frontend_realms/_mapping.html.haml:12
+msgid "Add mapping to Provider"
+msgstr ""
+
+#: app/views/frontend_realms/_mapping.html.haml:15
+msgid "Realm Mapping"
+msgstr ""
+
+#: app/views/frontend_realms/new.html.haml:7
+msgid "Create New Realm"
+msgstr ""
+
+#: app/views/hardware_profiles/edit.html.haml:6
+#: app/views/hardware_profiles/edit_cost.html.haml:5
+#: app/views/hardware_profiles/edit_cost_billing.html.haml:5
+#: app/views/roles/edit.html.haml:5
+msgid "Cancel Editing"
+msgstr ""
+
+#: app/views/hardware_profiles/edit.html.haml:7
+#: app/views/hardware_profiles/edit_cost.html.haml:6
+#: app/views/hardware_profiles/edit_cost_billing.html.haml:6
+msgid "Hardware Profile"
+msgstr ""
+
+#: app/views/hardware_profiles/edit.html.haml:11
+msgid "Edit Hardware Profile"
+msgstr ""
+
+#: app/views/hardware_profiles/edit_cost.html.haml:10
+msgid "Assign Costs to Hardware Profile"
+msgstr ""
+
+#: app/views/hardware_profiles/_list.html.haml:10
+msgid "All Hardware Profiles"
+msgstr ""
+
+#: app/views/hardware_profiles/show.html.haml:12
+msgid "Edit Cost"
+msgstr ""
+
+#: app/views/hardware_profiles/show.html.haml:37
+#: locale/model_attributes.rb:10
+msgid "Cost"
+msgstr ""
+
+#: app/views/hardware_profiles/edit_cost_billing.html.haml:10
+msgid "Select Billing Model for Hardware Profile"
+msgstr ""
+
+#:
+#: app/views/hardware_profiles/_matching_provider_hardware_profiles.html.haml:40
+msgid "No Matching Provider Hardware Profiles Could be found"
+msgstr ""
+
+#: app/views/hardware_profiles/_cost_form.html.haml:7
+msgid "Change"
+msgstr ""
+
+#: app/views/settings/index.html.haml:11
+msgid "Modify default user settings"
+msgstr ""
+
+#: app/views/settings/self_service.html.haml:7
+msgid "Self-service Settings"
+msgstr ""
+
+#: app/views/settings/self_service.html.haml:11
+msgid "Default user settings"
+msgstr ""
+
+#: app/views/settings/self_service.html.haml:20
+msgid "Instances Quota:"
+msgstr ""
+
+#: app/views/settings/self_service.html.haml:25
+#: app/views/quotas/show.html.haml:22
+msgid "Reset"
+msgstr ""
+
+#: app/views/user_mailer/password_reset.text.haml:5
+msgid "If you did not request this password to be reset, just ignore this email and the password will stay the same."
+msgstr ""
+
+#: app/views/layouts/_simple_form_error_messages.html.haml:3
+#: app/views/layouts/_error_messages.html.haml:3
+#: app/views/layouts/_new_notification.html.haml:22
+#: app/views/layouts/_new_notification.html.haml:33
+#: app/views/layouts/_new_notification.html.haml:43
+#: app/views/layouts/_new_notification.html.haml:53
+msgid "Close"
+msgstr ""
+
+#: app/views/layouts/_filter_table.html.haml:13
+msgid "Please make a selection first."
+msgstr ""
+
+#: app/views/layouts/_filter_table.html.haml:13
+msgid "Are you sure you want to proceed?"
+msgstr ""
+
+#: app/views/layouts/_filter_table.html.haml:23
+msgid "No matching results."
+msgstr ""
+
+#: app/views/layouts/application.html.haml:2
+#: app/views/layouts/application.html.haml:28
+msgid "Aeolus Conductor"
+msgstr ""
+
+#: app/views/layouts/application.html.haml:37
+msgid "Log Out"
+msgstr ""
+
+#: app/views/pool_families/_list.html.haml:21
+#: app/views/pool_families/_images.html.haml:6
+#: app/views/tim/base_images/_image_import.html.haml:6
+msgid "Import Image"
+msgstr ""
+
+#: app/views/pool_families/_list.html.haml:22
+#: app/views/pool_families/_images.html.haml:7
+#: app/views/tim/base_images/_new.html.haml:6
+msgid "New Image"
+msgstr ""
+
+#: app/views/pool_families/_list.html.haml:31
+msgid "Environment Quota Used"
+msgstr ""
+
+#: app/views/pool_families/_list.html.haml:56
+msgid "Total"
+msgstr ""
+
+#: app/views/pool_families/_add_provider_accounts_form.html.haml:3
+#: app/views/pool_families/_provider_accounts.html.haml:3
+msgid "Add Account"
+msgstr ""
+
+#: app/views/pool_families/show.html.haml:6
+msgid "Are you sure you want to delete this Environment? All related Pools, Catalogs, and Deployables will be deleted."
+msgstr ""
+
+#: app/views/pool_families/add_provider_accounts.html.haml:12
+msgid "Choose Provider Accounts to enable for this Environment"
+msgstr ""
+
+#: app/views/deployments/_overview.html.haml:33
+#: app/views/user_groups/show.html.haml:29
+msgid "Description"
+msgstr ""
+
+#: app/views/deployments/_overview.html.haml:52
+#: app/views/deployments/_launch_new.html.haml:39
+msgid "Auto-select"
+msgstr ""
+
+#: app/views/deployments/_overview.html.haml:55
+msgid "Ignore Instance errors during launch"
+msgstr ""
+
+#: app/views/deployments/_overview.html.haml:60
+msgid "Image IDs"
+msgstr ""
+
+#: app/views/deployments/_list.html.haml:2
+msgid "Stop Selected"
+msgstr ""
+
+#: app/views/deployments/_list.html.haml:9
+msgid "All Deployments"
+msgstr ""
+
+#: app/views/deployments/_launch_new.html.haml:11
+msgid "Deployment Details"
+msgstr ""
+
+#: app/views/deployments/_launch_new.html.haml:25
+msgid "(uniquely identifies your Deployment)"
+msgstr ""
+
+#: app/views/deployments/_launch_new.html.haml:43
+msgid "Next"
+msgstr ""
+
+#: app/views/deployments/_launch_new.html.haml:48
+msgid "That name is already in use"
+msgstr ""
+
+#: app/views/deployments/_launch_new.html.haml:48
+msgid "Name available"
+msgstr ""
+
+#: app/views/deployments/launch_time_params.html.haml:7
+msgid "Configure launch-time parameters for your Deployment:"
+msgstr ""
+
+#: app/views/deployments/launch_time_params.html.haml:47
+msgid "Finalize"
+msgstr ""
+
+#: app/views/deployments/_properties.html.haml:8
+msgid "Global Uptime"
+msgstr ""
+
+#: app/views/deployments/_properties.html.haml:11
+msgid "Uptime 1st Instance running"
+msgstr ""
+
+#: app/views/deployments/show.html.haml:9
+msgid "Are you sure you want to delete this Deployment?"
+msgstr ""
+
+#: app/views/deployments/_edit.html.haml:2
+#: locale/model_attributes.rb:27
+msgid "Deployment"
+msgstr ""
+
+#: app/views/deployments/_edit.html.haml:6
+msgid "Edit Deployment"
+msgstr ""
+
+#: app/views/quotas/edit.html.haml:3
+msgid "Edit Quota for"
+msgstr ""
+
+#: app/views/quotas/edit.html.haml:10
+msgid "Max Running Instances"
+msgstr ""
+
+#: app/views/quotas/show.html.haml:3
+msgid "There is no Quota on this"
+msgstr ""
+
+#: app/views/quotas/show.html.haml:9
+msgid "Max Capacity"
+msgstr ""
+
+#: app/views/quotas/show.html.haml:10
+msgid "Used"
+msgstr ""
+
+#: app/views/quotas/show.html.haml:11
+msgid "Available"
+msgstr ""
+
+#: app/views/permissions/_form.html.haml:4
+msgid "All Entities"
+msgstr ""
+
+#: app/views/permissions/_permissions.html.haml:6
+#: app/views/permissions/_objects.html.haml:9
+msgid "Revoke Access"
+msgstr ""
+
+#: app/views/permissions/_permissions.html.haml:21
+#: app/views/permissions/_permissions.html.haml:24
+#: app/views/permissions/_objects.html.haml:4
+msgid "Direct Access"
+msgstr ""
+
+#: app/views/permissions/_permissions.html.haml:22
+#: app/views/permissions/_permissions.html.haml:28
+msgid "Global Access"
+msgstr ""
+
+#: app/views/permissions/_permissions.html.haml:25
+#: app/views/permissions/_permissions.html.haml:27
+#: app/views/permissions/_objects.html.haml:6
+msgid "Inherited Access"
+msgstr ""
+
+#: app/views/permissions/_permissions.html.haml:34
+#: app/views/permissions/_objects.html.haml:20
+msgid "All Permissions"
+msgstr ""
+
+#: app/views/permissions/_objects.html.haml:51
+#: app/views/permissions/_objects.html.haml:66
+msgid "Global"
+msgstr ""
+
+#: app/views/user_groups/_list.html.haml:5
+msgid "Add User Group"
+msgstr ""
+
+#: app/views/user_groups/_list.html.haml:12
+msgid "All User Groups"
+msgstr ""
+
+#: app/views/user_groups/show.html.haml:35
+msgid "Members"
+msgstr ""
+
+#: app/views/user_groups/show.html.haml:40
+#: app/views/user_groups/add_members.html.haml:15
+msgid "Add Members"
+msgstr ""
+
+#: app/views/user_groups/show.html.haml:41
+msgid "Remove"
+msgstr ""
+
+#: app/views/user_groups/show.html.haml:47
+#: app/views/users/_list.html.haml:12
+msgid "All Users"
+msgstr ""
+
+#: app/views/user_groups/add_members.html.haml:12
+msgid "Choose Users to add to this Group."
+msgstr ""
+
+#: app/views/user_sessions/new.html.haml:2
+msgid "Password"
+msgstr ""
+
+#: app/views/roles/index.html.haml:4 app/views/roles/edit.html.haml:4
+#: app/views/roles/show.html.haml:4 app/views/roles/new.html.haml:6
+msgid "New Role"
+msgstr ""
+
+#: app/views/roles/edit.html.haml:11 app/views/roles/edit.html.haml:13
+msgid "Editing Role:"
+msgstr ""
+
+#: app/views/roles/_list.html.haml:3
+msgid "Roles List"
+msgstr ""
+
+#: app/views/roles/_properties.html.haml:3
+msgid "Scope"
+msgstr ""
+
+#: app/views/roles/_properties.html.haml:8
+msgid "Privileges"
+msgstr ""
+
+#: app/views/roles/_properties.html.haml:12
+msgid "Action"
+msgstr ""
+
+#: app/views/roles/_properties.html.haml:13
+msgid "Target type"
+msgstr ""
+
+#: app/views/roles/show.html.haml:7
+msgid "Are you sure you want to delete this role?"
+msgstr ""
+
+#: app/views/users/edit.html.haml:10
+msgid "Edit Account"
+msgstr ""
+
+#: app/views/users/_list.html.haml:5
+msgid "Add User"
+msgstr ""
+
+#: app/views/users/_list.html.haml:44
+#: lib/simple_form_extension/numeric_input_with_unlimited_check_box_input.rb:20
+msgid "Unlimited"
+msgstr ""
+
+#: app/views/users/show.html.haml:16
+msgid "E-mail Address"
+msgstr ""
+
+#: app/views/users/show.html.haml:23
+msgid "Are you sure you want to delete this user?"
+msgstr ""
+
+#: app/views/users/show.html.haml:28
+msgid "Created"
+msgstr ""
+
+#: app/views/users/show.html.haml:31
+msgid "Number of Logins"
+msgstr ""
+
+#: app/views/users/show.html.haml:34
+msgid "Last Login"
+msgstr ""
+
+#: app/views/users/show.html.haml:38
+msgid "Last Updated"
+msgstr ""
+
+#: app/views/users/show.html.haml:41
+msgid "Failed Logins"
+msgstr ""
+
+#: app/views/users/show.html.haml:44
+msgid "Last Login IP"
+msgstr ""
+
+#: app/views/users/show.html.haml:49
+msgid "Groups"
+msgstr ""
+
+#: app/views/tim/base_images/_new.html.haml:34
+msgid "Choose an Image Template file:"
+msgstr ""
+
+#: app/views/tim/base_images/_new.html.haml:38
+#: app/views/tim/base_images/_new.html.haml:60
+msgid "Edit this file before saving:"
+msgstr ""
+
+#: app/views/tim/base_images/_new.html.haml:56
+msgid "Image Template URL:"
+msgstr ""
+
+#: app/views/tim/base_images/edit_xml.html.haml:23
+msgid "Save and Continue"
+msgstr ""
+
+#: app/views/tim/base_images/_image_import.html.haml:19
+msgid "Provider Account"
+msgstr ""
+
+#: app/views/tim/base_images/_image_import.html.haml:23
+#: app/views/tim/base_images/show.html.haml:27
+msgid "Image ID"
+msgstr ""
+
+#: app/views/tim/base_images/show.html.haml:10
+msgid "New Deployable from Image"
+msgstr ""
+
+#: app/views/tim/base_images/show.html.haml:12
+msgid "View Image Template XML"
+msgstr ""
+
+#: app/views/tim/base_images/show.html.haml:34
+msgid "View build"
+msgstr ""
+
+#: app/views/tim/base_images/show.html.haml:38
+msgid "Select"
+msgstr ""
+
+#: app/views/tim/base_images/show.html.haml:44
+msgid "Build All"
+msgstr ""
+
+#: app/views/tim/base_images/show.html.haml:47
+msgid "Provider Images"
+msgstr ""
+
+#: app/views/tim/base_images/overview.html.haml:19
+msgid "Valid Image"
+msgstr ""
+
+#: app/views/tim/base_images/overview.html.haml:24
+msgid "Save Image Template"
+msgstr ""
+
+#: app/views/config_servers/new.haml:6
+msgid "New Config Server"
+msgstr ""
+
+#: app/views/config_servers/edit.haml:6
+msgid "Edit Config Server"
+msgstr ""
+
+#: lib/simple_form_extension/note.rb:10
+msgid "Note:"
+msgstr ""
+
+#: config/navigation.rb:21
+msgid "Monitor"
+msgstr ""
+
+#: config/navigation.rb:22
+msgid "Administer"
+msgstr ""
+
+#: config/navigation.rb:25
+msgid "Content"
+msgstr ""
+
+#: locale/model_attributes.rb:2
+msgid "Base permission object"
+msgstr ""
+
+#: locale/model_attributes.rb:3
+msgid "BasePermissionObject|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:5
+msgid "Catalog|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:6
+msgid "Config server"
+msgstr ""
+
+#: locale/model_attributes.rb:7
+msgid "ConfigServer|Endpoint"
+msgstr ""
+
+#: locale/model_attributes.rb:8
+msgid "ConfigServer|Key"
+msgstr ""
+
+#: locale/model_attributes.rb:9
+msgid "ConfigServer|Secret"
+msgstr ""
+
+#: locale/model_attributes.rb:11
+msgid "Cost|Billing model"
+msgstr ""
+
+#: locale/model_attributes.rb:12
+msgid "Cost|Chargeable type"
+msgstr ""
+
+#: locale/model_attributes.rb:13
+msgid "Cost|Price"
+msgstr ""
+
+#: locale/model_attributes.rb:14
+msgid "Cost|Valid from"
+msgstr ""
+
+#: locale/model_attributes.rb:15
+msgid "Cost|Valid to"
+msgstr ""
+
+#: locale/model_attributes.rb:16
+msgid "Credential"
+msgstr ""
+
+#: locale/model_attributes.rb:17
+msgid "Credential|Value"
+msgstr ""
+
+#: locale/model_attributes.rb:18
+msgid "Credential definition"
+msgstr ""
+
+#: locale/model_attributes.rb:19
+msgid "CredentialDefinition|Input type"
+msgstr ""
+
+#: locale/model_attributes.rb:20
+msgid "CredentialDefinition|Label"
+msgstr ""
+
+#: locale/model_attributes.rb:21
+msgid "CredentialDefinition|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:23
+msgid "Deployable|Description"
+msgstr ""
+
+#: locale/model_attributes.rb:24
+msgid "Deployable|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:25
+msgid "Deployable|Xml"
+msgstr ""
+
+#: locale/model_attributes.rb:26
+msgid "Deployable|Xml filename"
+msgstr ""
+
+#: locale/model_attributes.rb:28
+msgid "Deployment|Deleted at"
+msgstr ""
+
+#: locale/model_attributes.rb:29
+msgid "Deployment|Deployable xml"
+msgstr ""
+
+#: locale/model_attributes.rb:30
+msgid "Deployment|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:31
+msgid "Deployment|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:32
+msgid "Deployment|Partial launch"
+msgstr ""
+
+#: locale/model_attributes.rb:33
+msgid "Deployment|Scheduled for deletion"
+msgstr ""
+
+#: locale/model_attributes.rb:34
+msgid "Deployment|State"
+msgstr ""
+
+#: locale/model_attributes.rb:35
+msgid "Deployment|Uuid"
+msgstr ""
+
+#: locale/model_attributes.rb:36
+msgid "Derived permission"
+msgstr ""
+
+#: locale/model_attributes.rb:37
+msgid "DerivedPermission|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:38
+msgid "DerivedPermission|Permission object type"
+msgstr ""
+
+#: locale/model_attributes.rb:39
+msgid "Entity"
+msgstr ""
+
+#: locale/model_attributes.rb:40
+msgid "Entity|Entity target type"
+msgstr ""
+
+#: locale/model_attributes.rb:41
+msgid "Entity|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:42
+msgid "Entity|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:43
+msgid "Event"
+msgstr ""
+
+#: locale/model_attributes.rb:44
+msgid "Event|Deleted at"
+msgstr ""
+
+#: locale/model_attributes.rb:45
+msgid "Event|Description"
+msgstr ""
+
+#: locale/model_attributes.rb:46
+msgid "Event|Event time"
+msgstr ""
+
+#: locale/model_attributes.rb:47
+msgid "Event|Source type"
+msgstr ""
+
+#: locale/model_attributes.rb:48
+msgid "Event|Status code"
+msgstr ""
+
+#: locale/model_attributes.rb:49
+msgid "Event|Summary"
+msgstr ""
+
+#: locale/model_attributes.rb:50
+msgid "Frontend realm"
+msgstr ""
+
+#: locale/model_attributes.rb:51
+msgid "FrontendRealm|Description"
+msgstr ""
+
+#: locale/model_attributes.rb:52
+msgid "FrontendRealm|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:53
+msgid "FrontendRealm|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:54
+msgid "Hardware profile"
+msgstr ""
+
+#: locale/model_attributes.rb:55
+msgid "HardwareProfile|External key"
+msgstr ""
+
+#: locale/model_attributes.rb:56
+msgid "HardwareProfile|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:57
+msgid "HardwareProfile|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:58
+msgid "Hardware profile property"
+msgstr ""
+
+#: locale/model_attributes.rb:59
+msgid "HardwareProfileProperty|Kind"
+msgstr ""
+
+#: locale/model_attributes.rb:60
+msgid "HardwareProfileProperty|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:61
+msgid "HardwareProfileProperty|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:62
+msgid "HardwareProfileProperty|Range first"
+msgstr ""
+
+#: locale/model_attributes.rb:63
+msgid "HardwareProfileProperty|Range last"
+msgstr ""
+
+#: locale/model_attributes.rb:64
+msgid "HardwareProfileProperty|Unit"
+msgstr ""
+
+#: locale/model_attributes.rb:65
+msgid "HardwareProfileProperty|Value"
+msgstr ""
+
+#: locale/model_attributes.rb:66
+msgid "Hook"
+msgstr ""
+
+#: locale/model_attributes.rb:67
+msgid "Hook|Uri"
+msgstr ""
+
+#: locale/model_attributes.rb:68
+msgid "Hook|Version"
+msgstr ""
+
+#: locale/model_attributes.rb:69
+msgid "Instance"
+msgstr ""
+
+#: locale/model_attributes.rb:70
+msgid "Instance|Acc pending time"
+msgstr ""
+
+#: locale/model_attributes.rb:71
+msgid "Instance|Acc running time"
+msgstr ""
+
+#: locale/model_attributes.rb:72
+msgid "Instance|Acc shutting down time"
+msgstr ""
+
+#: locale/model_attributes.rb:73
+msgid "Instance|Acc stopped time"
+msgstr ""
+
+#: locale/model_attributes.rb:74
+msgid "Instance|Assembly xml"
+msgstr ""
+
+#: locale/model_attributes.rb:75
+msgid "Instance|Checked at"
+msgstr ""
+
+#: locale/model_attributes.rb:76
+msgid "Instance|Deleted at"
+msgstr ""
+
+#: locale/model_attributes.rb:77
+msgid "Instance|External key"
+msgstr ""
+
+#: locale/model_attributes.rb:78
+msgid "Instance|Image build uuid"
+msgstr ""
+
+#: locale/model_attributes.rb:79
+msgid "Instance|Image uuid"
+msgstr ""
+
+#: locale/model_attributes.rb:80
+msgid "Instance|Instance config xml"
+msgstr ""
+
+#: locale/model_attributes.rb:81
+msgid "Instance|Last error"
+msgstr ""
+
+#: locale/model_attributes.rb:82
+msgid "Instance|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:83
+msgid "Instance|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:84
+msgid "Instance|Private addresses"
+msgstr ""
+
+#: locale/model_attributes.rb:85
+msgid "Instance|Provider image uuid"
+msgstr ""
+
+#: locale/model_attributes.rb:86
+msgid "Instance|Public addresses"
+msgstr ""
+
+#: locale/model_attributes.rb:87
+msgid "Instance|Secret"
+msgstr ""
+
+#: locale/model_attributes.rb:88
+msgid "Instance|State"
+msgstr ""
+
+#: locale/model_attributes.rb:89
+msgid "Instance|Time last pending"
+msgstr ""
+
+#: locale/model_attributes.rb:90
+msgid "Instance|Time last running"
+msgstr ""
+
+#: locale/model_attributes.rb:91
+msgid "Instance|Time last shutting down"
+msgstr ""
+
+#: locale/model_attributes.rb:92
+msgid "Instance|Time last stopped"
+msgstr ""
+
+#: locale/model_attributes.rb:93
+msgid "Instance|User data"
+msgstr ""
+
+#: locale/model_attributes.rb:94
+msgid "Instance|Uuid"
+msgstr ""
+
+#: locale/model_attributes.rb:95
+msgid "Instance hwp"
+msgstr ""
+
+#: locale/model_attributes.rb:96
+msgid "InstanceHwp|Architecture"
+msgstr ""
+
+#: locale/model_attributes.rb:97
+msgid "InstanceHwp|Cpu"
+msgstr ""
+
+#: locale/model_attributes.rb:98
+msgid "InstanceHwp|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:99
+msgid "InstanceHwp|Memory"
+msgstr ""
+
+#: locale/model_attributes.rb:100
+msgid "InstanceHwp|Storage"
+msgstr ""
+
+#: locale/model_attributes.rb:101
+msgid "Instance key"
+msgstr ""
+
+#: locale/model_attributes.rb:102
+msgid "InstanceKey|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:103
+msgid "InstanceKey|Pem"
+msgstr ""
+
+#: locale/model_attributes.rb:104
+msgid "Instance match"
+msgstr ""
+
+#: locale/model_attributes.rb:105
+msgid "InstanceMatch|Error"
+msgstr ""
+
+#: locale/model_attributes.rb:106
+msgid "InstanceMatch|Provider image"
+msgstr ""
+
+#: locale/model_attributes.rb:107
+msgid "Instance parameter"
+msgstr ""
+
+#: locale/model_attributes.rb:108
+msgid "InstanceParameter|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:109
+msgid "InstanceParameter|Service"
+msgstr ""
+
+#: locale/model_attributes.rb:110
+msgid "InstanceParameter|Value"
+msgstr ""
+
+#: locale/model_attributes.rb:111
+msgid "Metadata object"
+msgstr ""
+
+#: locale/model_attributes.rb:112
+msgid "MetadataObject|Key"
+msgstr ""
+
+#: locale/model_attributes.rb:113
+msgid "MetadataObject|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:114
+msgid "MetadataObject|Object type"
+msgstr ""
+
+#: locale/model_attributes.rb:115
+msgid "MetadataObject|Value"
+msgstr ""
+
+#: locale/model_attributes.rb:116
+msgid "Permission"
+msgstr ""
+
+#: locale/model_attributes.rb:117
+msgid "Permission|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:118
+msgid "Permission|Permission object type"
+msgstr ""
+
+#: locale/model_attributes.rb:119
+msgid "Permission session"
+msgstr ""
+
+#: locale/model_attributes.rb:120
+msgid "PermissionSession|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:122
+msgid "Pool|Enabled"
+msgstr ""
+
+#: locale/model_attributes.rb:123
+msgid "Pool|Exported as"
+msgstr ""
+
+#: locale/model_attributes.rb:124
+msgid "Pool|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:125
+msgid "Pool|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:126
+msgid "Pool family"
+msgstr ""
+
+#: locale/model_attributes.rb:127
+msgid "PoolFamily|Description"
+msgstr ""
+
+#: locale/model_attributes.rb:128
+msgid "PoolFamily|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:129
+msgid "PoolFamily|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:130
+msgid "Privilege"
+msgstr ""
+
+#: locale/model_attributes.rb:131
+msgid "Privilege|Action"
+msgstr ""
+
+#: locale/model_attributes.rb:132
+msgid "Privilege|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:133
+msgid "Privilege|Target type"
+msgstr ""
+
+#: locale/model_attributes.rb:134
+msgid "Property enum entry"
+msgstr ""
+
+#: locale/model_attributes.rb:135
+msgid "PropertyEnumEntry|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:136
+msgid "PropertyEnumEntry|Value"
+msgstr ""
+
+#: locale/model_attributes.rb:138
+msgid "Provider|Available"
+msgstr ""
+
+#: locale/model_attributes.rb:139
+msgid "Provider|Deltacloud provider"
+msgstr ""
+
+#: locale/model_attributes.rb:140
+msgid "Provider|Enabled"
+msgstr ""
+
+#: locale/model_attributes.rb:141
+msgid "Provider|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:142
+msgid "Provider|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:143
+msgid "Provider|Url"
+msgstr ""
+
+#: locale/model_attributes.rb:144
+msgid "Provider account"
+msgstr ""
+
+#: locale/model_attributes.rb:145
+msgid "ProviderAccount|Label"
+msgstr ""
+
+#: locale/model_attributes.rb:146
+msgid "ProviderAccount|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:147
+msgid "ProviderAccount|Priority"
+msgstr ""
+
+#: locale/model_attributes.rb:148
+msgid "Provider priority group"
+msgstr ""
+
+#: locale/model_attributes.rb:149
+msgid "ProviderPriorityGroup|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:150
+msgid "ProviderPriorityGroup|Score"
+msgstr ""
+
+#: locale/model_attributes.rb:151
+msgid "Provider priority group element"
+msgstr ""
+
+#: locale/model_attributes.rb:152
+msgid "ProviderPriorityGroupElement|Value type"
+msgstr ""
+
+#: locale/model_attributes.rb:153
+msgid "Provider realm"
+msgstr ""
+
+#: locale/model_attributes.rb:154
+msgid "ProviderRealm|Available"
+msgstr ""
+
+#: locale/model_attributes.rb:155
+msgid "ProviderRealm|External key"
+msgstr ""
+
+#: locale/model_attributes.rb:156
+msgid "ProviderRealm|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:157
+msgid "ProviderRealm|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:158
+msgid "Provider selection strategy"
+msgstr ""
+
+#: locale/model_attributes.rb:159
+msgid "ProviderSelectionStrategy|Config"
+msgstr ""
+
+#: locale/model_attributes.rb:160
+msgid "ProviderSelectionStrategy|Enabled"
+msgstr ""
+
+#: locale/model_attributes.rb:161
+msgid "ProviderSelectionStrategy|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:162
+msgid "Provider type"
+msgstr ""
+
+#: locale/model_attributes.rb:163
+msgid "ProviderType|Deltacloud driver"
+msgstr ""
+
+#: locale/model_attributes.rb:164
+msgid "ProviderType|Home dir"
+msgstr ""
+
+#: locale/model_attributes.rb:165
+msgid "ProviderType|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:166
+msgid "ProviderType|Ssh user"
+msgstr ""
+
+#: locale/model_attributes.rb:167
+msgid "Quota"
+msgstr ""
+
+#: locale/model_attributes.rb:168
+msgid "Quota|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:169
+msgid "Quota|Maximum running instances"
+msgstr ""
+
+#: locale/model_attributes.rb:170
+msgid "Quota|Maximum total instances"
+msgstr ""
+
+#: locale/model_attributes.rb:171
+msgid "Quota|Running instances"
+msgstr ""
+
+#: locale/model_attributes.rb:172
+msgid "Quota|Total instances"
+msgstr ""
+
+#: locale/model_attributes.rb:173
+msgid "Realm backend target"
+msgstr ""
+
+#: locale/model_attributes.rb:174
+msgid "RealmBackendTarget|Provider realm or provider type"
+msgstr ""
+
+#: locale/model_attributes.rb:176
+msgid "Role|Assign to owner"
+msgstr ""
+
+#: locale/model_attributes.rb:177
+msgid "Role|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:178
+msgid "Role|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:179
+msgid "Role|Scope"
+msgstr ""
+
+#: locale/model_attributes.rb:180
+msgid "Session entity"
+msgstr ""
+
+#: locale/model_attributes.rb:181
+msgid "SessionEntity|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:182
+msgid "Task"
+msgstr ""
+
+#: locale/model_attributes.rb:183
+msgid "Task|Action"
+msgstr ""
+
+#: locale/model_attributes.rb:184
+msgid "Task|Args"
+msgstr ""
+
+#: locale/model_attributes.rb:185
+msgid "Task|Failure code"
+msgstr ""
+
+#: locale/model_attributes.rb:186
+msgid "Task|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:187
+msgid "Task|Message"
+msgstr ""
+
+#: locale/model_attributes.rb:188
+msgid "Task|State"
+msgstr ""
+
+#: locale/model_attributes.rb:189
+msgid "Task|Task target type"
+msgstr ""
+
+#: locale/model_attributes.rb:190
+msgid "Task|Time ended"
+msgstr ""
+
+#: locale/model_attributes.rb:191
+msgid "Task|Time started"
+msgstr ""
+
+#: locale/model_attributes.rb:192
+msgid "Task|Time submitted"
+msgstr ""
+
+#: locale/model_attributes.rb:193
+msgid "Task|User"
+msgstr ""
+
+#: locale/model_attributes.rb:194
+msgid "User"
+msgstr ""
+
+#: locale/model_attributes.rb:195
+msgid "User|Crypted password"
+msgstr ""
+
+#: locale/model_attributes.rb:196
+msgid "User|Current login at"
+msgstr ""
+
+#: locale/model_attributes.rb:197
+msgid "User|Current login ip"
+msgstr ""
+
+#: locale/model_attributes.rb:198
+msgid "User|Email"
+msgstr ""
+
+#: locale/model_attributes.rb:199
+msgid "User|Failed login count"
+msgstr ""
+
+#: locale/model_attributes.rb:200
+msgid "User|First name"
+msgstr ""
+
+#: locale/model_attributes.rb:201
+msgid "User|Last login at"
+msgstr ""
+
+#: locale/model_attributes.rb:202
+msgid "User|Last login ip"
+msgstr ""
+
+#: locale/model_attributes.rb:203
+msgid "User|Last name"
+msgstr ""
+
+#: locale/model_attributes.rb:204
+msgid "User|Last request at"
+msgstr ""
+
+#: locale/model_attributes.rb:205
+msgid "User|Login count"
+msgstr ""
+
+#: locale/model_attributes.rb:206
+msgid "User|Password reset sent at"
+msgstr ""
+
+#: locale/model_attributes.rb:207
+msgid "User|Password reset token"
+msgstr ""
+
+#: locale/model_attributes.rb:208
+msgid "User|Username"
+msgstr ""
+
+#: locale/model_attributes.rb:209
+msgid "User group"
+msgstr ""
+
+#: locale/model_attributes.rb:210
+msgid "UserGroup|Description"
+msgstr ""
+
+#: locale/model_attributes.rb:211
+msgid "UserGroup|Lock version"
+msgstr ""
+
+#: locale/model_attributes.rb:212
+msgid "UserGroup|Membership source"
+msgstr ""
+
+#: locale/model_attributes.rb:213
+msgid "UserGroup|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:214
+msgid "View state"
+msgstr ""
+
+#: locale/model_attributes.rb:215
+msgid "ViewState|Action"
+msgstr ""
+
+#: locale/model_attributes.rb:216
+msgid "ViewState|Controller"
+msgstr ""
+
+#: locale/model_attributes.rb:217
+msgid "ViewState|Name"
+msgstr ""
+
+#: locale/model_attributes.rb:218
+msgid "ViewState|State"
+msgstr ""
+
+#: locale/model_attributes.rb:219
+msgid "ViewState|Uuid"
+msgstr ""
