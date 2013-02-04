@@ -7,5 +7,5 @@
       = cost_form.select(:billing_model, options_for_select(CostEngine::BillingModel::options_for_select, @hwp_cost.billing_model))
 
 %fieldset.options
-  = hwp_form.submit t('save'), :class => 'submit button primary', :id => 'save_button'
-  = link_to t('cancel'), hardware_profiles_path, :class => "button danger"
+  = hwp_form.submit _('Save'), :class => 'submit button primary', :id => 'save_button'
+  = link_to _('Cancel'), hardware_profiles_path, :class => "button danger"

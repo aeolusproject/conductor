@@ -18,9 +18,9 @@ Feature: User sessions
     And I follow "username_link"
     Then I should have the following query string:
       | card | username_recovery |
-    And I should see "Username unknown?"
+    And I should see "Username Unknown"
     And I fill in "email" with "admin@example.com"
-    And I press "Recover Usernames"
+    And I press "Send Login"
     Then I should see "Usernames have been sent to given e-mail address."
 
   Scenario: Request for the forgotten password reset
@@ -29,7 +29,7 @@ Feature: User sessions
     And I follow "password_link"
     Then I should have the following query string:
       | card | password_reset |
-    And I should see "Forgot your password?"
+    And I should see "Password Unknown"
     And I fill in "username" with "admin"
     And I fill in "email" with "admin@example.com"
     And I press "Reset Password"

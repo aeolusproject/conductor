@@ -3,44 +3,44 @@
 %header.page-header
   .obj_actions
     .return_to
-      =t'return_to'
-      = link_to t('tim.base_images.index.images'), base_images_path
+      =_('Return to:')
+      = link_to _('Images'), base_images_path
     - if check_privilege(Privilege::MODIFY, @base_image)
       .button-group
-        = link_to t('tim.base_images.show.new_deployable_from_image'), main_app.new_deployable_path(:create_from_image => @base_image.id), :class => 'button'
+        = link_to _('New Deployable from Image'), main_app.new_deployable_path(:create_from_image => @base_image.id), :class => 'button'
         - unless @base_image.imported?
-          = link_to t('tim.base_images.show.template_xml'), tim.template_path(@base_image.template, :format => :xml), :class => 'button'
-        = button_to t("delete"), base_image_path(@base_image.id), :method => 'delete', :confirm => t('general.delete_confirmation'), :class => 'button danger', :id => 'delete'
+          = link_to _('View Image Template XML'), tim.template_path(@base_image.template, :format => :xml), :class => 'button'
+        = button_to _('Delete'), base_image_path(@base_image.id), :method => 'delete', :confirm => _('Are you sure you want to delete?'), :class => 'button danger', :id => 'delete'
   %h1.no-icon= image_name(@base_image)
 
 - user_can_build = (check_privilege(Privilege::MODIFY, @base_image))
 %section.content-section
   %header
-    %h2=t'properties'
+    %h2=_('Properties')
   .content
     %table.properties_table
       %tbody
         %tr
-          %td= t('tim.base_images.environment')
+          %td= _('Environment')
           %td= @base_image.pool_family.name
         %tr
-          %td= t('tim.base_images.show.image_id')
+          %td= _('Image ID')
           %td= @base_image.uuid
 
 %section.content-section
   %header
     .section-controls
       - if @versions.any?
-        %span= t'tim.base_images.show.view_build'
+        %span= _('View build')
         - if user_can_build
           = form_tag base_image_path(@base_image.id), :method => :get do
             = select_tag :build, options_for_build_select(@versions, @version, @latest_image_version)
-            = submit_tag t('tim.base_images.show.select_build'), :id => 'select_build_button'
+            = submit_tag _('Select'), :id => 'select_build_button'
       - if user_can_build && !@base_image.imported?
         |
         = form_tag build_all_base_image_path(@base_image.id), :method => :post do
-          = submit_tag t('tim.base_images.show.build_all'), :id => 'build_all_button'
-    %h2= t('tim.base_images.show.provider_images')
+          = submit_tag _('Build All'), :id => 'build_all_button'
+    %h2= _('Provider Images')
 
   .content
     %ul.image_builds

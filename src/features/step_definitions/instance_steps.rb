@@ -179,7 +179,7 @@ Then /^I should get back JSON object with success and errors$/ do
 end
 
 Then /^I should see instance details$/ do
-  localized_text_present('instances.properties.name')
-  localized_text_present('instances.properties.status')
-  localized_text_present('instances.properties.assembly')
+  text_present _('Name')
+  text_present _('Status')
+  text_present _('Assembly')
 end

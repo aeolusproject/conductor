@@ -77,11 +77,11 @@ def create_provider_hardware_profiles(provider, table)
 end
 
 Then /^I should see the hardware profiles table$/ do
-  localized_text_present 'hardware_profiles.index.hardware_profile_name'
-  localized_text_present 'hardware_profiles.index.memory'
-  localized_text_present 'hardware_profiles.index.virtual_cpu'
-  localized_text_present 'hardware_profiles.index.storage'
-  localized_text_present 'hardware_profiles.index.architecture'
+  text_present 'Hardware Profile Name'
+  text_present 'Memory'
+  text_present 'Virtual CPU'
+  text_present 'Storage'
+  text_present 'Architecture'
 end
 
 Then /^I should not see the edit button$/ do

@@ -18,12 +18,12 @@ module ProvidersHelper
 
   def hardware_profiles_headers
     [
-        t('hardware_profiles.provider_hwp_headers.hwp_name'),
-        t('hardware_profiles.provider_hwp_headers.architecture'),
-        t('hardware_profiles.provider_hwp_headers.memory'),
-        t('hardware_profiles.provider_hwp_headers.storage'),
-        t('hardware_profiles.provider_hwp_headers.virtual_cpu'),
-        t('hardware_profiles.provider_hwp_headers.minimal_cost')
+        _('Hardware Profile Name'),
+        _('Architecture'),
+        _('Memory'),
+        _('Storage'),
+        _('Virtual CPU'),
+        _('Minimal Cost')
     ]
   end
 

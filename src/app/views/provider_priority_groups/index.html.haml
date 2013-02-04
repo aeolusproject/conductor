@@ -5,15 +5,15 @@
     .return_to
       = t(:return_to)
       = link_to t('provider_priority_groups.index.back_to_strategies', :pool => @pool.name), pool_provider_selection_path(@pool)
-  %h1.no-icon= t('provider_selection.show.provider_selection')
+  %h1.no-icon= _('Provider Selection Strategies')
 
 %section.content-section
   %header
     .section-controls
-      = link_to(t('provider_priority_groups.index.add_new'),
+      = link_to(_('Add new'),
           new_pool_provider_selection_provider_priority_group_path(@pool),
           :class => 'button', :id => 'add_new')
-    %h2= t('provider_priority_groups.index.edit_strict_order_strategy')
+    %h2= _('Edit Strict Order Strategy')
   .content
     - if @priority_groups.any?
       %ul.priority-groups
@@ -25,19 +25,19 @@
                 %p!= "#{ProviderPriorityGroup.human_attribute_name(:score)}: #{priority_group.score}"
               .controls
                 .button-group
-                  = link_to(t('edit'), edit_pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :class => "button")
-                  = link_to(t('delete'), pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :method => :delete, :confirm => t('provider_priority_groups.index.confirm_delete'), :class => "button danger")
+                  = link_to(_('Edit'), edit_pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :class => "button")
+                  = link_to(_('Delete'), pool_provider_selection_provider_priority_group_path(priority_group.pool, priority_group), :method => :delete, :confirm => _('Are you sure you want to delete this priority group?'), :class => "button danger")
             .details
               %table
                 %tr
                   %th
-                    %strong= t('provider_priority_groups.index.provider_account_name')
-                  %th= t('provider_priority_groups.index.provider_account_username')
-                  %th= t('provider_priority_groups.index.provider_name')
-                  %th= t('provider_priority_groups.index.provider_type')
+                    %strong= _('Account Name')
+                  %th= _('Username')
+                  %th= _('Provider Name')
+                  %th= _('Provider Type')
                   %th= ProviderAccount.human_attribute_name(:priority)
-                  %th= t('provider_priority_groups.index.quota_percentage_used')
-                  %th= t('provider_priority_groups.index.quota_maximum_running_instances')
+                  %th= _('Quota Used')
+                  %th= _('Quota Limit')
 
                 - priority_group.all_provider_accounts.each do |account|
                   %tr
@@ -47,7 +47,7 @@
                     %td= account.provider.provider_type.name
                     %td= account.priority
                     %td{:class => 'center'}= number_to_percentage account.quota.percentage_used, :precision => 0
-                    %td{:class => 'center'}= account.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')
+                    %td{:class => 'center'}= account.quota.maximum_running_instances or _('unlimited')
     - else
       #no-provider-account.align-center
-        %strong= t("provider_priority_groups.index.no_priority_group")
+        %strong= _('No available priority group to display')

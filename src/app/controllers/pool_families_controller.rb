@@ -24,7 +24,7 @@ class PoolFamiliesController < ApplicationController
   before_filter :load_pool_families, :only =>[:index, :show]
 
   def index
-    @title = t("pool_families.pool_families")
+    @title = _('Environments')
     clear_breadcrumbs
     save_breadcrumb(pool_families_path)
     set_admin_environments_tabs 'pool_families'
@@ -38,7 +38,7 @@ class PoolFamiliesController < ApplicationController
   end
 
   def new
-    @title = t("pool_families.index.new_pool_family")
+    @title = _('New Environment')
     require_privilege(Privilege::CREATE, PoolFamily)
     @pool_family = PoolFamily.new(:quota => Quota.new)
   end
@@ -52,14 +52,14 @@ class PoolFamiliesController < ApplicationController
     respond_to do |format|
       if @pool_family.save
         @pool_family.assign_owner_roles(current_user)
-        flash[:notice] = t"pool_families.flash.notice.added"
+        flash[:notice] = _('Environment was added.')
         format.html { redirect_to pool_families_path }
         format.xml { render :show,
                             :status => :created,
                             :locals => { :pool_family => @pool_family }}
       else
         format.html do
-          @title = t("pool_families.index.new_pool_family")
+          @title = _('New Environment')
           render :new
         end
         format.xml { render :template => 'api/validation_error',
@@ -85,7 +85,7 @@ class PoolFamiliesController < ApplicationController
     respond_to do |format|
       if @pool_family.update_attributes(params[:pool_family])
         format.html do
-          flash[:notice] = t "pool_families.flash.notice.updated"
+          flash[:notice] = _('Environment was updated.')
           redirect_to pool_families_path
         end
         format.xml do
@@ -133,7 +133,7 @@ class PoolFamiliesController < ApplicationController
     respond_to do |format|
       if pool_family.safe_destroy
         format.html do
-          flash[:notice] = t("pool_families.flash.notice.deleted")
+          flash[:notice] = _('Environment was deleted.')
           redirect_to pool_families_path
         end
         format.xml { render :nothing => true, :status => :no_content }
@@ -152,7 +152,7 @@ class PoolFamiliesController < ApplicationController
     require_privilege(Privilege::MODIFY, @pool_family)
 
     if ProviderAccount.count == 0
-      flash[:error] = t('pool_families.flash.error.no_provider_accounts')
+      flash[:error] = _('There are no Provider Accounts available.')
       redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') and return
     end
 
@@ -166,7 +166,7 @@ class PoolFamiliesController < ApplicationController
     not_added = []
 
     if params[:accounts_selected].blank?
-      flash[:error] = t"pool_families.flash.error.select_to_add_accounts" if request.post?
+      flash[:error] = _('You must select at least one Provider Account to add.') if request.post?
     else
       ProviderAccount.find(params[:accounts_selected]).each do |provider_account|
         if check_privilege(Privilege::USE, provider_account) and
@@ -178,10 +178,10 @@ class PoolFamiliesController < ApplicationController
         end
       end
       unless added.empty?
-        flash[:notice] = "#{t('pool_families.flash.notice.provider_accounts_added')}: #{added.join(', ')}"
+        flash[:notice] = "#{_('These Provider Account have been added')}: #{added.join(', ')}"
       end
       unless not_added.empty?
-        flash[:error] = "#{t('pool_families.flash.error.provider_accounts_not_added')}: #{not_added.join(', ')}"
+        flash[:error] = "#{_('Could not add these Provider Accounts')}: #{not_added.join(', ')}"
       end
       respond_to do |format|
         format.html { redirect_to pool_family_path(@pool_family, :details_tab => 'provider_accounts') }
@@ -197,7 +197,7 @@ class PoolFamiliesController < ApplicationController
     not_removed=[]
 
     if params[:accounts_selected].blank?
-      flash[:error] = t"pool_families.flash.error.select_to_remove_accounts"
+      flash[:error] = _('You must select at least one Provider Account to remove.')
     else
       ProviderAccount.find(params[:accounts_selected]).each do |provider_account|
         if @pool_family.provider_accounts.delete provider_account
@@ -207,10 +207,10 @@ class PoolFamiliesController < ApplicationController
         end
       end
       unless removed.empty?
-        flash[:notice] = "#{t('pool_families.flash.notice.provider_accounts_removed')}: #{removed.join(', ')}"
+        flash[:notice] = "#{_('These Provider Accounts were removed')}: #{removed.join(', ')}"
       end
       unless not_removed.empty?
-        flash[:error] = "#{t('pool_families.flash.error.provider_accounts_not_removed')}: #{not_removed.join(', ')}"
+        flash[:error] = "#{_('Could not remove these Provider Accounts')}: #{not_removed.join(', ')}"
       end
     end
     respond_to do |format|
@@ -224,9 +224,9 @@ class PoolFamiliesController < ApplicationController
   def set_params_and_header
     @header = [
       {:name => '', :sortable => false},
-      {:name => t("pool_families.index.name"), :sort_attr => :name},
-      {:name => t("quota_used"), :sort_attr => :name},
-      {:name => t("pool_families.index.quota_limit"), :sort_attr => :name},
+      {:name => _('Name'), :sort_attr => :name},
+      {:name => _('Quota Used'), :sort_attr => :name},
+      {:name => _('Quota Limit'), :sort_attr => :name},
     ]
   end
 
@@ -237,9 +237,9 @@ class PoolFamiliesController < ApplicationController
   end
 
   def load_pool_family_tabs
-    @tabs = [{:name => t('pools.pools'),:view => 'pools', :id => 'pools', :count => @pool_family.pools.count},
-             {:name => t('accounts'), :view => 'provider_accounts', :id => 'provider_accounts', :count => @pool_family.provider_accounts.count},
-             {:name => t('tim.base_images.index.images'), :view => 'images', :id => 'images', :count => @all_images.count},
+    @tabs = [{:name => _('Pools'),:view => 'pools', :id => 'pools', :count => @pool_family.pools.count},
+             {:name => _('Accounts'), :view => 'provider_accounts', :id => 'provider_accounts', :count => @pool_family.provider_accounts.count},
+             {:name => _('Images'), :view => 'images', :id => 'images', :count => @all_images.count},
     ]
     add_permissions_tab(@pool_family)
     details_tab_name = params[:details_tab].blank? ? 'pools' : params[:details_tab]
@@ -249,24 +249,24 @@ class PoolFamiliesController < ApplicationController
     case
     when @view == 'pools'
       @pools_header = [
-        {:name => t("pool_families.index.pool_name"), :sortable => false},
-        {:name => t("pool_families.index.deployments"), :class => 'center', :sortable => false},
-        {:name => t("pool_families.index.total_instancies"), :class => 'center', :sortable => false},
-        {:name => t("pool_families.index.pending_instances"), :class => 'center', :sortable => false},
-        {:name => t("pool_families.index.failed_instances"), :class => 'center', :sortable => false},
-        {:name => t("pool_families.index.quota_used"), :class => 'center', :sortable => false},
-        {:name => t("pool_families.index.active_instances"), :class => 'center', :sortable => false},
-        {:name => t("pool_families.index.available_instances"), :class => 'center', :sortable => false},
+        {:name => _('Pool Name'), :sortable => false},
+        {:name => _('Deployments'), :class => 'center', :sortable => false},
+        {:name => _('Total Inst.'), :class => 'center', :sortable => false},
+        {:name => _('Pending Inst.'), :class => 'center', :sortable => false},
+        {:name => _('Failed Inst.'), :class => 'center', :sortable => false},
+        {:name => _('Quota Used'), :class => 'center', :sortable => false},
+        {:name => _('Active Inst.'), :class => 'center', :sortable => false},
+        {:name => _('Available Inst.'), :class => 'center', :sortable => false},
         {:name => '', :sortable => false}
       ]
     when @view == 'images'
       @header = [
         { :name => 'checkbox', :class => 'checkbox', :sortable => false },
-        { :name => t('tim.base_images.index.name'), :sort_attr => :name },
-        { :name => t('tim.base_images.index.os'), :sort_attr => :name },
-        { :name => t('tim.base_images.index.os_version'), :sort_attr => :name },
-        { :name => t('tim.base_images.index.architecture'), :sort_attr => :name },
-        { :name => t('tim.base_images.index.last_rebuild'), :sortable => false },
+        { :name => _('Name'), :sort_attr => :name },
+        { :name => _('OS'), :sort_attr => :name },
+        { :name => _('OS Version'), :sort_attr => :name },
+        { :name => _('Architecture'), :sort_attr => :name },
+        { :name => _('Last Rebuild'), :sortable => false },
       ]
     end
 

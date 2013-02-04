@@ -50,7 +50,7 @@ describe Deployable do
   it "should not be valid if xml has multiple assemblies with the same name" do
     deployable = FactoryGirl.build(:deployable_unique_name_violation)
     deployable.validate_deployable_xml
-    deployable.errors[:xml].should == [I18n.t('catalog_entries.flash.warning.not_valid_duplicate_assembly_names')]
+    deployable.errors[:xml].should == [_('must contain unique Assembly names')]
   end
 
   it "should have a name of reasonable length" do

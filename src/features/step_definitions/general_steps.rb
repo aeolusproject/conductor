@@ -30,11 +30,6 @@ Then /^I should see an error message$/ do
 end
 
 module LocalizationHelpers
-  def localized_text_present(selector)
-    text = I18n.translate!(selector)
-    text_present(text)
-  end
-
   def text_present(text)
     if page.respond_to? :should
       page.should have_content(text)

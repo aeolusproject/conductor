@@ -17,7 +17,7 @@ class NumericInputWithUnlimitedCheckBoxInput < SimpleForm::Inputs::NumericInput
 
     input_html += template.content_tag(:div, :class => 'control') do
       template.check_box_tag(check_box_name, 1, !numeric_value.present?) +
-        template.label_tag(check_box_name, I18n.t('unlimited'), :class => 'control_label')
+        template.label_tag(check_box_name, _('Unlimited'), :class => 'control_label')
     end
   end
 

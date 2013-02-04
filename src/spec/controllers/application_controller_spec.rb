@@ -34,9 +34,9 @@ describe ApplicationController do
     it "should consider context in lookup" do
       error = "Connection refused - connect(2)"
       human_error = @controller.send(:humanize_error, error)
-      human_error.should == I18n.t('connection_refused')
+      human_error.should == _('The connection to the remote host was refused.')
       human_error2 = @controller.send(:humanize_error, error, :context => :deltacloud)
-      human_error2.should == I18n.t('deltacloud.unreachable')
+      human_error2.should == _('Deltacloud is unreachable. Please verify that it is running.')
     end
 
   end

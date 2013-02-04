@@ -35,7 +35,7 @@ class ProviderAccountsController < ApplicationController
   end
 
   def show
-    @tab_captions = [t('provider_accounts.tab_captions.properties'), t('provider_accounts.tab_captions.credentials'), t('provider_accounts.tab_captions.history'), t('provider_accounts.tab_captions.permissions')]
+    @tab_captions = [_('Properties'), _('Credentials'), _('History'), _('Permissions')]
     @provider_account = ProviderAccount.find(params[:id])
     @title = t('provider_accounts.show.account', :name => @provider_account.name)
     @provider = Provider.find_by_id(params[:provider_id])
@@ -66,7 +66,7 @@ class ProviderAccountsController < ApplicationController
   end
 
   def new
-    @title = t'provider_accounts.new.new_provider_account'
+    @title = _('New Provider Account')
     @provider = Provider.find(params[:provider_id])
     require_privilege(Privilege::CREATE, ProviderAccount, @provider)
 
@@ -107,7 +107,7 @@ class ProviderAccountsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          @title = t'provider_accounts.new.new_provider_account'
+          @title = _('New Provider Account')
           render :action => 'new'
         end
         format.xml do
@@ -150,7 +150,7 @@ class ProviderAccountsController < ApplicationController
     if @provider_account.save
       respond_to do |format|
         format.html do
-          flash[:notice] = t("provider_accounts.flash.notice.updated")
+          flash[:notice] = _('Provider Account updated')
           redirect_to provider_path(@provider_account.provider, :details_tab => 'accounts')
         end
         format.xml do
@@ -164,7 +164,7 @@ class ProviderAccountsController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          flash[:error] = t("provider_accounts.flash.error.not_updated")
+          flash[:error] = _('Provider Account wasn\'t updated')
           render :action => :edit
         end
         format.xml do
@@ -183,7 +183,7 @@ class ProviderAccountsController < ApplicationController
     respond_to do |format|
       if @provider_account.safe_destroy
         format.html do
-          flash[:notice] = t("provider_accounts.flash.notice.deleted")
+          flash[:notice] = _('Provider account was deleted')
           redirect_to provider_path(@provider_account.provider,
                                          :details_tab => 'accounts')
         end
@@ -207,7 +207,7 @@ class ProviderAccountsController < ApplicationController
     @provider = Provider.find(params[:provider_id])
 
     if params[:accounts_selected].blank?
-      flash[:warning] = t("provider_accounts.flash.warning.must_select_account")
+      flash[:warning] = _('You must select some accounts first.')
       redirect_to provider_path(@provider, :details_tab => 'accounts')
 
       return
@@ -245,12 +245,12 @@ class ProviderAccountsController < ApplicationController
 
   def test_account(account)
     if account.valid_credentials?
-      flash.now[:notice] = t("provider_accounts.flash.notice.test_connection_success")
+      flash.now[:notice] = _('Test Connection Success: Valid Account Details')
     else
-      flash.now[:error] = t("provider_accounts.flash.error.test_connection_failed_invalid")
+      flash.now[:error] = _('Test Connection Failed: Invalid Account Details')
     end
   rescue
-    flash.now[:error] = t("provider_accounts.flash.error.test_connection_failed_provider")
+    flash.now[:error] = _('Test Connection Failed: Could not connect to Provider')
   end
 
   def load_provider

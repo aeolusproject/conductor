@@ -61,7 +61,7 @@ describe Provider do
       @provider.stub(:connect).and_return(nil)
       @provider.stub(:valid_framework?).and_return(false)
       @provider.should have(1).error_on(:url)
-      @provider.errors[:url].first.should eql(I18n.t("activerecord.errors.models.provider.attributes.url.invalid_framework"))
+      @provider.errors[:url].first.should eql(_('Must be a valid provider uri'))
       @provider.should_not be_valid
     end
 

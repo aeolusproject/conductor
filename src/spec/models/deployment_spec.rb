@@ -231,7 +231,7 @@ describe Deployment do
       errors = @deployment.check_assemblies_matches(@permission_session,
                                                     @user_for_launch)
       errors.should have(1).items
-      errors.last.should include I18n.t('instances.errors.user_quota_reached')
+      errors.last.should include _('User quota reached')
     end
   end
 
