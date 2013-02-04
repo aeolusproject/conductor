@@ -1,6 +1,6 @@
-= form.input :penalty_percentage, :label => t('strategies.penalty_for_failure.views.edit.penalty_percentage'),
-             :note => t('strategies.penalty_for_failure.views.edit.notes.penalty_percentage')
-= form.input :time_period_minutes, :label => t('strategies.penalty_for_failure.views.edit.time_period_minutes'),
-             :note => t('strategies.penalty_for_failure.views.edit.notes.time_period_minutes')
-= form.input :failure_count_hard_limit, :label => t('strategies.penalty_for_failure.views.edit.failure_count_hard_limit'),
-             :note => t('strategies.penalty_for_failure.views.edit.notes.failure_count_hard_limit')
+= form.input :penalty_percentage, :label => _('Percentage penalty'),
+             :note => _('Percentage penalty for each failure')
+= form.input :time_period_minutes, :label => _('Time interval'),
+             :note => _('Time period over which the failures are aggregated (in minutes)')
+= form.input :failure_count_hard_limit, :label => _('Hard limit for failures'),
+             :note => _('The number of failures before the Provider Account should not be used')

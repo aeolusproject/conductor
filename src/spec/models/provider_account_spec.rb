@@ -79,7 +79,7 @@ describe ProviderAccount do
     provider_account.credentials_hash = {'password' => "wrong_password"}
     provider_account.stub(:valid_credentials?).and_raise("DeltacloudError")
     provider_account.save.should == false
-    provider_account.errors[:base].should == [I18n.t('provider_accounts.errors.exception_while_validating')]
+    provider_account.errors[:base].should == [_('An error occurred when checking Provider credentials. Please check your setup and try again.')]
   end
 
   it "should fail to create a cloud account if fetching of hw profiles fails" do

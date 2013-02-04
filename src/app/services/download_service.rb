@@ -31,14 +31,14 @@ class DownloadService
   end
 
   def download!
-    raise I18n.t('application_controller.flash.error.no_url_provided') if @url.blank?
+    raise _('No URL is provided for XML import') if @url.blank?
     raise I18n.t('application_controller.flash.error.not_valid_url', :url => @url) unless @url =~ URI::regexp
 
     response = RestClient.get(@url, :accept => :xml)
     if response.code == 200
       return response
     else
-      raise I18n.t('application_controller.flash.error.download_failed')
+      raise _('Download of XML file failed')
     end
   end
 end

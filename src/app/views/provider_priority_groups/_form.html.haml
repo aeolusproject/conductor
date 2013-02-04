@@ -3,7 +3,7 @@
     = render 'layouts/error_messages', :object => @priority_group
 
   %fieldset
-    %legend= t('provider_priority_groups.form.basic_data')
+    %legend= _('Basic Data')
 
     .field
       = form.label :name
@@ -15,7 +15,7 @@
         = form.text_field :score
 
   %fieldset
-    %legend= t('provider_priority_groups.form.providers_and_provider_accounts')
+    %legend= _('Providers & Provider Accounts')
 
     - if @providers.any?
       %ul.priority-groups
@@ -31,11 +31,11 @@
                 %tr
                   %th
                   %th
-                    %strong= t('provider_priority_groups.index.provider_account_name')
-                  %th= t('provider_priority_groups.index.provider_account_username')
+                    %strong= _('Account Name')
+                  %th= _('Username')
                   %th= ProviderAccount.human_attribute_name(:priority)
-                  %th= t('provider_priority_groups.index.quota_percentage_used')
-                  %th= t('provider_priority_groups.index.quota_maximum_running_instances')
+                  %th= _('Quota Used')
+                  %th= _('Quota Limit')
 
                 - provider.provider_accounts.each do |account|
                 - next unless @provider_account_ids.index(account.id) # FIXME: all this view is an ugly PHP stuff, refactor it!
@@ -45,10 +45,10 @@
                     %td= account.credentials_hash['username']
                     %td= account.priority
                     %td{:class => 'center'}= number_to_percentage account.quota.percentage_used, :precision => 0
-                    %td{:class => 'center'}= account.quota.maximum_running_instances or t('provider_accounts.properties.unlimited')
+                    %td{:class => 'center'}= account.quota.maximum_running_instances or _('unlimited')
     - else
       #no-provider-account.align-center
-        %strong= t("provider_priority_groups.index.no_priority_group")
+        %strong= _('No available priority group to display')
 
 :javascript
   $(document).ready(function() {

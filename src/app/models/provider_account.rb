@@ -144,17 +144,17 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_presence_of_credentials
     provider.provider_type.credential_definitions.each do |cd|
-      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")} #{I18n.t('errors.messages.blank')}") if credentials_hash[cd.name].blank?
+      errors.add(:base, "#{I18n.t("provider_accounts.credentials.labels.#{cd.label}")} #{_('can\'t be blank')}") if credentials_hash[cd.name].blank?
     end
   end
 
   def validate_credentials
     begin
       unless valid_credentials?
-        errors.add(:base, I18n.t('provider_accounts.errors.invalid_credentials'))
+        errors.add(:base, _('Login credentials are invalid for this Provider.'))
       end
     rescue
-      errors.add(:base, I18n.t('provider_accounts.errors.exception_while_validating'))
+      errors.add(:base, _('An error occurred when checking Provider credentials. Please check your setup and try again.'))
     end
   end
 
@@ -167,8 +167,8 @@ class ProviderAccount < ActiveRecord::Base
                  where("credentials.id != ?", username_cred.id).all
 
     if same_username_creds.any?{ |c| c.provider_account.provider_id == username_cred.provider_account.provider_id  }
-      username_cred.errors.add(:value, I18n.t('provider_accounts.errors.username_taken'))
-      errors.add(:base, I18n.t('provider_accounts.errors.username_taken'))
+      username_cred.errors.add(:value, _('Username has already been taken'))
+      errors.add(:base, _('Username has already been taken'))
     end
   end
 

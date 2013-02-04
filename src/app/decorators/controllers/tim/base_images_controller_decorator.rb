@@ -88,9 +88,9 @@ Tim::BaseImagesController.class_eval do
   # This is largely due to the latter relying on callbacks working
   # properly in Conductor.
   def build_all
-    raise t('tim.base_images.flash.error.not_exist') unless @base_image
+    raise _('The Image you tried to access cannot be found. It may have been deleted.') unless @base_image
     if @base_image.imported?
-      flash[:error] = t('tim.base_images.show.can_not_build_imported_image')
+      flash[:error] = _('Imported image can\'t be built or pushed')
       redirect_to @base_image and return
     end
     @version = @base_image.image_versions.create!
@@ -106,7 +106,7 @@ Tim::BaseImagesController.class_eval do
 
   def check_request_size
     if request.headers["CONTENT_LENGTH"].to_i > 31457280
-      redirect_to request.referrer, :flash => { :error => t('tim.base_images.flash.error.too_large') }
+      redirect_to request.referrer, :flash => { :error => _('The provided image template is too large. Please provide an XML template.') }
     end
   end
 
@@ -134,12 +134,12 @@ Tim::BaseImagesController.class_eval do
   def set_tabs_and_headers
     set_admin_environments_tabs 'images'
     @header = [
-      { :name => t('tim.base_images.index.name'), :sort_attr => :name },
-      { :name => t('tim.base_images.environment_header'), :sort_attr => :name },
-      { :name => t('tim.base_images.index.os'), :sort_attr => :name },
-      { :name => t('tim.base_images.index.os_version'), :sort_attr => :name },
-      { :name => t('tim.base_images.index.architecture'), :sort_attr => :name },
-      { :name => t('tim.base_images.index.last_rebuild'), :sortable => false },
+      { :name => _('Name'), :sort_attr => :name },
+      { :name => _('Environment'), :sort_attr => :name },
+      { :name => _('OS'), :sort_attr => :name },
+      { :name => _('OS Version'), :sort_attr => :name },
+      { :name => _('Architecture'), :sort_attr => :name },
+      { :name => _('Last Rebuild'), :sortable => false },
     ]
   end
 
@@ -152,8 +152,8 @@ Tim::BaseImagesController.class_eval do
       list_for_user(current_session, current_user, Privilege::USE)
     if @accounts.empty?
       flash.now[:error] = @base_image.import ?
-        t("tim.base_images.flash.error.no_provider_accounts_for_import") :
-        t("tim.base_images.flash.error.no_provider_accounts")
+        _('Images cannot be imported. No Provider Accounts are currently enabled for this Environment.') :
+        _('Images cannot be built. There are no enabled Provider Accounts associated with this Environment.')
     end
 
     if @base_image.import and @base_image.image_versions.empty?

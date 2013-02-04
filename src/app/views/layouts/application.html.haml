@@ -1,5 +1,5 @@
 = content_for :title do
-  = t("layout.appname")
+  = _('Aeolus Conductor')
   = "| #{@title}" unless @title.blank?
 
 = content_for :stylesheets_block do
@@ -25,7 +25,7 @@
   = javascript_include_tag "manifests/application"
 
 = content_for :logo do
-  = link_to t('layout.appname'), main_app.root_path, :class => "logo"
+  = link_to _('Aeolus Conductor'), main_app.root_path, :class => "logo"
 
 = content_for :tabs do
   = render_navigation :level => 1
@@ -34,9 +34,9 @@
   %ul
     - if current_user
       %li.header-widget= link_to format_user_name(current_user), main_app.account_path
-      %li.header-widget= link_to t('masthead.logout'), main_app.logout_path
+      %li.header-widget= link_to _('Log Out'), main_app.logout_path
     - else
-      %li.header-widget= link_to t('masthead.login'), main_app.login_path
+      %li.header-widget= link_to _('Login'), main_app.login_path
 
 = content_for :content do
   = render :partial => '/layouts/new_notification'

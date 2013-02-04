@@ -1,6 +1,6 @@
 %section.content-section
   %header
-    %h2=t'hardware_profiles.hardware_profiles'
+    %h2=_('Hardware Profiles')
   .content
     - if @hardware_profiles.count > 0
       %table.flat
@@ -24,4 +24,4 @@
                 =hwp.default_cost_per_hour.nil? ? "N/A" : "%.3f" % hwp.default_cost_per_hour
 
     - else
-      %h3= t('hardware_profiles.no_hwp')
+      %h3= _('No Hardware Profiles')

@@ -201,7 +201,7 @@ class User < ActiveRecord::Base
   def validate_ldap_changes
     if self.first_name_changed? || self.last_name_changed? || self.email_changed? ||
         self.username_changed? || self.crypted_password_changed? then
-      errors.add(:base, I18n.t("users.errors.cannot_edit_ldap_user"))
+      errors.add(:base, _('Cannot edit LDAP user'))
     end
   end
 
