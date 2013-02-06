@@ -82,4 +82,12 @@ FactoryGirl.define do
   factory :instance_in_disabled_pool, :parent => :new_instance do
     association :pool, :factory => :disabled_pool
   end
+
+  factory :instance_stopped, :parent => :instance do
+    after_build do |instance|
+      instance.time_last_running = Time.now-1.hour
+      instance.time_last_stopped = Time.now
+      instance.state = Instance::STATE_STOPPED
+    end
+  end
 end
