@@ -181,9 +181,7 @@ class Pool < ActiveRecord::Base
                    :provider_images =>[] }
 
             value[:image].provider_images.each do |provider_image|
-              row[:provider_images] << I18n.t('pools.images.pushed',
-                                              :external_id => provider_image.external_image_id,
-                                              :provider => provider_image.provider_account.provider.name)
+              row[:provider_images] << _('pushed to %s, provider id: %s') % [provider_image.external_image_id, provider_image.provider_account.provider.name]
 
             end
             value[:count].times { catalog_images << row }

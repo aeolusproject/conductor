@@ -381,10 +381,10 @@ class Instance < ActiveRecord::Base
     errors << _('Pool quota reached') if pool.quota.reached?
     errors << _('Environment quota reached') if pool.pool_family.quota.reached?
     errors << _('User quota reached') if owner.quota.reached?
-    errors << I18n.t('instances.errors.image_not_found', :b_uuid=> image_build_uuid, :i_uuid => image_uuid) if image_build.nil? and image.nil?
+    errors << _('No image build was found with uuid %s and no image was found with uuid %s') % [image_build_uuid, image_uuid] if image_build.nil? and image.nil?
     arch = image_arch
     if arch.present? and hardware_profile.architecture and hardware_profile.architecture.value != arch
-      errors << I18n.t('instances.errors.architecture_mismatch', :inst_arch => hardware_profile.architecture.value, :img_arch => arch)
+      errors << _('Assembly hardware profile architecture (\'%s\') doesn\'t match image hardware profile architecture (\'%s\').') % [hardware_profile.architecture.value, arch]
     end
     return [[], errors] unless errors.empty?
 

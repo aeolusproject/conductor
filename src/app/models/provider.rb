@@ -248,7 +248,7 @@ class Provider < ActiveRecord::Base
       if json = load_json
         json
       else
-        raise I18n.t("providers.errors.json_conf_not_found", :provider => self.name)
+        raise _('Config for %s was not found.') % self.name
       end
     elsif provider_type.deltacloud_driver == 'ec2'
       {'name' => deltacloud_provider}

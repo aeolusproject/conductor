@@ -46,9 +46,9 @@ class HardwareProfilesController < ApplicationController
     @hardware_profile = HardwareProfile.find(Array(params[:id]).first)
     require_privilege(Privilege::VIEW, @hardware_profile)
     @title = if @hardware_profile.provider_hardware_profile?
-               t('hardware_profiles.show.backend_hwp', :name => @hardware_profile.name)
+               _('%s (Provider)') % @hardware_profile.name
              else
-               t('hardware_profiles.show.frontend_hwp', :name => @hardware_profile.name)
+               _('%s (Front End)') % @hardware_profile.name
              end
 
     @tab_captions = [_('Properties'), _('History'), _('Matching Provider Hardware Profiles')]
@@ -235,8 +235,7 @@ class HardwareProfilesController < ApplicationController
       end
       redirect_to edit_cost_hardware_profile_path(@hardware_profile)
     rescue Exception => ex
-      flash[:error] = t('hardware_profiles.flash.error.failed_to_update_cost',
-                        :message => ex.message)
+      flash[:error] = _('Failed to update Hardware Profile cost %s') % ex.message
       log_backtrace(ex)
       set_edit_cost_variables
       render :action => 'edit_cost_billing'
@@ -283,8 +282,7 @@ class HardwareProfilesController < ApplicationController
       flash[:notice] = _('Hardware Profile cost updated')
       redirect_to hardware_profile_path(@hardware_profile)
     rescue Exception => ex
-      flash[:error] = t('hardware_profiles.flash.error.failed_to_update_cost',
-                        :message => ex.message)
+      flash[:error] = _('Failed to update Hardware Profile cost %s') % ex.message
       log_backtrace(ex)
       set_edit_cost_variables
       render :action => 'edit_cost'
