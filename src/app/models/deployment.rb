@@ -358,9 +358,11 @@ class Deployment < ActiveRecord::Base
     errs = []
     begin
       deployable_xml.assemblies.each do |assembly|
-        hw_profile = permissioned_frontend_hwprofile(permission_session,
-                                                     user, assembly.hwp)
+        hw_profile =
+          HardwareProfile.find_allowed_frontend_hwp_by_name(permission_session,
+                                                            user, assembly.hwp)
         raise _('You do not have sufficient permission to access the %s Hardware Profile.') % assembly.hwp unless hw_profile
+
         instance = Instance.new(
           :deployment => self,
           :name => "#{name}/#{assembly.name}",
@@ -529,10 +531,6 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def permissioned_frontend_hwprofile(permission_session, user, hwp_name)
-    HardwareProfile.list_for_user(permission_session, user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => hwp_name}).first
-  end
-
   def inject_launch_parameters
     launch_parameters.each_pair do |assembly, svcs|
       svcs.each_pair do |service, params|
@@ -602,9 +600,11 @@ class Deployment < ActiveRecord::Base
 
   def create_instances_with_params!(permission_session, user)
     deployable_xml.assemblies.each do |assembly|
-      hw_profile = permissioned_frontend_hwprofile(permission_session,
-                                                   user, assembly.hwp)
+      hw_profile =
+        HardwareProfile.find_allowed_frontend_hwp_by_name(permission_session,
+                                                          user, assembly.hwp)
       raise _('You do not have sufficient permission to access the %s Hardware Profile.') % assembly.hwp unless hw_profile
+
       Instance.transaction do
         instance = Instance.create!(
           :deployment => self,

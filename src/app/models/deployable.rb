@@ -106,20 +106,15 @@ class Deployable < ActiveRecord::Base
     end
   end
 
-  # Fetch the deployable contained at :url
-  def fetch_deployable
-    begin
-      DeployableXML.new(xml)
-    rescue
-      return nil
-    end
+  def deployable_xml
+    DeployableXML.new(xml)
   end
 
   def fetch_unique_images
-    deployable_xml = fetch_deployable
-    return [] if deployable_xml.nil?
+    fetched_xml = deployable_xml
+    return [] if fetched_xml.nil?
 
-    deployable_xml.image_uuids.uniq.map do |image_uuid|
+    fetched_xml.image_uuids.uniq.map do |image_uuid|
       Tim::BaseImage.find_by_uuid(image_uuid)
     end
   end
