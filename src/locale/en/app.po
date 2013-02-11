@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-11 16:24+0100\n"
+"POT-Creation-Date: 2013-02-11 20:39+0100\n"
 "PO-Revision-Date: 2013-01-31 17:51+0100\n"
 "Last-Translator: Jozef Zigmund <jzigmund@redhat.com>\n"
 "Language-Team: English\n"
@@ -83,6 +83,9 @@ msgstr "'From date' cannot be after 'To date'"
 
 msgid "(uniquely identifies your Deployment)"
 msgstr "(uniquely identifies your Deployment)"
+
+msgid "-- No Catalogs --"
+msgstr "-- No Catalogs --"
 
 msgid "A request has been received by Conductor server %s to retrieve the logins for email %s. The following is a list of those logins:"
 msgstr ""
@@ -168,8 +171,14 @@ msgstr "Aeolus Conductor"
 msgid "Alerts"
 msgstr "Alerts"
 
+msgid "All"
+msgstr ""
+
 msgid "All Accounts"
 msgstr "All Accounts"
+
+msgid "All Catalogs"
+msgstr "All Catalogs"
 
 msgid "All Deployables"
 msgstr "All Deployables"
@@ -179,6 +188,9 @@ msgstr "All Deployments"
 
 msgid "All Entities"
 msgstr "All Entities"
+
+msgid "All Event Types"
+msgstr "All Envent Types"
 
 msgid "All Hardware Profiles"
 msgstr "All Hardware Profiles"
@@ -195,8 +207,14 @@ msgstr "All Permissions"
 msgid "All Pools"
 msgstr "All Pools"
 
+msgid "All Providers"
+msgstr "All Providers"
+
 msgid "All Realms"
 msgstr "All Realms"
+
+msgid "All States"
+msgstr "All States"
 
 msgid "All User Groups"
 msgstr "All User Groups"
@@ -351,6 +369,12 @@ msgstr "Catalog"
 msgid "Catalog Name"
 msgstr "Catalog Name"
 
+msgid "Catalog cannot be deleted. At least one Deployable has a reference to this Catalog."
+msgstr ""
+
+msgid "Catalog deleted"
+msgstr "Catalog deleted"
+
 msgid "Catalogs"
 msgstr "Catalogs"
 
@@ -374,6 +398,9 @@ msgstr "Choose Users to add to this Group."
 
 msgid "Choose a Catalog to enable access:"
 msgstr "Choose a Catalog to enable access:"
+
+msgid "Choose a Deployable to launch in the \"%s\" Pool"
+msgstr ""
 
 msgid "Choose an Image Template file:"
 msgstr "Choose an Image Template file:"
@@ -504,6 +531,9 @@ msgstr "Create a new Realm Mapping"
 msgid "Created"
 msgstr "Created"
 
+msgid "Created At"
+msgstr "Created At"
+
 msgid "Credential"
 msgstr "Credential"
 
@@ -564,8 +594,14 @@ msgstr "Deployable XML"
 msgid "Deployable added to Catalog %s."
 msgstr ""
 
+msgid "Deployable removed from Catalog %s."
+msgstr "Deployable removed from Catalog %s."
+
 msgid "Deployable updated successfully"
 msgstr "Deployable updated successfully"
+
+msgid "Deployable was not created."
+msgstr "Deployable was not created."
 
 msgid "Deployable was not created: %s"
 msgstr "Deployable was not created: %s"
@@ -605,6 +641,9 @@ msgstr "Deployment launch failed."
 
 msgid "Deployment launched."
 msgstr "Deployment launched."
+
+msgid "Deployment/Instance"
+msgstr "Deployment/Instance"
 
 msgid "Deployments"
 msgstr "Deployments"
@@ -654,6 +693,9 @@ msgstr "Destroy cannot be performed on this instance."
 msgid "Destroy of %s failed with exception: %s"
 msgstr ""
 
+msgid "Details"
+msgstr ""
+
 msgid "Direct Access"
 msgstr "Direct Access"
 
@@ -686,6 +728,9 @@ msgstr "Edit Account"
 
 msgid "Edit Account: %s"
 msgstr "Edit Account: %s"
+
+msgid "Edit Catalog"
+msgstr "Edit Catalog"
 
 msgid "Edit Config Server"
 msgstr "Edit Config Server"
@@ -825,6 +870,9 @@ msgstr "Summary"
 msgid "Export events"
 msgstr "Export events"
 
+msgid "Export logs"
+msgstr "Export logs"
+
 msgid "Failed"
 msgstr "Failed"
 
@@ -870,6 +918,9 @@ msgstr "From"
 msgid "From URL"
 msgstr "From URL"
 
+msgid "Frontend Realm"
+msgstr "Frontend Realm"
+
 msgid "Frontend realm"
 msgstr "Realm"
 
@@ -896,6 +947,9 @@ msgstr "Global Uptime"
 
 msgid "Grant Access"
 msgstr "Grant Access"
+
+msgid "Grouped By"
+msgstr "Groups By"
 
 msgid "Groups"
 msgstr "Groups"
@@ -1284,6 +1338,9 @@ msgstr "Name:"
 msgid "New Account"
 msgstr "New Account"
 
+msgid "New Catalog"
+msgstr "New Catalog"
+
 msgid "New Config Server"
 msgstr "New Config Server"
 
@@ -1359,6 +1416,9 @@ msgstr "No Matching Provider Hardware Profiles Could be found"
 msgid "No URL is provided for XML import"
 msgstr "No URL is provided for XML import"
 
+msgid "No available Deployable. Please add one first."
+msgstr ""
+
 msgid "No available priority group to display"
 msgstr "No available priority group to display"
 
@@ -1391,6 +1451,9 @@ msgstr "OS Version"
 
 msgid "Only locally-managed groups can be managed here."
 msgstr "Only locally-managed groups can be managed here."
+
+msgid "Order By"
+msgstr ""
 
 msgid "Overview"
 msgstr "Overview"
@@ -1520,6 +1583,9 @@ msgstr "Lock version"
 
 msgid "Privilege|Target type"
 msgstr "Target type"
+
+msgid "Profile"
+msgstr "Profile"
 
 msgid "Properties"
 msgstr "Properties"
@@ -1968,6 +2034,9 @@ msgstr ""
 msgid "Successfully updated %s strategy"
 msgstr "Successfully updated %s strategy"
 
+msgid "Summary"
+msgstr "Summary"
+
 msgid "Target Images UUIDs"
 msgstr "Target Images UUIDs"
 
@@ -2106,6 +2175,9 @@ msgstr "There are no Provider Accounts available."
 msgid "There is no Quota on this"
 msgstr "There is no Quota on this"
 
+msgid "Time"
+msgstr ""
+
 msgid "To"
 msgstr "To"
 
@@ -2153,6 +2225,9 @@ msgstr "Unlimited"
 
 msgid "Upload"
 msgstr "Upload"
+
+msgid "Uptime"
+msgstr "Uptime"
 
 msgid "Uptime 1st Instance running"
 msgstr "Uptime 1st Instance running"

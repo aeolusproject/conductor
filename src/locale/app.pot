@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-11 16:24+0100\n"
+"POT-Creation-Date: 2013-02-11 20:39+0100\n"
 "PO-Revision-Date: 2013-01-31 17:10+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,6 +83,9 @@ msgid "'From date' cannot be after 'To date'"
 msgstr ""
 
 msgid "(uniquely identifies your Deployment)"
+msgstr ""
+
+msgid "-- No Catalogs --"
 msgstr ""
 
 msgid "A request has been received by Conductor server %s to retrieve the logins for email %s. The following is a list of those logins:"
@@ -169,7 +172,13 @@ msgstr ""
 msgid "Alerts"
 msgstr ""
 
+msgid "All"
+msgstr ""
+
 msgid "All Accounts"
+msgstr ""
+
+msgid "All Catalogs"
 msgstr ""
 
 msgid "All Deployables"
@@ -179,6 +188,9 @@ msgid "All Deployments"
 msgstr ""
 
 msgid "All Entities"
+msgstr ""
+
+msgid "All Event Types"
 msgstr ""
 
 msgid "All Hardware Profiles"
@@ -196,7 +208,13 @@ msgstr ""
 msgid "All Pools"
 msgstr ""
 
+msgid "All Providers"
+msgstr ""
+
 msgid "All Realms"
+msgstr ""
+
+msgid "All States"
 msgstr ""
 
 msgid "All User Groups"
@@ -352,6 +370,12 @@ msgstr ""
 msgid "Catalog Name"
 msgstr ""
 
+msgid "Catalog cannot be deleted. At least one Deployable has a reference to this Catalog."
+msgstr ""
+
+msgid "Catalog deleted"
+msgstr ""
+
 msgid "Catalogs"
 msgstr ""
 
@@ -374,6 +398,9 @@ msgid "Choose Users to add to this Group."
 msgstr ""
 
 msgid "Choose a Catalog to enable access:"
+msgstr ""
+
+msgid "Choose a Deployable to launch in the \"%s\" Pool"
 msgstr ""
 
 msgid "Choose an Image Template file:"
@@ -505,6 +532,9 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
+msgid "Created At"
+msgstr ""
+
 msgid "Credential"
 msgstr ""
 
@@ -565,7 +595,13 @@ msgstr ""
 msgid "Deployable added to Catalog %s."
 msgstr ""
 
+msgid "Deployable removed from Catalog %s."
+msgstr ""
+
 msgid "Deployable updated successfully"
+msgstr ""
+
+msgid "Deployable was not created."
 msgstr ""
 
 msgid "Deployable was not created: %s"
@@ -605,6 +641,9 @@ msgid "Deployment launch failed."
 msgstr ""
 
 msgid "Deployment launched."
+msgstr ""
+
+msgid "Deployment/Instance"
 msgstr ""
 
 msgid "Deployments"
@@ -655,6 +694,9 @@ msgstr ""
 msgid "Destroy of %s failed with exception: %s"
 msgstr ""
 
+msgid "Details"
+msgstr ""
+
 msgid "Direct Access"
 msgstr ""
 
@@ -686,6 +728,9 @@ msgid "Edit Account"
 msgstr ""
 
 msgid "Edit Account: %s"
+msgstr ""
+
+msgid "Edit Catalog"
 msgstr ""
 
 msgid "Edit Config Server"
@@ -826,6 +871,9 @@ msgstr ""
 msgid "Export events"
 msgstr ""
 
+msgid "Export logs"
+msgstr ""
+
 msgid "Failed"
 msgstr ""
 
@@ -871,6 +919,9 @@ msgstr ""
 msgid "From URL"
 msgstr ""
 
+msgid "Frontend Realm"
+msgstr ""
+
 msgid "Frontend realm"
 msgstr ""
 
@@ -896,6 +947,9 @@ msgid "Global Uptime"
 msgstr ""
 
 msgid "Grant Access"
+msgstr ""
+
+msgid "Grouped By"
 msgstr ""
 
 msgid "Groups"
@@ -1285,6 +1339,9 @@ msgstr ""
 msgid "New Account"
 msgstr ""
 
+msgid "New Catalog"
+msgstr ""
+
 msgid "New Config Server"
 msgstr ""
 
@@ -1360,6 +1417,9 @@ msgstr ""
 msgid "No URL is provided for XML import"
 msgstr ""
 
+msgid "No available Deployable. Please add one first."
+msgstr ""
+
 msgid "No available priority group to display"
 msgstr ""
 
@@ -1391,6 +1451,9 @@ msgid "OS Version"
 msgstr ""
 
 msgid "Only locally-managed groups can be managed here."
+msgstr ""
+
+msgid "Order By"
 msgstr ""
 
 msgid "Overview"
@@ -1520,6 +1583,9 @@ msgid "Privilege|Lock version"
 msgstr ""
 
 msgid "Privilege|Target type"
+msgstr ""
+
+msgid "Profile"
 msgstr ""
 
 msgid "Properties"
@@ -1969,6 +2035,9 @@ msgstr ""
 msgid "Successfully updated %s strategy"
 msgstr ""
 
+msgid "Summary"
+msgstr ""
+
 msgid "Target Images UUIDs"
 msgstr ""
 
@@ -2107,6 +2176,9 @@ msgstr ""
 msgid "There is no Quota on this"
 msgstr ""
 
+msgid "Time"
+msgstr ""
+
 msgid "To"
 msgstr ""
 
@@ -2153,6 +2225,9 @@ msgid "Unlimited"
 msgstr ""
 
 msgid "Upload"
+msgstr ""
+
+msgid "Uptime"
 msgstr ""
 
 msgid "Uptime 1st Instance running"
