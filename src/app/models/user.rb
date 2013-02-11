@@ -224,7 +224,7 @@ class User < ActiveRecord::Base
   end
 
   def ensure_not_running_any_instances
-    raise I18n.t('users.errors.has_running_instances', :username => username) if deployments.any?{ |deployment| deployment.any_instance_running? }
+    raise _('%s has running instances') % username if deployments.any?{ |deployment| deployment.any_instance_running? }
   end
 
   def strip_whitespace

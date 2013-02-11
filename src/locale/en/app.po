@@ -13,12 +13,11 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-
 msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-31 17:10+0100\n"
+"POT-Creation-Date: 2013-02-11 16:24+0100\n"
 "PO-Revision-Date: 2013-01-31 17:51+0100\n"
 "Last-Translator: Jozef Zigmund <jzigmund@redhat.com>\n"
 "Language-Team: English\n"
@@ -28,3270 +27,2384 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/util/taskomatic.rb:156
-msgid ""
-"Could not connect to Provider Account.  Please contact an Administrator."
+msgid "%s"
+msgstr "%s"
+
+msgid "%s (Front End)"
+msgstr "%s (Front End)"
+
+msgid "%s (Provider)"
+msgstr "%s Provider"
+
+msgid "%s Deployment"
+msgstr "%s Deployment"
+
+msgid "%s Pool"
+msgstr "%s Pool"
+
+msgid "%s Pool details &raquo;"
+msgstr "%s Pool details &raquo;"
+
+msgid "%s has running instances"
+msgstr "%s has running instances"
+
+msgid "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
+msgstr "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
+
+msgid "%s: Hardware Profile match not found"
+msgstr "%s: Hardware Profile match not found"
+
+msgid "%s: Image (UUID: %s) doesn't exist"
+msgstr "%s: Image (UUID: %s) doesn't exist"
+
+msgid "%s: Image is not pushed to this Provider Account"
+msgstr "%s: Image is not pushed to this Provider Account"
+
+msgid "%s: Provider Account quota reached"
+msgstr "%s: Provider Account quota reached"
+
+msgid "%s: Provider is not available"
+msgstr "s: Provider is not available"
+
+msgid "%s: Provider must be enabled"
+msgstr "s: Provider must be enabled"
+
+msgid "%s: You have insufficient privileges to perform the selected action."
+msgstr "%s: You have insufficient privileges to perform the selected action."
+
+msgid "%s: no Config Server available for Provider Account"
 msgstr ""
-"Could not connect to Provider Account.  Please contact an Administrator."
 
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:91
-msgid ""
-"The Image you tried to access cannot be found. It may have been deleted."
-msgstr ""
-"The Image you tried to access cannot be found. It may have been deleted."
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:93
-msgid "Imported image can't be built or pushed"
-msgstr "Imported image can't be built or pushed"
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:109
-msgid ""
-"The provided image template is too large. Please provide an XML template."
-msgstr ""
-"The provided image template is too large. Please provide an XML template."
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:137
-#: app/controllers/hardware_profiles_controller.rb:311
-#: app/controllers/hardware_profiles_controller.rb:341
-#: app/controllers/hardware_profiles_controller.rb:372
-#: app/controllers/permissions_controller.rb:198
-#: app/controllers/user_groups_controller.rb:241
-#: app/controllers/pool_families_controller.rb:227
-#: app/controllers/pool_families_controller.rb:265
-#: app/controllers/users_controller.rb:75
-#: app/controllers/application_controller.rb:414
-#: app/controllers/deployables_controller.rb:343
-#: app/helpers/user_groups_helper.rb:21 app/helpers/instances_helper.rb:25
-#: app/views/instances/_properties.html.haml:3
-#: app/views/user_groups/show.html.haml:26
-msgid "Name"
-msgstr "Name"
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:138
-#: app/controllers/pools_controller.rb:389
-#: app/views/tim/base_images/show.html.haml:24
-msgid "Environment"
-msgstr "Environment"
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:139
-#: app/controllers/pool_families_controller.rb:266
-msgid "OS"
-msgstr "OS"
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:140
-#: app/controllers/pool_families_controller.rb:267
-msgid "OS Version"
-msgstr "OS Version"
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:141
-#: app/controllers/hardware_profiles_controller.rb:353
-#: app/controllers/pool_families_controller.rb:268
-#: app/helpers/hardware_profiles_helper.rb:21
-#: app/helpers/providers_helper.rb:22
-#: app/views/instances/_properties.html.haml:21
-msgid "Architecture"
-msgstr "Architecture"
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:142
-#: app/controllers/pool_families_controller.rb:269
-msgid "Last Rebuild"
-msgstr "Last Rebuild"
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:155
-msgid ""
-"Images cannot be imported. No Provider Accounts are currently enabled for "
-"this Environment."
-msgstr ""
-"Images cannot be imported. No Provider Accounts are currently enabled for "
-"this Environment."
-
-#: app/decorators/controllers/tim/base_images_controller_decorator.rb:156
-msgid ""
-"Images cannot be built. There are no enabled Provider Accounts associated "
-"with this Environment."
-msgstr ""
-"Images cannot be built. There are no enabled Provider Accounts associated "
-"with this Environment."
-
-#: app/decorators/models/tim/target_image_decorator.rb:64
-#: app/decorators/models/tim/provider_image_decorator.rb:95
-msgid "Complete"
-msgstr "Complete"
-
-#: app/decorators/models/tim/target_image_decorator.rb:66
-#: app/decorators/models/tim/provider_image_decorator.rb:97
-#: app/controllers/pools_controller.rb:387
-msgid "Failed"
-msgstr "Failed"
-
-#: app/decorators/models/tim/target_image_decorator.rb:69
-msgid "Building"
-msgstr "Building"
-
-#: app/decorators/models/tim/provider_image_decorator.rb:69
-msgid "was not found on the Provider."
-msgstr "was not found on the Provider."
-
-#: app/decorators/models/tim/provider_image_decorator.rb:100
-msgid "Pushing"
-msgstr "Pushing"
-
-#: app/controllers/hardware_profiles_controller.rb:25
-#: app/controllers/providers_controller.rb:321
-#: app/views/providers/_hardware_profiles.html.haml:3
-#: app/views/hardware_profiles/new.html.haml:7
-msgid "Hardware Profiles"
-msgstr "Hardware Profiles"
-
-#: app/controllers/hardware_profiles_controller.rb:54
-#: app/controllers/deployments_controller.rb:227
-#: app/controllers/instances_controller.rb:45
-#: app/controllers/roles_controller.rb:52
-#: app/controllers/provider_realms_controller.rb:35
-#: app/controllers/frontend_realms_controller.rb:112
-#: app/controllers/providers_controller.rb:310
-#: app/controllers/provider_accounts_controller.rb:38
-#: app/views/provider_accounts/show.html.haml:15
-#: app/views/provider_realms/show.html.haml:16
-#: app/views/frontend_realms/edit.html.haml:8
-#: app/views/frontend_realms/show.html.haml:17
-#: app/views/hardware_profiles/show.html.haml:15
-#: app/views/user_groups/show.html.haml:17 app/views/roles/show.html.haml:13
-#: app/views/tim/base_images/show.html.haml:19
-msgid "Properties"
-msgstr "Properties"
-
-#: app/controllers/hardware_profiles_controller.rb:54
-#: app/controllers/deployments_controller.rb:229
-#: app/controllers/instances_controller.rb:47
-#: app/controllers/provider_accounts_controller.rb:38
-msgid "History"
-msgstr "History"
-
-#: app/controllers/hardware_profiles_controller.rb:54
-#: app/controllers/hardware_profiles_controller.rb:369
-#: app/views/hardware_profiles/_matching_provider_hardware_profiles.html.haml:3
-msgid "Matching Provider Hardware Profiles"
-msgstr "Matching Provider Hardware Profiles"
-
-#: app/controllers/hardware_profiles_controller.rb:76
-#: app/views/hardware_profiles/edit.html.haml:5
-#: app/views/hardware_profiles/_list.html.haml:3
-#: app/views/hardware_profiles/show.html.haml:5
-#: app/views/hardware_profiles/new.html.haml:8
-msgid "New Hardware Profile"
-msgstr "New Hardware Profile"
-
-#: app/controllers/hardware_profiles_controller.rb:89
-#: app/controllers/hardware_profiles_controller.rb:173
-#: app/views/hardware_profiles/_form.html.haml:28
-msgid "Check Matches"
-msgstr "Check Matches"
-
-#: app/controllers/hardware_profiles_controller.rb:120
-msgid "Cannot delete Provider Hardware Profiles"
-msgstr "Cannot delete Provider Hardware Profiles"
-
-#: app/controllers/hardware_profiles_controller.rb:136
-msgid "Hardware profile was deleted"
-msgstr "Hardware profile was deleted"
-
-#: app/controllers/hardware_profiles_controller.rb:142
-msgid "Hardware profile was not deleted"
-msgstr "Hardware profile was not deleted"
-
-#: app/controllers/hardware_profiles_controller.rb:159
-msgid "Cannot modify Provider Hardware Profiles"
-msgstr "Cannot modify Provider Hardware Profiles"
-
-#: app/controllers/hardware_profiles_controller.rb:182
-msgid "Hardware Profile updated"
-msgstr "Hardware Profile updated"
-
-#: app/controllers/hardware_profiles_controller.rb:234
-#: app/controllers/hardware_profiles_controller.rb:283
-msgid "Hardware Profile cost updated"
-msgstr "Hardware Profile cost updated"
-
-#: app/controllers/hardware_profiles_controller.rb:302
-msgid "Cannot assign cost to Frontend Hardware Profile"
-msgstr "Cannot assign cost to Frontend Hardware Profile"
-
-#: app/controllers/hardware_profiles_controller.rb:313
-#: app/views/hardware_profiles/_cost_form.html.haml:6
-msgid "Billing Model"
-msgstr "Billing Model"
-
-#: app/controllers/hardware_profiles_controller.rb:315
-#: app/controllers/hardware_profiles_controller.rb:344
-msgid "Cost per Unit"
-msgstr "Cost per Unit"
-
-#: app/controllers/hardware_profiles_controller.rb:342
-#: app/controllers/hardware_profiles_controller.rb:373
-msgid "Unit"
-msgstr "Unit"
-
-#: app/controllers/hardware_profiles_controller.rb:343
-msgid "Value"
-msgstr "Value"
-
-#: app/controllers/hardware_profiles_controller.rb:351
-#: app/controllers/providers_controller.rb:349
-#: app/helpers/provider_accounts_helper.rb:27
-#: app/views/providers/_properties.html.haml:4
-#: app/views/provider_priority_groups/index.html.haml:36
-msgid "Provider Name"
-msgstr "Provider name"
-
-#: app/controllers/hardware_profiles_controller.rb:352
-#: app/helpers/hardware_profiles_helper.rb:20
-#: app/helpers/providers_helper.rb:21
-msgid "Hardware Profile Name"
-msgstr "Hardware Profile Name"
-
-#: app/controllers/hardware_profiles_controller.rb:354
-#: app/helpers/hardware_profiles_helper.rb:22
-#: app/helpers/providers_helper.rb:23
-#: app/views/instances/_properties.html.haml:24
-msgid "Memory"
-msgstr "Memory"
-
-#: app/controllers/hardware_profiles_controller.rb:355
-#: app/helpers/hardware_profiles_helper.rb:23
-#: app/helpers/providers_helper.rb:24
-#: app/views/instances/_properties.html.haml:27
-msgid "Storage"
-msgstr "Storage"
-
-#: app/controllers/hardware_profiles_controller.rb:356
-#: app/helpers/hardware_profiles_helper.rb:24
-#: app/helpers/providers_helper.rb:25
-msgid "Virtual CPU"
-msgstr "Virtual CPU"
-
-#: app/controllers/hardware_profiles_controller.rb:357
-#: app/helpers/providers_helper.rb:26
-msgid "Minimal Cost"
-msgstr "Minimal Cost"
-
-#: app/controllers/hardware_profiles_controller.rb:374
-msgid "Minimum Value"
-msgstr "Minimum Value"
-
-#: app/controllers/user_sessions_controller.rb:23
-#: app/views/layouts/application.html.haml:39
-msgid "Login"
-msgstr "Login"
-
-#: app/controllers/user_sessions_controller.rb:41
-msgid "The Username or Password is incorrect, please try again."
-msgstr "The Username or Password is incorrect, please try again."
-
-#: app/controllers/quotas_controller.rb:50
-#: app/controllers/quotas_controller.rb:68
-msgid "Quota updated"
-msgstr "Quota updated"
-
-#: app/controllers/quotas_controller.rb:53
-msgid "Could not update quota. Please check you have entered valid values"
-msgstr "Could not update quota. Please check you have entered valid values"
-
-#: app/controllers/permissions_controller.rb:32
-#: app/views/permissions/_form.html.haml:26
-#: app/views/permissions/_permissions.html.haml:5
-msgid "Grant Access"
-msgstr "Grant Access"
-
-#: app/controllers/permissions_controller.rb:36
-#: app/controllers/application_controller.rb:295
-msgid "Global Role Grants"
-msgstr "Global Role Grants"
-
-#: app/controllers/permissions_controller.rb:37
-msgid "Choose global role assignments for users"
-msgstr "Choose global role assignments for users"
-
-#: app/controllers/permissions_controller.rb:40
-msgid "Choose roles for users you would like to grant access to this"
-msgstr "Choose roles for users you would like to grant access to this"
-
-#: app/controllers/permissions_controller.rb:76
-msgid "No users selected"
-msgstr "No users selected"
-
-#: app/controllers/permissions_controller.rb:117
-msgid "All User Roles already set; no changes needed"
-msgstr "All User Roles already set; no changes needed"
-
-#: app/controllers/permissions_controller.rb:199
-#: app/controllers/application_controller.rb:351
-#: app/controllers/application_controller.rb:415
-#: locale/model_attributes.rb:175
-msgid "Role"
-msgstr "Role"
-
-#: app/controllers/deployments_controller.rb:32
-#: app/controllers/pool_families_controller.rb:253
-#: app/controllers/pools_controller.rb:384
-#: app/views/pools/_scoreboard_show.html.haml:8
-#: app/views/pool_families/_list.html.haml:26
-msgid "Deployments"
-msgstr "Deployments"
-
-#: app/controllers/deployments_controller.rb:43
-#: app/controllers/deployments_controller.rb:71
-#: app/controllers/deployments_controller.rb:121
-#: app/views/pools/_pretty_list.html.haml:18 app/views/pools/show.html.haml:5
-msgid "New Deployment"
-msgstr "New Deployment"
-
-#: app/controllers/deployments_controller.rb:55
-msgid "Cannot launch a Deployment in this Pool. The Pool has been disabled."
-msgstr "Cannot launch a Deployment in this Pool. The Pool has been disabled."
-
-#: app/controllers/deployments_controller.rb:78
-#: app/controllers/deployments_controller.rb:86
-msgid "You need to select a Deployable"
-msgstr "You need to select a Deployable"
-
-#: app/controllers/deployments_controller.rb:164
-msgid "Back"
-msgstr "Back"
-
-#: app/controllers/deployments_controller.rb:176
-msgid "Deployment launched."
-msgstr "Deployment launched."
-
-#: app/controllers/deployments_controller.rb:193
-#: app/controllers/deployments_controller.rb:520
-msgid "Deployment launch failed."
-msgstr "Deployment launch failed."
-
-#: app/controllers/deployments_controller.rb:224
-#: app/controllers/deployments_controller.rb:450
-#: app/controllers/instances_controller.rb:25
-#: app/controllers/pools_controller.rb:385
-#: app/controllers/pools_controller.rb:399
-#: app/views/pools/_scoreboard_show.html.haml:11
-msgid "Instances"
-msgstr "Instances"
-
-#: app/controllers/deployments_controller.rb:337
-msgid "All Instances must be stopped or running"
-msgstr "All Instances must be stopped or running"
-
-#: app/controllers/deployments_controller.rb:344
-#: app/controllers/deployments_controller.rb:395
-#: app/views/deployments/_list.html.haml:2
-#: app/views/deployments/_list.html.haml:3
-msgid "You must select one or more Deployments."
-msgstr "You must select one or more Deployments."
-
-#: app/controllers/deployments_controller.rb:446
-#: app/controllers/pools_controller.rb:395
-#: app/views/deployments/_launch_new.html.haml:23
-msgid "Deployment Name"
-msgstr "Deployment Name"
-
-#: app/controllers/deployments_controller.rb:447
-#: app/controllers/pools_controller.rb:396
-msgid "Deployed on"
-msgstr "Deployed on"
-
-#: app/controllers/deployments_controller.rb:448
-#: app/controllers/pools_controller.rb:397
-msgid "Base Deployable"
-msgstr "Base Deployable"
-
-#: app/controllers/deployments_controller.rb:449
-#: app/controllers/pools_controller.rb:398 app/helpers/instances_helper.rb:27
-msgid "State"
-msgstr "State"
-
-#: app/controllers/deployments_controller.rb:451
-#: app/controllers/pools_controller.rb:400
-#: app/views/pools/_scoreboard_show.html.haml:22
-#: locale/model_attributes.rb:121
-msgid "Pool"
-msgstr "Pool"
-
-#: app/controllers/deployments_controller.rb:452
-#: app/controllers/pools_controller.rb:401 app/helpers/instances_helper.rb:29
-#: app/views/instances/_properties.html.haml:46
-msgid "Owner"
-msgstr "Owner"
-
-#: app/controllers/deployments_controller.rb:453
-#: app/controllers/pools_controller.rb:402 app/helpers/instances_helper.rb:28
-#: app/views/instances/_properties.html.haml:18 locale/model_attributes.rb:137
-msgid "Provider"
-msgstr "Provider"
-
-#: app/controllers/instances_controller.rb:46
-msgid "Config Parameters"
-msgstr "Config Parameters"
-
-#: app/controllers/instances_controller.rb:121
-msgid "SSH Key not found for this Instance."
-msgstr "SSH Key not found for this Instance."
-
-#: app/controllers/instances_controller.rb:161
-#: app/views/instances/_list.html.haml:2
-msgid "You must select one or more Instances to stop."
-msgstr "You must select one or more Instances to stop."
-
-#: app/controllers/instances_controller.rb:202
-#: app/views/instances/_list.html.haml:3
-msgid "You must select one or more Instances to reboot."
-msgstr "You must select one or more Instances to reboot."
-
-#: app/controllers/instances_controller.rb:238
-msgid "VM NAME"
-msgstr "VM NAME"
-
-#: app/controllers/instances_controller.rb:239
-msgid "STATUS"
-msgstr "STATUS"
-
-#: app/controllers/instances_controller.rb:240
-msgid "PUBLIC ADDRESS"
-msgstr "PUBLIC ADDRESS"
-
-#: app/controllers/instances_controller.rb:241
-msgid "PROVIDER"
-msgstr "PROVIDER"
-
-#: app/controllers/instances_controller.rb:242
-msgid "CREATED BY"
-msgstr "CREATED BY"
-
-#: app/controllers/user_groups_controller.rb:22
-#: app/controllers/application_controller.rb:294
-#: app/views/user_groups/edit.html.haml:6
-#: app/views/user_groups/show.html.haml:6
-#: app/views/user_groups/new.html.haml:6
-msgid "User Groups"
-msgstr "User Groups"
-
-#: app/controllers/user_groups_controller.rb:62
-#: app/controllers/user_groups_controller.rb:81
-#: app/views/user_groups/show.html.haml:8
-msgid "New User Group"
-msgstr "New User Group"
-
-#: app/controllers/user_groups_controller.rb:76
-msgid "User Group added"
-msgstr "User Group added"
-
-#: app/controllers/user_groups_controller.rb:93
-#: app/controllers/user_groups_controller.rb:107
-msgid "Edit User Group"
-msgstr "Edit User Group"
-
-#: app/controllers/user_groups_controller.rb:110
-msgid "User Group updated"
-msgstr "User Group updated"
-
-#: app/controllers/user_groups_controller.rb:143
-msgid "User Group has been successfully deleted."
-msgstr "User Group has been successfully deleted."
-
-#: app/controllers/user_groups_controller.rb:145
-msgid "Could not delete user group"
-msgstr "Could not delete user group"
-
-#: app/controllers/user_groups_controller.rb:158
-#: app/controllers/user_groups_controller.rb:198
-msgid "Only locally-managed groups can be managed here."
-msgstr "Only locally-managed groups can be managed here."
-
-#: app/controllers/user_groups_controller.rb:171
-msgid "You must select at least one user to add."
-msgstr "You must select at least one user to add."
-
-#: app/controllers/user_groups_controller.rb:207
-msgid "You must select at least one user to remove."
-msgstr "You must select at least one user to remove."
-
-#: app/controllers/user_groups_controller.rb:242
-#: app/controllers/users_controller.rb:76
-#: app/views/user_groups/show.html.haml:23
-msgid "Type"
-msgstr "Type"
-
-#: app/controllers/roles_controller.rb:41
-msgid "Role successfully saved."
-msgstr "Role successfully saved."
-
-#: app/controllers/roles_controller.rb:80
-msgid "Role updated successfully."
-msgstr "Role updated successfully."
-
-#: app/controllers/provider_priority_groups_controller.rb:59
-msgid "Priority Group successfully created"
-msgstr "Priority Group successfully created"
-
-#: app/controllers/provider_priority_groups_controller.rb:90
-msgid "Priority Group successfully updated"
-msgstr "Priority Group successfully updated"
-
-#: app/controllers/provider_priority_groups_controller.rb:95
-msgid "Priority Group successfully deleted"
-msgstr "Priority Group successfully deleted"
-
-#: app/controllers/provider_realms_controller.rb:35
-#: app/controllers/frontend_realms_controller.rb:112
-msgid "Mapping"
-msgstr "Mapping"
-
-#: app/controllers/provider_realms_controller.rb:67
-#: app/helpers/provider_realms_helper.rb:19
-#: app/views/provider_realms/_properties.html.haml:4
-msgid "Provider Realm Name"
-msgstr "Provider Realm Name"
-
-#: app/controllers/frontend_realms_controller.rb:22
-#: app/controllers/application_controller.rb:284
-#: app/views/provider_accounts/show.html.haml:22
-#: app/views/frontend_realms/show.html.haml:6
-#: app/views/frontend_realms/new.html.haml:6
-msgid "Realms"
-msgstr "Realms"
-
-#: app/controllers/frontend_realms_controller.rb:50
-#: app/views/deployments/_overview.html.haml:46
-#: app/views/deployments/_launch_new.html.haml:38
-msgid "Realm"
-msgstr "Realm"
-
-#: app/controllers/frontend_realms_controller.rb:53
-msgid "Realm updated"
-msgstr "Realm updated"
-
-#: app/controllers/frontend_realms_controller.rb:66
-msgid "Realm was added"
-msgstr "Realm was added"
-
-#: app/controllers/frontend_realms_controller.rb:77
-msgid "Realm was deleted"
-msgstr "Realm was deleted"
-
-#: app/controllers/frontend_realms_controller.rb:79
-msgid "Realm was not deleted"
-msgstr "Realm was not deleted"
-
-#: app/controllers/frontend_realms_controller.rb:88
-msgid "You must select at least one Realm to delete."
-msgstr "You must select at least one Realm to delete."
-
-#: app/controllers/frontend_realms_controller.rb:155
-#: app/helpers/realms_helper.rb:20
-#: app/views/frontend_realms/_properties.html.haml:4
-msgid "Realm Name"
-msgstr "Realm Name"
-
-#: app/controllers/username_recoveries_controller.rb:26
-#: app/controllers/username_recoveries_controller.rb:28
-msgid "Usernames have been sent to given e-mail address."
-msgstr "Usernames have been sent to given e-mail address."
-
-#: app/controllers/password_resets_controller.rb:27
-#: app/controllers/password_resets_controller.rb:29
-msgid "Instructions for resetting your password have been emailed."
-msgstr "Instructions for resetting your password have been emailed."
-
-#: app/controllers/password_resets_controller.rb:37
-#: app/controllers/password_resets_controller.rb:47
-msgid ""
-"Your Password reset link has expired. Please re-apply for the new password "
-"reset by filling the form below."
-msgstr ""
-"Your Password reset link has expired. Please re-apply for the new password "
-"reset by filling the form below."
-
-#: app/controllers/password_resets_controller.rb:55
-msgid "Password has been successfuly reset. Please log in."
-msgstr "Password has been successfuly reset. Please log in."
-
-#: app/controllers/password_resets_controller.rb:68
-msgid ""
-"The Password Reset link is no longer valid. Please re-apply for the new link "
-"by completing the form below."
-msgstr ""
-"The Password Reset link is no longer valid. Please re-apply for the new link "
-"by completing the form below."
-
-#: app/controllers/realm_mappings_controller.rb:22
-#: app/controllers/realm_mappings_controller.rb:34
-msgid "Create a new Realm Mapping"
-msgstr "Create a new Realm Mapping"
-
-#: app/controllers/realm_mappings_controller.rb:31
-msgid "Realm mapping was added."
-msgstr "Realm mapping was added."
-
-#: app/controllers/realm_mappings_controller.rb:43
-msgid "You must select at least one mapping to delete."
-msgstr "You must select at least one mapping to delete."
-
-#: app/controllers/settings_controller.rb:40
-msgid "Could not update the default quota"
-msgstr "Could not update the default quota"
-
-#: app/controllers/settings_controller.rb:57
-msgid "Settings Updated"
-msgstr "Settings Updated"
-
-#: app/controllers/config_servers_controller.rb:46
-msgid "Test successful"
-msgstr "Test successful"
-
-#: app/controllers/config_servers_controller.rb:62
-msgid "The Config Server information is invalid."
-msgstr "The Config Server information is invalid."
-
-#: app/controllers/config_servers_controller.rb:66
-msgid "Config Server added."
-msgstr "Config Server added."
-
-#: app/controllers/config_servers_controller.rb:77
-msgid "Config Server updated."
-msgstr "Config Server updated."
-
-#: app/controllers/config_servers_controller.rb:80
-msgid "Config Server was not updated."
-msgstr "Config Server was not updated."
-
-#: app/controllers/config_servers_controller.rb:89
-msgid "Config Server was deleted."
-msgstr "Config Server was deleted."
-
-#: app/controllers/config_servers_controller.rb:91
-msgid "Config Server was not deleted."
-msgstr "Config Server was not deleted."
-
-#: app/controllers/providers_controller.rb:35
-msgid "'From date' cannot be after 'To date'"
-msgstr "'From date' cannot be after 'To date'"
-
-#: app/controllers/providers_controller.rb:58
-#: app/controllers/providers_controller.rb:100
-msgid "New Provider"
-msgstr "New Provider"
-
-#: app/controllers/providers_controller.rb:63
-#: app/views/provider_accounts/edit.html.haml:6
-#: app/views/provider_accounts/show.html.haml:6
-#: app/views/provider_accounts/new.html.haml:6
-#: app/views/pools/_scoreboard_show.html.haml:5 config/navigation.rb:26
-msgid "Cloud Providers"
-msgstr "Cloud Providers"
-
-#: app/controllers/providers_controller.rb:108
-#: app/controllers/providers_controller.rb:135
-msgid "Provider added."
-msgstr "Provider added."
-
-#: app/controllers/providers_controller.rb:136
-#: app/controllers/providers_controller.rb:186
-msgid "Cannot check if provider name is right. Please check config file"
-msgstr "Cannot check if provider name is right. Please check config file"
-
-#: app/controllers/providers_controller.rb:158
-#: app/controllers/providers_controller.rb:185
-msgid "Provider updated."
-msgstr "Provider updated."
-
-#: app/controllers/providers_controller.rb:200
-msgid "Provider has been deleted."
-msgstr "Provider has been deleted."
-
-#: app/controllers/providers_controller.rb:223
-msgid "Successfully connected to Provider"
-msgstr "Successfully connected to Provider"
-
-#: app/controllers/providers_controller.rb:225
-msgid "Failed to connect to Provider"
-msgstr "Failed to connect to Provider"
-
-#: app/controllers/providers_controller.rb:245
-msgid "Provider was not disabled. Failed to stop following instances:"
-msgstr "Provider was not disabled. Failed to stop following instances:"
-
-#: app/controllers/providers_controller.rb:250
-msgid ""
-"Provider was not disabled. Failed to change status to 'stopped' for "
-"following instances:"
-msgstr ""
-"Provider was not disabled. Failed to change status to 'stopped' for "
-"following instances:"
-
-#: app/controllers/providers_controller.rb:254
-msgid "Provider disabled."
-msgstr "Provider disabled."
-
-#: app/controllers/providers_controller.rb:313
-#: app/controllers/pool_families_controller.rb:241
-msgid "Accounts"
-msgstr "Accounts"
-
-#: app/controllers/providers_controller.rb:317
-#: app/views/provider_realms/show.html.haml:6
-msgid "Provider Realms"
-msgstr "Provider Realms"
-
-#: app/controllers/providers_controller.rb:351
-#: app/helpers/provider_accounts_helper.rb:28
-#: app/views/providers/_properties.html.haml:10
-#: app/views/provider_priority_groups/index.html.haml:37
-msgid "Provider Type"
-msgstr "Provider Type"
-
-#: app/controllers/providers_controller.rb:353
-msgid "Running Instances (Current)"
-msgstr "Running Instances (Current)"
-
-#: app/controllers/providers_controller.rb:355
-msgid "Pending (Current)"
-msgstr "Pending (Current)"
-
-#: app/controllers/providers_controller.rb:357
-msgid "Errors (Current)"
-msgstr "Errors (Current)"
-
-#: app/controllers/providers_controller.rb:359
-msgid "Running (Historical)"
-msgstr "Running (Historical)"
-
-#: app/controllers/providers_controller.rb:361
-msgid "Errors (Historical)"
-msgstr "Errors (Historical)"
-
-#: app/controllers/providers_controller.rb:363
-#: app/views/pool_families/_list.html.haml:34
-msgid "Enabled"
-msgstr "Enabled"
-
-#: app/controllers/pool_families_controller.rb:27
-#: app/controllers/application_controller.rb:303
-#: app/views/pool_families/edit.html.haml:7
-#: app/views/pool_families/new.html.haml:6 config/navigation.rb:24
-msgid "Environments"
-msgstr "Environments"
-
-#: app/controllers/pool_families_controller.rb:41
-#: app/controllers/pool_families_controller.rb:62
-#: app/views/pool_families/_list.html.haml:4
-msgid "New Environment"
-msgstr "New Environment"
-
-#: app/controllers/pool_families_controller.rb:55
-msgid "Environment was added."
-msgstr "Environment was added."
-
-#: app/controllers/pool_families_controller.rb:88
-msgid "Environment was updated."
-msgstr "Environment was updated."
-
-#: app/controllers/pool_families_controller.rb:136
-msgid "Environment was deleted."
-msgstr "Environment was deleted."
-
-#: app/controllers/pool_families_controller.rb:155
-msgid "There are no Provider Accounts available."
-msgstr "There are no Provider Accounts available."
-
-#: app/controllers/pool_families_controller.rb:169
-msgid "You must select at least one Provider Account to add."
-msgstr "You must select at least one Provider Account to add."
-
-#: app/controllers/pool_families_controller.rb:200
-msgid "You must select at least one Provider Account to remove."
-msgstr "You must select at least one Provider Account to remove."
-
-#: app/controllers/pool_families_controller.rb:228
-#: app/controllers/pool_families_controller.rb:257
-#: app/controllers/users_controller.rb:188
-#: app/controllers/pools_controller.rb:388
-#: app/helpers/provider_accounts_helper.rb:30
-#: app/views/pools/_scoreboard_show.html.haml:23
-#: app/views/provider_priority_groups/index.html.haml:39
-#: app/views/provider_priority_groups/_form.html.haml:37
-#: app/views/pool_families/_list.html.haml:30
-msgid "Quota Used"
-msgstr "Quota Used"
-
-#: app/controllers/pool_families_controller.rb:229
-#: app/controllers/users_controller.rb:189
-#: app/helpers/provider_accounts_helper.rb:31
-#: app/views/provider_priority_groups/index.html.haml:40
-#: app/views/provider_priority_groups/_form.html.haml:38
-msgid "Quota Limit"
-msgstr "Quota Limit"
-
-#: app/controllers/pool_families_controller.rb:240
-msgid "Pools"
-msgstr "Pools"
-
-#: app/controllers/pool_families_controller.rb:242
-#: app/controllers/application_controller.rb:304
-#: app/views/deployables/show.html.haml:20
-#: app/views/deployables/show.html.haml:28
-#: app/views/tim/base_images/show.html.haml:7
-msgid "Images"
-msgstr "Images"
-
-#: app/controllers/pool_families_controller.rb:252
-#: app/views/pool_families/_list.html.haml:25
-msgid "Pool Name"
-msgstr "Pool Name"
-
-#: app/controllers/pool_families_controller.rb:254
-#: app/views/pool_families/_list.html.haml:27
-msgid "Total Inst."
-msgstr "Total Inst."
-
-#: app/controllers/pool_families_controller.rb:255
-#: app/views/pool_families/_list.html.haml:28
-msgid "Pending Inst."
-msgstr "Pending Inst."
-
-#: app/controllers/pool_families_controller.rb:256
-#: app/views/pool_families/_list.html.haml:29
-msgid "Failed Inst."
-msgstr "Failed Inst."
-
-#: app/controllers/pool_families_controller.rb:258
-#: app/views/pool_families/_list.html.haml:32
-msgid "Active Inst."
-msgstr "Active Inst."
-
-#: app/controllers/pool_families_controller.rb:259
-#: app/views/pool_families/_list.html.haml:33
-msgid "Available Inst."
-msgstr "Available Inst."
-
-#: app/controllers/users_controller.rb:25
-#: app/controllers/application_controller.rb:293
-#: app/views/permissions/_new.html.haml:13 app/views/users/edit.html.haml:6
-#: app/views/users/show.html.haml:7 app/views/users/new.html.haml:6
-#: config/navigation.rb:23
-msgid "Users"
-msgstr "Users"
-
-#: app/controllers/users_controller.rb:40
-#: app/controllers/users_controller.rb:48
-msgid "New User"
-msgstr "New User"
-
-#: app/controllers/users_controller.rb:57
-msgid "User registered"
-msgstr "User registered"
-
-#: app/controllers/users_controller.rb:60
-msgid "You have successfully registered."
-msgstr "You have successfully registered."
-
-#: app/controllers/users_controller.rb:96
-#: app/controllers/users_controller.rb:101
-msgid "Edit User"
-msgstr "Edit User"
-
-#: app/controllers/users_controller.rb:116
-msgid "User updated"
-msgstr "User updated"
-
-#: app/controllers/users_controller.rb:155
-msgid "User has been successfully deleted."
-msgstr "User has been successfully deleted."
-
-#: app/controllers/users_controller.rb:185
-msgid "User ID"
-msgstr "User ID"
-
-#: app/controllers/users_controller.rb:186
-msgid "Last Name"
-msgstr "Last Name"
-
-#: app/controllers/users_controller.rb:187
-msgid "First Name"
-msgstr "First Name"
-
-#: app/controllers/users_controller.rb:190
-msgid "e-mail"
-msgstr "e-mail"
-
-#: app/controllers/pools_controller.rb:138
-#: app/views/deployables/_from_url.html.haml:7
-#: app/views/deployables/_upload.html.haml:7
-#: app/views/deployables/_new_from_image.html.haml:23
-#: app/views/deployables/_form.html.haml:11 locale/model_attributes.rb:4
-msgid "Catalog"
-msgstr "Catalog"
-
-#: app/controllers/pools_controller.rb:138
-#: app/views/deployments/_launch_new.html.haml:32
-#: locale/model_attributes.rb:22
-msgid "Deployable"
-msgstr "Deployable"
-
-#: app/controllers/pools_controller.rb:139
-msgid "Image"
-msgstr "Image"
-
-#: app/controllers/pools_controller.rb:139
-msgid "Provider's Image ID"
-msgstr "Provider's Image ID"
-
-#: app/controllers/pools_controller.rb:187
-#: app/controllers/pools_controller.rb:207 app/views/pools/index.html.haml:8
-#: app/views/pools/_list.html.haml:3
-#: app/views/pool_families/_list.html.haml:18
-msgid "New Pool"
-msgstr "New Pool"
-
-#: app/controllers/pools_controller.rb:217
-msgid "Pool added."
-msgstr "Pool added."
-
-#: app/controllers/pools_controller.rb:242
-#: app/controllers/pools_controller.rb:275
-msgid "Edit Pool"
-msgstr "Edit Pool"
-
-#: app/controllers/pools_controller.rb:262
-msgid "Pool updated."
-msgstr "Pool updated."
-
-#: app/controllers/pools_controller.rb:296
-#: app/controllers/pools_controller.rb:344
-msgid "The default Pool cannot be deleted."
-msgstr "The default Pool cannot be deleted."
-
-#: app/controllers/pools_controller.rb:309
-#: app/controllers/pools_controller.rb:362
-#: app/services/application_service.rb:68
-msgid "You have insufficient privileges to perform the selected action."
-msgstr "You have insufficient privileges to perform the selected action."
-
-#: app/controllers/pools_controller.rb:383
-msgid "Pool name"
-msgstr "Pool name"
-
-#: app/controllers/pools_controller.rb:386
-msgid "Pending"
-msgstr "Pending"
-
-#: app/controllers/provider_accounts_controller.rb:38
-msgid "Credentials"
-msgstr "Credentials"
-
-#: app/controllers/provider_accounts_controller.rb:38
-#: app/views/settings/index.html.haml:7
-#: app/views/user_groups/show.html.haml:74 app/views/users/show.html.haml:57
-msgid "Permissions"
-msgstr "Permissions"
-
-#: app/controllers/provider_accounts_controller.rb:69
-#: app/controllers/provider_accounts_controller.rb:110
-#: app/views/provider_accounts/index.html.haml:4
-msgid "New Provider Account"
-msgstr "New Provider Account"
-
-#: app/controllers/provider_accounts_controller.rb:153
-msgid "Provider Account updated"
-msgstr "Provider Account updated"
-
-#: app/controllers/provider_accounts_controller.rb:167
-msgid "Provider Account wasn't updated"
-msgstr "Provider Account wasn't updated"
-
-#: app/controllers/provider_accounts_controller.rb:186
-msgid "Provider account was deleted"
-msgstr "Provider account was deleted"
-
-#: app/controllers/provider_accounts_controller.rb:210
-msgid "You must select some accounts first."
-msgstr "You must select some accounts first."
-
-#: app/controllers/provider_accounts_controller.rb:248
-msgid "Test Connection Success: Valid Account Details"
-msgstr "Test Connection Success: Valid Account Details"
-
-#: app/controllers/provider_accounts_controller.rb:250
-msgid "Test Connection Failed: Invalid Account Details"
-msgstr "Test Connection Failed: Invalid Account Details"
-
-#: app/controllers/provider_accounts_controller.rb:253
-msgid "Test Connection Failed: Could not connect to Provider"
-msgstr "Test Connection Failed: Could not connect to Provider"
-
-#: app/controllers/application_controller.rb:53
-msgid "Access denied"
-msgstr "Access denied"
-
-#: app/controllers/application_controller.rb:68
-msgid "Some actions failed"
-msgstr "Some actions failed"
-
-#: app/controllers/application_controller.rb:73
-msgid "Action Error"
-msgstr "Action Error"
-
-#: app/controllers/application_controller.rb:78
-#: app/controllers/application_controller.rb:85
-#: app/controllers/application_controller.rb:86
-msgid "Internal Server Error"
-msgstr "Internal Server Error"
-
-#: app/controllers/application_controller.rb:119
-msgid "The record you tried to access does not exist. It may have been deleted"
-msgstr ""
-"The record you tried to access does not exist. It may have been deleted"
-
-#: app/controllers/application_controller.rb:216
-msgid "Please log in first."
-msgstr "Please log in first."
-
-#: app/controllers/application_controller.rb:236
-msgid "You must be logged out to access this page"
-msgstr "You must be logged out to access this page"
-
-#: app/controllers/application_controller.rb:283
-#: app/views/deployables/show.html.haml:89
-msgid "Catalogs"
-msgstr "Catalogs"
-
-#: app/controllers/application_controller.rb:285
-msgid "Hardware"
-msgstr "Hardware"
-
-#: app/controllers/application_controller.rb:349
-msgid "Resource Type"
-msgstr "Resource Type"
-
-#: app/controllers/application_controller.rb:350
-#: app/views/quotas/show.html.haml:8
-msgid "Resource"
-msgstr "Resource"
-
-#: app/controllers/application_controller.rb:355
-#: app/controllers/application_controller.rb:419
-msgid "Inherited From"
-msgstr "Inherited From"
-
-#: app/controllers/application_controller.rb:380
-#: app/views/provider_accounts/show.html.haml:30
-#: app/views/deployables/show.html.haml:108
-msgid "Role Assignments"
-msgstr "Role Assignments"
-
-#: app/controllers/deployables_controller.rb:80
-msgid "No Catalog exists. Please create one."
-msgstr "No Catalog exists. Please create one."
-
-#: app/controllers/deployables_controller.rb:81
-msgid "No Hardware Profile exists. Please create one."
-msgstr "No Hardware Profile exists. Please create one."
-
-#: app/controllers/deployables_controller.rb:195
-msgid "No Catalogs selected"
-msgstr "No Catalogs selected"
-
-#: app/controllers/deployables_controller.rb:259
-msgid "Deployable updated successfully"
-msgstr "Deployable updated successfully"
-
-#: app/controllers/deployables_controller.rb:294
-msgid "No Deployable was selected"
-msgstr "No Deployable was selected"
-
-#: app/controllers/deployables_controller.rb:344
-#: app/views/deployables/show.html.haml:95
-msgid "Catalog Name"
-msgstr "Catalog Name"
-
-#: app/controllers/deployables_controller.rb:345
-#: app/views/deployments/_overview.html.haml:38
-msgid "Deployable XML"
-msgstr "Deployable XML"
-
-#: app/helpers/provider_realms_helper.rb:20
-msgid "Available?"
-msgstr "Available?"
-
-#: app/helpers/provider_realms_helper.rb:25
-#: app/helpers/application_helper.rb:187
-#: app/views/pool_families/_list.html.haml:49
-msgid "Yes"
-msgstr "Yes"
-
-#: app/helpers/provider_realms_helper.rb:25
-#: app/helpers/application_helper.rb:187
-#: app/views/pool_families/_list.html.haml:49
-msgid "No"
-msgstr "No"
-
-#: app/helpers/provider_accounts_helper.rb:25
-#: app/views/provider_priority_groups/index.html.haml:34
-#: app/views/provider_priority_groups/_form.html.haml:34
-msgid "Account Name"
-msgstr "Account Name"
-
-#: app/helpers/provider_accounts_helper.rb:26
-#: app/helpers/user_groups_helper.rb:20
-#: app/views/provider_priority_groups/index.html.haml:35
-#: app/views/provider_priority_groups/_form.html.haml:35
-#: app/views/user_sessions/new.html.haml:2 app/views/users/show.html.haml:18
-msgid "Username"
-msgstr "Username"
-
-#: app/helpers/provider_accounts_helper.rb:29
-#: app/views/provider_accounts/_properties.html.haml:7
-msgid "Priority"
-msgstr "Priority"
-
-#: app/helpers/roles_helper.rb:20
-msgid "Role Name"
-msgstr "Role Name"
-
-#: app/helpers/instances_helper.rb:26
-msgid "Public Address"
-msgstr "Public Address"
-
-#: app/helpers/application_helper.rb:168
 msgid "&#8592; Previous"
 msgstr "&#8592; Previous"
 
-#: app/helpers/application_helper.rb:168
-msgid "Next &#8594;"
-msgstr "Next &#8594;"
+msgid "'From date' cannot be after 'To date'"
+msgstr "'From date' cannot be after 'To date'"
 
-#: app/helpers/provider_selections_helper.rb:32
-#: app/helpers/provider_selections_helper.rb:35
-msgid "Configure"
-msgstr "Configure"
-
-#: app/mailers/user_mailer.rb:21
-msgid "Password reset"
-msgstr "Password reset"
-
-#: app/mailers/user_mailer.rb:27
-msgid "Conductor Usernames"
-msgstr "Conductor Usernames"
-
-#: app/models/instance.rb:175 app/models/deployment.rb:137
-msgid "must be enabled"
-msgstr "must be enabled"
-
-#: app/models/instance.rb:176 app/models/deployment.rb:138
-msgid "has all associated Providers disabled"
-msgstr "has all associated Providers disabled"
-
-#: app/models/instance.rb:235
-msgid "Error, could not calculate state time: invalid state"
-msgstr "Error, could not calculate state time: invalid state"
-
-#: app/models/instance.rb:268
-msgid "Error, could not calculate state time: state is not monitored"
-msgstr "Error, could not calculate state time: state is not monitored"
-
-#: app/models/instance.rb:321
-msgid "Cannot connect to the Config Server"
-msgstr "Cannot connect to the Config Server"
-
-#: app/models/instance.rb:379
-msgid ""
-"There are no Provider Accounts associated with the selected Pool's "
-"Environment."
-msgstr ""
-"There are no Provider Accounts associated with the selected Pool's "
-"Environment."
-
-#: app/models/instance.rb:381 app/models/deployment.rb:392
-msgid "Pool quota reached"
-msgstr "Pool quota reached"
-
-#: app/models/instance.rb:382 app/models/deployment.rb:396
-msgid "Environment quota reached"
-msgstr "Environment quota reached"
-
-#: app/models/instance.rb:383 app/models/deployment.rb:400
-msgid "User quota reached"
-msgstr "User quota reached"
-
-#: app/models/instance.rb:481
-msgid "reboot is already scheduled."
-msgstr "reboot is already scheduled."
-
-#: app/models/instance.rb:567
-msgid "Destroy cannot be performed on this instance."
-msgstr "Destroy cannot be performed on this instance."
-
-#: app/models/deployment.rb:252 app/models/deployment.rb:388
-msgid ""
-"Unable to find a suitable Provider Account to host the Deployment. Check the "
-"quota of the Provider Accounts and the status of the Images."
-msgstr ""
-"Unable to find a suitable Provider Account to host the Deployment. Check the "
-"quota of the Provider Accounts and the status of the Images."
-
-#: app/models/deployment.rb:381 app/models/deployment.rb:404
-msgid "Some Assemblies will not be launched:"
-msgstr "Some Assemblies will not be launched:"
-
-#: app/models/deployment.rb:785
-msgid "Failed to launch deployment"
-msgstr "Failed to launch deployment"
-
-#: app/models/template_xml.rb:31 app/models/template_xml.rb:36
-msgid "XML is not valid:"
-msgstr "XML is not valid:"
-
-#: app/models/template_xml.rb:38
-msgid "Name is not set."
-msgstr "Name is not set."
-
-#: app/models/user.rb:204
-msgid "Cannot edit LDAP user"
-msgstr "Cannot edit LDAP user"
-
-#: app/models/deployable.rb:65
-msgid "file contains syntax errors"
-msgstr "file contains syntax errors"
-
-#: app/models/deployable.rb:67
-msgid "must contain unique Assembly names"
-msgstr "must contain unique Assembly names"
-
-#: app/models/deployable.rb:226
-msgid "Some attribute(s) are missing in the XML. Please check the file."
-msgstr "Some attribute(s) are missing in the XML. Please check the file."
-
-#: app/models/quota.rb:49 app/models/quota.rb:56
-msgid "must be a positive whole number less than 2147483647"
-msgstr "must be a positive whole number less than 2147483647"
-
-#: app/models/quota.rb:69 app/views/provider_accounts/_list.html.haml:39
-#: app/views/provider_accounts/_properties.html.haml:5
-#: app/views/provider_accounts/_detail.xml.haml:20
-#: app/views/pools/_detail.xml.haml:8
-#: app/views/provider_priority_groups/index.html.haml:50
-#: app/views/provider_priority_groups/_form.html.haml:48
-#: app/views/pool_families/_detail.xml.haml:7
-msgid "unlimited"
-msgstr "unlimited"
-
-#: app/models/provider_account.rb:154
-msgid "Login credentials are invalid for this Provider."
-msgstr "Login credentials are invalid for this Provider."
-
-#: app/models/provider_account.rb:157
-msgid ""
-"An error occurred when checking Provider credentials. Please check your "
-"setup and try again."
-msgstr ""
-"An error occurred when checking Provider credentials. Please check your "
-"setup and try again."
-
-#: app/models/provider_account.rb:170 app/models/provider_account.rb:171
-msgid "Username has already been taken"
-msgstr "Username has already been taken"
-
-#: app/models/pool_family.rb:106
-msgid "The default Environment cannot be deleted."
-msgstr "The default Environment cannot be deleted."
-
-#: app/services/download_service.rb:34
-msgid "No URL is provided for XML import"
-msgstr "No URL is provided for XML import"
-
-#: app/services/download_service.rb:41
-msgid "Download of XML file failed"
-msgstr "Download of XML file failed"
-
-#: app/views/provider_accounts/index.html.haml:5
-msgid "Provider Accounts"
-msgstr "Provider Accounts"
-
-#: app/views/provider_accounts/edit.html.haml:5
-#: app/views/provider_accounts/show.html.haml:5
-#: app/views/provider_accounts/new.html.haml:5
-#: app/views/providers/_page_header.html.haml:4
-#: app/views/providers/show.html.haml:6 app/views/providers/new.html.haml:5
-#: app/views/provider_realms/show.html.haml:5
-#: app/views/frontend_realms/show.html.haml:5
-#: app/views/frontend_realms/new.html.haml:5
-#: app/views/hardware_profiles/new.html.haml:6
-#: app/views/settings/self_service.html.haml:5
-#: app/views/layouts/_nav_history.html.haml:5
-#: app/views/pool_families/edit.html.haml:6
-#: app/views/pool_families/new.html.haml:5
-#: app/views/pool_families/add_provider_accounts.html.haml:5
-#: app/views/permissions/_new.html.haml:4
-#: app/views/user_groups/edit.html.haml:5
-#: app/views/user_groups/show.html.haml:5
-#: app/views/user_groups/add_members.html.haml:5
-#: app/views/user_groups/new.html.haml:5 app/views/users/edit.html.haml:5
-#: app/views/users/show.html.haml:6 app/views/users/new.html.haml:5
-#: app/views/tim/base_images/show.html.haml:6
-msgid "Return to:"
-msgstr "Return to:"
-
-#: app/views/provider_accounts/edit.html.haml:11
-#: app/views/settings/index.html.haml:3
-#: app/views/settings/self_service.html.haml:6 config/navigation.rb:27
-msgid "Settings"
-msgstr "Settings"
-
-#: app/views/provider_accounts/_list.html.haml:4
-msgid "New Account"
-msgstr "New Account"
-
-#: app/views/provider_accounts/_list.html.haml:6
-#: app/views/provider_accounts/_properties.html.haml:32
-#: app/views/pools/show.html.haml:15 app/views/deployables/_list.html.haml:7
-#: app/views/deployables/show.html.haml:9
-#: app/views/providers/show.html.haml:11
-#: app/views/provider_priority_groups/index.html.haml:29
-#: app/views/frontend_realms/_list.html.haml:8
-#: app/views/frontend_realms/show.html.haml:12
-#: app/views/hardware_profiles/_list.html.haml:5
-#: app/views/hardware_profiles/show.html.haml:9
-#: app/views/pool_families/show.html.haml:6
-#: app/views/pool_families/_provider_accounts.html.haml:4
-#: app/views/deployments/_list.html.haml:3
-#: app/views/deployments/show.html.haml:9
-#: app/views/user_groups/_list.html.haml:6
-#: app/views/user_groups/show.html.haml:12 app/views/roles/_list.html.haml:7
-#: app/views/roles/show.html.haml:7 app/views/users/_list.html.haml:6
-#: app/views/users/show.html.haml:23
-#: app/views/tim/base_images/show.html.haml:14
-msgid "Delete"
-msgstr "Delete"
-
-#: app/views/provider_accounts/_list.html.haml:9
-#: app/views/pools/_list.html.haml:8 app/views/deployables/_list.html.haml:11
-#: app/views/instances/_list.html.haml:13
-#: app/views/provider_realms/_list.html.haml:3
-#: app/views/frontend_realms/_list.html.haml:12
-#: app/views/hardware_profiles/_list.html.haml:8
-#: app/views/deployments/_list.html.haml:8
-#: app/views/permissions/_form.html.haml:3
-#: app/views/permissions/_permissions.html.haml:33
-#: app/views/permissions/_objects.html.haml:19
-#: app/views/user_groups/_list.html.haml:10
-#: app/views/user_groups/show.html.haml:45 app/views/users/_list.html.haml:10
-msgid "Viewing"
-msgstr "Viewing"
-
-#: app/views/provider_accounts/_list.html.haml:10
-msgid "All Accounts"
-msgstr "All Accounts"
-
-#: app/views/provider_accounts/_list.html.haml:12
-#: app/views/pools/_list.html.haml:11 app/views/deployables/_list.html.haml:14
-#: app/views/providers/index.html.haml:17
-#: app/views/instances/_list.html.haml:16
-#: app/views/provider_realms/_list.html.haml:6
-#: app/views/frontend_realms/_list.html.haml:15
-#: app/views/hardware_profiles/_list.html.haml:11
-#: app/views/deployments/_list.html.haml:11
-#: app/views/permissions/_form.html.haml:6
-#: app/views/permissions/_permissions.html.haml:36
-#: app/views/permissions/_objects.html.haml:22
-#: app/views/user_groups/_list.html.haml:13
-#: app/views/user_groups/show.html.haml:48 app/views/users/_list.html.haml:13
-msgid "Apply filters"
-msgstr "Apply filters"
-
-#: app/views/provider_accounts/_list.html.haml:15
-#: app/views/pools/_list.html.haml:14 app/views/deployables/_list.html.haml:17
-#: app/views/instances/_list.html.haml:19
-#: app/views/provider_realms/_list.html.haml:9
-#: app/views/frontend_realms/_list.html.haml:17
-#: app/views/hardware_profiles/_list.html.haml:14
-#: app/views/deployments/_list.html.haml:14
-#: app/views/permissions/_form.html.haml:9
-#: app/views/permissions/_permissions.html.haml:38
-#: app/views/permissions/_objects.html.haml:26
-#: app/views/user_groups/_list.html.haml:23
-#: app/views/user_groups/show.html.haml:51 app/views/users/_list.html.haml:23
-msgid "Search"
-msgstr "Search"
-
-#: app/views/provider_accounts/_properties.html.haml:4
-msgid "Running instances quota"
-msgstr "Running instances quota"
-
-#: app/views/provider_accounts/_properties.html.haml:11
-msgid "Account number"
-msgstr "Account number"
-
-#: app/views/provider_accounts/_properties.html.haml:14
-msgid "Config Server"
-msgstr "Config Server"
-
-#: app/views/provider_accounts/_properties.html.haml:18
-#: app/views/deployables/_new_from_image.html.haml:25
-#: app/views/deployables/_new_from_image.html.haml:26
-#: app/views/instances/_parameters.haml:3
-msgid "None"
-msgstr "None"
-
-#: app/views/provider_accounts/_properties.html.haml:22
-msgid "Add"
-msgstr "Add"
-
-#: app/views/provider_accounts/_properties.html.haml:26
-#: app/views/provider_accounts/show.html.haml:8
-#: app/views/pools/show.html.haml:14 app/views/deployables/show.html.haml:7
-#: app/views/providers/show.html.haml:10 app/views/instances/show.html.haml:5
-#: app/views/provider_priority_groups/index.html.haml:28
-#: app/views/frontend_realms/show.html.haml:11
-#: app/views/hardware_profiles/show.html.haml:8
-#: app/views/pool_families/show.html.haml:5
-#: app/views/deployments/show.html.haml:7 app/views/quotas/show.html.haml:21
-#: app/views/permissions/_permissions.html.haml:7
-#: app/views/permissions/_objects.html.haml:10
-#: app/views/user_groups/show.html.haml:11 app/views/roles/show.html.haml:6
-#: app/views/users/show.html.haml:21
-msgid "Edit"
-msgstr "Edit"
-
-#: app/views/provider_accounts/_properties.html.haml:29
-msgid "Test"
-msgstr "Test"
-
-#: app/views/provider_accounts/_properties.html.haml:32
-msgid "Are you sure you want to delete this Config Server?"
-msgstr "Are you sure you want to delete this Config Server?"
-
-#: app/views/provider_accounts/show.html.haml:8
-msgid "Edit Provider Account"
-msgstr "Edit Provider Account"
-
-#: app/views/provider_accounts/show.html.haml:9
-#: app/views/providers/edit.html.haml:15
-msgid "Test Connection"
-msgstr "Test Connection"
-
-#: app/views/provider_accounts/show.html.haml:10
-msgid "Delete Account"
-msgstr "Delete Account"
-
-#: app/views/provider_accounts/show.html.haml:10
-#: app/views/deployables/show.html.haml:9
-#: app/views/deployables/show.html.haml:101
-#: app/views/providers/show.html.haml:11
-#: app/views/frontend_realms/_mapping.html.haml:6
-#: app/views/frontend_realms/show.html.haml:12
-#: app/views/hardware_profiles/show.html.haml:9
-#: app/views/user_groups/show.html.haml:12
-#: app/views/tim/base_images/show.html.haml:14
-msgid "Are you sure you want to delete?"
-msgstr "Are you sure you want to delete?"
-
-#: app/views/pools/index.html.haml:10
-#: app/views/deployables/_new_from_image.html.haml:11
-msgid "Logs"
-msgstr "Logs"
-
-#: app/views/pools/index.html.haml:11
-msgid "Overview"
-msgstr "Overview"
-
-#: app/views/pools/_pretty_list.html.haml:2
-msgid "Your Pools"
-msgstr "Your Pools"
-
-#: app/views/pools/_list.html.haml:5
-msgid "Destroy"
-msgstr "Destroy"
-
-#: app/views/pools/_list.html.haml:9
-msgid "All Pools"
-msgstr "All Pools"
-
-#: app/views/pools/_scoreboard_show.html.haml:6
-msgid "Total Cloud Providers"
-msgstr "Total Cloud Providers"
-
-#: app/views/pools/_scoreboard_show.html.haml:9
-msgid "Total Deployments"
-msgstr "Total Deployments"
-
-#: app/views/pools/_scoreboard_show.html.haml:12
-msgid "Total Instances"
-msgstr "Total Instances"
-
-#: app/views/pools/_scoreboard_show.html.haml:13
-msgid "Instances pending"
-msgstr "Instances pending"
-
-#: app/views/pools/_scoreboard_show.html.haml:14
-msgid "Instances failed"
-msgstr "Instances failed"
-
-#: app/views/pools/_scoreboard_show.html.haml:18
-#: app/views/pools/_scoreboard_show.html.haml:19
-#: app/views/pools/_alerts_index.html.haml:7
-#: app/views/pools/_alerts_show.html.haml:7
-#: app/views/providers/show.html.haml:30
-msgid "Alerts"
-msgstr "Alerts"
-
-#: app/views/pools/_scoreboard_show.html.haml:24
-msgid "Quota usage"
-msgstr "Quota usage"
-
-#: app/views/pools/_scoreboard_show.html.haml:27
-msgid "Running Instances"
-msgstr "Running Instances"
-
-#: app/views/pools/_scoreboard_show.html.haml:29
-msgid "Total Instances available"
-msgstr "Total Instances available"
-
-#: app/views/pools/show.html.haml:11
-#: app/views/pool_families/_list.html.haml:54
-msgid "Provider Selection"
-msgstr "Provider Selection"
-
-#: app/views/pools/show.html.haml:15
-msgid ""
-"Are you sure you want to delete this Pool? All related Catalogs and "
-"Deployables will also be deleted."
-msgstr ""
-"Are you sure you want to delete this Pool? All related Catalogs and "
-"Deployables will also be deleted."
-
-#: app/views/pools/_alerts_index.html.haml:5
-#: app/views/pools/_alerts_show.html.haml:5
-#: app/views/providers/show.html.haml:28
-msgid "Toggle Alerts"
-msgstr "Toggle Alerts"
-
-#: app/views/pools/_alerts_index.html.haml:15
-#: app/views/pools/_alerts_show.html.haml:15
-msgid "Instance Failure"
-msgstr "Instance Failure"
-
-#: app/views/deployables/index.html.haml:6
-msgid "New Deployable"
-msgstr "New Deployable"
-
-#: app/views/deployables/index.html.haml:8
-msgid "Deployables"
-msgstr "Deployables"
-
-#: app/views/deployables/edit.html.haml:7
-msgid "Editing Deployable"
-msgstr "Editing Deployable"
-
-#: app/views/deployables/_list.html.haml:3
-msgid "Deployables List"
-msgstr "Deployables List"
-
-#: app/views/deployables/_list.html.haml:13
-msgid "All Deployables"
-msgstr "All Deployables"
-
-#: app/views/deployables/_from_url.html.haml:13
-#: app/views/deployables/_upload.html.haml:13
-#: app/views/deployables/_form.html.haml:17
-msgid "no Catalog selected"
-msgstr "no Catalog selected"
-
-#: app/views/deployables/_from_url.html.haml:23
-msgid "URL of Deployable XML"
-msgstr "URL of Deployable XML"
-
-#: app/views/deployables/_from_url.html.haml:27
-#: app/views/deployables/_upload.html.haml:27
-msgid "Edit XML file after save"
-msgstr "Edit XML file after save"
-
-#: app/views/deployables/_from_url.html.haml:32
-#: app/views/deployables/_upload.html.haml:32
-#: app/views/deployables/_new_from_image.html.haml:41
-#: app/views/deployables/_form.html.haml:32
-#: app/views/instances/_edit.html.haml:16
-#: app/views/hardware_profiles/_cost_form_billing.html.haml:10
-#: app/views/hardware_profiles/_form.html.haml:27
-#: app/views/hardware_profiles/_cost_form.html.haml:31
-#: app/views/deployments/_edit.html.haml:17 app/views/quotas/edit.html.haml:13
-#: app/views/roles/_form.html.haml:9
-msgid "Save"
-msgstr "Save"
-
-#: app/views/deployables/_from_url.html.haml:34
-#: app/views/deployables/_from_url.html.haml:36
-#: app/views/deployables/_upload.html.haml:34
-#: app/views/deployables/_upload.html.haml:36
-#: app/views/deployables/_new_from_image.html.haml:42
-#: app/views/deployables/_form.html.haml:33
-#: app/views/providers/edit.html.haml:14
-#: app/views/instances/_edit.html.haml:17
-#: app/views/provider_priority_groups/edit.html.haml:16
-#: app/views/provider_priority_groups/new.html.haml:16
-#: app/views/hardware_profiles/_cost_form_billing.html.haml:11
-#: app/views/hardware_profiles/_form.html.haml:29
-#: app/views/hardware_profiles/_cost_form.html.haml:32
-#: app/views/pool_families/_add_provider_accounts_form.html.haml:2
-#: app/views/deployments/_launch_new.html.haml:44
-#: app/views/deployments/_edit.html.haml:18
-#: app/views/permissions/_form.html.haml:27
-#: app/views/user_groups/add_members.html.haml:16
-#: lib/simple_form_extension/form_buttons.rb:12
-msgid "Cancel"
-msgstr "Cancel"
-
-#: app/views/deployables/_upload.html.haml:23
-msgid "Choose Deployable XML file"
-msgstr "Choose Deployable XML file"
-
-#: app/views/deployables/_new.html.haml:2
-msgid "Add New Deployable"
-msgstr "Add New Deployable"
-
-#: app/views/deployables/_new.html.haml:9
-#: app/views/tim/base_images/_new.html.haml:19
-msgid "Upload"
-msgstr "Upload"
-
-#: app/views/deployables/_new.html.haml:11
-#: app/views/tim/base_images/_new.html.haml:22
-msgid "From URL"
-msgstr "From URL"
-
-#: app/views/deployables/_new_from_image.html.haml:19
-#: app/views/deployables/show.html.haml:29
-msgid "Default Hardware Profile"
-msgstr "Default Hardware Profile"
-
-#: app/views/deployables/_new_from_image.html.haml:25
-#: app/views/deployables/_new_from_image.html.haml:26
-msgid "Multiple"
-msgstr "Multiple"
-
-#: app/views/deployables/_new_from_image.html.haml:32
-msgid "No Catalog"
-msgstr "No Catalog"
-
-#: app/views/deployables/_form.html.haml:29
-msgid "Edit Deployable XML"
-msgstr "Edit Deployable XML"
-
-#: app/views/deployables/show.html.haml:8
-#: app/views/tim/base_images/edit_xml.html.haml:17
-#: app/views/tim/base_images/overview.html.haml:25
-msgid "Edit XML"
-msgstr "Edit XML"
-
-#: app/views/deployables/show.html.haml:13
-#: app/views/deployables/show.html.haml:15
-#: app/views/deployments/_overview.html.haml:69
-msgid "Launch"
-msgstr "Launch"
-
-#: app/views/deployables/show.html.haml:27
-#: app/views/deployments/_overview.html.haml:27
-#: app/views/tim/base_images/_new.html.haml:30
-#: app/views/tim/base_images/_new.html.haml:52
-#: app/views/tim/base_images/_image_import.html.haml:29
-msgid ""
-"Must be a unique name with at least 1 character and at most 100 characters."
-msgstr ""
-"Must be a unique name with at least 1 character and at most 100 characters."
-
-#: app/views/deployables/show.html.haml:30
-msgid "HDD"
-msgstr "HDD"
-
-#: app/views/deployables/show.html.haml:31
-msgid "RAM"
-msgstr "RAM"
-
-#: app/views/deployables/show.html.haml:32
-msgid "ARCH"
-msgstr "ARCH"
-
-#: app/views/deployables/show.html.haml:33
-msgid "UUIDs"
-msgstr "UUIDs"
-
-#: app/views/deployables/show.html.haml:47
-#: app/views/deployables/_image_uuids.html.haml:7
-#: app/views/deployables/_image_uuids.html.haml:12
-#: app/views/deployables/_image_uuids.html.haml:18
-#: app/views/instances/_properties.html.haml:50
-#: app/views/instances/_properties.html.haml:53
-msgid "N/A"
-msgstr "N/A"
-
-#: app/views/deployables/show.html.haml:49
-msgid "Show/Hide"
-msgstr "Show/Hide"
-
-#: app/views/deployables/show.html.haml:60
-#: app/views/deployables/show.html.haml:69
-msgid "Build Status"
-msgstr "Build Status"
-
-#: app/views/deployables/show.html.haml:73
-msgid "Images missing from the Image Warehouse"
-msgstr "Images missing from the Image Warehouse"
-
-#: app/views/deployables/show.html.haml:83
-msgid "Choose a Catalog to enable access:"
-msgstr "Choose a Catalog to enable access:"
-
-#: app/views/deployables/show.html.haml:86
-msgid "Add +"
-msgstr "Add +"
-
-#: app/views/deployables/show.html.haml:98
-msgid "Environment: %{environment}"
-msgstr "Environment: %{environment}"
-
-#: app/views/deployables/_image_uuids.html.haml:5
-msgid "Image UUID"
-msgstr "Image UUID"
-
-#: app/views/deployables/_image_uuids.html.haml:10
-msgid "Latest Build UUID"
-msgstr "Latest Build UUID"
-
-#: app/views/deployables/_image_uuids.html.haml:15
-msgid "Target Images UUIDs"
-msgstr "Target Images UUIDs"
-
-#: app/views/provider_selections/show.html.haml:8
-#: app/views/provider_priority_groups/index.html.haml:8
-msgid "Provider Selection Strategies"
-msgstr "Provider Selection Strategies"
-
-#: app/views/providers/index.html.haml:4
-#: app/views/providers/_page_header.html.haml:5
-#: app/views/providers/show.html.haml:7 app/views/providers/new.html.haml:6
-msgid "Providers"
-msgstr "Providers"
-
-#: app/views/providers/index.html.haml:8
-msgid "Create New Provider"
-msgstr "Create New Provider"
-
-#: app/views/providers/index.html.haml:13
-msgid "From"
-msgstr "From"
-
-#: app/views/providers/index.html.haml:15
-msgid "To"
-msgstr "To"
-
-#: app/views/providers/index.html.haml:51
-msgid "Activity"
-msgstr "Activity"
-
-#: app/views/providers/_page_header.html.haml:6
-#: app/views/providers/show.html.haml:13
-msgid "Editing Provider"
-msgstr "Editing Provider"
-
-#: app/views/providers/_form.html.haml:8
-msgid "Legend for X-Deltacloud-Provider"
-msgstr "Legend for X-Deltacloud-Provider"
-
-#: app/views/providers/_properties.html.haml:7
-msgid "Provider URL"
-msgstr "Provider URL"
-
-#: app/views/providers/_properties.html.haml:13
-msgid "X-Deltacloud-Driver"
-msgstr "X-Deltacloud-Driver"
-
-#: app/views/providers/_properties.html.haml:16
-msgid "X-Deltacloud-Provider"
-msgstr "X-Deltacloud-Provider"
-
-#: app/views/providers/show.html.haml:19
-msgid "Provider is disabled."
-msgstr "Provider is disabled."
-
-#: app/views/providers/show.html.haml:22
-msgid "To enable and configure the Provider, click the Edit button."
-msgstr "To enable and configure the Provider, click the Edit button."
-
-#: app/views/providers/_hardware_profiles.html.haml:27
-msgid "No Hardware Profiles"
-msgstr "No Hardware Profiles"
-
-#: app/views/instances/_list.html.haml:2
-msgid "Stop selected Instances"
-msgstr "Stop selected Instances"
-
-#: app/views/instances/_list.html.haml:3
-msgid "Reboot selected Instances"
-msgstr "Reboot selected Instances"
-
-#: app/views/instances/_list.html.haml:8
-msgid "Export events"
-msgstr "Export events"
-
-#: app/views/instances/_list.html.haml:14
-msgid "All Instances"
-msgstr "All Instances"
-
-#: app/views/instances/_properties.html.haml:6
-msgid "Status"
-msgstr "Status"
-
-#: app/views/instances/_properties.html.haml:9
-msgid "Public Addresses"
-msgstr "Public Addresses"
-
-#: app/views/instances/_properties.html.haml:12
-msgid "Private Addresses"
-msgstr "Private Addresses"
-
-#: app/views/instances/_properties.html.haml:15
-msgid "Assembly"
-msgstr "Assembly"
-
-#: app/views/instances/_properties.html.haml:30
-msgid "Instantiation Time"
-msgstr "Instantiation Time"
-
-#: app/views/instances/_properties.html.haml:33
-msgid "Current Alerts"
-msgstr "Current Alerts"
-
-#: app/views/instances/_properties.html.haml:36
-msgid "Console Connection"
-msgstr "Console Connection"
-
-#: app/views/instances/_properties.html.haml:37
-msgid "via SSH"
-msgstr "via SSH"
-
-#: app/views/instances/_properties.html.haml:40
-msgid "SSH key"
-msgstr "SSH key"
-
-#: app/views/instances/_properties.html.haml:41
-msgid "Download"
-msgstr "Download"
-
-#: app/views/instances/_properties.html.haml:43
-msgid "SSH key name"
-msgstr "SSH key name"
-
-#: app/views/instances/_properties.html.haml:49
-msgid "Shared to"
-msgstr "Shared to"
-
-#: app/views/instances/_properties.html.haml:52
-#: app/views/deployments/_properties.html.haml:14
-msgid "Cost Estimate"
-msgstr "Cost Estimate"
-
-#: app/views/instances/_properties.html.haml:56
-msgid "Error"
-msgstr "Error"
-
-#: app/views/instances/_edit.html.haml:2 app/views/instances/_edit.html.haml:6
-msgid "Edit Instance"
-msgstr "Edit Instance"
-
-#: app/views/provider_realms/_list.html.haml:5
-#: app/views/frontend_realms/_list.html.haml:14
-msgid "All Realms"
-msgstr "All Realms"
-
-#: app/views/provider_realms/show.html.haml:23
-msgid "Provider Realm Mapping"
-msgstr "Provider Realm Mapping"
-
-#: app/views/provider_priority_groups/index.html.haml:13
-msgid "Add new"
-msgstr "Add new"
-
-#: app/views/provider_priority_groups/index.html.haml:16
-msgid "Edit Strict Order Strategy"
-msgstr "Edit Strict Order Strategy"
-
-#: app/views/provider_priority_groups/index.html.haml:29
-msgid "Are you sure you want to delete this priority group?"
-msgstr "Are you sure you want to delete this priority group?"
-
-#: app/views/provider_priority_groups/index.html.haml:54
-#: app/views/provider_priority_groups/_form.html.haml:52
-msgid "No available priority group to display"
-msgstr "No available priority group to display"
-
-#: app/views/provider_priority_groups/edit.html.haml:8
-msgid "Edit Priority Group"
-msgstr "Edit Priority Group"
-
-#: app/views/provider_priority_groups/edit.html.haml:15
-msgid "Save Priority Group"
-msgstr "Save Priority Group"
-
-#: app/views/provider_priority_groups/_form.html.haml:6
-msgid "Basic Data"
-msgstr "Basic Data"
-
-#: app/views/provider_priority_groups/_form.html.haml:18
-msgid "Providers & Provider Accounts"
-msgstr "Providers & Provider Accounts"
-
-#: app/views/provider_priority_groups/new.html.haml:8
-msgid "Add new Priority Group"
-msgstr "Add new Priority Group"
-
-#: app/views/provider_priority_groups/new.html.haml:15
-msgid "Create Priority Group"
-msgstr "Create Priority Group"
-
-#: app/views/frontend_realms/_list.html.haml:6
-#: app/views/frontend_realms/show.html.haml:8
-msgid "New Realm"
-msgstr "New Realm"
-
-#: app/views/frontend_realms/_mapping.html.haml:6
-msgid "Delete Selected"
-msgstr "Delete Selected"
-
-#: app/views/frontend_realms/_mapping.html.haml:9
-msgid "Add mapping to Provider Realm"
-msgstr "Add mapping to Provider Realm"
-
-#: app/views/frontend_realms/_mapping.html.haml:12
-msgid "Add mapping to Provider"
-msgstr "Add mapping to Provider"
-
-#: app/views/frontend_realms/_mapping.html.haml:15
-msgid "Realm Mapping"
-msgstr "Realm Mapping"
-
-#: app/views/frontend_realms/new.html.haml:7
-msgid "Create New Realm"
-msgstr "Create New Realm"
-
-#: app/views/hardware_profiles/edit.html.haml:6
-#: app/views/hardware_profiles/edit_cost.html.haml:5
-#: app/views/hardware_profiles/edit_cost_billing.html.haml:5
-#: app/views/roles/edit.html.haml:5
-msgid "Cancel Editing"
-msgstr "Cancel Editing"
-
-#: app/views/hardware_profiles/edit.html.haml:7
-#: app/views/hardware_profiles/edit_cost.html.haml:6
-#: app/views/hardware_profiles/edit_cost_billing.html.haml:6
-msgid "Hardware Profile"
-msgstr "Hardware Profile"
-
-#: app/views/hardware_profiles/edit.html.haml:11
-msgid "Edit Hardware Profile"
-msgstr "Edit Hardware Profile"
-
-#: app/views/hardware_profiles/edit_cost.html.haml:10
-msgid "Assign Costs to Hardware Profile"
-msgstr "Assign Costs to Hardware Profile"
-
-#: app/views/hardware_profiles/_list.html.haml:10
-msgid "All Hardware Profiles"
-msgstr "All Hardware Profiles"
-
-#: app/views/hardware_profiles/show.html.haml:12
-msgid "Edit Cost"
-msgstr "Edit Cost"
-
-#: app/views/hardware_profiles/show.html.haml:37 locale/model_attributes.rb:10
-msgid "Cost"
-msgstr "Cost"
-
-#: app/views/hardware_profiles/edit_cost_billing.html.haml:10
-msgid "Select Billing Model for Hardware Profile"
-msgstr "Select Billing Model for Hardware Profile"
-
-#: app/views/hardware_profiles/_matching_provider_hardware_profiles.html.haml:40
-msgid "No Matching Provider Hardware Profiles Could be found"
-msgstr "No Matching Provider Hardware Profiles Could be found"
-
-#: app/views/hardware_profiles/_cost_form.html.haml:7
-msgid "Change"
-msgstr "Change"
-
-#: app/views/settings/index.html.haml:11
-msgid "Modify default user settings"
-msgstr "Modify default user settings"
-
-#: app/views/settings/self_service.html.haml:7
-msgid "Self-service Settings"
-msgstr "Self-service Settings"
-
-#: app/views/settings/self_service.html.haml:11
-msgid "Default user settings"
-msgstr "Default user settings"
-
-#: app/views/settings/self_service.html.haml:20
-msgid "Instances Quota:"
-msgstr "Instances Quota:"
-
-#: app/views/settings/self_service.html.haml:25
-#: app/views/quotas/show.html.haml:22
-msgid "Reset"
-msgstr "Reset"
-
-#: app/views/user_mailer/password_reset.text.haml:5
-msgid ""
-"If you did not request this password to be reset, just ignore this email and "
-"the password will stay the same."
-msgstr ""
-"If you did not request this password to be reset, just ignore this email and "
-"the password will stay the same."
-
-#: app/views/layouts/_simple_form_error_messages.html.haml:3
-#: app/views/layouts/_error_messages.html.haml:3
-#: app/views/layouts/_new_notification.html.haml:22
-#: app/views/layouts/_new_notification.html.haml:33
-#: app/views/layouts/_new_notification.html.haml:43
-#: app/views/layouts/_new_notification.html.haml:53
-msgid "Close"
-msgstr "Close"
-
-#: app/views/layouts/_filter_table.html.haml:13
-msgid "Please make a selection first."
-msgstr "Please make a selection first."
-
-#: app/views/layouts/_filter_table.html.haml:13
-msgid "Are you sure you want to proceed?"
-msgstr "Are you sure you want to proceed?"
-
-#: app/views/layouts/_filter_table.html.haml:23
-msgid "No matching results."
-msgstr "No matching results."
-
-#: app/views/layouts/application.html.haml:2
-#: app/views/layouts/application.html.haml:28
-msgid "Aeolus Conductor"
-msgstr "Aeolus Conductor"
-
-#: app/views/layouts/application.html.haml:37
-msgid "Log Out"
-msgstr "Log Out"
-
-#: app/views/pool_families/_list.html.haml:21
-#: app/views/pool_families/_images.html.haml:6
-#: app/views/tim/base_images/_image_import.html.haml:6
-msgid "Import Image"
-msgstr "Import Image"
-
-#: app/views/pool_families/_list.html.haml:22
-#: app/views/pool_families/_images.html.haml:7
-#: app/views/tim/base_images/_new.html.haml:6
-msgid "New Image"
-msgstr "New Image"
-
-#: app/views/pool_families/_list.html.haml:31
-msgid "Environment Quota Used"
-msgstr "Environment Quota Used"
-
-#: app/views/pool_families/_list.html.haml:56
-msgid "Total"
-msgstr "Total"
-
-#: app/views/pool_families/_add_provider_accounts_form.html.haml:3
-#: app/views/pool_families/_provider_accounts.html.haml:3
-msgid "Add Account"
-msgstr "Add Account"
-
-#: app/views/pool_families/show.html.haml:6
-msgid ""
-"Are you sure you want to delete this Environment? All related Pools, "
-"Catalogs, and Deployables will be deleted."
-msgstr ""
-"Are you sure you want to delete this Environment? All related Pools, "
-"Catalogs, and Deployables will be deleted."
-
-#: app/views/pool_families/add_provider_accounts.html.haml:12
-msgid "Choose Provider Accounts to enable for this Environment"
-msgstr "Choose Provider Accounts to enable for this Environment"
-
-#: app/views/deployments/_overview.html.haml:33
-#: app/views/user_groups/show.html.haml:29
-msgid "Description"
-msgstr "Description"
-
-#: app/views/deployments/_overview.html.haml:52
-#: app/views/deployments/_launch_new.html.haml:39
-msgid "Auto-select"
-msgstr "Auto-select"
-
-#: app/views/deployments/_overview.html.haml:55
-msgid "Ignore Instance errors during launch"
-msgstr "Ignore Instance errors during launch"
-
-#: app/views/deployments/_overview.html.haml:60
-msgid "Image IDs"
-msgstr "Image IDs"
-
-#: app/views/deployments/_list.html.haml:2
-msgid "Stop Selected"
-msgstr "Stop Selected"
-
-#: app/views/deployments/_list.html.haml:9
-msgid "All Deployments"
-msgstr "All Deployments"
-
-#: app/views/deployments/_launch_new.html.haml:11
-msgid "Deployment Details"
-msgstr "Deployment Details"
-
-#: app/views/deployments/_launch_new.html.haml:25
 msgid "(uniquely identifies your Deployment)"
 msgstr "(uniquely identifies your Deployment)"
 
-#: app/views/deployments/_launch_new.html.haml:43
-msgid "Next"
-msgstr "Next"
+msgid "A request has been received by Conductor server %s to retrieve the logins for email %s. The following is a list of those logins:"
+msgstr ""
 
-#: app/views/deployments/_launch_new.html.haml:48
-msgid "That name is already in use"
-msgstr "That name is already in use"
+msgid "A request has been received to reset the Conductor password for user %s. In order to reset this password, click the URL below."
+msgstr ""
 
-#: app/views/deployments/_launch_new.html.haml:48
-msgid "Name available"
-msgstr "Name available"
+msgid "ARCH"
+msgstr "ARCH"
 
-#: app/views/deployments/launch_time_params.html.haml:7
-msgid "Configure launch-time parameters for your Deployment:"
-msgstr "Configure launch-time parameters for your Deployment:"
+msgid "Access denied"
+msgstr "Access denied"
 
-#: app/views/deployments/launch_time_params.html.haml:47
-msgid "Finalize"
-msgstr "Finalize"
+msgid "Account %s was not deleted: %s"
+msgstr "Account %s was not deleted: %s"
 
-#: app/views/deployments/_properties.html.haml:8
-msgid "Global Uptime"
-msgstr "Global Uptime"
+msgid "Account Name"
+msgstr "Account Name"
 
-#: app/views/deployments/_properties.html.haml:11
-msgid "Uptime 1st Instance running"
-msgstr "Uptime 1st Instance running"
+msgid "Account number"
+msgstr "Account number"
 
-#: app/views/deployments/show.html.haml:9
-msgid "Are you sure you want to delete this Deployment?"
-msgstr "Are you sure you want to delete this Deployment?"
+msgid "Account: %s"
+msgstr "Account: %s"
 
-#: app/views/deployments/_edit.html.haml:2 locale/model_attributes.rb:27
-msgid "Deployment"
-msgstr "Deployment"
+msgid "Accounts"
+msgstr "Accounts"
 
-#: app/views/deployments/_edit.html.haml:6
-msgid "Edit Deployment"
-msgstr "Edit Deployment"
-
-#: app/views/quotas/edit.html.haml:3
-msgid "Edit Quota for"
-msgstr "Edit Quota for"
-
-#: app/views/quotas/edit.html.haml:10
-msgid "Max Running Instances"
-msgstr "Max Running Instances"
-
-#: app/views/quotas/show.html.haml:3
-msgid "There is no Quota on this"
-msgstr "There is no Quota on this"
-
-#: app/views/quotas/show.html.haml:9
-msgid "Max Capacity"
-msgstr "Max Capacity"
-
-#: app/views/quotas/show.html.haml:10
-msgid "Used"
-msgstr "Used"
-
-#: app/views/quotas/show.html.haml:11
-msgid "Available"
-msgstr "Available"
-
-#: app/views/permissions/_form.html.haml:4
-msgid "All Entities"
-msgstr "All Entities"
-
-#: app/views/permissions/_permissions.html.haml:6
-#: app/views/permissions/_objects.html.haml:9
-msgid "Revoke Access"
-msgstr "Revoke Access"
-
-#: app/views/permissions/_permissions.html.haml:21
-#: app/views/permissions/_permissions.html.haml:24
-#: app/views/permissions/_objects.html.haml:4
-msgid "Direct Access"
-msgstr "Direct Access"
-
-#: app/views/permissions/_permissions.html.haml:22
-#: app/views/permissions/_permissions.html.haml:28
-msgid "Global Access"
-msgstr "Global Access"
-
-#: app/views/permissions/_permissions.html.haml:25
-#: app/views/permissions/_permissions.html.haml:27
-#: app/views/permissions/_objects.html.haml:6
-msgid "Inherited Access"
-msgstr "Inherited Access"
-
-#: app/views/permissions/_permissions.html.haml:34
-#: app/views/permissions/_objects.html.haml:20
-msgid "All Permissions"
-msgstr "All Permissions"
-
-#: app/views/permissions/_objects.html.haml:51
-#: app/views/permissions/_objects.html.haml:66
-msgid "Global"
-msgstr "Global"
-
-#: app/views/user_groups/_list.html.haml:5
-msgid "Add User Group"
-msgstr "Add User Group"
-
-#: app/views/user_groups/_list.html.haml:12
-msgid "All User Groups"
-msgstr "All User Groups"
-
-#: app/views/user_groups/show.html.haml:35
-msgid "Members"
-msgstr "Members"
-
-#: app/views/user_groups/show.html.haml:40
-#: app/views/user_groups/add_members.html.haml:15
-msgid "Add Members"
-msgstr "Add Members"
-
-#: app/views/user_groups/show.html.haml:41
-msgid "Remove"
-msgstr "Remove"
-
-#: app/views/user_groups/show.html.haml:47 app/views/users/_list.html.haml:12
-msgid "All Users"
-msgstr "All Users"
-
-#: app/views/user_groups/add_members.html.haml:12
-msgid "Choose Users to add to this Group."
-msgstr "Choose Users to add to this Group."
-
-#: app/views/user_sessions/new.html.haml:2
-msgid "Password"
-msgstr "Password"
-
-#: app/views/roles/index.html.haml:4 app/views/roles/edit.html.haml:4
-#: app/views/roles/show.html.haml:4 app/views/roles/new.html.haml:6
-msgid "New Role"
-msgstr "New Role"
-
-#: app/views/roles/edit.html.haml:11 app/views/roles/edit.html.haml:13
-msgid "Editing Role:"
-msgstr "Editing Role:"
-
-#: app/views/roles/_list.html.haml:3
-msgid "Roles List"
-msgstr "Roles List"
-
-#: app/views/roles/_properties.html.haml:3
-msgid "Scope"
-msgstr "Scope"
-
-#: app/views/roles/_properties.html.haml:8
-msgid "Privileges"
-msgstr "Privileges"
-
-#: app/views/roles/_properties.html.haml:12
 msgid "Action"
 msgstr "Action"
 
-#: app/views/roles/_properties.html.haml:13
-msgid "Target type"
-msgstr "Target type"
+msgid "Action Error"
+msgstr "Action Error"
 
-#: app/views/roles/show.html.haml:7
-msgid "Are you sure you want to delete this role?"
-msgstr "Are you sure you want to delete this role?"
+msgid "Active Inst."
+msgstr "Active Inst."
 
-#: app/views/users/edit.html.haml:10
-msgid "Edit Account"
-msgstr "Edit Account"
+msgid "Activity"
+msgstr "Activity"
 
-#: app/views/users/_list.html.haml:5
+msgid "Add"
+msgstr "Add"
+
+msgid "Add +"
+msgstr "Add +"
+
+msgid "Add Account"
+msgstr "Add Account"
+
+msgid "Add Members"
+msgstr "Add Members"
+
+msgid "Add New Deployable"
+msgstr "Add New Deployable"
+
 msgid "Add User"
 msgstr "Add User"
 
-#: app/views/users/_list.html.haml:44
-#: lib/simple_form_extension/numeric_input_with_unlimited_check_box_input.rb:20
-msgid "Unlimited"
-msgstr "Unlimited"
+msgid "Add User Group"
+msgstr "Add User Group"
 
-#: app/views/users/show.html.haml:16
-msgid "E-mail Address"
-msgstr "E-mail Address"
+msgid "Add mapping to Provider"
+msgstr "Add mapping to Provider"
 
-#: app/views/users/show.html.haml:23
-msgid "Are you sure you want to delete this user?"
-msgstr "Are you sure you want to delete this user?"
+msgid "Add mapping to Provider Realm"
+msgstr "Add mapping to Provider Realm"
 
-#: app/views/users/show.html.haml:28
-msgid "Created"
-msgstr "Created"
+msgid "Add new"
+msgstr "Add new"
 
-#: app/views/users/show.html.haml:31
-msgid "Number of Logins"
-msgstr "Number of Logins"
+msgid "Add new Priority Group"
+msgstr "Add new Priority Group"
 
-#: app/views/users/show.html.haml:34
-msgid "Last Login"
-msgstr "Last Login"
+msgid "Added the following User Roles: %s"
+msgstr ""
 
-#: app/views/users/show.html.haml:38
-msgid "Last Updated"
-msgstr "Last Updated"
-
-#: app/views/users/show.html.haml:41
-msgid "Failed Logins"
-msgstr "Failed Logins"
-
-#: app/views/users/show.html.haml:44
-msgid "Last Login IP"
-msgstr "Last Login IP"
-
-#: app/views/users/show.html.haml:49
-msgid "Groups"
-msgstr "Groups"
-
-#: app/views/tim/base_images/_new.html.haml:34
-msgid "Choose an Image Template file:"
-msgstr "Choose an Image Template file:"
-
-#: app/views/tim/base_images/_new.html.haml:38
-#: app/views/tim/base_images/_new.html.haml:60
-msgid "Edit this file before saving:"
-msgstr "Edit this file before saving:"
-
-#: app/views/tim/base_images/_new.html.haml:56
-msgid "Image Template URL:"
-msgstr "Image Template URL:"
-
-#: app/views/tim/base_images/edit_xml.html.haml:23
-msgid "Save and Continue"
-msgstr "Save and Continue"
-
-#: app/views/tim/base_images/_image_import.html.haml:19
-msgid "Provider Account"
-msgstr "Provider Account"
-
-#: app/views/tim/base_images/_image_import.html.haml:23
-#: app/views/tim/base_images/show.html.haml:27
-msgid "Image ID"
-msgstr "Image ID"
-
-#: app/views/tim/base_images/show.html.haml:10
-msgid "New Deployable from Image"
-msgstr "New Deployable from Image"
-
-#: app/views/tim/base_images/show.html.haml:12
-msgid "View Image Template XML"
-msgstr "View Image Template XML"
-
-#: app/views/tim/base_images/show.html.haml:34
-msgid "View build"
-msgstr "View build"
-
-#: app/views/tim/base_images/show.html.haml:38
-msgid "Select"
-msgstr "Select"
-
-#: app/views/tim/base_images/show.html.haml:44
-msgid "Build All"
-msgstr "Build All"
-
-#: app/views/tim/base_images/show.html.haml:47
-msgid "Provider Images"
-msgstr "Provider Images"
-
-#: app/views/tim/base_images/overview.html.haml:19
-msgid "Valid Image"
-msgstr "Valid Image"
-
-#: app/views/tim/base_images/overview.html.haml:24
-msgid "Save Image Template"
-msgstr "Save Image Template"
-
-#: app/views/config_servers/new.haml:6
-msgid "New Config Server"
-msgstr "New Config Server"
-
-#: app/views/config_servers/edit.haml:6
-msgid "Edit Config Server"
-msgstr "Edit Config Server"
-
-#: lib/simple_form_extension/note.rb:10
-msgid "Note:"
-msgstr "Note:"
-
-#: config/navigation.rb:21
-msgid "Monitor"
-msgstr "Monitor"
-
-#: config/navigation.rb:22
 msgid "Administer"
 msgstr "Administer"
 
-#: config/navigation.rb:25
-msgid "Content"
-msgstr "Content"
+msgid "Aeolus Conductor"
+msgstr "Aeolus Conductor"
 
-#: locale/model_attributes.rb:2
+msgid "Alerts"
+msgstr "Alerts"
+
+msgid "All Accounts"
+msgstr "All Accounts"
+
+msgid "All Deployables"
+msgstr "All Deployables"
+
+msgid "All Deployments"
+msgstr "All Deployments"
+
+msgid "All Entities"
+msgstr "All Entities"
+
+msgid "All Hardware Profiles"
+msgstr "All Hardware Profiles"
+
+msgid "All Instances"
+msgstr "All Instances"
+
+msgid "All Instances must be stopped or running"
+msgstr "All Instances must be stopped or running"
+
+msgid "All Permissions"
+msgstr "All Permissions"
+
+msgid "All Pools"
+msgstr "All Pools"
+
+msgid "All Realms"
+msgstr "All Realms"
+
+msgid "All User Groups"
+msgstr "All User Groups"
+
+msgid "All User Roles already set; no changes needed"
+msgstr "All User Roles already set; no changes needed"
+
+msgid "All Users"
+msgstr "All Users"
+
+msgid "An error occurred when checking Provider credentials. Please check your setup and try again."
+msgstr "An error occurred when checking Provider credentials. Please check your setup and try again."
+
+msgid "Apply filters"
+msgstr "Apply filters"
+
+msgid "Architecture"
+msgstr "Architecture"
+
+msgid "Are you sure you want to delete this Config Server?"
+msgstr "Are you sure you want to delete this Config Server?"
+
+msgid "Are you sure you want to delete this Deployment?"
+msgstr "Are you sure you want to delete this Deployment?"
+
+msgid "Are you sure you want to delete this Environment? All related Pools, Catalogs, and Deployables will be deleted."
+msgstr "Are you sure you want to delete this Environment? All related Pools, Catalogs, and Deployables will be deleted."
+
+msgid "Are you sure you want to delete this Pool? All related Catalogs and Deployables will also be deleted."
+msgstr "Are you sure you want to delete this Pool? All related Catalogs and Deployables will also be deleted."
+
+msgid "Are you sure you want to delete this priority group?"
+msgstr "Are you sure you want to delete this priority group?"
+
+msgid "Are you sure you want to delete this role?"
+msgstr "Are you sure you want to delete this role?"
+
+msgid "Are you sure you want to delete this user?"
+msgstr "Are you sure you want to delete this user?"
+
+msgid "Are you sure you want to delete?"
+msgstr "Are you sure you want to delete?"
+
+msgid "Are you sure you want to proceed?"
+msgstr "Are you sure you want to proceed?"
+
+msgid "Are you sure you wish to deploy %s to the %s Pool?"
+msgstr "Are you sure you wish to deploy %s to the %s Pool?"
+
+msgid "Assembly"
+msgstr "Assembly"
+
+msgid "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}"
+msgstr ""
+
+msgid "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}, service %{to_service}"
+msgstr ""
+
+msgid "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references param %{to_param} which is not returned by Assembly %{to_assembly}"
+msgstr ""
+
+msgid "Assembly hardware profile architecture ('%s') doesn't match image hardware profile architecture ('%s')."
+msgstr ""
+
+msgid "Assign Costs to Hardware Profile"
+msgstr "Assign Costs to Hardware Profile"
+
+msgid "Attempting to launch this deployment on provider account %s"
+msgstr ""
+
+msgid "Auto-select"
+msgstr "Auto-select"
+
+msgid "Available"
+msgstr "Available"
+
+msgid "Available Inst."
+msgstr "Available Inst."
+
+msgid "Available?"
+msgstr "Available?"
+
+msgid "Back"
+msgstr "Back"
+
+msgid "Base Deployable"
+msgstr "Base Deployable"
+
 msgid "Base permission object"
 msgstr "Base permission object"
 
-#: locale/model_attributes.rb:3
 msgid "BasePermissionObject|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:5
+msgid "Basic Data"
+msgstr "Basic Data"
+
+msgid "Billing Model"
+msgstr "Billing Model"
+
+msgid "Build All"
+msgstr "Build All"
+
+msgid "Build Status"
+msgstr "Build Status"
+
+msgid "Building"
+msgstr "Building"
+
+msgid "CREATED BY"
+msgstr "CREATED BY"
+
+msgid "Can not destroy following pools: %s."
+msgstr ""
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Cancel Editing"
+msgstr "Cancel Editing"
+
+msgid "Cannot assign cost to Frontend Hardware Profile"
+msgstr "Cannot assign cost to Frontend Hardware Profile"
+
+msgid "Cannot check if provider name is right. Please check config file"
+msgstr "Cannot check if provider name is right. Please check config file"
+
+msgid "Cannot connect to the Config Server"
+msgstr "Cannot connect to the Config Server"
+
+msgid "Cannot delete %s : You are logged in as this user"
+msgstr ""
+
+msgid "Cannot delete Provider Hardware Profiles"
+msgstr "Cannot delete Provider Hardware Profiles"
+
+msgid "Cannot delete: %s"
+msgstr ""
+
+msgid "Cannot edit LDAP user"
+msgstr "Cannot edit LDAP user"
+
+msgid "Cannot launch a Deployment in this Pool. The Pool has been disabled."
+msgstr "Cannot launch a Deployment in this Pool. The Pool has been disabled."
+
+msgid "Cannot modify Provider Hardware Profiles"
+msgstr "Cannot modify Provider Hardware Profiles"
+
+msgid "Catalog"
+msgstr "Catalog"
+
+msgid "Catalog Name"
+msgstr "Catalog Name"
+
+msgid "Catalogs"
+msgstr "Catalogs"
+
 msgid "Catalog|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:6
+msgid "Change"
+msgstr "Change"
+
+msgid "Check Matches"
+msgstr "Check Matches"
+
+msgid "Choose Deployable XML file"
+msgstr "Choose Deployable XML file"
+
+msgid "Choose Provider Accounts to enable for this Environment"
+msgstr "Choose Provider Accounts to enable for this Environment"
+
+msgid "Choose Users to add to this Group."
+msgstr "Choose Users to add to this Group."
+
+msgid "Choose a Catalog to enable access:"
+msgstr "Choose a Catalog to enable access:"
+
+msgid "Choose an Image Template file:"
+msgstr "Choose an Image Template file:"
+
+msgid "Choose global role assignments for users"
+msgstr "Choose global role assignments for users"
+
+msgid "Choose roles for users you would like to grant access to this"
+msgstr "Choose roles for users you would like to grant access to this"
+
+msgid "Close"
+msgstr "Close"
+
+msgid "Cloud Providers"
+msgstr "Cloud Providers"
+
+msgid "Complete"
+msgstr "Complete"
+
+msgid "Conductor Usernames"
+msgstr "Conductor Usernames"
+
+msgid "Config Parameters"
+msgstr "Config Parameters"
+
+msgid "Config Server"
+msgstr "Config Server"
+
+msgid "Config Server added."
+msgstr "Config Server added."
+
+msgid "Config Server updated."
+msgstr "Config Server updated."
+
+msgid "Config Server was deleted."
+msgstr "Config Server was deleted."
+
+msgid "Config Server was not deleted."
+msgstr "Config Server was not deleted."
+
+msgid "Config Server was not updated."
+msgstr "Config Server was not updated."
+
+msgid "Config for %s was not found."
+msgstr "Config for %s was not found."
+
 msgid "Config server"
 msgstr "Config server"
 
-#: locale/model_attributes.rb:7
 msgid "ConfigServer|Endpoint"
 msgstr "Endpoint"
 
-#: locale/model_attributes.rb:8
 msgid "ConfigServer|Key"
 msgstr "Key"
 
-#: locale/model_attributes.rb:9
 msgid "ConfigServer|Secret"
 msgstr "Secret"
 
-#: locale/model_attributes.rb:11
+msgid "Configure"
+msgstr "Configure"
+
+msgid "Configure launch-time parameters for your Deployment:"
+msgstr "Configure launch-time parameters for your Deployment:"
+
+msgid "Console Connection"
+msgstr "Console Connection"
+
+msgid "Contains cyclic reference between following Assemblies or services: %s"
+msgstr ""
+
+msgid "Content"
+msgstr "Content"
+
+msgid "Cost"
+msgstr "Cost"
+
+msgid "Cost Estimate"
+msgstr "Cost Estimate"
+
+msgid "Cost per Unit"
+msgstr "Cost per Unit"
+
 msgid "Cost|Billing model"
 msgstr "Billing model"
 
-#: locale/model_attributes.rb:12
 msgid "Cost|Chargeable type"
 msgstr "Chargeable type"
 
-#: locale/model_attributes.rb:13
 msgid "Cost|Price"
 msgstr "Price"
 
-#: locale/model_attributes.rb:14
 msgid "Cost|Valid from"
 msgstr "Valid from"
 
-#: locale/model_attributes.rb:15
 msgid "Cost|Valid to"
 msgstr "Valid to"
 
-#: locale/model_attributes.rb:16
+msgid "Could not add these User Roles: %s"
+msgstr "Could not add these User Roles: %s"
+
+msgid "Could not connect to Provider Account.  Please contact an Administrator."
+msgstr "Could not connect to Provider Account.  Please contact an Administrator."
+
+msgid "Could not delete these Permission Grants: %s"
+msgstr "Could not delete these Permission Grants: %s"
+
+msgid "Could not delete user group"
+msgstr "Could not delete user group"
+
+msgid "Could not update quota. Please check you have entered valid values"
+msgstr "Could not update quota. Please check you have entered valid values"
+
+msgid "Could not update the default quota"
+msgstr "Could not update the default quota"
+
+msgid "Create New Provider"
+msgstr "Create New Provider"
+
+msgid "Create New Realm"
+msgstr "Create New Realm"
+
+msgid "Create Priority Group"
+msgstr "Create Priority Group"
+
+msgid "Create a new Realm Mapping"
+msgstr "Create a new Realm Mapping"
+
+msgid "Created"
+msgstr "Created"
+
 msgid "Credential"
 msgstr "Credential"
 
-#: locale/model_attributes.rb:17
-msgid "Credential|Value"
-msgstr "Value"
-
-#: locale/model_attributes.rb:18
 msgid "Credential definition"
 msgstr "Credential definition"
 
-#: locale/model_attributes.rb:19
 msgid "CredentialDefinition|Input type"
 msgstr "Input type"
 
-#: locale/model_attributes.rb:20
 msgid "CredentialDefinition|Label"
 msgstr "Label"
 
-#: locale/model_attributes.rb:21
 msgid "CredentialDefinition|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:23
+msgid "Credentials"
+msgstr "Credentials"
+
+msgid "Credential|Value"
+msgstr "Value"
+
+msgid "Current Alerts"
+msgstr "Current Alerts"
+
+msgid "Default Hardware Profile"
+msgstr "Default Hardware Profile"
+
+msgid "Default user settings"
+msgstr "Default user settings"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Delete Account"
+msgstr "Delete Account"
+
+msgid "Delete Selected"
+msgstr "Delete Selected"
+
+msgid "Deleted the following Permission Grants: %s"
+msgstr ""
+
+msgid "Deploy \"%s\" to %s Pool?"
+msgstr ""
+
+msgid "Deployable"
+msgstr "Deployable"
+
+msgid "Deployable %s removal failed."
+msgstr "Deployable %s removal failed."
+
+msgid "Deployable %s removed successfully."
+msgstr "Deployable %s removed successfully."
+
+msgid "Deployable XML"
+msgstr "Deployable XML"
+
+msgid "Deployable added to Catalog %s."
+msgstr ""
+
+msgid "Deployable updated successfully"
+msgstr "Deployable updated successfully"
+
+msgid "Deployable was not created: %s"
+msgstr "Deployable was not created: %s"
+
+msgid "Deployables"
+msgstr "Deployables"
+
+msgid "Deployables List"
+msgstr "Deployables List"
+
 msgid "Deployable|Description"
 msgstr "Description"
 
-#: locale/model_attributes.rb:24
 msgid "Deployable|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:25
 msgid "Deployable|Xml"
 msgstr "Xml"
 
-#: locale/model_attributes.rb:26
 msgid "Deployable|Xml filename"
 msgstr "Xml filename"
 
-#: locale/model_attributes.rb:28
+msgid "Deployed on"
+msgstr "Deployed on"
+
+msgid "Deployment"
+msgstr "Deployment"
+
+msgid "Deployment Details"
+msgstr "Deployment Details"
+
+msgid "Deployment Name"
+msgstr "Deployment Name"
+
+msgid "Deployment launch failed."
+msgstr "Deployment launch failed."
+
+msgid "Deployment launched."
+msgstr "Deployment launched."
+
+msgid "Deployments"
+msgstr "Deployments"
+
 msgid "Deployment|Deleted at"
 msgstr "Deleted at"
 
-#: locale/model_attributes.rb:29
 msgid "Deployment|Deployable xml"
 msgstr "Deployable xml"
 
-#: locale/model_attributes.rb:30
 msgid "Deployment|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:31
 msgid "Deployment|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:32
 msgid "Deployment|Partial launch"
 msgstr "Partial launch"
 
-#: locale/model_attributes.rb:33
 msgid "Deployment|Scheduled for deletion"
 msgstr "Scheduled for deletion"
 
-#: locale/model_attributes.rb:34
 msgid "Deployment|State"
 msgstr "State"
 
-#: locale/model_attributes.rb:35
 msgid "Deployment|Uuid"
 msgstr "Uuid"
 
-#: locale/model_attributes.rb:36
 msgid "Derived permission"
 msgstr "Derived permission"
 
-#: locale/model_attributes.rb:37
 msgid "DerivedPermission|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:38
 msgid "DerivedPermission|Permission object type"
 msgstr "Permission object type"
 
-#: locale/model_attributes.rb:39
+msgid "Description"
+msgstr "Description"
+
+msgid "Destroy"
+msgstr "Destroy"
+
+msgid "Destroy cannot be performed on this instance."
+msgstr "Destroy cannot be performed on this instance."
+
+msgid "Destroy of %s failed with exception: %s"
+msgstr ""
+
+msgid "Direct Access"
+msgstr "Direct Access"
+
+msgid "Disable Provider? All it's instances will be stopped."
+msgstr ""
+
+msgid "Doing so will utilize %s of your overall Deployment quota."
+msgstr ""
+
+msgid "Download"
+msgstr "Download"
+
+msgid "Download key"
+msgstr "Download key"
+
+msgid "Download of XML file failed"
+msgstr "Download of XML file failed"
+
+msgid "E-mail Address"
+msgstr "E-mail Address"
+
+msgid "Edit"
+msgstr "Edit"
+
+msgid "Edit %s strategy"
+msgstr "Edit %s strategy"
+
+msgid "Edit Account"
+msgstr "Edit Account"
+
+msgid "Edit Account: %s"
+msgstr "Edit Account: %s"
+
+msgid "Edit Config Server"
+msgstr "Edit Config Server"
+
+msgid "Edit Cost"
+msgstr "Edit Cost"
+
+msgid "Edit Deployable XML"
+msgstr "Edit Deployable XML"
+
+msgid "Edit Deployment"
+msgstr "Edit Deployment"
+
+msgid "Edit Hardware Profile"
+msgstr "Edit Hardware Profile"
+
+msgid "Edit Instance"
+msgstr "Edit Instance"
+
+msgid "Edit Pool"
+msgstr "Edit Pool"
+
+msgid "Edit Priority Group"
+msgstr "Edit Priority Group"
+
+msgid "Edit Provider Account"
+msgstr "Edit Provider Account"
+
+msgid "Edit Quota for"
+msgstr "Edit Quota for"
+
+msgid "Edit Strict Order Strategy"
+msgstr "Edit Strict Order Strategy"
+
+msgid "Edit User"
+msgstr "Edit User"
+
+msgid "Edit User Group"
+msgstr "Edit User Group"
+
+msgid "Edit XML"
+msgstr "Edit XML"
+
+msgid "Edit XML file after save"
+msgstr "Edit XML file after save"
+
+msgid "Edit this file before saving:"
+msgstr "Edit this file before saving:"
+
+msgid "Editing Deployable"
+msgstr "Editing Deployable"
+
+msgid "Editing Provider"
+msgstr "Editing Provider"
+
+msgid "Editing Role:"
+msgstr "Editing Role:"
+
+msgid "Enabled"
+msgstr "Enabled"
+
 msgid "Entity"
 msgstr "Entity"
 
-#: locale/model_attributes.rb:40
 msgid "Entity|Entity target type"
 msgstr "Entity target type"
 
-#: locale/model_attributes.rb:41
 msgid "Entity|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:42
 msgid "Entity|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:43
+msgid "Environment"
+msgstr "Environment"
+
+msgid "Environment Quota Used"
+msgstr "Environment Quota Used"
+
+msgid "Environment quota reached"
+msgstr "Environment quota reached"
+
+msgid "Environment was added."
+msgstr "Environment was added."
+
+msgid "Environment was deleted."
+msgstr "Environment was deleted."
+
+msgid "Environment was updated."
+msgstr "Environment was updated."
+
+msgid "Environment: %s"
+msgstr "Environment: %s"
+
+msgid "Environment: %{environment}"
+msgstr "Environment: %{environment}"
+
+msgid "Environments"
+msgstr "Environments"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Error, could not calculate state time: invalid state"
+msgstr "Error, could not calculate state time: invalid state"
+
+msgid "Error, could not calculate state time: state is not monitored"
+msgstr "Error, could not calculate state time: state is not monitored"
+
+msgid "Errors (Current)"
+msgstr "Errors (Current)"
+
+msgid "Errors (Historical)"
+msgstr "Errors (Historical)"
+
 msgid "Event"
 msgstr "Event"
 
-#: locale/model_attributes.rb:44
 msgid "Event|Deleted at"
 msgstr "Deleted at"
 
-#: locale/model_attributes.rb:45
 msgid "Event|Description"
 msgstr "Description"
 
-#: locale/model_attributes.rb:46
 msgid "Event|Event time"
 msgstr "Event time"
 
-#: locale/model_attributes.rb:47
 msgid "Event|Source type"
 msgstr "Source type"
 
-#: locale/model_attributes.rb:48
 msgid "Event|Status code"
 msgstr "Status code"
 
-#: locale/model_attributes.rb:49
 msgid "Event|Summary"
 msgstr "Summary"
 
-#: locale/model_attributes.rb:50
+msgid "Export events"
+msgstr "Export events"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Failed Inst."
+msgstr "Failed Inst."
+
+msgid "Failed Logins"
+msgstr "Failed Logins"
+
+msgid "Failed to connect to Provider"
+msgstr "Failed to connect to Provider"
+
+msgid "Failed to disable %s strategy"
+msgstr ""
+
+msgid "Failed to enable %s strategy"
+msgstr ""
+
+msgid "Failed to launch deployment"
+msgstr "Failed to launch deployment"
+
+msgid "Failed to populate Realms: %s"
+msgstr ""
+
+msgid "Failed to populate hardware_profiles: %s"
+msgstr ""
+
+msgid "Failed to update Hardware Profile cost %s"
+msgstr "Failed to update Hardware Profile cost %s"
+
+msgid "Finalize"
+msgstr "Finalize"
+
+msgid "First Name"
+msgstr "First Name"
+
+msgid "Forgot %s or %s?"
+msgstr ""
+
+msgid "From"
+msgstr "From"
+
+msgid "From URL"
+msgstr "From URL"
+
 msgid "Frontend realm"
 msgstr "Realm"
 
-#: locale/model_attributes.rb:51
 msgid "FrontendRealm|Description"
 msgstr "Description"
 
-#: locale/model_attributes.rb:52
 msgid "FrontendRealm|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:53
 msgid "FrontendRealm|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:54
+msgid "Global"
+msgstr "Global"
+
+msgid "Global Access"
+msgstr "Global Access"
+
+msgid "Global Role Grants"
+msgstr "Global Role Grants"
+
+msgid "Global Uptime"
+msgstr "Global Uptime"
+
+msgid "Grant Access"
+msgstr "Grant Access"
+
+msgid "Groups"
+msgstr "Groups"
+
+msgid "HDD"
+msgstr "HDD"
+
+msgid "Hardware"
+msgstr "Hardware"
+
+msgid "Hardware Profile"
+msgstr "Hardware Profile"
+
+msgid "Hardware Profile %s, which is specified in XML, does not exist."
+msgstr ""
+
+msgid "Hardware Profile Name"
+msgstr "Hardware Profile Name"
+
+msgid "Hardware Profile cost updated"
+msgstr "Hardware Profile cost updated"
+
+msgid "Hardware Profile updated"
+msgstr "Hardware Profile updated"
+
+msgid "Hardware Profiles"
+msgstr "Hardware Profiles"
+
 msgid "Hardware profile"
 msgstr "Hardware profile"
 
-#: locale/model_attributes.rb:55
-msgid "HardwareProfile|External key"
-msgstr "External key"
-
-#: locale/model_attributes.rb:56
-msgid "HardwareProfile|Lock version"
-msgstr "Lock version"
-
-#: locale/model_attributes.rb:57
-msgid "HardwareProfile|Name"
-msgstr "Name"
-
-#: locale/model_attributes.rb:58
 msgid "Hardware profile property"
 msgstr "Hardware profile property"
 
-#: locale/model_attributes.rb:59
+msgid "Hardware profile was deleted"
+msgstr "Hardware profile was deleted"
+
+msgid "Hardware profile was not deleted"
+msgstr "Hardware profile was not deleted"
+
 msgid "HardwareProfileProperty|Kind"
 msgstr "Kind"
 
-#: locale/model_attributes.rb:60
 msgid "HardwareProfileProperty|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:61
 msgid "HardwareProfileProperty|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:62
 msgid "HardwareProfileProperty|Range first"
 msgstr "Range first"
 
-#: locale/model_attributes.rb:63
 msgid "HardwareProfileProperty|Range last"
 msgstr "Range last"
 
-#: locale/model_attributes.rb:64
 msgid "HardwareProfileProperty|Unit"
 msgstr "Unit"
 
-#: locale/model_attributes.rb:65
 msgid "HardwareProfileProperty|Value"
 msgstr "Value"
 
-#: locale/model_attributes.rb:66
+msgid "HardwareProfile|External key"
+msgstr "External key"
+
+msgid "HardwareProfile|Lock version"
+msgstr "Lock version"
+
+msgid "HardwareProfile|Name"
+msgstr "Name"
+
+msgid "History"
+msgstr "History"
+
 msgid "Hook"
 msgstr "Hook"
 
-#: locale/model_attributes.rb:67
 msgid "Hook|Uri"
 msgstr "Uri"
 
-#: locale/model_attributes.rb:68
 msgid "Hook|Version"
 msgstr "Version"
 
-#: locale/model_attributes.rb:69
+msgid "If you did not request this password to be reset, just ignore this email and the password will stay the same."
+msgstr "If you did not request this password to be reset, just ignore this email and the password will stay the same."
+
+msgid "Ignore Instance errors during launch"
+msgstr "Ignore Instance errors during launch"
+
+msgid "Image"
+msgstr "Image"
+
+msgid "Image ID"
+msgstr "Image ID"
+
+msgid "Image IDs"
+msgstr "Image IDs"
+
+msgid "Image Template URL:"
+msgstr "Image Template URL:"
+
+msgid "Image UUID"
+msgstr "Image UUID"
+
+msgid "Images"
+msgstr "Images"
+
+msgid "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
+msgstr "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
+
+msgid "Images cannot be imported. No Provider Accounts are currently enabled for this Environment."
+msgstr "Images cannot be imported. No Provider Accounts are currently enabled for this Environment."
+
+msgid "Images missing from the Image Warehouse"
+msgstr "Images missing from the Image Warehouse"
+
+msgid "Import Image"
+msgstr "Import Image"
+
+msgid "Imported image can't be built or pushed"
+msgstr "Imported image can't be built or pushed"
+
+msgid "Inherited Access"
+msgstr "Inherited Access"
+
+msgid "Inherited From"
+msgstr "Inherited From"
+
 msgid "Instance"
 msgstr "Instance"
 
-#: locale/model_attributes.rb:70
-msgid "Instance|Acc pending time"
-msgstr "Acc pending time"
+msgid "Instance %s"
+msgstr "Instance: %s"
 
-#: locale/model_attributes.rb:71
-msgid "Instance|Acc running time"
-msgstr "Acc running time"
+msgid "Instance Failure"
+msgstr "Instance Failure"
 
-#: locale/model_attributes.rb:72
-msgid "Instance|Acc shutting down time"
-msgstr "Acc shutting down time"
-
-#: locale/model_attributes.rb:73
-msgid "Instance|Acc stopped time"
-msgstr "Acc stopped time"
-
-#: locale/model_attributes.rb:74
-msgid "Instance|Assembly xml"
-msgstr "Assembly xml"
-
-#: locale/model_attributes.rb:75
-msgid "Instance|Checked at"
-msgstr "Checked at"
-
-#: locale/model_attributes.rb:76
-msgid "Instance|Deleted at"
-msgstr "Deleted at"
-
-#: locale/model_attributes.rb:77
-msgid "Instance|External key"
-msgstr "External key"
-
-#: locale/model_attributes.rb:78
-msgid "Instance|Image build uuid"
-msgstr "Image build uuid"
-
-#: locale/model_attributes.rb:79
-msgid "Instance|Image uuid"
-msgstr "Image uuid"
-
-#: locale/model_attributes.rb:80
-msgid "Instance|Instance config xml"
-msgstr "Instance config xml"
-
-#: locale/model_attributes.rb:81
-msgid "Instance|Last error"
-msgstr "Last error"
-
-#: locale/model_attributes.rb:82
-msgid "Instance|Lock version"
-msgstr "Lock version"
-
-#: locale/model_attributes.rb:83
-msgid "Instance|Name"
-msgstr "Name"
-
-#: locale/model_attributes.rb:84
-msgid "Instance|Private addresses"
-msgstr "Private addresses"
-
-#: locale/model_attributes.rb:85
-msgid "Instance|Provider image uuid"
-msgstr "Provider image uuid"
-
-#: locale/model_attributes.rb:86
-msgid "Instance|Public addresses"
-msgstr "Public addresses"
-
-#: locale/model_attributes.rb:87
-msgid "Instance|Secret"
-msgstr "Secret"
-
-#: locale/model_attributes.rb:88
-msgid "Instance|State"
-msgstr "State"
-
-#: locale/model_attributes.rb:89
-msgid "Instance|Time last pending"
-msgstr "Time last pending"
-
-#: locale/model_attributes.rb:90
-msgid "Instance|Time last running"
-msgstr "Time last running"
-
-#: locale/model_attributes.rb:91
-msgid "Instance|Time last shutting down"
-msgstr "Time last shutting down"
-
-#: locale/model_attributes.rb:92
-msgid "Instance|Time last stopped"
-msgstr "Time last stopped"
-
-#: locale/model_attributes.rb:93
-msgid "Instance|User data"
-msgstr "User data"
-
-#: locale/model_attributes.rb:94
-msgid "Instance|Uuid"
-msgstr "Uuid"
-
-#: locale/model_attributes.rb:95
 msgid "Instance hwp"
 msgstr "Instance hwp"
 
-#: locale/model_attributes.rb:96
-msgid "InstanceHwp|Architecture"
-msgstr "Architecture"
-
-#: locale/model_attributes.rb:97
-msgid "InstanceHwp|Cpu"
-msgstr "Cpu"
-
-#: locale/model_attributes.rb:98
-msgid "InstanceHwp|Lock version"
-msgstr "Lock version"
-
-#: locale/model_attributes.rb:99
-msgid "InstanceHwp|Memory"
-msgstr "Memory"
-
-#: locale/model_attributes.rb:100
-msgid "InstanceHwp|Storage"
-msgstr "Storage"
-
-#: locale/model_attributes.rb:101
 msgid "Instance key"
 msgstr "Instance key"
 
-#: locale/model_attributes.rb:102
-msgid "InstanceKey|Name"
-msgstr "Name"
-
-#: locale/model_attributes.rb:103
-msgid "InstanceKey|Pem"
-msgstr "Pem"
-
-#: locale/model_attributes.rb:104
 msgid "Instance match"
 msgstr "Instance match"
 
-#: locale/model_attributes.rb:105
-msgid "InstanceMatch|Error"
-msgstr "Error"
-
-#: locale/model_attributes.rb:106
-msgid "InstanceMatch|Provider image"
-msgstr "Provider image"
-
-#: locale/model_attributes.rb:107
 msgid "Instance parameter"
 msgstr "Instance parameter"
 
-#: locale/model_attributes.rb:108
+msgid "InstanceHwp|Architecture"
+msgstr "Architecture"
+
+msgid "InstanceHwp|Cpu"
+msgstr "Cpu"
+
+msgid "InstanceHwp|Lock version"
+msgstr "Lock version"
+
+msgid "InstanceHwp|Memory"
+msgstr "Memory"
+
+msgid "InstanceHwp|Storage"
+msgstr "Storage"
+
+msgid "InstanceKey|Name"
+msgstr "Name"
+
+msgid "InstanceKey|Pem"
+msgstr "Pem"
+
+msgid "InstanceMatch|Error"
+msgstr "Error"
+
+msgid "InstanceMatch|Provider image"
+msgstr "Provider image"
+
 msgid "InstanceParameter|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:109
 msgid "InstanceParameter|Service"
 msgstr "Service"
 
-#: locale/model_attributes.rb:110
 msgid "InstanceParameter|Value"
 msgstr "Value"
 
-#: locale/model_attributes.rb:111
+msgid "Instances"
+msgstr "Instances"
+
+msgid "Instances Quota:"
+msgstr "Instances Quota:"
+
+msgid "Instances failed"
+msgstr "Instances failed"
+
+msgid "Instances pending"
+msgstr "Instances pending"
+
+msgid "Instance|Acc pending time"
+msgstr "Acc pending time"
+
+msgid "Instance|Acc running time"
+msgstr "Acc running time"
+
+msgid "Instance|Acc shutting down time"
+msgstr "Acc shutting down time"
+
+msgid "Instance|Acc stopped time"
+msgstr "Acc stopped time"
+
+msgid "Instance|Assembly xml"
+msgstr "Assembly xml"
+
+msgid "Instance|Checked at"
+msgstr "Checked at"
+
+msgid "Instance|Deleted at"
+msgstr "Deleted at"
+
+msgid "Instance|External key"
+msgstr "External key"
+
+msgid "Instance|Image build uuid"
+msgstr "Image build uuid"
+
+msgid "Instance|Image uuid"
+msgstr "Image uuid"
+
+msgid "Instance|Instance config xml"
+msgstr "Instance config xml"
+
+msgid "Instance|Last error"
+msgstr "Last error"
+
+msgid "Instance|Lock version"
+msgstr "Lock version"
+
+msgid "Instance|Name"
+msgstr "Name"
+
+msgid "Instance|Private addresses"
+msgstr "Private addresses"
+
+msgid "Instance|Provider image uuid"
+msgstr "Provider image uuid"
+
+msgid "Instance|Public addresses"
+msgstr "Public addresses"
+
+msgid "Instance|Secret"
+msgstr "Secret"
+
+msgid "Instance|State"
+msgstr "State"
+
+msgid "Instance|Time last pending"
+msgstr "Time last pending"
+
+msgid "Instance|Time last running"
+msgstr "Time last running"
+
+msgid "Instance|Time last shutting down"
+msgstr "Time last shutting down"
+
+msgid "Instance|Time last stopped"
+msgstr "Time last stopped"
+
+msgid "Instance|User data"
+msgstr "User data"
+
+msgid "Instance|Uuid"
+msgstr "Uuid"
+
+msgid "Instantiation Time"
+msgstr "Instantiation Time"
+
+msgid "Instructions for resetting your password have been emailed."
+msgstr "Instructions for resetting your password have been emailed."
+
+msgid "Internal Server Error"
+msgstr "Internal Server Error"
+
+msgid "Last Login"
+msgstr "Last Login"
+
+msgid "Last Login IP"
+msgstr "Last Login IP"
+
+msgid "Last Name"
+msgstr "Last Name"
+
+msgid "Last Rebuild"
+msgstr "Last Rebuild"
+
+msgid "Last Updated"
+msgstr "Last Updated"
+
+msgid "Latest Build UUID"
+msgstr "Latest Build UUID"
+
+msgid "Launch"
+msgstr "Launch"
+
+msgid "Legend for X-Deltacloud-Provider"
+msgstr "Legend for X-Deltacloud-Provider"
+
+msgid "Log Out"
+msgstr "Log Out"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Login credentials are invalid for this Provider."
+msgstr "Login credentials are invalid for this Provider."
+
+msgid "Logs"
+msgstr "Logs"
+
+msgid "Mapping"
+msgstr "Mapping"
+
+msgid "Match not found: %s"
+msgstr ""
+
+msgid "Matching Provider Hardware Profiles"
+msgstr "Matching Provider Hardware Profiles"
+
+msgid "Max Capacity"
+msgstr "Max Capacity"
+
+msgid "Max Running Instances"
+msgstr "Max Running Instances"
+
+msgid "Members"
+msgstr "Members"
+
+msgid "Memory"
+msgstr "Memory"
+
 msgid "Metadata object"
 msgstr "Metadata object"
 
-#: locale/model_attributes.rb:112
 msgid "MetadataObject|Key"
 msgstr "Key"
 
-#: locale/model_attributes.rb:113
 msgid "MetadataObject|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:114
 msgid "MetadataObject|Object type"
 msgstr "Object type"
 
-#: locale/model_attributes.rb:115
 msgid "MetadataObject|Value"
 msgstr "Value"
 
-#: locale/model_attributes.rb:116
+msgid "Minimal Cost"
+msgstr "Minimal Cost"
+
+msgid "Minimum Value"
+msgstr "Minimum Value"
+
+msgid "Modify default user settings"
+msgstr "Modify default user settings"
+
+msgid "Monitor"
+msgstr "Monitor"
+
+msgid "Multiple"
+msgstr "Multiple"
+
+msgid "Must be a unique name with at least 1 character and at most 100 characters."
+msgstr "Must be a unique name with at least 1 character and at most 100 characters."
+
+msgid "N/A"
+msgstr "N/A"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Name available"
+msgstr "Name available"
+
+msgid "Name is not set."
+msgstr "Name is not set."
+
+msgid "Name:"
+msgstr "Name:"
+
+msgid "New Account"
+msgstr "New Account"
+
+msgid "New Config Server"
+msgstr "New Config Server"
+
+msgid "New Deployable"
+msgstr "New Deployable"
+
+msgid "New Deployable from Image"
+msgstr "New Deployable from Image"
+
+msgid "New Deployment"
+msgstr "New Deployment"
+
+msgid "New Environment"
+msgstr "New Environment"
+
+msgid "New Hardware Profile"
+msgstr "New Hardware Profile"
+
+msgid "New Image"
+msgstr "New Image"
+
+msgid "New Pool"
+msgstr "New Pool"
+
+msgid "New Provider"
+msgstr "New Provider"
+
+msgid "New Provider Account"
+msgstr "New Provider Account"
+
+msgid "New Realm"
+msgstr "New Realm"
+
+msgid "New Role"
+msgstr "New Role"
+
+msgid "New User"
+msgstr "New User"
+
+msgid "New User Group"
+msgstr "New User Group"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "Next &#8594;"
+msgstr "Next &#8594;"
+
+msgid "No"
+msgstr "No"
+
+msgid "No Catalog"
+msgstr "No Catalog"
+
+msgid "No Catalog exists. Please create one."
+msgstr "No Catalog exists. Please create one."
+
+msgid "No Catalogs selected"
+msgstr "No Catalogs selected"
+
+msgid "No Deployable was selected"
+msgstr "No Deployable was selected"
+
+msgid "No Hardware Profile exists. Please create one."
+msgstr "No Hardware Profile exists. Please create one."
+
+msgid "No Hardware Profiles"
+msgstr "No Hardware Profiles"
+
+msgid "No Matching Provider Hardware Profiles Could be found"
+msgstr "No Matching Provider Hardware Profiles Could be found"
+
+msgid "No URL is provided for XML import"
+msgstr "No URL is provided for XML import"
+
+msgid "No available priority group to display"
+msgstr "No available priority group to display"
+
+msgid "No image build was found with uuid %s and no image was found with uuid %s"
+msgstr ""
+
+msgid "No matching results."
+msgstr "No matching results."
+
+msgid "No users selected"
+msgstr "No users selected"
+
+msgid "None"
+msgstr "None"
+
+msgid "Not all Deployments are displayed. Go to %s Pool details for more. &raquo;"
+msgstr ""
+
+msgid "Note:"
+msgstr "Note:"
+
+msgid "Number of Logins"
+msgstr "Number of Logins"
+
+msgid "OS"
+msgstr "OS"
+
+msgid "OS Version"
+msgstr "OS Version"
+
+msgid "Only locally-managed groups can be managed here."
+msgstr "Only locally-managed groups can be managed here."
+
+msgid "Overview"
+msgstr "Overview"
+
+msgid "Owner"
+msgstr "Owner"
+
+msgid "PROVIDER"
+msgstr "PROVIDER"
+
+msgid "PUBLIC ADDRESS"
+msgstr "PUBLIC ADDRESS"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Password has been successfuly reset. Please log in."
+msgstr "Password has been successfuly reset. Please log in."
+
+msgid "Password reset"
+msgstr "Password reset"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Pending (Current)"
+msgstr "Pending (Current)"
+
+msgid "Pending Inst."
+msgstr "Pending Inst."
+
 msgid "Permission"
 msgstr "Permission"
 
-#: locale/model_attributes.rb:117
-msgid "Permission|Lock version"
-msgstr "Lock version"
-
-#: locale/model_attributes.rb:118
-msgid "Permission|Permission object type"
-msgstr "Permission object type"
-
-#: locale/model_attributes.rb:119
 msgid "Permission session"
 msgstr "Permission session"
 
-#: locale/model_attributes.rb:120
 msgid "PermissionSession|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:122
-msgid "Pool|Enabled"
-msgstr "Enabled"
+msgid "Permissions"
+msgstr "Permissions"
 
-#: locale/model_attributes.rb:123
-msgid "Pool|Exported as"
-msgstr "Exported as"
-
-#: locale/model_attributes.rb:124
-msgid "Pool|Lock version"
+msgid "Permission|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:125
-msgid "Pool|Name"
-msgstr "Name"
+msgid "Permission|Permission object type"
+msgstr "Permission object type"
 
-#: locale/model_attributes.rb:126
+msgid "Please log in first."
+msgstr "Please log in first."
+
+msgid "Please make a selection first."
+msgstr "Please make a selection first."
+
+msgid "Pool"
+msgstr "Pool"
+
+msgid "Pool Name"
+msgstr "Pool Name"
+
+msgid "Pool added."
+msgstr "Pool added."
+
 msgid "Pool family"
 msgstr "Pool Family"
 
-#: locale/model_attributes.rb:127
+msgid "Pool name"
+msgstr "Pool name"
+
+msgid "Pool quota reached"
+msgstr "Pool quota reached"
+
+msgid "Pool updated."
+msgstr "Pool updated."
+
 msgid "PoolFamily|Description"
 msgstr "Description"
 
-#: locale/model_attributes.rb:128
 msgid "PoolFamily|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:129
 msgid "PoolFamily|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:130
+msgid "Pools"
+msgstr "Pools"
+
+msgid "Pool|Enabled"
+msgstr "Enabled"
+
+msgid "Pool|Exported as"
+msgstr "Exported as"
+
+msgid "Pool|Lock version"
+msgstr "Lock version"
+
+msgid "Pool|Name"
+msgstr "Name"
+
+msgid "Priority"
+msgstr "Priority"
+
+msgid "Priority Group successfully created"
+msgstr "Priority Group successfully created"
+
+msgid "Priority Group successfully deleted"
+msgstr "Priority Group successfully deleted"
+
+msgid "Priority Group successfully updated"
+msgstr "Priority Group successfully updated"
+
+msgid "Private Addresses"
+msgstr "Private Addresses"
+
 msgid "Privilege"
 msgstr "Privilege"
 
-#: locale/model_attributes.rb:131
+msgid "Privileges"
+msgstr "Privileges"
+
 msgid "Privilege|Action"
 msgstr "Action"
 
-#: locale/model_attributes.rb:132
 msgid "Privilege|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:133
 msgid "Privilege|Target type"
 msgstr "Target type"
 
-#: locale/model_attributes.rb:134
+msgid "Properties"
+msgstr "Properties"
+
 msgid "Property enum entry"
 msgstr "Property enum entry"
 
-#: locale/model_attributes.rb:135
 msgid "PropertyEnumEntry|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:136
 msgid "PropertyEnumEntry|Value"
 msgstr "Value"
 
-#: locale/model_attributes.rb:138
-msgid "Provider|Available"
-msgstr "Available"
+msgid "Provided URL is not valid %s"
+msgstr "Provided URL is not valid %s"
 
-#: locale/model_attributes.rb:139
-msgid "Provider|Deltacloud provider"
-msgstr "Deltacloud provider"
+msgid "Provider"
+msgstr "Provider"
 
-#: locale/model_attributes.rb:140
-msgid "Provider|Enabled"
-msgstr "Enabled"
+msgid "Provider Account"
+msgstr "Provider Account"
 
-#: locale/model_attributes.rb:141
-msgid "Provider|Lock version"
-msgstr "Lock version"
+msgid "Provider Account updated"
+msgstr "Provider Account updated"
 
-#: locale/model_attributes.rb:142
-msgid "Provider|Name"
+msgid "Provider Account wasn't updated"
+msgstr "Provider Account wasn't updated"
+
+msgid "Provider Accounts"
+msgstr "Provider Accounts"
+
+msgid "Provider Accounts mapped to Provider Realm %s"
+msgstr "Provider Accounts mapped to Provider Realm %s"
+
+msgid "Provider Groups for Pool: %s"
+msgstr ""
+
+msgid "Provider Images"
+msgstr "Provider Images"
+
+msgid "Provider Name"
 msgstr "Provider name"
 
-#: locale/model_attributes.rb:143
-msgid "Provider|Url"
+msgid "Provider Realm Mapping"
+msgstr "Provider Realm Mapping"
+
+msgid "Provider Realm Name"
+msgstr "Provider Realm Name"
+
+msgid "Provider Realms"
+msgstr "Provider Realms"
+
+msgid "Provider Selection"
+msgstr "Provider Selection"
+
+msgid "Provider Selection Strategies"
+msgstr "Provider Selection Strategies"
+
+msgid "Provider Selection Strategies for Pool: %s"
+msgstr "Provider Selection Strategies for Pool: %s"
+
+msgid "Provider Type"
+msgstr "Provider Type"
+
+msgid "Provider URL"
 msgstr "Provider URL"
 
-#: locale/model_attributes.rb:144
 msgid "Provider account"
 msgstr "Provider Account"
 
-#: locale/model_attributes.rb:145
-msgid "ProviderAccount|Label"
-msgstr "Label"
+msgid "Provider account was deleted"
+msgstr "Provider account was deleted"
 
-#: locale/model_attributes.rb:146
-msgid "ProviderAccount|Lock version"
-msgstr "Lock version"
+msgid "Provider added."
+msgstr "Provider added."
 
-#: locale/model_attributes.rb:147
-msgid "ProviderAccount|Priority"
-msgstr "Priority"
+msgid "Provider disabled."
+msgstr "Provider disabled."
 
-#: locale/model_attributes.rb:148
+msgid "Provider has been deleted."
+msgstr "Provider has been deleted."
+
+msgid "Provider is disabled."
+msgstr "Provider is disabled."
+
 msgid "Provider priority group"
 msgstr "Provider priority group"
 
-#: locale/model_attributes.rb:149
-msgid "ProviderPriorityGroup|Name"
-msgstr "Name"
-
-#: locale/model_attributes.rb:150
-msgid "ProviderPriorityGroup|Score"
-msgstr "Score"
-
-#: locale/model_attributes.rb:151
 msgid "Provider priority group element"
 msgstr "Provider priority group element"
 
-#: locale/model_attributes.rb:152
-msgid "ProviderPriorityGroupElement|Value type"
-msgstr "Value type"
-
-#: locale/model_attributes.rb:153
 msgid "Provider realm"
 msgstr "Provider realm"
 
-#: locale/model_attributes.rb:154
-msgid "ProviderRealm|Available"
-msgstr "Available"
-
-#: locale/model_attributes.rb:155
-msgid "ProviderRealm|External key"
-msgstr "External key"
-
-#: locale/model_attributes.rb:156
-msgid "ProviderRealm|Lock version"
-msgstr "Lock version"
-
-#: locale/model_attributes.rb:157
-msgid "ProviderRealm|Name"
-msgstr "Name"
-
-#: locale/model_attributes.rb:158
 msgid "Provider selection strategy"
 msgstr "Provider selection strategy"
 
-#: locale/model_attributes.rb:159
-msgid "ProviderSelectionStrategy|Config"
-msgstr "Config"
-
-#: locale/model_attributes.rb:160
-msgid "ProviderSelectionStrategy|Enabled"
-msgstr "Enabled"
-
-#: locale/model_attributes.rb:161
-msgid "ProviderSelectionStrategy|Name"
-msgstr "Name"
-
-#: locale/model_attributes.rb:162
 msgid "Provider type"
 msgstr "Provider type"
 
-#: locale/model_attributes.rb:163
+msgid "Provider updated."
+msgstr "Provider updated."
+
+msgid "Provider was not deleted: %s"
+msgstr "Provider was not deleted: %s"
+
+msgid "Provider was not disabled. Failed to change status to 'stopped' for following instances:"
+msgstr "Provider was not disabled. Failed to change status to 'stopped' for following instances:"
+
+msgid "Provider was not disabled. Failed to stop following instances:"
+msgstr "Provider was not disabled. Failed to stop following instances:"
+
+msgid "Provider's Image ID"
+msgstr "Provider's Image ID"
+
+msgid "ProviderAccount|Label"
+msgstr "Label"
+
+msgid "ProviderAccount|Lock version"
+msgstr "Lock version"
+
+msgid "ProviderAccount|Priority"
+msgstr "Priority"
+
+msgid "ProviderPriorityGroupElement|Value type"
+msgstr "Value type"
+
+msgid "ProviderPriorityGroup|Name"
+msgstr "Name"
+
+msgid "ProviderPriorityGroup|Score"
+msgstr "Score"
+
+msgid "ProviderRealm|Available"
+msgstr "Available"
+
+msgid "ProviderRealm|External key"
+msgstr "External key"
+
+msgid "ProviderRealm|Lock version"
+msgstr "Lock version"
+
+msgid "ProviderRealm|Name"
+msgstr "Name"
+
+msgid "ProviderSelectionStrategy|Config"
+msgstr "Config"
+
+msgid "ProviderSelectionStrategy|Enabled"
+msgstr "Enabled"
+
+msgid "ProviderSelectionStrategy|Name"
+msgstr "Name"
+
 msgid "ProviderType|Deltacloud driver"
 msgstr "Deltacloud driver"
 
-#: locale/model_attributes.rb:164
 msgid "ProviderType|Home dir"
 msgstr "Home dir"
 
-#: locale/model_attributes.rb:165
 msgid "ProviderType|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:166
 msgid "ProviderType|Ssh user"
 msgstr "Ssh user"
 
-#: locale/model_attributes.rb:167
+msgid "Providers"
+msgstr "Providers"
+
+msgid "Providers & Provider Accounts"
+msgstr "Providers & Provider Accounts"
+
+msgid "Provider|Available"
+msgstr "Available"
+
+msgid "Provider|Deltacloud provider"
+msgstr "Deltacloud provider"
+
+msgid "Provider|Enabled"
+msgstr "Enabled"
+
+msgid "Provider|Lock version"
+msgstr "Lock version"
+
+msgid "Provider|Name"
+msgstr "Provider name"
+
+msgid "Provider|Url"
+msgstr "Provider URL"
+
+msgid "Public Address"
+msgstr "Public Address"
+
+msgid "Public Addresses"
+msgstr "Public Addresses"
+
+msgid "Pushing"
+msgstr "Pushing"
+
 msgid "Quota"
 msgstr "Quota"
 
-#: locale/model_attributes.rb:168
+msgid "Quota Limit"
+msgstr "Quota Limit"
+
+msgid "Quota Used"
+msgstr "Quota Used"
+
+msgid "Quota limit of running Instances for %s account has been exceeded."
+msgstr ""
+
+msgid "Quota updated"
+msgstr "Quota updated"
+
+msgid "Quota usage"
+msgstr "Quota usage"
+
 msgid "Quota|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:169
 msgid "Quota|Maximum running instances"
 msgstr "Maximum running instances"
 
-#: locale/model_attributes.rb:170
 msgid "Quota|Maximum total instances"
 msgstr "Maximum total instances"
 
-#: locale/model_attributes.rb:171
 msgid "Quota|Running instances"
 msgstr "Running instances"
 
-#: locale/model_attributes.rb:172
 msgid "Quota|Total instances"
 msgstr "Total instances"
 
-#: locale/model_attributes.rb:173
+msgid "RAM"
+msgstr "RAM"
+
+msgid "Realm"
+msgstr "Realm"
+
+msgid "Realm %s is mapped to Providers:"
+msgstr "Realm %s is mapped to Providers:"
+
+msgid "Realm %s is mapped to Realms:"
+msgstr ""
+
+msgid "Realm Mapping"
+msgstr "Realm Mapping"
+
+msgid "Realm Name"
+msgstr "Realm Name"
+
 msgid "Realm backend target"
 msgstr "Realm backend target"
 
-#: locale/model_attributes.rb:174
+msgid "Realm mapping was added."
+msgstr "Realm mapping was added."
+
+msgid "Realm updated"
+msgstr "Realm updated"
+
+msgid "Realm was added"
+msgstr "Realm was added"
+
+msgid "Realm was deleted"
+msgstr "Realm was deleted"
+
+msgid "Realm was not deleted"
+msgstr "Realm was not deleted"
+
 msgid "RealmBackendTarget|Provider realm or provider type"
 msgstr "Provider realm or provider type"
 
-#: locale/model_attributes.rb:176
+msgid "Realms"
+msgstr "Realms"
+
+msgid "Realms mapped to Provider %s:"
+msgstr "Realms mapped to Provider %s:"
+
+msgid "Realms mapped to Provider Realm %s:"
+msgstr "Realms mapped to Provider Realm %s:"
+
+msgid "Reboot selected Instances"
+msgstr "Reboot selected Instances"
+
+msgid "Reference to %s's return parameter: %s"
+msgstr ""
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "Reset"
+msgstr "Reset"
+
+msgid "Resource"
+msgstr "Resource"
+
+msgid "Resource Type"
+msgstr "Resource Type"
+
+msgid "Return to:"
+msgstr "Return to:"
+
+msgid "Revoke Access"
+msgstr "Revoke Access"
+
+msgid "Role"
+msgstr "Role"
+
+msgid "Role Assignments"
+msgstr "Role Assignments"
+
+msgid "Role Name"
+msgstr "Role Name"
+
+msgid "Role successfully saved."
+msgstr "Role successfully saved."
+
+msgid "Role updated successfully."
+msgstr "Role updated successfully."
+
+msgid "Roles List"
+msgstr "Roles List"
+
 msgid "Role|Assign to owner"
 msgstr "Assign to owner"
 
-#: locale/model_attributes.rb:177
 msgid "Role|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:178
 msgid "Role|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:179
 msgid "Role|Scope"
 msgstr "Scope"
 
-#: locale/model_attributes.rb:180
+msgid "Running (Historical)"
+msgstr "Running (Historical)"
+
+msgid "Running Instances"
+msgstr "Running Instances"
+
+msgid "Running Instances (Current)"
+msgstr "Running Instances (Current)"
+
+msgid "Running instances quota"
+msgstr "Running instances quota"
+
+msgid "SSH Key not found for this Instance."
+msgstr "SSH Key not found for this Instance."
+
+msgid "SSH key"
+msgstr "SSH key"
+
+msgid "SSH key name"
+msgstr "SSH key name"
+
+msgid "STATUS"
+msgstr "STATUS"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Save Image Template"
+msgstr "Save Image Template"
+
+msgid "Save Priority Group"
+msgstr "Save Priority Group"
+
+msgid "Save and Continue"
+msgstr "Save and Continue"
+
+msgid "Scope"
+msgstr "Scope"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Select"
+msgstr "Select"
+
+msgid "Select Billing Model for Hardware Profile"
+msgstr "Select Billing Model for Hardware Profile"
+
+msgid "Self-service Settings"
+msgstr "Self-service Settings"
+
 msgid "Session entity"
 msgstr "Session entity"
 
-#: locale/model_attributes.rb:181
 msgid "SessionEntity|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:182
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Settings Updated"
+msgstr "Settings Updated"
+
+msgid "Shared to"
+msgstr "Shared to"
+
+msgid "Show/Hide"
+msgstr "Show/Hide"
+
+msgid "Some Assemblies will not be launched:"
+msgstr "Some Assemblies will not be launched:"
+
+msgid "Some actions failed"
+msgstr "Some actions failed"
+
+msgid "Some attribute(s) are missing in the XML. Please check the file."
+msgstr "Some attribute(s) are missing in the XML. Please check the file."
+
+msgid "Some errors prevented the %s from being saved. Please review the problems below."
+msgstr ""
+
+msgid "State"
+msgstr "State"
+
+msgid "State changed to %s"
+msgstr ""
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Stop Selected"
+msgstr "Stop Selected"
+
+msgid "Stop selected Instances"
+msgstr "Stop selected Instances"
+
+msgid "Storage"
+msgstr "Storage"
+
+msgid "Successfully connected to Provider"
+msgstr "Successfully connected to Provider"
+
+msgid "Successfully disabled %s strategy"
+msgstr ""
+
+msgid "Successfully enabled %s strategy"
+msgstr "Successfully enabled %s strategy"
+
+msgid "Successfully modified the following User Roles: %s"
+msgstr ""
+
+msgid "Successfully updated %s strategy"
+msgstr "Successfully updated %s strategy"
+
+msgid "Target Images UUIDs"
+msgstr "Target Images UUIDs"
+
+msgid "Target type"
+msgstr "Target type"
+
 msgid "Task"
 msgstr "Task"
 
-#: locale/model_attributes.rb:183
 msgid "Task|Action"
 msgstr "Action"
 
-#: locale/model_attributes.rb:184
 msgid "Task|Args"
 msgstr "Args"
 
-#: locale/model_attributes.rb:185
 msgid "Task|Failure code"
 msgstr "Failure code"
 
-#: locale/model_attributes.rb:186
 msgid "Task|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:187
 msgid "Task|Message"
 msgstr "Message"
 
-#: locale/model_attributes.rb:188
 msgid "Task|State"
 msgstr "State"
 
-#: locale/model_attributes.rb:189
 msgid "Task|Task target type"
 msgstr "Task target type"
 
-#: locale/model_attributes.rb:190
 msgid "Task|Time ended"
 msgstr "Time ended"
 
-#: locale/model_attributes.rb:191
 msgid "Task|Time started"
 msgstr "Time started"
 
-#: locale/model_attributes.rb:192
 msgid "Task|Time submitted"
 msgstr "Time submitted"
 
-#: locale/model_attributes.rb:193
 msgid "Task|User"
 msgstr "User"
 
-#: locale/model_attributes.rb:194
+msgid "Terminate"
+msgstr ""
+
+msgid "Terminate Instances"
+msgstr "Terminate Instances"
+
+msgid "Test"
+msgstr "Test"
+
+msgid "Test Connection"
+msgstr "Test Connection"
+
+msgid "Test Connection Failed: Could not connect to Provider"
+msgstr "Test Connection Failed: Could not connect to Provider"
+
+msgid "Test Connection Failed: Invalid Account Details"
+msgstr "Test Connection Failed: Invalid Account Details"
+
+msgid "Test Connection Success: Valid Account Details"
+msgstr "Test Connection Success: Valid Account Details"
+
+msgid "Test successful"
+msgstr "Test successful"
+
+msgid "That name is already in use"
+msgstr "That name is already in use"
+
+msgid "The Config Server information is invalid."
+msgstr "The Config Server information is invalid."
+
+msgid "The Deployable '%s' contains an image (UUID %s) in the wrong Environment ('%s' should be '%s') and cannot be used."
+msgstr ""
+
+msgid "The Deployment %s can not be deleted because following instances can not be stopped:"
+msgstr ""
+
+msgid "The Deployment %s could not be deleted: %s"
+msgstr "The Deployment %s could not be deleted: %s"
+
+msgid "The Deployment %s could not be stopped. Only running Deployments can be stopped."
+msgstr ""
+
+msgid "The Image you tried to access cannot be found. It may have been deleted."
+msgstr "The Image you tried to access cannot be found. It may have been deleted."
+
+msgid "The Password Reset link is no longer valid. Please re-apply for the new link by completing the form below."
+msgstr "The Password Reset link is no longer valid. Please re-apply for the new link by completing the form below."
+
+msgid "The Provider %s is currently disabled."
+msgstr "The Provider %s is currently disabled."
+
+msgid "The Provider %s is currently not available."
+msgstr "The Provider %s is currently not available."
+
+msgid "The Provider is not accessible. The status of following Instances will be changed to 'stopped' but their actual state is unknown."
+msgstr ""
+
+msgid "The Realm %s is currently not available."
+msgstr ""
+
+msgid "The Username or Password is incorrect, please try again."
+msgstr "The Username or Password is incorrect, please try again."
+
+msgid "The default Environment cannot be deleted."
+msgstr "The default Environment cannot be deleted."
+
+msgid "The default Pool cannot be deleted."
+msgstr "The default Pool cannot be deleted."
+
+msgid "The following Deployments have not been stopped: %s"
+msgstr ""
+
+msgid "The instance %s is in state %s."
+msgstr ""
+
+msgid "The provided image template is too large. Please provide an XML template."
+msgstr "The provided image template is too large. Please provide an XML template."
+
+msgid "The record you tried to access does not exist. It may have been deleted"
+msgstr "The record you tried to access does not exist. It may have been deleted"
+
+msgid "There are following associated images: %s. Delete them first."
+msgstr ""
+
+msgid "There are following associated provider images: %s. Delete them first."
+msgstr ""
+
+msgid "There are no Provider Accounts associated with the selected Pool's Environment."
+msgstr "There are no Provider Accounts associated with the selected Pool's Environment."
+
+msgid "There are no Provider Accounts available."
+msgstr "There are no Provider Accounts available."
+
+msgid "There is no Quota on this"
+msgstr "There is no Quota on this"
+
+msgid "To"
+msgstr "To"
+
+msgid "To enable and configure the Provider, click the Edit button."
+msgstr "To enable and configure the Provider, click the Edit button."
+
+msgid "Toggle Alerts"
+msgstr "Toggle Alerts"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Total Cloud Providers"
+msgstr "Total Cloud Providers"
+
+msgid "Total Deployments"
+msgstr "Total Deployments"
+
+msgid "Total Inst."
+msgstr "Total Inst."
+
+msgid "Total Instances"
+msgstr "Total Instances"
+
+msgid "Total Instances available"
+msgstr "Total Instances available"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "URL of Deployable XML"
+msgstr "URL of Deployable XML"
+
+msgid "UUIDs"
+msgstr "UUIDs"
+
+msgid "Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images."
+msgstr "Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images."
+
+msgid "Unit"
+msgstr "Unit"
+
+msgid "Unlimited"
+msgstr "Unlimited"
+
+msgid "Upload"
+msgstr "Upload"
+
+msgid "Uptime 1st Instance running"
+msgstr "Uptime 1st Instance running"
+
+msgid "Used"
+msgstr "Used"
+
 msgid "User"
 msgstr "User"
 
-#: locale/model_attributes.rb:195
-msgid "User|Crypted password"
-msgstr "Crypted password"
+msgid "User Group added"
+msgstr "User Group added"
 
-#: locale/model_attributes.rb:196
-msgid "User|Current login at"
-msgstr "Current login at"
+msgid "User Group has been successfully deleted."
+msgstr "User Group has been successfully deleted."
 
-#: locale/model_attributes.rb:197
-msgid "User|Current login ip"
-msgstr "Current login IP"
+msgid "User Group updated"
+msgstr "User Group updated"
 
-#: locale/model_attributes.rb:198
-msgid "User|Email"
-msgstr "Email"
+msgid "User Groups"
+msgstr "User Groups"
 
-#: locale/model_attributes.rb:199
-msgid "User|Failed login count"
-msgstr "Failed login count"
+msgid "User ID"
+msgstr "User ID"
 
-#: locale/model_attributes.rb:200
-msgid "User|First name"
-msgstr "First Name"
-
-#: locale/model_attributes.rb:201
-msgid "User|Last login at"
-msgstr "Last login at"
-
-#: locale/model_attributes.rb:202
-msgid "User|Last login ip"
-msgstr "Last login IP"
-
-#: locale/model_attributes.rb:203
-msgid "User|Last name"
-msgstr "Last Name"
-
-#: locale/model_attributes.rb:204
-msgid "User|Last request at"
-msgstr "Last request at"
-
-#: locale/model_attributes.rb:205
-msgid "User|Login count"
-msgstr "Login count"
-
-#: locale/model_attributes.rb:206
-msgid "User|Password reset sent at"
-msgstr "Password reset sent at"
-
-#: locale/model_attributes.rb:207
-msgid "User|Password reset token"
-msgstr "Password reset token"
-
-#: locale/model_attributes.rb:208
-msgid "User|Username"
-msgstr "Username"
-
-#: locale/model_attributes.rb:209
 msgid "User group"
 msgstr "User Group"
 
-#: locale/model_attributes.rb:210
+msgid "User has been successfully deleted."
+msgstr "User has been successfully deleted."
+
+msgid "User quota reached"
+msgstr "User quota reached"
+
+msgid "User registered"
+msgstr "User registered"
+
+msgid "User updated"
+msgstr "User updated"
+
 msgid "UserGroup|Description"
 msgstr "Description"
 
-#: locale/model_attributes.rb:211
 msgid "UserGroup|Lock version"
 msgstr "Lock version"
 
-#: locale/model_attributes.rb:212
 msgid "UserGroup|Membership source"
 msgstr "Membership source"
 
-#: locale/model_attributes.rb:213
 msgid "UserGroup|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:214
+msgid "Username"
+msgstr "Username"
+
+msgid "Username has already been taken"
+msgstr "Username has already been taken"
+
+msgid "Usernames have been sent to given e-mail address."
+msgstr "Usernames have been sent to given e-mail address."
+
+msgid "Users"
+msgstr "Users"
+
+msgid "User|Crypted password"
+msgstr "Crypted password"
+
+msgid "User|Current login at"
+msgstr "Current login at"
+
+msgid "User|Current login ip"
+msgstr "Current login IP"
+
+msgid "User|Email"
+msgstr "Email"
+
+msgid "User|Failed login count"
+msgstr "Failed login count"
+
+msgid "User|First name"
+msgstr "First Name"
+
+msgid "User|Last login at"
+msgstr "Last login at"
+
+msgid "User|Last login ip"
+msgstr "Last login IP"
+
+msgid "User|Last name"
+msgstr "Last Name"
+
+msgid "User|Last request at"
+msgstr "Last request at"
+
+msgid "User|Login count"
+msgstr "Login count"
+
+msgid "User|Password reset sent at"
+msgstr "Password reset sent at"
+
+msgid "User|Password reset token"
+msgstr "Password reset token"
+
+msgid "User|Username"
+msgstr "Username"
+
+msgid "VM NAME"
+msgstr "VM NAME"
+
+msgid "Valid Image"
+msgstr "Valid Image"
+
+msgid "Value"
+msgstr "Value"
+
+msgid "View Image Template XML"
+msgstr "View Image Template XML"
+
+msgid "View build"
+msgstr "View build"
+
 msgid "View state"
 msgstr "View state"
 
-#: locale/model_attributes.rb:215
 msgid "ViewState|Action"
 msgstr "Action"
 
-#: locale/model_attributes.rb:216
 msgid "ViewState|Controller"
 msgstr "Controller"
 
-#: locale/model_attributes.rb:217
 msgid "ViewState|Name"
 msgstr "Name"
 
-#: locale/model_attributes.rb:218
 msgid "ViewState|State"
 msgstr "State"
 
-#: locale/model_attributes.rb:219
 msgid "ViewState|Uuid"
 msgstr "Uuid"
+
+msgid "Viewing"
+msgstr "Viewing"
+
+msgid "Virtual CPU"
+msgstr "Virtual CPU"
+
+msgid "X-Deltacloud-Driver"
+msgstr "X-Deltacloud-Driver"
+
+msgid "X-Deltacloud-Provider"
+msgstr "X-Deltacloud-Provider"
+
+msgid "XML file is either invalid or no longer reachable at %s"
+msgstr ""
+
+msgid "XML is not valid:"
+msgstr "XML is not valid:"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "You do not have sufficient permission to access the %s Hardware Profile."
+msgstr ""
+
+msgid "You have insufficient privileges to perform the selected action."
+msgstr "You have insufficient privileges to perform the selected action."
+
+msgid "You have successfully registered."
+msgstr "You have successfully registered."
+
+msgid "You must be logged out to access this page"
+msgstr "You must be logged out to access this page"
+
+msgid "You must select at least one Provider Account to add."
+msgstr "You must select at least one Provider Account to add."
+
+msgid "You must select at least one Provider Account to remove."
+msgstr "You must select at least one Provider Account to remove."
+
+msgid "You must select at least one Realm to delete."
+msgstr "You must select at least one Realm to delete."
+
+msgid "You must select at least one mapping to delete."
+msgstr "You must select at least one mapping to delete."
+
+msgid "You must select at least one user to add."
+msgstr "You must select at least one user to add."
+
+msgid "You must select at least one user to remove."
+msgstr "You must select at least one user to remove."
+
+msgid "You must select one or more Deployments."
+msgstr "You must select one or more Deployments."
+
+msgid "You must select one or more Instances to reboot."
+msgstr "You must select one or more Instances to reboot."
+
+msgid "You must select one or more Instances to stop."
+msgstr "You must select one or more Instances to stop."
+
+msgid "You must select some accounts first."
+msgstr "You must select some accounts first."
+
+msgid "You need to select a Deployable"
+msgstr "You need to select a Deployable"
+
+msgid "Your Password reset link has expired. Please re-apply for the new password reset by filling the form below."
+msgstr "Your Password reset link has expired. Please re-apply for the new password reset by filling the form below."
+
+msgid "Your Pools"
+msgstr "Your Pools"
+
+msgid "e-mail"
+msgstr "e-mail"
+
+msgid "file contains syntax errors"
+msgstr "file contains syntax errors"
+
+msgid "has all associated Providers disabled"
+msgstr "has all associated Providers disabled"
+
+msgid "must be a positive whole number less than 2147483647"
+msgstr "must be a positive whole number less than 2147483647"
+
+msgid "must be enabled"
+msgstr "must be enabled"
+
+msgid "must contain unique Assembly names"
+msgstr "must contain unique Assembly names"
+
+msgid "no Catalog selected"
+msgstr "no Catalog selected"
+
+msgid "of Quota limit for running Instances for %s account has been reached."
+msgstr ""
+
+msgid "pushed to %s, provider id: %s"
+msgstr ""
+
+msgid "reboot is already scheduled."
+msgstr "reboot is already scheduled."
+
+msgid "seems to be not valid Deployable XML: %s"
+msgstr ""
+
+msgid "to %s Pool"
+msgstr "to %s Pool"
+
+msgid "unlimited"
+msgstr "unlimited"
+
+msgid "via SSH"
+msgstr "via SSH"
+
+msgid "was not found on the Provider."
+msgstr "was not found on the Provider."

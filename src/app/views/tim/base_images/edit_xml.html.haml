@@ -3,7 +3,7 @@
   .obj_actions
     .return_to
       = t :return_to
-      = link_to t('tim.base_images.environment', :environment => @base_image.pool_family.name), main_app.pool_family_path(@base_image.pool_family)
+      = link_to _('Environment') % @base_image.pool_family.name, main_app.pool_family_path(@base_image.pool_family)
   %h1.no-icon= @base_image.name
 
 %section.content-section

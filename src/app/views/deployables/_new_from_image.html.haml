@@ -1,5 +1,5 @@
 %header.page-header
-  %h1.no-icon= @deployable.name.blank? ? "&nbsp;".html_safe : t('.catalog_entry_name', :name => @deployable.name)
+  %h1.no-icon= @deployable.name.blank? ? "&nbsp;".html_safe : _('%s') % @deployable.name
 
 %section.content-section
   .content
@@ -9,7 +9,7 @@
         = render 'layouts/error_messages', :object => @deployable
       .lefted.new-catalog-entry-from-image
         %h2= _('Logs')
-        %p= t('.description', :name => @image.name)
+        %p= _('Description') % @image.name
         %fieldset
           .field
             = form.label :name, :class => 'em'

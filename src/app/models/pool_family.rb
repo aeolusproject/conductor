@@ -95,8 +95,7 @@ class PoolFamily < ActiveRecord::Base
       true
     else
       raise Aeolus::Conductor::Base::NotDestroyable,
-        I18n.t('pool_families.errors.not_destroyable_pools',
-               :list => cant_destroy.map {|p| p.name}.join(', '))
+        _('Can not destroy following pools: %s.') % cant_destroy.map{|p| p.name}.join(', ')
     end
   end
 
@@ -114,8 +113,7 @@ class PoolFamily < ActiveRecord::Base
       true
     else
       raise Aeolus::Conductor::Base::NotDestroyable,
-        I18n.t('pool_families.errors.associated_images',
-               :list => base_images.map {|i| i.name}.join(', '))
+        _('There are following associated images: %s. Delete them first.') % base_images.map{|i| i.name}.join(', ')
     end
   end
 
