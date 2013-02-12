@@ -93,7 +93,7 @@ class ProviderAccountsController < ApplicationController
 
       respond_to do |format|
         format.html do
-          flash[:notice] = t('provider_accounts.flash.notice.account_added', :list => @provider_account.name, :count => 1)
+          flash[:notice] = _('Account %s was added.') % @provider_account.name
           redirect_to provider_path(@provider, :details_tab => 'accounts')
         end
         format.xml do
@@ -123,8 +123,7 @@ class ProviderAccountsController < ApplicationController
     respond_to do |format|
       format.html do
         error = humanize_error(ex.message, :context => :deltacloud)
-        flash[:error] = t('provider_accounts.flash.error.account_not_added',
-                          :list => @provider_account.name, :count => 1) + ": #{error}"
+        flash[:error] = _("Account %s could not be added: %s") % [@provider_account.name,error]
         render :action => 'new'
       end
       format.xml { render 'api/error', :locals => { :error => ex }, :status => 500 }
@@ -226,9 +225,7 @@ class ProviderAccountsController < ApplicationController
     end
 
     if succeeded.present?
-      flash[:notice] = t('provider_accounts.flash.notice.account_deleted',
-                         :count => succeeded.length,
-                         :list => succeeded.join(', '))
+      flash[:notice] = n_('Account %s was deleted.','Accounts %s were deleted.',succeeded.length) % succeeded.to_sentence
     end
     flash[:error] = failed if failed.present?
     redirect_to provider_path(@provider, :details_tab => 'accounts')
