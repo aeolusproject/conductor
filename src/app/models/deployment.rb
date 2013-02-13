@@ -251,9 +251,9 @@ class Deployment < ActiveRecord::Base
       end
     end
 
-    # Array of InstanceMatches returned by pick_provider_selection_match
-    # is converted to hashes because if we use directly instance of
-    # InstanceMatch model, delayed job tries to load this object from DB
+    # Array of InstanceMatches is converted to hashes
+    # because if we use directly instance of InstanceMatch model,
+    # delayed job tries to load this object from DB
     all_inst_match.map!{|m| m.attributes}
 
     if deployable_xml.requires_config_server?
@@ -265,6 +265,31 @@ class Deployment < ActiveRecord::Base
     delay.send_launch_requests(all_inst_match,
                                instances.map{|i| i.id},
                                config_server_id, user.id)
+  end
+
+  def pick_provider_selection_match
+    assembly_instances_builder =
+      DeployableMatching::AssemblyInstancesBuilder.
+        build_from_instances(pool, instances)
+    assembly_instances = assembly_instances_builder.assembly_instances
+    provider_selection = ProviderSelection::Base.new(pool, assembly_instances)
+
+    return [nil, nil, provider_selection.errors] unless provider_selection.valid?
+
+    deployable_match = provider_selection.next_match
+
+    all_inst_match = deployable_match.multi_assembly_match.map do |assembly_match|
+      InstanceMatch.new(
+        :pool_family => pool_family,
+        :provider_account => assembly_match.provider_account,
+        :hardware_profile => assembly_match.provider_hwp,
+        :provider_image => assembly_match.provider_image.external_image_id,
+        :provider_realm => assembly_match.provider_realm,
+        :instance => assembly_match.instance
+      )
+    end
+
+    [all_inst_match, deployable_match.provider_account, provider_selection.errors]
   end
 
   def send_launch_requests(all_inst_match, instance_ids, config_server_id, user_id)
@@ -352,61 +377,17 @@ class Deployment < ActiveRecord::Base
     inst && inst.provider_account
   end
 
-  # we try to create an instance for each assembly and check
-  # if a match is found
   def check_assemblies_matches(permission_session, user)
-    errs = []
-    begin
-      deployable_xml.assemblies.each do |assembly|
-        hw_profile =
-          HardwareProfile.find_allowed_frontend_hwp_by_name(permission_session,
-                                                            user, assembly.hwp)
-        raise _('You do not have sufficient permission to access the %s Hardware Profile.') % assembly.hwp unless hw_profile
+    assembly_instances_builder =
+      DeployableMatching::AssemblyInstancesBuilder.
+        build_from_deployable(permission_session, user, pool, deployable_xml)
 
-        instance = Instance.new(
-          :deployment => self,
-          :name => "#{name}/#{assembly.name}",
-          :frontend_realm => frontend_realm,
-          :pool => pool,
-          :image_uuid => assembly.image_id,
-          :image_build_uuid => assembly.image_build,
-          :assembly_xml => assembly.to_s,
-          :state => Instance::STATE_NEW,
-          :owner => user,
-          :hardware_profile => hw_profile
-        )
-        instances << instance
-        possibles, errors = instance.matches
-        if possibles.empty? and not errors.empty?
-          raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(_('Some Assemblies will not be launched:'), errors)
-        end
-      end
-
-      deployment_errors = []
-
-      unless provider_selection_match_exists?
-        deployment_errors << _('Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images.')
-      end
-
-      unless pool.quota.can_start?(instances)
-        deployment_errors << _('Pool quota reached')
-      end
-
-      unless pool.pool_family.quota.can_start?(instances)
-        deployment_errors << _('Environment quota reached')
-      end
-
-      unless user.quota.can_start?(instances)
-        deployment_errors << _('User quota reached')
-      end
-
-      if deployment_errors.any?
-        raise Aeolus::Conductor::MultiError::UnlaunchableAssembly.new(_('Some Assemblies will not be launched:'), deployment_errors)
-      end
-    rescue
-      errs << $!.message
+    if assembly_instances_builder.errors.any?
+      return assembly_instances_builder.errors
     end
-    errs
+
+    assembly_instances = assembly_instances_builder.assembly_instances
+    ProviderSelection::Base.new(pool, assembly_instances).errors
   end
 
   def all_instances_running?
@@ -557,35 +538,6 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def init_provider_selection
-    provider_selection = ProviderSelection::Base.new(instances)
-    pool.provider_selection_strategies.enabled.each do |strategy|
-      provider_selection.chain_strategy(strategy.name, strategy.config)
-    end
-    provider_selection
-  end
-
-  def provider_selection_match_exists?
-    init_provider_selection.match_exists?
-  end
-
-  def pick_provider_selection_match
-    provider_selection = init_provider_selection
-    match = provider_selection.next_match
-
-    return_error = proc { return [nil, nil, provider_selection.errors] }
-    return_error.call unless match.present?
-
-    all_matches = instances.map { |instance| instance.matches[0] }
-    provider_account = match.provider_account
-    matches_by_account = all_matches.map do |matches|
-      matches.find { |m| m.provider_account.id == provider_account.id }
-    end
-
-    return_error.call if matches_by_account.include?(nil)
-    [matches_by_account, provider_account, provider_selection.errors]
-  end
-
   def generate_uuid
     self[:uuid] = UUIDTools::UUID.timestamp_create.to_s
   end
@@ -599,38 +551,33 @@ class Deployment < ActiveRecord::Base
   end
 
   def create_instances_with_params!(permission_session, user)
-    deployable_xml.assemblies.each do |assembly|
-      hw_profile =
-        HardwareProfile.find_allowed_frontend_hwp_by_name(permission_session,
-                                                          user, assembly.hwp)
-      raise _('You do not have sufficient permission to access the %s Hardware Profile.') % assembly.hwp unless hw_profile
+    assembly_instances_builder =
+      DeployableMatching::AssemblyInstancesBuilder.
+        build_from_deployable(permission_session, user, pool, deployable_xml)
+    assembly_instances = assembly_instances_builder.assembly_instances
+    provider_selection = ProviderSelection::Base.new(pool, assembly_instances)
 
+    provider_selection.assembly_instances.each do |assembly_instance|
       Instance.transaction do
-        instance = Instance.create!(
-          :deployment => self,
-          :name => "#{name}/#{assembly.name}",
-          :frontend_realm => frontend_realm,
-          :pool => pool,
-          :image_uuid => assembly.image_id,
-          :image_build_uuid => assembly.image_build,
-          :assembly_xml => assembly.to_s,
-          :state => Instance::STATE_NEW,
-          :owner => user,
-          :hardware_profile => hw_profile
-        )
-        assembly.services.each do |service|
-          service.parameters.each do |parameter|
-            if not parameter.reference?
-              param = InstanceParameter.create!(
-                :instance => instance,
-                :service => service.name,
-                :name => parameter.name,
-                :type => parameter.type,
-                :value => parameter.value
-              )
-            end
-          end
+        attrs = { :name => "#{name}/#{assembly_instance.assembly.name}",
+                  :deployment => self,
+                  :assembly_xml => assembly_instance.assembly.to_s,
+                  :state => Instance::STATE_NEW }
+
+        attrs.merge!(assembly_instance.attributes)
+        instance = Instance.create!(attrs)
+
+        assembly_instance.service_parameters.each do |parameter|
+          next if parameter.reference?
+
+          InstanceParameter.create!(:instance => instance,
+                                    :service => parameter[:service],
+                                    :name => parameter[:name],
+                                    :type => parameter[:type],
+                                    :value => parameter[:value])
+
         end
+
         self.instances << instance
       end
     end

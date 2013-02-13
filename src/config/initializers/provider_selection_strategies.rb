@@ -14,6 +14,9 @@
 #   limitations under the License.
 #
 
+# Load deployable matching classes in lib
+require File.join(Rails.root, 'lib', 'deployable_matching.rb')
+
 # Load base classes in lib
 require File.join(Rails.root, 'lib', 'provider_selection.rb')
 

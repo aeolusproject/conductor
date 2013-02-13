@@ -173,27 +173,6 @@ class Instance < ActiveRecord::Base
     errors.add(:pool, _('has all associated Providers disabled')) if pool and pool.pool_family.all_providers_disabled?
   end
 
-
-  def image
-    @image ||= Tim::BaseImage.find_by_uuid(image_uuid) if image_uuid
-  end
-
-  def image_build
-    @image_build ||= Tim::ImageVersion.find_by_uuid(image_build_uuid) if image_build_uuid
-  end
-
-  def provider_image_for_account(provider_account)
-    if image_build
-      Tim::ProviderImage.find_by_provider_account_and_image_version(
-        provider_account, image_build).complete.first
-    elsif image
-      Tim::ProviderImage.find_by_provider_account_and_image(
-        provider_account, image).complete.order('created_at DESC').first
-    else
-      nil
-    end
-  end
-
   def assembly_xml
     @assembly_xml ||= AssemblyXML.new(self[:assembly_xml].to_s)
   end
@@ -342,10 +321,6 @@ class Instance < ActiveRecord::Base
     (FAILED_STATES + [STATE_RUNNING]).include?(state)
   end
 
-  def requires_config_server?
-    ! instance_config_xml.nil? || assembly_xml.requires_config_server?
-  end
-
   # represents states from which instance doesn't automatically transits
   # into any other state, also checks that there is no queued 'start' action
   # for stopped instance (rhevm, vpshere)
@@ -368,29 +343,6 @@ class Instance < ActiveRecord::Base
   rescue => e
     logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{e}"
     nil
-  end
-
-  def matches
-    errors = []
-    if pool.pool_family.provider_accounts.empty?
-      errors << _('There are no Provider Accounts associated with the selected Pool\'s Environment.')
-    end
-    errors << _('Pool quota reached') if pool.quota.reached?
-    errors << _('Environment quota reached') if pool.pool_family.quota.reached?
-    errors << _('User quota reached') if owner.quota.reached?
-    errors << _('No image build was found with uuid %s and no image was found with uuid %s') % [image_build_uuid, image_uuid] if image_build.nil? and image.nil?
-    arch = image_arch
-    if arch.present? and hardware_profile.architecture and hardware_profile.architecture.value != arch
-      errors << _('Assembly hardware profile architecture (\'%s\') doesn\'t match image hardware profile architecture (\'%s\').') % [hardware_profile.architecture.value, arch]
-    end
-    return [[], errors] unless errors.empty?
-
-    matched = []
-    pool.pool_family.provider_accounts_by_priority.each do |account|
-      account.instance_matches(self, matched, errors)
-    end
-
-    [matched, errors]
   end
 
   def includes_instance_match?(match)
