@@ -4,8 +4,8 @@
   .obj_actions
     .return_to
       = t(:return_to)
-      = link_to t('provider_selection.edit_strategy.back_to_strategies', :pool => @pool.name), pool_provider_selection_path(@pool)
-  %h1.no-icon= t('provider_selection.edit_strategy.edit', :strategy_name => @strategy.translated_name)
+      = link_to _('Provider Selection Strategies for Pool: %s') % @pool.name, pool_provider_selection_path(@pool)
+  %h1.no-icon= _('Edit %s strategy') % @strategy.translated_name
 
 %section.content-section
   .content#priority-group-form

@@ -11,7 +11,7 @@
         = render :partial => 'deployments', :locals => {:pool => pool, :deployments => deployments}
       %ul.content.actions
         %li
-          - pool_details_label = deployments.total_pages > 1 ? t('pools.index.not_all_deployments_displayed_alert_html', :name => pool.name) : t('pools.index.pool_details_html', :name => pool.name)
+          - pool_details_label = deployments.total_pages > 1 ? _('Not all Deployments are displayed. Go to %s Pool details for more. &raquo;') % pool.name : _('%s Pool details &raquo;') % pool.name
           = link_to(pool_details_label, pool_path(pool), :class =>'pool_details')
         %li
           - if check_privilege(Privilege::CREATE, Deployment, pool)

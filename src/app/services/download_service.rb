@@ -25,14 +25,14 @@ class DownloadService
     begin
       download!
     rescue Exception => e
-      @error = I18n.t('application_controller.flash.error.not_valid_or_reachable', :url => @url)
+      @error = _('XML file is either invalid or no longer reachable at %s') % @url
       nil
     end
   end
 
   def download!
     raise _('No URL is provided for XML import') if @url.blank?
-    raise I18n.t('application_controller.flash.error.not_valid_url', :url => @url) unless @url =~ URI::regexp
+    raise (_('Provided URL is not valid %s') % @url) unless @url =~ URI::regexp
 
     response = RestClient.get(@url, :accept => :xml)
     if response.code == 200

@@ -126,7 +126,7 @@ class UsersController < ApplicationController
       User.transaction do
         User.find(params[:user_selected]).each do |user|
           if user == current_user
-            flash[:warning] = t('users.flash.warning.not_delete_same_user', :username => "#{user.username}")
+            flash[:warning] = _('Cannot delete %s : You are logged in as this user') % "#{user.username}"
           else
             user.destroy
             deleted_users << user.username
@@ -139,7 +139,7 @@ class UsersController < ApplicationController
       end
 
     rescue => ex
-      flash[:warning] = t('users.flash.warning.not_delete', :reason => ex.message)
+      flash[:warning] = _('Cannot delete: %s') % ex.message
     end
 
     redirect_to users_url
@@ -149,7 +149,7 @@ class UsersController < ApplicationController
     require_privilege(Privilege::MODIFY, User)
     user = User.find(params[:id])
     if user == current_user
-      flash[:warning] = "#{t('users.flash.warning.not_delete_same_user', :username => "#{user.username}")}"
+      flash[:warning] = "#{_('Cannot delete %s : You are logged in as this user') % "#{user.username}"}"
     else
       user.destroy
       flash[:notice] = _('User has been successfully deleted.')

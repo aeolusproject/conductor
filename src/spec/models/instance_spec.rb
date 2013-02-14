@@ -234,7 +234,7 @@ describe Instance do
   it "shouldn't match provider accounts where image is not pushed" do
     inst = Factory.create(:instance_with_provider_image)
     inst.stub(:provider_image_for_account).and_return(nil)
-    inst.matches.last.should include(I18n.t('instances.errors.image_not_pushed_to_provider', :account_name => inst.provider_account.name))
+    inst.matches.last.should include(_('%s: Image is not pushed to this Provider Account') % inst.provider_account.name)
   end
 
   it "shouldn't match provider accounts where matching hardware profile not found" do
@@ -242,7 +242,7 @@ describe Instance do
     account.provider.hardware_profiles.destroy_all
     @pool.pool_family.provider_accounts |= [account]
     @instance.stub(:provider_images_for_account).and_return([])
-    @instance.matches.last.should include(I18n.t('instances.errors.hw_profile_match_not_found', :account_name => 'testaccount'))
+    @instance.matches.last.should include(_('%s: Hardware Profile match not found') % 'testaccount')
   end
 
   it "shouldn't match frontend realms mapped to unavailable providers" do
@@ -250,7 +250,7 @@ describe Instance do
     # provider's available flag can be changed when a provider account is
     # created (populate_realms is called from after_create callback)
     @instance.provider_account.provider.update_attribute(:available, false)
-    @instance.matches.last.should include(I18n.t('instances.errors.provider_not_available', :account_name => @instance.provider_account.name))
+    @instance.matches.last.should include(_('%s: Provider is not available') % @instance.provider_account.name)
   end
 
   it "shouldn't match frontend realms mapped to unavailable realms" do
@@ -261,13 +261,13 @@ describe Instance do
     @instance.frontend_realm = realm_target.frontend_realm
     # TODO: this test is currently failing because conductor skips unavailable
     # realms in provider_account.instance_matches mathod
-    @instance.matches.last.should include(I18n.t('instances.errors.realm_not_mapped', :account_name => @instance.provider_account.name, :frontend_realm_name => @instance.frontend_realm.name))
+    @instance.matches.last.should include(_('%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm') % [@instance.provider_account.name, @instance.frontend_realm.name])
   end
 
 
   it "shouldn't return any matches if instance hwp architecture doesn't match image architecture" do
     @instance.hardware_profile.architecture.value = 'i386'
-    @instance.matches.last.should include(I18n.t('instances.errors.architecture_mismatch', :inst_arch => 'i386', :img_arch => 'x86_64'))
+    @instance.matches.last.should include(_('Assembly hardware profile architecture (%s) doesn\'t match image hardware profile architecture (%s).') % ["\'i386\'", "\'x86_64\'"])
   end
 
   it "should return a match if all requirements are satisfied" do

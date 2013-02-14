@@ -130,7 +130,7 @@ class UserGroupsController < ApplicationController
       end
 
     rescue => ex
-      flash[:warning] = t('user_groups.flash.warning.not_delete', :reason => ex.message)
+      flash[:warning] = _('Cannot delete: %s') % ex.message
     end
 
     redirect_to user_groups_url

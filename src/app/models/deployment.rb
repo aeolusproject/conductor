@@ -117,7 +117,7 @@ class Deployment < ActiveRecord::Base
     rescue DeployableXML::ValidationError => e
       errors.add(:deployable_xml, e.message)
     rescue Nokogiri::XML::SyntaxError => e
-      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))
+      errors.add(:base, _('seems to be not valid Deployable XML: %s') % e.message)
     end
   end
 
@@ -241,13 +241,11 @@ class Deployment < ActiveRecord::Base
         :source => self,
         :event_time => DateTime.now,
         :status_code => 'deployment_launch_match',
-        :summary => I18n.t('deployments.events.launch_attempt',
-                           :account => account.name)
+        :summary => _('Attempting to launch this deployment on provider account %s') % account.name
       )
     else
       if errs.any?
-        raise I18n.t('deployments.errors.match_not_found_with_errors',
-                     :errors => errs.join(", "))
+        raise _('Match not found: %s') % errs.join(", ")
       else
         raise _('Unable to find a suitable Provider Account to host the Deployment. Check the quota of the Provider Accounts and the status of the Images.')
       end
@@ -315,7 +313,7 @@ class Deployment < ActiveRecord::Base
       deployable_xml.validate!
       true
     rescue
-      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{$!.message}"))
+      errors.add(:base, _('seems to be not valid Deployable XML: %s') % "#{$!.message}")
       false
     end
   end
@@ -362,7 +360,7 @@ class Deployment < ActiveRecord::Base
       deployable_xml.assemblies.each do |assembly|
         hw_profile = permissioned_frontend_hwprofile(permission_session,
                                                      user, assembly.hwp)
-        raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
+        raise _('You do not have sufficient permission to access the %s Hardware Profile.') % assembly.hwp unless hw_profile
         instance = Instance.new(
           :deployment => self,
           :name => "#{name}/#{assembly.name}",
@@ -637,7 +635,7 @@ class Deployment < ActiveRecord::Base
     deployable_xml.assemblies.each do |assembly|
       hw_profile = permissioned_frontend_hwprofile(permission_session,
                                                    user, assembly.hwp)
-      raise I18n.t('deployments.flash.error.no_hwp_permission', :hwp => assembly.hwp) unless hw_profile
+      raise _('You do not have sufficient permission to access the %s Hardware Profile.') % assembly.hwp unless hw_profile
       Instance.transaction do
         instance = Instance.create!(
           :deployment => self,
@@ -763,8 +761,7 @@ class Deployment < ActiveRecord::Base
         :source => self,
         :event_time => DateTime.now,
         :status_code => self.state,
-        :summary => I18n.t('deployments.events.state_changed',
-                           :state => self.state)
+        :summary => _('State changed to %s') % self.state
       )
     end
   end

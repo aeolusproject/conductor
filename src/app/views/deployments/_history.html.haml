@@ -3,7 +3,7 @@
     %li
       = "#{event.event_time.strftime('%d-%b-%Y %H:%M:%S')}:"
       - if event.source_type == 'Instance'
-        = link_to t('.instance', :name => event.source.name), instance_path(event.source)
+        = link_to _('Instance %s') % event.source.name, instance_path(event.source)
       = event.summary
       - if event.description.present?
         = ": #{event.description}"

@@ -2,4 +2,4 @@
   .flash_hud
     %a.control{ :href => "#", :title => _('Close') }
     %ul.flash_messages.error
-      %li= t("simple_form.error_notification.default_message", :model => object.class.model_name.human)
+      %li= _('Some errors prevented the %s from being saved. Please review the problems below.') % object.class.model_name.human

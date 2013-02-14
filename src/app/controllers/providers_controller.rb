@@ -203,8 +203,7 @@ class ProvidersController < ApplicationController
         format.xml { render :nothing => true, :status => :no_content }
       else
         format.html do
-          flash[:error] = t("providers.flash.error.not_deleted_with_err",
-                            :err => provider.errors.full_messages.join(', '))
+          flash[:error] = _('Provider was not deleted: %s') % provider.errors.full_messages.join(', ')
           redirect_to providers_path
         end
         # FIXME: what to return in body of response, if anything?
@@ -268,7 +267,7 @@ class ProvidersController < ApplicationController
             :subject => "#{_('Quota')}",
             :alert_type => "#{_('Account Quota Exceeded')}",
             :path => edit_provider_provider_account_path(@provider,provider_account),
-            :description => "#{t'providers.alerts.description.quota_exceeded', :name => "#{provider_account.name}"}",
+            :description => _('Quota limit of running Instances for %s account has been exceeded.') % provider_account.name,
             :account_id => provider_account.id
           }
         end
@@ -279,7 +278,7 @@ class ProvidersController < ApplicationController
             :subject => "#{_('Quota')}",
             :alert_type => "#{provider_account.quota.percentage_used.round}% #{_('Account Quota Reached')}",
             :path => provider_provider_account_path(@provider,provider_account),
-            :description => "#{provider_account.quota.percentage_used.round}% #{t'providers.alerts.description.quota_reached', :name => "#{provider_account.name}" }",
+            :description => "#{provider_account.quota.percentage_used.round}% "+ _('of Quota limit for running Instances for %s account has been reached.') % provider_account.name,
             :account_id => provider_account.id
           }
         end

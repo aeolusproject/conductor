@@ -67,10 +67,10 @@ class PermissionsController < ApplicationController
       end
     end
     unless added.empty?
-      flash[:notice] = t('permissions.flash.notice.added', :list => added.to_sentence)
+      flash[:notice] = _('Added the following User Roles: %s') % added.to_sentence
     end
     unless not_added.empty?
-      flash[:error] = t('permissions.flash.error.not_added', :list => not_added.to_sentence)
+      flash[:error] = _('Could not add these User Roles: %s') % not_added.to_sentence
     end
     if added.empty? and not_added.empty?
       flash[:error] = _('No users selected')
@@ -108,10 +108,10 @@ class PermissionsController < ApplicationController
       end
     end
     unless modified.empty?
-      flash[:notice] = t('permissions.flash.notice.modified', :list => modified.to_sentence)
+      flash[:notice] = _('Successfully modified the following User Roles: %s') % modified.to_sentence
     end
     unless not_modified.empty?
-      flash[:error] = t('permissions.flash.error.not_add', :list => not_modified.to_sentence)
+      flash[:error] = _('Could not add these User Roles: %s') % not_modified.to_sentence
     end
     if modified.empty? and not_modified.empty?
       flash[:notice] = _('All User Roles already set; no changes needed')
@@ -140,10 +140,10 @@ class PermissionsController < ApplicationController
     end
 
     unless deleted.empty?
-      flash[:notice] = t('permissions.flash.notice.deleted', :list => deleted.to_sentence)
+      flash[:notice] = _('Deleted the following Permission Grants: %s') % deleted.to_sentence
     end
     unless not_deleted.empty?
-      flash[:error] = t('permissions.flash.error.not_deleted', :list => not_deleted.to_sentence)
+      flash[:error] = _('Could not delete these Permission Grants: %s') % not_deleted.to_sentence
     end
     respond_to do |format|
       format.html { redirect_to @return_path }

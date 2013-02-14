@@ -198,7 +198,7 @@ class DeployablesController < ApplicationController
           @deployable.catalogs << catalog
         end
         @deployable.save!
-        flash[:notice] = t("catalog_entries.flash.notice.added", :catalog => @selected_catalogs.map{|c| c.name}.join(", "))
+        flash[:notice] = _('Deployable added to Catalog %s.') % @selected_catalogs.map{|c| c.name}.join(", ")
         if params[:edit_xml]
           redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
         elsif params[:create_from_image]
@@ -219,7 +219,7 @@ class DeployablesController < ApplicationController
     rescue => ex
       if @deployable.errors.empty?
         log_backtrace(ex)
-        flash.now[:warning]= t('deployables.flash.warning.failed', :message => ex.message)
+        flash.now[:warning]= _('Deployable was not created: %s') % ex.message
       end
       if params[:create_from_image].present?
         @image = Tim::BaseImage.find(params[:create_from_image])
@@ -306,9 +306,9 @@ class DeployablesController < ApplicationController
     @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
     require_privilege(Privilege::MODIFY, deployable)
     if deployable.destroy
-      flash[:notice] = t("deployables.flash.notice.deleted.one", :deleted => deployable.name)
+      flash[:notice] = _('Deployable %s removed successfully.') % deployable.name
     else
-      flash[:error] = t("deployables.flash.error.not_deleted.one", :not_deleted => deployable.name)
+      flash[:error] = _('Deployable %s removal failed.') % deployable.name
     end
 
     respond_to do |format|

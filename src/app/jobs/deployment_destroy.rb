@@ -10,6 +10,6 @@ class DeploymentDestroy < Struct.new(:deployment)
                           :source => deployment,
                           :event_time => DateTime.now,
                           :status_code => 'destroy_failed',
-                          :summary => I18n.t("deployments.events.destroy_failed", :deployment => deployment.name, :exception => exception.message))
+                          :summary => _('Destroy of %s failed with exception: %s') % [deployment.name, exception.message])
   end
 end

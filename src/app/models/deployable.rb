@@ -69,7 +69,7 @@ class Deployable < ActiveRecord::Base
       validate_cycles_in_deployable_xml(deployable_xml)
       validate_references_in_deployable_xml(deployable_xml)
     rescue Nokogiri::XML::SyntaxError => e
-      errors.add(:base, I18n.t("deployments.errors.not_valid_deployable_xml", :msg => "#{e.message}"))
+      errors.add(:base, _('seems to be not valid Deployable XML: %s') % "#{e.message}")
     end
   end
 
@@ -81,8 +81,7 @@ class Deployable < ActiveRecord::Base
         str
       end.join(' -> ')
       errors.add(:xml,
-                 I18n.t('catalog_entries.flash.warning.not_valid_cyclic_reference',
-                        :reference => cycle_str))
+                 _('Contains cyclic reference between following Assemblies or services: %s') % cycle_str)
     end
   end
 
@@ -96,16 +95,13 @@ class Deployable < ActiveRecord::Base
                        :to_service => reference[:reference][:service]}
       if reference[:no_return_param]
         errors.add(:xml,
-                   I18n.t('catalog_entries.flash.warning.not_valid_not_existing_param',
-                          locale_params))
+                   _('Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references param %{to_param} which is not returned by Assembly %{to_assembly}') % locale_params)
       elsif reference[:reference][:service]
         errors.add(:xml,
-                   I18n.t('catalog_entries.flash.warning.not_valid_not_existing_service_reference',
-                          locale_params))
+                   _('Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}, service %{to_service}') % locale_params)
       else
         errors.add(:xml,
-                   I18n.t('catalog_entries.flash.warning.not_valid_not_existing_assembly_reference',
-                          locale_params))
+                   _('Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references not existing Assembly %{to_assembly}') % locale_params)
       end
     end
   end
@@ -195,16 +191,10 @@ class Deployable < ActiveRecord::Base
         deployable_errors << error
       elsif image.nil?
         missing_images << assembly.image_id
-        deployable_errors << I18n.t("deployables.flash.error.missing_image",
-                                    :assembly => assembly.name,
-                                    :uuid => assembly.image_id)
+        deployable_errors << _('%s: Image (UUID: %s) doesn\'t exist') % [assembly.name, assembly.image_id]
       else
         if image.pool_family != pool_family
-          deployable_errors << I18n.t("deployables.flash.error.wrong_environment",
-                                      :deployable => name,
-                                      :uuid => assembly.image_id,
-                                      :wrong_env => image.pool_family.name,
-                                      :environment => pool_family.name)
+          deployable_errors << _('The Deployable \'%s\' contains an image (UUID %s) in the wrong Environment (\'%s\' should be \'%s\') and cannot be used.') % [name, assembly.image_id, image.pool_family.name, pool_family.name]
         end
         images << image
         assembly_hash[:build_and_target_uuids] = get_build_and_target_uuids(image)
@@ -220,7 +210,7 @@ class Deployable < ActiveRecord::Base
           assembly_hash[:hwp_ram] = hwp.memory.value
           assembly_hash[:hwp_arch] = hwp.architecture.value
         else
-          deployable_errors << "#{assembly_hash[:name]}: " + I18n.t('deployables.error.hwp_not_exists', :name => assembly.hwp)
+          deployable_errors << "#{assembly_hash[:name]}: " + _('Hardware Profile %s, which is specified in XML, does not exist.') % assembly.hwp
         end
       else
         deployable_errors << "#{assembly_hash[:name]}: " + _('Some attribute(s) are missing in the XML. Please check the file.')

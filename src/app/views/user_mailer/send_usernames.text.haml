@@ -1,3 +1,3 @@
-= t("user_mailer.send_usernames.request_received", :url => root_url, :email => @email)
+= _('A request has been received by Conductor server %s to retrieve the logins for email %s. The following is a list of those logins:') % [root_url, @email]
 - @users.each do |user|
   = user.username

@@ -1,19 +1,19 @@
 - unless @frontend_realms_for_provider.empty?
-  %h2= t('realms.mapping.frontend_realms_mapped_to_provider', :name=> "#{@provider_realm.provider.name}")
+  %h2= _('Realms mapped to Provider %s:') % "#{@provider_realm.provider.name}"
   %table.flat.checkbox_table
     - @frontend_realms_for_provider.each do |realm|
       %tr{:class => cycle('nostripe','stripe')}
         %td= realm.name
 
 - unless @frontend_realms.empty?
-  %h2= t('realms.mapping.frontend_realms_mapped_to_realm', :name=> "#{@provider_realm.name}")
+  %h2= _('Realms mapped to Provider Realm %s:') % "#{@provider_realm.name}"
   %table.flat.checkbox_table
     - @frontend_realms.each do |realm|
       %tr{:class => cycle('nostripe','stripe')}
         %td= realm.name
 
 - unless @provider_accounts.empty?
-  %h2= t('provider_realms.show.provider_accounts_mapped', :name=> "#{@provider_realm.name}")
+  %h2= _('Provider Accounts mapped to Provider Realm %s') % "#{@provider_realm.name}"
   %table.flat.checkbox_table
     - @provider_accounts.each do |account|
       %tr{:class => cycle('nostripe','stripe')}
