@@ -1,8 +1,13 @@
 source :rubygems
 
-# This is in between 3.2.11 and 3.2.12, and should be removed once 3.2.12 is released.
-# See - https://github.com/rails/rails/pull/8895#issuecomment-12156101
-gem 'rails', :git => "git://github.com/rails/rails", :ref => '63970dc7db273551f977483109dde936c8a7554f'
+# This is a recent commit on the rails 3-2-stable branch.
+# We were previously in between 3.2.11 and 3.2.12, before 3.2.12 was
+# released, to work around this issue introduced in 3.2.11:
+# https://github.com/rails/rails/pull/8895#issuecomment-12156101
+# 3.2.12 was a security-only fix, without this fix, so we just
+# advanced up the tree. 3.2.13, or whatever the next bug-fix release
+# is, should let us get back on 'normal' Rails.
+gem 'rails', :git => "git://github.com/rails/rails", :ref => '7f4975ffc618bc3125039c565507a385c1187183'
 
 gem 'deltacloud-client', :require => 'deltacloud'
 gem 'mustache'
