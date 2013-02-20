@@ -53,27 +53,26 @@ module ProviderSelection
 
         def calculate
           rank = @strategies.calculate
-          rank.default_priority_group.matches.each do |match|
-            old_score = match.calculated_score
+          rank.default_priority_group.matches.each do |deployable_match|
+            old_score = deployable_match.calculated_score
 
             # calculate average price of hardware_profile in the match
             sum = 0
             have_costs = true
-            match.hardware_profiles.each_with_index do |hardware_profile,index|
-              instance_hwp = match.instance_hwps[index]
-              cost = hardware_profile.cost_per_hour(instance_hwp)
+            deployable_match.multi_assembly_match.each_with_index do |assembly_match, index|
+              cost = assembly_match.provider_hwp.cost_per_hour(assembly_match.instance_hwp)
               if cost.nil?
                 have_costs = false
               else
                 sum += cost
               end
-              Rails.logger.debug("match hwp #{index}: #{hardware_profile.id}, cost: #{cost}")
+              Rails.logger.debug("match hwp #{index}: #{assembly_match.provider_hwp.id}, cost: #{cost}")
             end
 
             if have_costs
-              price = sum / match.hardware_profiles.length
-              match.reward_by(reward = reward_for_price(price))
-              Rails.logger.debug("avg cost: #{price}, orig score: #{old_score}, reward for cost: #{reward}, new score: #{match.score}")
+              price = sum / deployable_match.multi_assembly_match.length
+              deployable_match.reward_by(reward = reward_for_price(price))
+              Rails.logger.debug("avg cost: #{price}, orig score: #{old_score}, reward for cost: #{reward}, new score: #{deployable_match.score}")
             else
               Rails.logger.debug("sorry, a cost was missing, could not calculate the score")
             end
