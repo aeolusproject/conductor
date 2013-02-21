@@ -224,15 +224,6 @@ describe Deployment do
       @permission_session.update_session_entities(@user_for_launch)
       @deployment.stub(:common_provider_accounts_for).and_return(["test","test"])
     end
-
-    it "return error when user quota was reached" do
-      Instance.any_instance.stub(:matches).and_return(["test","test"])
-      @deployment.stub!(:provider_selection_match_exists?).and_return(false)
-      errors = @deployment.check_assemblies_matches(@permission_session,
-                                                    @user_for_launch)
-      errors.should have(1).items
-      errors.last.should include _('User quota reached')
-    end
   end
 
   describe "using image from tim" do
@@ -691,29 +682,4 @@ describe Deployment do
     end
   end
 
-  it "should find a single provider account to launch" do
-    account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
-    account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
-    account3 = FactoryGirl.create(:mock_provider_account, :label => "test_account3")
-    @deployment.pool.pool_family.provider_accounts += [account1, account2, account3]
-    possible1 = FactoryGirl.build(:instance_match, :provider_account => account1)
-    possible2 = FactoryGirl.build(:instance_match, :provider_account => account2)
-    possible3 = FactoryGirl.build(:instance_match, :provider_account => account2)
-    possible4 = FactoryGirl.build(:instance_match, :provider_account => account3)
-    possible5 = FactoryGirl.build(:instance_match, :provider_account => account2)
-
-    # not gonna test the individual instance "machtes" logic again
-    # just stub out the behavior
-    @deployment.instances << instance1 = Factory.build(:instance)
-    instance1.stub!(:matches).and_return([[possible1, possible2], []])
-    @deployment.instances << instance2 = Factory.build(:instance)
-    instance2.stub!(:matches).and_return([[possible3, possible4], []])
-    @deployment.instances << instance3 = Factory.build(:instance)
-    instance3.stub!(:matches).and_return([[possible5], []])
-
-    instances = [instance1, instance2, instance3]
-    match, account, errors = @deployment.send(:pick_provider_selection_match)
-    match.should_not be_nil
-    account.should eql(account2)
-  end
 end

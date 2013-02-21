@@ -180,101 +180,6 @@ describe Instance do
     instance.get_action_list.should be_empty
   end
 
-  it "shouldn't return any matches if pool quota is reached" do
-    @quota.maximum_running_instances = 1
-    @quota.running_instances = 1
-    @quota.save!
-    @instance.matches.last.should include(_('Pool quota reached'))
-  end
-
-  it "shouldn't return any matches if pool family quota is reached" do
-    quota = @pool.pool_family.quota
-    quota.maximum_running_instances = 1
-    quota.running_instances = 1
-    quota.save!
-    @instance.matches.last.should include(_('Environment quota reached'))
-  end
-
-  it "shouldn't return any matches if user quota is reached" do
-    quota = @instance.owner.quota
-    quota.maximum_running_instances = 1
-    quota.running_instances = 1
-    quota.save!
-    @instance.matches.last.should include('User quota reached')
-  end
-
-  it "shouldn't return any matches if there are no provider accounts associated with pool family" do
-    @instance.pool.pool_family.provider_accounts = []
-    @instance.matches.last.should include(_('There are no Provider Accounts associated with the selected Pool\'s Environment.'))
-  end
-
-  it "should not return matches if account quota is exceeded" do
-    # Other tests expect that @instance is built but not created, but we need it saved:
-    @instance.save!
-    @pool.pool_family.provider_accounts = [@instance.provider_account]
-    quota = @instance.provider_account.quota
-    quota.running_instances = 0
-    quota.maximum_running_instances = 1
-    quota.save!
-
-    # With no running instances and a quota of one, we should have a match:
-    @instance.matches.first.should_not be_empty
-
-    # But with a running instance, we should not have a match
-    quota.running_instances = 1
-    quota.save!
-    # These next two lines are orthogonal but felt fragile so test them while we're here:
-    quota.running_instances.should == 1
-    quota.should be_reached
-    # I'm not sure why this line is required, but it is:
-    @instance.reload
-    @instance.matches.first.should be_empty
-  end
-
-  it "shouldn't match provider accounts where image is not pushed" do
-    inst = Factory.create(:instance_with_provider_image)
-    inst.stub(:provider_image_for_account).and_return(nil)
-    inst.matches.last.should include(_('%s: Image is not pushed to this Provider Account') % inst.provider_account.name)
-  end
-
-  it "shouldn't match provider accounts where matching hardware profile not found" do
-    account = FactoryGirl.create(:mock_provider_account, :label => 'testaccount')
-    account.provider.hardware_profiles.destroy_all
-    @pool.pool_family.provider_accounts |= [account]
-    @instance.stub(:provider_images_for_account).and_return([])
-    @instance.matches.last.should include(_('%s: Hardware Profile match not found') % 'testaccount')
-  end
-
-  it "shouldn't match frontend realms mapped to unavailable providers" do
-    @pool.pool_family.provider_accounts = [@instance.provider_account]
-    # provider's available flag can be changed when a provider account is
-    # created (populate_realms is called from after_create callback)
-    @instance.provider_account.provider.update_attribute(:available, false)
-    @instance.matches.last.should include(_('%s: Provider is not available') % @instance.provider_account.name)
-  end
-
-  it "shouldn't match frontend realms mapped to unavailable realms" do
-    @instance.save!
-    provider_realm = FactoryGirl.create(:provider_realm, :provider => @instance.provider_account.provider, :available => false)
-    @instance.provider_account.provider.provider_realms = [provider_realm]
-    realm_target = FactoryGirl.create(:realm_backend_target, :provider_realm_or_provider => provider_realm)
-    @instance.frontend_realm = realm_target.frontend_realm
-    # TODO: this test is currently failing because conductor skips unavailable
-    # realms in provider_account.instance_matches mathod
-    @instance.matches.last.should include(_('%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm') % [@instance.provider_account.name, @instance.frontend_realm.name])
-  end
-
-
-  it "shouldn't return any matches if instance hwp architecture doesn't match image architecture" do
-    @instance.hardware_profile.architecture.value = 'i386'
-    @instance.matches.last.should include(_('Assembly hardware profile architecture (%s) doesn\'t match image hardware profile architecture (%s).') % ["\'i386\'", "\'x86_64\'"])
-  end
-
-  it "should return a match if all requirements are satisfied" do
-    @pool.pool_family.provider_accounts = [@instance.provider_account]
-    @instance.matches.first.should_not be_empty
-  end
-
   it "should return csv header string for export" do
     reader = CSV.const_defined?(:Reader) ?
                CSV::Reader.create(Instance.csv_export([FactoryGirl.create(:instance)])) :
@@ -292,13 +197,6 @@ describe Instance do
     export_string.include?(instance.id.to_s).should be_true
     export_string.include?("Instance").should be_true
     export_string.include?("created").should be_true
-  end
-
-  it "should not be launchable on disabled provider account" do
-    instance = FactoryGirl.create(:instance_with_provider_image)
-    instance.provider_account.provider.update_attribute(:enabled, false)
-    errors = instance.matches.last
-    errors.find {|e| e =~ /provider must be enabled/i}.should_not be_nil
   end
 
   it "should not be launchable if its pool is disabled" do
@@ -337,27 +235,6 @@ describe Instance do
       instance3.update_attribute :state, Instance::STATE_RUNNING
       deployment.all_instances_running?.should be_true
     end
-  end
-  it "should match if the account has a config server and the instance has configs" do
-    config_server = FactoryGirl.create(:mock_config_server, :provider_account => @instance.provider_account)
-    @pool.pool_family.provider_accounts = [@instance.provider_account]
-
-    @instance.stub!(:requires_config_server?).and_return(true)
-
-    matches, errors = @instance.matches
-    matches.should_not be_empty
-    matches.first.provider_account.should eql(@instance.provider_account)
-  end
-
-  it "should not match if the account does not have a config server and the instance has configs" do
-    @pool.pool_family.provider_accounts = [@instance.provider_account]
-
-    @instance.stub!(:requires_config_server?).and_return(true)
-
-    matches, errors = @instance.matches
-    matches.should be_empty
-    errors.should_not be_empty
-    errors.select {|e| e.include?("no Config Server available") }.should_not be_empty
   end
 
   describe "launch!" do
