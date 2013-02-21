@@ -314,8 +314,8 @@ class HardwareProfilesController < ApplicationController
         :sort_attr => :cost}]
 
     @hwp_prop_costs = {}
-    HardwareProfile::chargeables.each do |what|
-      @hwp_prop_costs[what] = @hardware_profile.send(what).cost_now ||
+    HardwareProfile::chargeables.each do |chargeable|
+      @hwp_prop_costs[chargeable] = @hardware_profile.send(chargeable).cost_now ||
                               Cost.new(:billing_model=>'none')
     end
   end
