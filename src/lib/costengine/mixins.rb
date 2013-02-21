@@ -34,8 +34,8 @@ module CostEngine
         hwp_cost.close unless hwp_cost.nil?
 
         if all
-          ::HardwareProfile::chargeables.each do |what|
-            hwp_prop_cost = send(what).cost_now(t)
+          ::HardwareProfile::chargeables.each do |chargeable|
+            hwp_prop_cost = send(chargeable).cost_now(t)
             hwp_prop_cost.close unless hwp_prop_cost.nil?
           end
         end
@@ -67,8 +67,8 @@ module CostEngine
 
         price = 0.0
         if cost.billing_model == 'per_property'
-          ::HardwareProfile::chargeables.each do |what|
-            property = send(what)
+          ::HardwareProfile::chargeables.each do |chargeable|
+            property = send(chargeable)
             hwp_prop_cost = Cost.for_chargeable_and_time(
                             property.chargeable_type, property.id, ref_time)
             next if hwp_prop_cost.nil?
@@ -77,8 +77,8 @@ module CostEngine
             number_of_units = instance_hwp.nil? ?
                                 #property.sort_value(true) : # put back this line, if we want the minimum
                                 property.value.to_f :
-                                instance_hwp.send(what.intern).to_f
-            Rails.logger.debug([what, unit_price*number_of_units.to_f, unit_price.to_f, number_of_units.to_f].inspect)
+                                instance_hwp.send(chargeable.intern).to_f
+            Rails.logger.debug([chargeable, unit_price*number_of_units.to_f, unit_price.to_f, number_of_units.to_f].inspect)
             price += unit_price * number_of_units
             Rails.logger.debug(price)
           end
