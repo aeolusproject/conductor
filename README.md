@@ -1,11 +1,9 @@
 Aeolus Conductor
 ================
-
-
-Build Status
-------------
 [![Build
 Status](https://secure.travis-ci.org/aeolusproject/conductor.png?branch=master)](http://travis-ci.org/aeolusproject/conductor)
+[![Code
+Climate](https://codeclimate.com/github/aeolusproject/conductor.png)](https://codeclimate.com/github/aeolusproject/conductor)
 
 About
 -----
