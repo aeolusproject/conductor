@@ -472,36 +472,6 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def as_json(options={})
-    json = super(options).merge({
-      :deployable_xml_name => deployable_xml.name,
-      :status => state,
-      :translated_state => I18n.t("deployments.status.#{state}"),
-      :status_description => I18n.t("deployments.status_description.#{state}"),
-      :instances_count => instances.count,
-      :failed_instances_count => failed_instances.count,
-      :instances_count_text => I18n.t('instances.instances', :count => instances.count.to_i),
-      :uptime => ApplicationHelper.count_uptime(uptime_1st_instance),
-      :pool => {
-        :name => pool.name,
-        :id => pool.id,
-      },
-      :created_at => created_at.to_s
-    })
-
-    json[:owner] = owner.name if owner.present?
-
-    deployment_provider = provider
-    if deployment_provider
-      json[:provider] = {
-        :name => deployment_provider.provider_type.name,
-        :id => deployment_provider.id,
-      }
-    end
-
-    json
-  end
-
   def failed_instances
     instances.failed
   end

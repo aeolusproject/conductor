@@ -430,23 +430,6 @@ class Instance < ActiveRecord::Base
       {:include => :hardware_profile}
   }
 
-  def as_json(options={})
-    available_actions = get_action_list
-    json = super(options).merge({
-      :provider => provider_account ? provider_account.provider.name : '',
-      :has_key => !(instance_key.nil?),
-      :uptime => ApplicationHelper.count_uptime(uptime),
-      :stop_enabled => available_actions.include?(InstanceTask::ACTION_STOP),
-      :reboot_enabled => available_actions.include?(InstanceTask::ACTION_REBOOT),
-      :translated_state => I18n.t("instances.states.#{state}"),
-      :is_failed => failed?
-    })
-
-    json[:owner] = owner.name if owner.present?
-
-    json
-  end
-
   def first_running?
     not deployment.instances.deployed.any? {|i| i != self}
   end

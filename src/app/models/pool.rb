@@ -143,20 +143,6 @@ class Pool < ActiveRecord::Base
     #end
   end
 
-  def as_json(options={})
-    result = super(options).merge({
-      :statistics => statistics,
-      :deployments_count => deployments.count,
-      :pool_family => {
-        :name => pool_family.name,
-        :id => pool_family.id,
-      },
-
-    })
-
-    result
-  end
-
   def perm_ancestors
     super + [pool_family]
   end
