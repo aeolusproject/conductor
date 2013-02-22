@@ -170,28 +170,6 @@ class Pool < ActiveRecord::Base
     subtree
   end
 
-  def catalog_images_collection(catalog_list)
-    catalog_images = []
-    catalog_list.each do |catalog|
-      catalog.deployables.each do |deployable|
-        deployable.fetch_unique_images.each do |key,value|
-          if value[:image].present?
-            row = {:catalog => catalog.name ,:deployable => deployable.name,
-                   :image => "#{value[:image].name} #{value[:image].uuid}",
-                   :provider_images =>[] }
-
-            value[:image].provider_images.each do |provider_image|
-              row[:provider_images] << _('pushed to %s, provider id: %s') % [provider_image.external_image_id, provider_image.provider_account.provider.name]
-
-            end
-            value[:count].times { catalog_images << row }
-          end
-        end
-      end
-    end
-    catalog_images
-  end
-
   private
 
   def self.apply_search_filter(search)
