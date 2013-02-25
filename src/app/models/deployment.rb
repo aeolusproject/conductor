@@ -159,7 +159,7 @@ class Deployment < ActiveRecord::Base
   end
 
   def valid_action?(action)
-    return get_action_list.include?(action) ? true : false
+    get_action_list.include?(action)
   end
 
   def destroyable?
@@ -221,12 +221,12 @@ class Deployment < ActiveRecord::Base
         create_instances_with_params!(permission_session, user)
         launch!(user)
       end
-      return true
+      true
     rescue
       errors.add(:base, $!.message)
       log_backtrace($!)
+      false
     end
-    false
   end
 
   def launch!(user)
@@ -601,7 +601,6 @@ class Deployment < ActiveRecord::Base
   end
 
   def create_instances_with_params!(permission_session, user)
-    errors = {}
     deployable_xml.assemblies.each do |assembly|
       hw_profile = permissioned_frontend_hwprofile(permission_session,
                                                    user, assembly.hwp)

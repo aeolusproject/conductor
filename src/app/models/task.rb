@@ -118,9 +118,7 @@ class Task < ActiveRecord::Base
   end
 
   def action_with_args
-    ret_val = action
-    ret_val += " #{args}" if args
-    ret_val
+    args ? action + " #{args}" : action
   end
 
   def submission_time
@@ -142,6 +140,6 @@ class Task < ActiveRecord::Base
   end
 
   def initialize_state
-    self.state = STATE_QUEUED unless self.state
+    self.state ||= STATE_QUEUED
   end
 end

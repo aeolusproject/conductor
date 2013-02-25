@@ -125,7 +125,7 @@ class Pool < ActiveRecord::Base
     failed = (user.nil? || all_failed.empty? ? all_failed :
               all_failed.list_for_user(permission_session, user, Privilege::VIEW))
     pool_family_quota_percent = pool_family.quota.percentage_used quota.running_instances
-    statistics = {
+    {
       :cloud_providers => instances.includes(:provider_account).collect{|i| i.provider_account}.uniq.count,
       :deployments => deployments.size,
       :total_instances => not_stopped_instances.count,
@@ -140,7 +140,6 @@ class Pool < ActiveRecord::Base
       :pool_family_quota_percent => number_to_percentage(pool_family_quota_percent, :precision => 0),
       :available_quota => avail
     }
-    #end
   end
 
   def perm_ancestors
@@ -181,11 +180,8 @@ class Pool < ActiveRecord::Base
   private
 
   def self.apply_search_filter(search)
-    if search
-      includes(:pool_family).where("lower(pools.name) LIKE :search OR lower(pool_families.name) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    includes(:pool_family).where("lower(pools.name) LIKE :search OR lower(pool_families.name) LIKE :search", :search => "%#{search.downcase}%")
   end
 
 end
