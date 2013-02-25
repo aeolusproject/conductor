@@ -452,7 +452,7 @@ class ApplicationController < ActionController::Base
   # In cases when current_path contains prefix like '/conductor' recognize_path fails.
   # It needs to be stripped out in order to get the path correctly.
   def recognize_path_with_relative_url_root(path)
-    root = ENV['RAILS_RELATIVE_URL_ROOT']
+    root = ENV['RAILS_RELATIVE_URL_ROOT'] || ''
     path = path.slice(root.length..path.length) if path.starts_with? root
     Rails.application.routes.recognize_path(path)
   end
