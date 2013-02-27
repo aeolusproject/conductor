@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 # This is a recent commit on the rails 3-2-stable branch.
 # We were previously in between 3.2.11 and 3.2.12, before 3.2.12 was
