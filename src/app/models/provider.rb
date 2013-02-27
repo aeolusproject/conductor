@@ -272,7 +272,7 @@ class Provider < ActiveRecord::Base
 
   def validate_provider
     if provider_type
-      errors.add('url', :invalid_framework) unless nil_or_empty(url) or valid_framework?
+      errors.add('url', :invalid_framework) if url.present? && !valid_framework?
     else
       errors.add('provider_type', :'does_not_exist')
     end
@@ -294,7 +294,7 @@ class Provider < ActiveRecord::Base
   end
 
   def valid_provider?
-    if !nil_or_empty(deltacloud_provider)
+    if deltacloud_provider.present?
       client = connect
       return false if client.nil?
       return false unless client.driver(provider_type.deltacloud_driver).valid_provider? deltacloud_provider
