@@ -163,12 +163,9 @@ class Instance < ActiveRecord::Base
   def get_action_list(user=nil)
     # return empty list rather than nil
     # FIXME: not handling pending state now -- only current state
-    return_val = InstanceTask.valid_actions_for_instance_state(state,
-                                                               self,
-                                                               user) || []
-    # filter actions based on quota
+    # FIXME: filter actions based on quota
     # FIXME: not doing quota filtering now
-    return_val
+    InstanceTask.valid_actions_for_instance_state(state, self, user) || []
   end
 
   def pool_and_account_enabled_validation
@@ -211,7 +208,7 @@ class Instance < ActiveRecord::Base
   # if they want to throw an error of some sort before continuing
   # (ie in service api)
   def valid_action?(action)
-    return get_action_list.include?(action) ? true : false
+    get_action_list.include?(action)
   end
 
   def queue_action(user, action, data = nil)
@@ -225,7 +222,7 @@ class Instance < ActiveRecord::Base
                           :summary => "#{action} action queued",
                           :status_code => "#{action}_queued")
 
-    return task
+    task
   end
 
   # Returns the total time that this instance has been in the state
@@ -367,7 +364,7 @@ class Instance < ActiveRecord::Base
     # try to get architecture of the image associated with this instance
     # for imported images template is empty -> architecture is not set,
     # in this case we omit this check
-    return image.template.os.arch
+    image.template.os.arch
   rescue => e
     logger.warn "failed to get image architecture for instance '#{name}', skipping architecture check: #{e}"
     nil
@@ -588,11 +585,8 @@ class Instance < ActiveRecord::Base
   private
 
   def self.apply_search_filter(search)
-    if search
-      where("lower(instances.name) LIKE :search OR lower(instances.state) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    where("lower(instances.name) LIKE :search OR lower(instances.state) LIKE :search", :search => "%#{search.downcase}%")
   end
 
   def key_name
@@ -609,9 +603,7 @@ class Instance < ActiveRecord::Base
 
   def do_operation(user, operation)
     task = self.queue_action(user, operation)
-    unless task
-      raise I18n.t("instances.errors.#{operation}_invalid_action")
-    end
+    raise I18n.t("instances.errors.#{operation}_invalid_action") unless task
     Taskomatic.send("#{operation}_instance", task)
   end
 
@@ -623,9 +615,7 @@ class Instance < ActiveRecord::Base
     # but dbomatic kills child process after 30sec by default, so
     # task may stay in 'pending' state. If task is in pending state for
     # more than 2 mins, consider previous start request as failed.
-    return true if task.state == Task::STATE_PENDING &&
-      Time.now - task.created_at < 120
-    false
+    task.state == Task::STATE_PENDING && Time.now - task.created_at < 120
   end
 
   def last_launch_time

@@ -36,13 +36,11 @@ class PropertyEnumEntry < ActiveRecord::Base
 
   validates_presence_of :value
   validates_presence_of :hardware_profile_property
-  validates_numericality_of :value, :greater_than => 0,
-                :if => Proc.new{|p| p.hardware_profile_property.name ==
-                                    HardwareProfileProperty::MEMORY or
-                                 p.hardware_profile_property.name ==
-                                     HardwareProfileProperty::STORAGE or
-                                 p.hardware_profile_property.name ==
-                                   HardwareProfileProperty::CPU }
+  validates_numericality_of :value, :greater_than => 0, :if => Proc.new {|p|
+    p.hardware_profile_property.name == HardwareProfileProperty::MEMORY or
+    p.hardware_profile_property.name == HardwareProfileProperty::STORAGE or
+    p.hardware_profile_property.name == HardwareProfileProperty::CPU
+  }
   def to_s
     value.to_s + ", "
   end

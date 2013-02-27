@@ -20,13 +20,10 @@ class InstanceObserver < ActiveRecord::Observer
   RUNNING_STATES = [ Instance::STATE_PENDING, Instance::STATE_RUNNING, Instance::STATE_SHUTTING_DOWN ]
 
   def before_save(an_instance)
-    if an_instance.changed?
-      change = an_instance.changes['state']
-      if change
-        update_state_timestamps(change[1], an_instance)
-        update_accumulative_state_time(change[0], an_instance)
-        update_quota(change[0], change[1], an_instance)
-      end
+    if an_instance.changed? and change = an_instance.changes['state']
+      update_state_timestamps(change[1], an_instance)
+      update_accumulative_state_time(change[0], an_instance)
+      update_quota(change[0], change[1], an_instance)
     end
   end
 
