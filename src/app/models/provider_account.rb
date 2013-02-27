@@ -378,8 +378,6 @@ class ProviderAccount < ActiveRecord::Base
       errors << _('%s: Hardware Profile match not found') % name
     elsif !(account_image = instance.provider_image_for_account(self))
       errors << _('%s: Image is not pushed to this Provider Account') % name
-    elsif instance.requires_config_server? and config_server.nil?
-      errors << _('%s: no Config Server available for Provider Account') % name
     else
       if not instance.frontend_realm.nil?
         brealms = instance.frontend_realm.realm_backend_targets.select do |brealm_target|

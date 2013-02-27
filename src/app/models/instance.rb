@@ -68,8 +68,6 @@ class Instance < ActiveRecord::Base
   end
   include PermissionedObject
 
-  before_destroy :destroyable?
-
   belongs_to :pool
   belongs_to :pool_family
   belongs_to :provider_account
@@ -344,10 +342,6 @@ class Instance < ActiveRecord::Base
     false
   end
 
-  def destroyable?
-    (state == STATE_CREATE_FAILED) || (state == STATE_STOPPED && ! restartable?) || (state == STATE_VANISHED)
-  end
-
   def failed?
     FAILED_STATES.include?(state)
   end
@@ -414,15 +408,6 @@ class Instance < ActiveRecord::Base
   def includes_instance_match?(match)
     instance_matches.any?{|m| m.equals?(match)}
   end
-
-  def launch!(match, user, config_server, config)
-    # create a taskomatic task
-    task = InstanceTask.create!({:user        => user,
-                                 :task_target => self,
-                                 :action      => InstanceTask::ACTION_CREATE})
-    Taskomatic.create_instance!(task, match, config_server, config)
-  end
-
 
   def self.csv_export(instances)
     csvm = get_csv_class

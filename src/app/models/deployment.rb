@@ -43,8 +43,6 @@ class Deployment < ActiveRecord::Base
     include CommonFilterMethods
   end
 
-  before_destroy :destroyable?
-
   belongs_to :pool
   belongs_to :pool_family
 
@@ -177,32 +175,12 @@ class Deployment < ActiveRecord::Base
     get_action_list.include?(action)
   end
 
-  def destroyable?
-    instances.all? {|i| i.destroyable? }
-  end
-
   def can_stop?
     [STATE_RUNNING, STATE_INCOMPLETE].include?(self.state)
   end
 
-  def not_stoppable_or_destroyable_instances
-    instances.find_all {|i| !(i.destroyable? or
-                              i.state == Instance::STATE_RUNNING)}
-  end
-
   def stop_instances_and_destroy!
-    if destroyable?
-      destroy!
-    else
-      self.state = Deployment::STATE_SHUTTING_DOWN
-      # The deployment will be destroyed from an InstanceObserver callback once
-      # all instances are stopped.
-      self.scheduled_for_deletion = true
-      self.save!
-
-      # stop all deployment's instances
-      instances.running.each {|instance| instance.stop(instance.owner)}
-    end
+    destroy!
   end
 
   def self.stoppable_inaccessible_instances(deployments)
@@ -668,66 +646,6 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def set_new_state
-    self.state ||= STATE_NEW
-  end
-
-  def state_transition_from_pending(instance)
-    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
-      self.state = STATE_RUNNING
-    elsif partial_launch and instances.all? {|i| i.failed?}
-      self.state = STATE_FAILED
-    elsif partial_launch and instances.all? {|i| i.failed_or_running?}
-      self.state = STATE_INCOMPLETE
-    elsif !partial_launch and Instance::FAILED_STATES.include?(instance.state)
-      # TODO: now this is done in instance's after_update callback - as part
-      # of instance save transaction - this might be done on background by
-      # using delayed_job
-      deployment_rollback
-    end
-  end
-
-  def state_transition_from_running(instance)
-    if instance.state != STATE_RUNNING
-      if instances.all? {|i| i.state == Instance::STATE_STOPPED}
-        self.state = STATE_STOPPED
-      else
-        self.state = STATE_INCOMPLETE
-      end
-    end
-  end
-
-  def state_transition_from_incomplete(instance)
-    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
-      self.state = STATE_RUNNING
-    elsif instances.all? {|i| i.state == Instance::STATE_STOPPED}
-      self.state = STATE_STOPPED
-    end
-  end
-
-  def state_transition_from_shutting_down(instance)
-    if instance.state == Instance::STATE_STOPPED and instances.all? {|i| i.inactive?}
-      self.state = STATE_STOPPED
-    end
-  end
-
-  def state_transition_from_rollback_in_progress(instance)
-    # TODO: distinguish if an instance was created on provider side
-    # or error occurred on create_instance request - in such case
-    # the instance has not to be rollbacked
-    if Instance::ACTIVE_FAILED_STATES.include?(instance.state)
-      # if this instance stop failed, whole deployment rollback failed
-      self.state = STATE_ROLLBACK_FAILED
-      cleanup_failed_launch
-    elsif instance.state == Instance::STATE_RUNNING
-      deployment_rollback
-    elsif instances.all? {|i| i.finished?}
-      # some other instances might be failed (because their
-      # launch failed), but it shouldn't be a problem if all
-      # running instances stopped correctly
-      self.state = STATE_ROLLBACK_COMPLETE
-    end
-  end
 
   def deployment_rollback
     unless self.state == STATE_ROLLBACK_IN_PROGRESS
