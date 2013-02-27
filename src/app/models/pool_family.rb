@@ -145,14 +145,13 @@ class PoolFamily < ActiveRecord::Base
     avail = max - total unless max.nil?
     # Don't make repeat calls to the pools association
     cached_pools = pools
-    statistics = {
+    {
       :deployments => cached_pools.collect{|p| p.deployments.count}.sum,
       :total_instances => cached_pools.collect{|p| p.instances.not_stopped.count}.sum,
       :instances_pending => cached_pools.collect{|p| p.instances.pending.count}.sum,
       :instances_failed => cached_pools.collect{|p| p.instances.failed.count}.sum,
       :used_quota => total,
-      :quota_percent => number_to_percentage(quota.percentage_used,
-                                             :precision => 0),
+      :quota_percent => number_to_percentage(quota.percentage_used, :precision => 0),
       :available_quota => avail,
     }
   end

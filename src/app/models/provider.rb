@@ -94,10 +94,8 @@ class Provider < ActiveRecord::Base
 
   def encoded_url_with_driver_and_provider
     url_extras = ";driver=#{provider_type.deltacloud_driver}"
-    if deltacloud_provider
-      url_extras += ";provider=#{CGI::escape(deltacloud_provider)}"
-    end
-    return url + url_extras
+    url_extras += ";provider=#{CGI::escape(deltacloud_provider)}" if deltacloud_provider
+    url + url_extras
   end
 
   def connect
@@ -136,9 +134,9 @@ class Provider < ActiveRecord::Base
           i.update_attributes(:state => Instance::STATE_STOPPED)
           false
         rescue
-          true
           # this should never happen, so display an error only in log file
           log_backtrace($!, "Failed to stop instance #{i.name}")
+          true
         end
       end
     end
@@ -203,12 +201,8 @@ class Provider < ActiveRecord::Base
       deltacloud_realm_ids = deltacloud_realms.collect{|r| r.id}
       # Delete anything in Conductor that's not in Deltacloud
       conductor_realms = provider_realms
-      conductor_realm_ids = conductor_realms.collect{|r| r.external_key}
       conductor_realms.each do |c_realm|
-        unless deltacloud_realm_ids.include?(c_realm.external_key)
-          #c_realm.reload
-          c_realm.destroy
-        end
+        c_realm.destroy unless deltacloud_realm_ids.include?(c_realm.external_key)
       end
 
       # Add anything in Deltacloud to Conductor if it's not already there
@@ -278,10 +272,7 @@ class Provider < ActiveRecord::Base
 
   def validate_provider
     if provider_type
-      if !nil_or_empty(url)
-        errors.add('url', :invalid_framework) unless valid_framework?
-        #errors.add('deltacloud_provider', :invalid_provider) unless valid_provider?
-      end
+      errors.add('url', :invalid_framework) unless nil_or_empty(url) or valid_framework?
     else
       errors.add('provider_type', :'does_not_exist')
     end
@@ -295,10 +286,10 @@ class Provider < ActiveRecord::Base
     rescue DeltaCloud::HTTPError::Unauthorized
       # Some providers will return a 401 - Unauthorized, which is okay at
       # this stage (since we haven't passed in credentials yet):
-      return true
+      true
     rescue Exception => ex
       log_backtrace(ex, "Error connecting to framework")
-      return false
+      false
     end
   end
 

@@ -31,8 +31,6 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
 
-require 'nokogiri'
-
 class ProviderAccount < ActiveRecord::Base
 
   class << self
@@ -150,9 +148,7 @@ class ProviderAccount < ActiveRecord::Base
 
   def validate_credentials
     begin
-      unless valid_credentials?
-        errors.add(:base, _('Login credentials are invalid for this Provider.'))
-      end
+      errors.add(:base, _('Login credentials are invalid for this Provider.')) unless valid_credentials?
     rescue
       errors.add(:base, _('An error occurred when checking Provider credentials. Please check your setup and try again.'))
     end
@@ -203,9 +199,11 @@ class ProviderAccount < ActiveRecord::Base
 
   def connect
     begin
-      opts = {:username => credentials_hash['username'],
-              :password => credentials_hash['password'],
-              :driver => provider.provider_type.deltacloud_driver }
+      opts = {
+        :username => credentials_hash['username'],
+        :password => credentials_hash['password'],
+        :driver   => provider.provider_type.deltacloud_driver
+      }
       opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
       client = DeltaCloud.new(credentials_hash['username'],
                               credentials_hash['password'],
@@ -218,10 +216,7 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def pools
-    pools = []
-    instances.each do |instance|
-      pools << instance.pool
-    end
+    instances.map(&:pool)
   end
 
   def name
@@ -231,11 +226,11 @@ class ProviderAccount < ActiveRecord::Base
   def populate_profiles_and_validate
     begin
       populate_hardware_profiles
+      true
     rescue
       errors.add(:base, _('Failed to populate hardware_profiles: %s') % $!.message)
-      return false
+      false
     end
-    true
   end
 
   def populate_realms_and_validate
@@ -253,11 +248,9 @@ class ProviderAccount < ActiveRecord::Base
   end
 
   def valid_credentials?
-    if credentials_hash['username'].blank? || credentials_hash['password'].blank?
-      return false
-    end
-      opts = {:driver => provider.provider_type.deltacloud_driver }
-      opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
+    return false if credentials_hash['username'].blank? || credentials_hash['password'].blank?
+    opts = {:driver => provider.provider_type.deltacloud_driver }
+    opts[:provider] = provider.deltacloud_provider if provider.deltacloud_provider
     DeltaCloud::valid_credentials?(credentials_hash['username'].to_s,
                                    credentials_hash['password'].to_s,
                                    provider.url,
@@ -445,11 +438,8 @@ class ProviderAccount < ActiveRecord::Base
   private
 
   def self.apply_search_filter(search)
-    if search
-      includes(:provider => [:provider_type]).where("lower(provider_accounts.label) LIKE :search OR lower(providers.name) LIKE :search OR lower(provider_types.name) LIKE :search", :search => "%#{search.downcase}%")
-    else
-      scoped
-    end
+    return scoped unless search
+    includes(:provider => [:provider_type]).where("lower(provider_accounts.label) LIKE :search OR lower(providers.name) LIKE :search OR lower(provider_types.name) LIKE :search", :search => "%#{search.downcase}%")
   end
 
   def apply_provider_specific_creds!(label_value_pairs)
