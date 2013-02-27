@@ -173,6 +173,24 @@ class Instance < ActiveRecord::Base
     errors.add(:pool, _('has all associated Providers disabled')) if pool and pool.pool_family.all_providers_disabled?
   end
 
+  def state
+    return STATE_NEW unless heat_data
+    heat_state_map = {
+      "CREATE_COMPLETE" => STATE_RUNNING,
+      "CREATE_FAILED" => STATE_CREATE_FAILED,
+      "CREATE_IN_PROGRESS" => STATE_PENDING,
+    }
+    heat_state_map[heat_data['resource_status']]
+  rescue Heat::NotFoundError
+    STATE_ERROR
+  end
+
+  # TODO(shadower): get rid of all the time and state management stuff,
+  # load it from Heat instead
+  def time_last_running
+    DateTime.parse(deployment.heat_data['creation_time']).to_time
+  end
+
 
   def image
     @image ||= Tim::BaseImage.find_by_uuid(image_uuid) if image_uuid
@@ -580,6 +598,14 @@ class Instance < ActiveRecord::Base
   def disappears_after_stop_request?
     provider_account &&
       provider_account.provider.provider_type.stopped_instances_disappear?
+  end
+
+  def heat_data
+    deployment_heat_data = deployment.heat_data(:all)
+    return nil unless deployment_heat_data
+    resource_name = assembly_xml.name
+    resources = deployment_heat_data['resources']
+    return resources.find { |r| r['logical_resource_id'] == resource_name }
   end
 
   private
