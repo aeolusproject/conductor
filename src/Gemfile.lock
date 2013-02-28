@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/apache/deltacloud
+  revision: 6e6424af4a0a038f7b236d17d760dbaa1ed28686
+  ref: 6e6424af4a0a038f7b236d17d760dbaa1ed28686
+  specs:
+    deltacloud-client (1.1.1)
+      nokogiri (>= 1.4.3)
+      rest-client (>= 1.6.1)
+
+GIT
   remote: git://github.com/rails/rails
   revision: 63970dc7db273551f977483109dde936c8a7554f
   ref: 63970dc7db273551f977483109dde936c8a7554f
@@ -47,7 +56,7 @@ GIT
       thor (>= 0.14.6, < 2.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     addressable (2.2.8)
     alchemy (1.0.2)
@@ -85,9 +94,6 @@ GEM
     delayed_job (2.1.4)
       activesupport (~> 3.0)
       daemons
-    deltacloud-client (1.0.4)
-      nokogiri (>= 1.4.3)
-      rest-client (>= 1.6.1)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (1.0.0)
@@ -231,7 +237,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   delayed_job (~> 2.1.4)
-  deltacloud-client
+  deltacloud-client!
   factory_girl_rails (~> 1.4.0)
   fastercsv
   haml-rails
