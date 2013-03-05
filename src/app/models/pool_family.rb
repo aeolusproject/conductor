@@ -45,7 +45,7 @@ class PoolFamily < ActiveRecord::Base
 
   has_many :pools,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
-  has_and_belongs_to_many :provider_accounts, :uniq => true, :order => "provider_accounts.priority asc"
+  has_and_belongs_to_many :provider_accounts, :uniq => true
   has_many :permissions, :as => :permission_object, :dependent => :destroy
   has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
@@ -123,20 +123,6 @@ class PoolFamily < ActiveRecord::Base
 
   def all_providers_disabled?
     !provider_accounts.empty? and !provider_accounts.any? {|acc| acc.provider.enabled?}
-  end
-
-  def provider_accounts_by_priority
-    provider_accounts.sort {|a,b|
-      if a.priority.nil? and b.priority.nil?
-        0
-      elsif a.priority.nil?
-        1
-      elsif b.priority.nil?
-        -1
-      else
-        a.priority <=> b.priority
-      end
-    }
   end
 
   def statistics

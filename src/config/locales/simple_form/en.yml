@@ -53,7 +53,6 @@ en:
         name: 'Must be a unique name with at least 1 character and at most 100 characters. You can use letters, numbers, underscore, space and dash characters.'
       provider_account:
         label:  'Must be a unique label with at least 1 character and at most 100 characters.'
-        priority:  'Must be at least -100 and at most 100.'
       quota:
         maximum_running_instances: 'Must be a positive whole number less than 2147483647.'
       provider:

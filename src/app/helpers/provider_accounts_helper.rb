@@ -26,7 +26,6 @@ module ProviderAccountsHelper
       { :name => _('Username'), :sortable => false},
       { :name => _('Provider Name'), :sortable => false },
       { :name => _('Provider Type'), :sortable => false },
-      { :name => _('Priority'), :sortable => false, :class => 'center' },
       { :name => _('Quota Used'), :sortable => false, :class => 'center' },
       { :name => _('Quota Limit'), :sortable => false, :class => 'center' }
     ]

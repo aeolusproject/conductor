@@ -88,11 +88,6 @@ class ProviderAccount < ActiveRecord::Base
   validates :label, :presence => true,
                     :uniqueness => true,
                     :length => { :within => 1..100 }
-  validates :priority,
-            :numericality => { :only_integer => true,
-                               :greater_than_or_equal_to => -100,
-                               :less_than_or_equal_to => 100 },
-            :allow_blank => true
   validates :provider, :presence => true
   validates :quota, :presence => true
   validate :validate_presence_of_credentials
