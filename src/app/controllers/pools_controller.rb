@@ -137,7 +137,6 @@ class PoolsController < ApplicationController
           #  this patch is after string freeze so I'm confined to using them. --mawagner
           @header = [{:name => _('Catalog')}, {:name => _('Deployable')},
                      {:name => _('Image')}, {:name => _('Provider\'s Image ID')}]
-          @catalog_images = @pool.catalog_images_collection(@catalogs)
         when 'deployments'
           @view = filter_view? ? 'deployments/list' : 'deployments/pretty_view'
       end

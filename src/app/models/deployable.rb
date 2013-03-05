@@ -116,26 +116,11 @@ class Deployable < ActiveRecord::Base
   end
 
   def fetch_unique_images
-    uuids = fetch_image_uuids || []
-    uniq_uuids = uuids.uniq
-    result_hash = {}
-    uniq_uuids.each do |uuid|
-      result_hash[uuid] = { :image => Tim::BaseImage.find_by_uuid(uuid), :count => uuids.count(uuid)}
-    end
-    result_hash
-  end
+    deployable_xml = fetch_deployable
+    return [] if deployable_xml.nil?
 
-
-  def fetch_image_uuids
-    deployable = fetch_deployable
-    deployable.image_uuids unless deployable.nil?
-  end
-
-  def hw_profile_for_image(image_id)
-    fetch_deployable.assemblies.each do |as|
-      if as.image_id == image_id
-       return HardwareProfile.find_by_name(as.hwp)
-      end
+    deployable_xml.image_uuids.uniq.map do |image_uuid|
+      Tim::BaseImage.find_by_uuid(image_uuid)
     end
   end
 
@@ -316,4 +301,5 @@ class Deployable < ActiveRecord::Base
       scoped
     end
   end
+
 end

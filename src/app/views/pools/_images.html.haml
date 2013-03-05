@@ -5,12 +5,12 @@
         =image_tag 'flash_error_icon.png', :alt => 'Errors'
         =flash[:error]
 -else
-=filter_table(@header,@catalog_images) do |catalog_image|
-  %tr{:class => cycle('nostripe','stripe')}
-    %td=catalog_image[:catalog]
-    %td=catalog_image[:deployable]
-    %td=catalog_image[:image]
-    %td
-      %ul
-        - catalog_image[:provider_images].each do |img|
-          %li= img
+  =filter_table(@header, @catalogs)  do |catalog|
+    - catalog.deployables.each do |deployable|
+      - deployable.fetch_unique_images.each do |image|
+        %tr{:class => cycle('nostripe','stripe')}
+          %td= catalog.name
+          %td= deployable.name
+          %td= "#{image.name} (#{image.uuid})"
+          - image.provider_images.each do |provider_image|
+            %td= _('pushed to %s, provider id: %s') % [provider_image.external_image_id, provider_image.provider_account.provider.name]
