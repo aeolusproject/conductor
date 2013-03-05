@@ -274,9 +274,6 @@ Conductor::Application.routes.draw do
   end
 
   get 'api', :controller => 'api/entrypoint', :action => 'index'
-  namespace :api do
-    resources :hooks
-  end
 
   scope "/api/tim", :as => 'api_tim', :module => 'tim' do
     resources :base_images, :templates, :image_versions, :provider_images, :target_images
