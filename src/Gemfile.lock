@@ -47,7 +47,7 @@ GIT
       thor (>= 0.14.6, < 2.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     addressable (2.2.8)
     alchemy (1.0.2)
@@ -61,6 +61,8 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
+    cbf (0.0.3)
+      nokogiri (~> 1.5.0)
     childprocess (0.3.2)
       ffi (~> 1.0.6)
     chunky_png (1.2.7)
@@ -237,6 +239,7 @@ PLATFORMS
 DEPENDENCIES
   alchemy (>= 1.0.1)
   capybara
+  cbf (>= 0.0.3)
   compass-rails
   cucumber
   cucumber-rails

@@ -43,8 +43,6 @@ class Deployment < ActiveRecord::Base
     include CommonFilterMethods
   end
 
-  before_destroy :destroyable?
-
   belongs_to :pool
   belongs_to :pool_family
 
@@ -82,7 +80,6 @@ class Deployment < ActiveRecord::Base
   before_create :inject_launch_parameters
   before_create :generate_uuid
   before_create :set_pool_family
-  before_create :set_new_state
   after_save :log_state_change
   after_save :handle_completed_rollback
 
@@ -138,6 +135,22 @@ class Deployment < ActiveRecord::Base
     errors.add(:pool, _('has all associated Providers disabled')) if pool and pool.pool_family.all_providers_disabled?
   end
 
+  def state
+    return STATE_NEW unless heat_data
+    heat_state_map = {
+      "CREATE_COMPLETE" => STATE_RUNNING,
+      "CREATE_FAILED" => STATE_FAILED,
+      "CREATE_IN_PROGRESS" => STATE_PENDING,
+    }
+    heat_state_map[heat_data['stack_status']]
+  rescue Heat::NotFoundError
+    STATE_FAILED
+  end
+
+  def state=(new_state)
+    raise "Cannot set the state from here. Talk to Heat instead."
+  end
+
   def perm_ancestors
     super + [pool, pool_family]
   end
@@ -162,32 +175,12 @@ class Deployment < ActiveRecord::Base
     get_action_list.include?(action)
   end
 
-  def destroyable?
-    instances.all? {|i| i.destroyable? }
-  end
-
   def can_stop?
     [STATE_RUNNING, STATE_INCOMPLETE].include?(self.state)
   end
 
-  def not_stoppable_or_destroyable_instances
-    instances.find_all {|i| !(i.destroyable? or
-                              i.state == Instance::STATE_RUNNING)}
-  end
-
   def stop_instances_and_destroy!
-    if destroyable?
-      destroy!
-    else
-      self.state = Deployment::STATE_SHUTTING_DOWN
-      # The deployment will be destroyed from an InstanceObserver callback once
-      # all instances are stopped.
-      self.scheduled_for_deletion = true
-      self.save!
-
-      # stop all deployment's instances
-      instances.running.each {|instance| instance.stop(instance.owner)}
-    end
+    destroy!
   end
 
   def self.stoppable_inaccessible_instances(deployments)
@@ -231,8 +224,6 @@ class Deployment < ActiveRecord::Base
 
   def launch!(user)
     self.reload unless self.new_record?
-    self.state = STATE_PENDING
-    save!
 
     all_inst_match, account, errs = pick_provider_selection_match
 
@@ -256,49 +247,37 @@ class Deployment < ActiveRecord::Base
     # InstanceMatch model, delayed job tries to load this object from DB
     all_inst_match.map!{|m| m.attributes}
 
-    if deployable_xml.requires_config_server?
-      config_server_id = account.config_server.id
-    else
-      config_server_id = nil
-    end
-
-    delay.send_launch_requests(all_inst_match,
+    # TODO(shadower): uncomment this.
+    # I disabled the delayed job version to make debugging easier for now
+    # delay.send_launch_requests(...)
+    send_launch_requests(all_inst_match,
                                instances.map{|i| i.id},
-                               config_server_id, user.id)
+                               user.id)
   end
 
-  def send_launch_requests(all_inst_match, instance_ids, config_server_id, user_id)
+
+  def send_launch_requests(all_inst_match, instance_ids, user_id)
     user = User.find(user_id)
     instances = instance_ids.map{|instance_id| Instance.find(instance_id)}
 
-    if config_server_id.nil?
-      config_server = nil
-      instance_configs = {}
-    else
-      config_server = ConfigServer.find(config_server_id)
-
-      # the instance configurations need to be generated from the entire set of
-      # instances (and not each individual instance) in order to do parameter
-      # dependency resolution across the set
-      instance_configs = ConfigServerUtil.instance_configs(self,instances,config_server)
-    end
-
+    instance_matches = []
     instances.each do |instance|
       instance.reset_attrs unless instance.state == Instance::STATE_NEW
       instance.instance_matches << InstanceMatch.new(
         all_inst_match.find{|m| m['instance_id'] == instance.id})
-      begin
-        instance.launch!(instance.instance_matches.last,
-                         user,
-                         config_server,
-                         instance_configs[instance.uuid])
-      rescue
-        # be default launching of instances is terminated if an error occurs,
-        # user can set "partial_launch" attribute - launch request is then
-        # sent for all deployment's instances
-        break unless partial_launch
-      end
+
+      instance_matches << instance.instance_matches.last
     end
+
+    instance_matches.each do |match|
+      instance = match.instance
+      instance.provider_account = match.provider_account
+      instance.save!
+      instance.create_auth_key unless instance.instance_key
+    end
+
+    heat_template = CBF::convert(deployable_xml.to_s, :aeolus, {:require_instance_keys => true}).to(:heat)
+    Heat.create_stack(heat_connection(instance_matches), name, heat_template, instance_matches)
     true
   end
 
@@ -514,7 +493,38 @@ class Deployment < ActiveRecord::Base
     {:title => "deployments.preset_filters.rollback_failed", :id => "rollback_failed", :query => where("deployments.state" => "rollback_failed")}
   ]
 
+  def heat_data(details=nil)
+    result = Heat::get_stack(heat_connection, name)
+    stack_url = result['links'].find {|link| link['rel'] == 'self'}['href']
+    if details == :all
+      result.merge! Heat::list_resources(heat_connection, stack_url)
+    end
+    result
+  rescue Heat::NoConnectionError
+    nil
+  end
+
   private
+
+  def heat_connection(instance_matches=nil)
+    # We assume that all the instances are being launched on the same provider
+    # with the same credentials
+    if instance_matches.blank?
+      instance = instances.first
+    else
+      instance = instance_matches.first.instance
+    end
+    return nil unless instance && instance.provider_account
+    provider_url = instance.provider_account.provider.url
+    credentials = instance.provider_account.credentials_hash
+    {
+      :heat_api => SETTINGS_CONFIG[:heat][:url],
+      :tenant_id => SETTINGS_CONFIG[:heat][:tennant_id],
+      :username => credentials['username'],
+      :password => credentials['password'],
+      :deltacloud_url => provider_url,
+    }
+  end
 
   def self.apply_search_filter(search)
     # TODO: after upgrading to 3.1 the SQL join statement can be done in Rails way by adding a has_many association to providers through provider_accounts
@@ -636,66 +646,6 @@ class Deployment < ActiveRecord::Base
     end
   end
 
-  def set_new_state
-    self.state ||= STATE_NEW
-  end
-
-  def state_transition_from_pending(instance)
-    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
-      self.state = STATE_RUNNING
-    elsif partial_launch and instances.all? {|i| i.failed?}
-      self.state = STATE_FAILED
-    elsif partial_launch and instances.all? {|i| i.failed_or_running?}
-      self.state = STATE_INCOMPLETE
-    elsif !partial_launch and Instance::FAILED_STATES.include?(instance.state)
-      # TODO: now this is done in instance's after_update callback - as part
-      # of instance save transaction - this might be done on background by
-      # using delayed_job
-      deployment_rollback
-    end
-  end
-
-  def state_transition_from_running(instance)
-    if instance.state != STATE_RUNNING
-      if instances.all? {|i| i.state == Instance::STATE_STOPPED}
-        self.state = STATE_STOPPED
-      else
-        self.state = STATE_INCOMPLETE
-      end
-    end
-  end
-
-  def state_transition_from_incomplete(instance)
-    if instances.all? {|i| i.state == Instance::STATE_RUNNING}
-      self.state = STATE_RUNNING
-    elsif instances.all? {|i| i.state == Instance::STATE_STOPPED}
-      self.state = STATE_STOPPED
-    end
-  end
-
-  def state_transition_from_shutting_down(instance)
-    if instance.state == Instance::STATE_STOPPED and instances.all? {|i| i.inactive?}
-      self.state = STATE_STOPPED
-    end
-  end
-
-  def state_transition_from_rollback_in_progress(instance)
-    # TODO: distinguish if an instance was created on provider side
-    # or error occurred on create_instance request - in such case
-    # the instance has not to be rollbacked
-    if Instance::ACTIVE_FAILED_STATES.include?(instance.state)
-      # if this instance stop failed, whole deployment rollback failed
-      self.state = STATE_ROLLBACK_FAILED
-      cleanup_failed_launch
-    elsif instance.state == Instance::STATE_RUNNING
-      deployment_rollback
-    elsif instances.all? {|i| i.finished?}
-      # some other instances might be failed (because their
-      # launch failed), but it shouldn't be a problem if all
-      # running instances stopped correctly
-      self.state = STATE_ROLLBACK_COMPLETE
-    end
-  end
 
   def deployment_rollback
     unless self.state == STATE_ROLLBACK_IN_PROGRESS

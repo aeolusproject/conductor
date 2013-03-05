@@ -68,8 +68,6 @@ class Instance < ActiveRecord::Base
   end
   include PermissionedObject
 
-  before_destroy :destroyable?
-
   belongs_to :pool
   belongs_to :pool_family
   belongs_to :provider_account
@@ -171,6 +169,24 @@ class Instance < ActiveRecord::Base
   def pool_and_account_enabled_validation
     errors.add(:pool, _('must be enabled')) unless pool and pool.enabled?
     errors.add(:pool, _('has all associated Providers disabled')) if pool and pool.pool_family.all_providers_disabled?
+  end
+
+  def state
+    return STATE_NEW unless heat_data
+    heat_state_map = {
+      "CREATE_COMPLETE" => STATE_RUNNING,
+      "CREATE_FAILED" => STATE_CREATE_FAILED,
+      "CREATE_IN_PROGRESS" => STATE_PENDING,
+    }
+    heat_state_map[heat_data['resource_status']]
+  rescue Heat::NotFoundError
+    STATE_ERROR
+  end
+
+  # TODO(shadower): get rid of all the time and state management stuff,
+  # load it from Heat instead
+  def time_last_running
+    DateTime.parse(deployment.heat_data['creation_time']).to_time
   end
 
 
@@ -326,10 +342,6 @@ class Instance < ActiveRecord::Base
     false
   end
 
-  def destroyable?
-    (state == STATE_CREATE_FAILED) || (state == STATE_STOPPED && ! restartable?) || (state == STATE_VANISHED)
-  end
-
   def failed?
     FAILED_STATES.include?(state)
   end
@@ -396,15 +408,6 @@ class Instance < ActiveRecord::Base
   def includes_instance_match?(match)
     instance_matches.any?{|m| m.equals?(match)}
   end
-
-  def launch!(match, user, config_server, config)
-    # create a taskomatic task
-    task = InstanceTask.create!({:user        => user,
-                                 :task_target => self,
-                                 :action      => InstanceTask::ACTION_CREATE})
-    Taskomatic.create_instance!(task, match, config_server, config)
-  end
-
 
   def self.csv_export(instances)
     csvm = get_csv_class
@@ -580,6 +583,14 @@ class Instance < ActiveRecord::Base
   def disappears_after_stop_request?
     provider_account &&
       provider_account.provider.provider_type.stopped_instances_disappear?
+  end
+
+  def heat_data
+    deployment_heat_data = deployment.heat_data(:all)
+    return nil unless deployment_heat_data
+    resource_name = assembly_xml.name
+    resources = deployment_heat_data['resources']
+    return resources.find { |r| r['logical_resource_id'] == resource_name }
   end
 
   private

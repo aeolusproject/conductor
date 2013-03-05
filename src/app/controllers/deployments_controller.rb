@@ -280,14 +280,9 @@ class DeploymentsController < ApplicationController
     errors = []
     begin
       require_privilege(Privilege::MODIFY, deployment)
-      if deployment.not_stoppable_or_destroyable_instances.empty?
-        Delayed::Job.enqueue DeploymentDestroy.new(deployment)
-      else
-        cant_stop = true
-        errors = deployment.not_stoppable_or_destroyable_instances.map {|i|
-          _('The instance %s is in state %s.') % [i.name, i.state]}
-
-      end
+      deployment.stop_instances_and_destroy!
+      # TODO(shadower): enable delayed job again
+      # Delayed::Job.enqueue DeploymentDestroy.new(deployment)
     rescue
       errors = _('The Deployment %s could not be deleted: %s') % [deployment.name, $!.message]
     end
@@ -323,13 +318,10 @@ class DeploymentsController < ApplicationController
     ids = Array(params[:deployments_selected])
     Deployment.find(ids).each do |deployment|
       require_privilege(Privilege::MODIFY, deployment)
-      if deployment.not_stoppable_or_destroyable_instances.empty?
-        Delayed::Job.enqueue DeploymentDestroy.new(deployment)
-        destroyed << deployment.name
-      else
-        errors << _('The Deployment %s could not be deleted: %s') % [deployment.name, _('All Instances must be stopped or running')]
-      end
-
+      deployment.stop_instances_and_destroy!
+      # TODO(shadower): enable delayed job again
+      # Delayed::Job.enqueue DeploymentDestroy.new(deployment)
+      destroyed << deployment.name
     end
     respond_to do |format|
       format.html do

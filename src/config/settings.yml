@@ -23,6 +23,10 @@
   #  :consumer_key: consumer_key_here
   #  :consumer_secret: consumer_secret_here
 
+:heat:
+  :url: http://localhost:8004/
+  :tennant_id: deltacloud
+
 :session:
   :timeout: 15 # minutes
 

@@ -33,6 +33,7 @@ gem 'sass-rails'
 gem 'compass-rails'
 gem "alchemy", ">= 1.0.1"
 gem 'gettext_i18n_rails'
+gem 'cbf', ">= 0.0.3"
 
 platforms :ruby_18 do
   gem 'fastercsv'
