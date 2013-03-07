@@ -101,6 +101,8 @@ GEM
     fast_gettext (0.7.0)
     fastercsv (1.5.5)
     ffi (1.0.11)
+    foreigner (1.3.0)
+      activerecord (>= 3.0.0)
     fssm (0.2.9)
     gettext (2.3.7)
       levenshtein
@@ -247,6 +249,7 @@ DEPENDENCIES
   fastercsv
   gettext (>= 1.9.3)
   gettext_i18n_rails
+  foreigner
   haml-rails
   json
   launchy
