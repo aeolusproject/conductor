@@ -23,4 +23,21 @@ module DeployablesHelper
   def deployable_ready?
     false
   end
+
+  def translate_build_status(status)
+    case status
+      when :not_build
+        _("Images are not built")
+      when :building
+        _("Images are being built.")
+      when :pushing
+        _("Images are being pushed.")
+      when :not_pushed
+        _("Some of the images are not pushed")
+      when :pushed
+        _("All Images are pushed and recent.")
+      else
+        status
+    end
+  end
 end

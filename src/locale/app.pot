@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-11 20:39+0100\n"
+"POT-Creation-Date: 2013-03-04 14:55+0100\n"
 "PO-Revision-Date: 2013-01-31 17:10+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,6 +76,9 @@ msgstr ""
 msgid "%s: no Config Server available for Provider Account"
 msgstr ""
 
+msgid "%s: reboot action was successfully queued."
+msgstr ""
+
 msgid "&#8592; Previous"
 msgstr ""
 
@@ -97,13 +100,30 @@ msgstr ""
 msgid "ARCH"
 msgstr ""
 
+msgid "Access Key"
+msgstr ""
+
 msgid "Access denied"
 msgstr ""
+
+msgid "Account %s could not be added: %s"
+msgstr ""
+
+msgid "Account %s was added."
+msgstr ""
+
+msgid "Account %s was deleted."
+msgid_plural "Accounts %s were deleted."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Account %s was not deleted: %s"
 msgstr ""
 
 msgid "Account Name"
+msgstr ""
+
+msgid "Account Number"
 msgstr ""
 
 msgid "Account number"
@@ -196,7 +216,19 @@ msgstr ""
 msgid "All Hardware Profiles"
 msgstr ""
 
+msgid "All Images are pushed and recent."
+msgstr ""
+
 msgid "All Instances"
+msgstr ""
+
+msgid "All Instances are in failed state"
+msgstr ""
+
+msgid "All Instances are running"
+msgstr ""
+
+msgid "All Instances are stopped"
 msgstr ""
 
 msgid "All Instances must be stopped or running"
@@ -367,19 +399,38 @@ msgstr ""
 msgid "Catalog"
 msgstr ""
 
+msgid "Catalog %{deleted} deleted"
+msgid_plural "%{count} Catalogs %{deleted} deleted"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Catalog %{not_deleted} cannot be deleted. At least one Deployable has a reference to this Catalog."
+msgid_plural "These Catalogs %{not_deleted} cannot be deleted. Some Deployables still have references to these Catalogs."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Catalog Name"
 msgstr ""
 
 msgid "Catalog cannot be deleted. At least one Deployable has a reference to this Catalog."
 msgstr ""
 
+msgid "Catalog created"
+msgstr ""
+
 msgid "Catalog deleted"
+msgstr ""
+
+msgid "Catalog updated successfully"
 msgstr ""
 
 msgid "Catalogs"
 msgstr ""
 
 msgid "Catalog|Name"
+msgstr ""
+
+msgid "Certificate"
 msgstr ""
 
 msgid "Change"
@@ -577,6 +628,16 @@ msgstr ""
 msgid "Deleted the following Permission Grants: %s"
 msgstr ""
 
+msgid "Deleted user"
+msgid_plural "Deleted users"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Deleted user group"
+msgid_plural "Deleted user groups"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Deploy \"%s\" to %s Pool?"
 msgstr ""
 
@@ -588,6 +649,16 @@ msgstr ""
 
 msgid "Deployable %s removed successfully."
 msgstr ""
+
+msgid "Deployable %{deleted} removed successfully."
+msgid_plural "%{count} Deployables %{deleted} were removed."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Deployable %{not_deleted} removal failed."
+msgid_plural "%{count} Deployables %{not_deleted} were not removed."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Deployable XML"
 msgstr ""
@@ -637,10 +708,19 @@ msgstr ""
 msgid "Deployment Name"
 msgstr ""
 
+msgid "Deployment is shutting down"
+msgstr ""
+
+msgid "Deployment is starting up"
+msgstr ""
+
 msgid "Deployment launch failed."
 msgstr ""
 
 msgid "Deployment launched."
+msgstr ""
+
+msgid "Deployment wasn't started"
 msgstr ""
 
 msgid "Deployment/Instance"
@@ -964,6 +1044,11 @@ msgstr ""
 msgid "Hardware Profile"
 msgstr ""
 
+msgid "Hardware Profile %s was deleted."
+msgid_plural "Hardware Profiles %s were deleted."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Hardware Profile %s, which is specified in XML, does not exist."
 msgstr ""
 
@@ -1057,6 +1142,15 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
+msgid "Images are being built."
+msgstr ""
+
+msgid "Images are being pushed."
+msgstr ""
+
+msgid "Images are not built"
+msgstr ""
+
 msgid "Images cannot be built. There are no enabled Provider Accounts associated with this Environment."
 msgstr ""
 
@@ -1079,7 +1173,9 @@ msgid "Inherited From"
 msgstr ""
 
 msgid "Instance"
-msgstr ""
+msgid_plural "Instances"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Instance %s"
 msgstr ""
@@ -1228,7 +1324,28 @@ msgstr ""
 msgid "Instructions for resetting your password have been emailed."
 msgstr ""
 
+msgid "Insufficient permissions to delete Catalog %{not_deleted}"
+msgid_plural "Insufficient permissions to delete %{count} Catalogs %{not_deleted}"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Insufficient permissions to delete hardware profile %{not_deleted}"
+msgid_plural "Insufficient permissions to remove %{count} hardware profiles %{not_deleted}"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Insufficient permissions to remove Deployable %{not_deleted}."
+msgid_plural "Insufficient permissions to remove %{count} Deployables %{not_deleted}."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Internal Server Error"
+msgstr ""
+
+msgid "Key"
+msgstr ""
+
+msgid "LDAP"
 msgstr ""
 
 msgid "Last Login"
@@ -1250,6 +1367,9 @@ msgid "Latest Build UUID"
 msgstr ""
 
 msgid "Launch"
+msgstr ""
+
+msgid "Launch failed, rollback is in progress"
 msgstr ""
 
 msgid "Legend for X-Deltacloud-Provider"
@@ -1512,6 +1632,16 @@ msgstr ""
 
 msgid "Pool"
 msgstr ""
+
+msgid "Pool %s was deleted."
+msgid_plural "Pools %s were deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Pool %s was not deleted. There are Instances associated with it."
+msgid_plural "Pools %s were not deleted. They have Instances associated with them."
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Pool Name"
 msgstr ""
@@ -1867,6 +1997,9 @@ msgstr ""
 msgid "Realms mapped to Provider Realm %s:"
 msgstr ""
 
+msgid "Reboot is an invalid action."
+msgstr ""
+
 msgid "Reboot selected Instances"
 msgstr ""
 
@@ -1921,6 +2054,12 @@ msgstr ""
 msgid "Role|Scope"
 msgstr ""
 
+msgid "Rollback failed, re-launch terminated"
+msgstr ""
+
+msgid "Rollback successfully completed"
+msgstr ""
+
 msgid "Running (Historical)"
 msgstr ""
 
@@ -1963,6 +2102,9 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+msgid "Secret Access Key"
+msgstr ""
+
 msgid "Select"
 msgstr ""
 
@@ -1993,6 +2135,9 @@ msgstr ""
 msgid "Some Assemblies will not be launched:"
 msgstr ""
 
+msgid "Some Instances are not running"
+msgstr ""
+
 msgid "Some actions failed"
 msgstr ""
 
@@ -2000,6 +2145,9 @@ msgid "Some attribute(s) are missing in the XML. Please check the file."
 msgstr ""
 
 msgid "Some errors prevented the %s from being saved. Please review the problems below."
+msgstr ""
+
+msgid "Some of the images are not pushed"
 msgstr ""
 
 msgid "State"
@@ -2012,6 +2160,9 @@ msgid "Status"
 msgstr ""
 
 msgid "Stop Selected"
+msgstr ""
+
+msgid "Stop is an invalid action."
 msgstr ""
 
 msgid "Stop selected Instances"
@@ -2122,7 +2273,43 @@ msgstr ""
 msgid "The Deployment %s could not be stopped. Only running Deployments can be stopped."
 msgstr ""
 
+msgid "The Deployment %s could not be updated."
+msgstr ""
+
+msgid "The Deployment %s was scheduled for deletion."
+msgid_plural "The Deployments %s were scheduled for deletion."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "The Deployment %s was succesfully updated."
+msgstr ""
+
+msgid "The Deployment %s was successfully updated."
+msgstr ""
+
 msgid "The Image you tried to access cannot be found. It may have been deleted."
+msgstr ""
+
+msgid "The Instance %s could not be deleted."
+msgid_plural "The Instances %s could not be deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "The Instance %s could not be updated."
+msgstr ""
+
+msgid "The Instance %s was successfully deleted."
+msgid_plural "The Instances %s were successfully deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "The Instance %s was successfully updated."
+msgstr ""
+
+msgid "The Instance %{name} was not rebooted because %{err}"
+msgstr ""
+
+msgid "The Instance %{name} was not stopped because %{err}"
 msgstr ""
 
 msgid "The Password Reset link is no longer valid. Please re-apply for the new link by completing the form below."
@@ -2440,13 +2627,25 @@ msgstr ""
 msgid "Your Pools"
 msgstr ""
 
+msgid "can't be blank"
+msgstr ""
+
+msgid "create_failed"
+msgstr ""
+
 msgid "e-mail"
+msgstr ""
+
+msgid "error"
 msgstr ""
 
 msgid "file contains syntax errors"
 msgstr ""
 
 msgid "has all associated Providers disabled"
+msgstr ""
+
+msgid "local"
 msgstr ""
 
 msgid "must be a positive whole number less than 2147483647"
@@ -2458,10 +2657,16 @@ msgstr ""
 msgid "must contain unique Assembly names"
 msgstr ""
 
+msgid "new"
+msgstr ""
+
 msgid "no Catalog selected"
 msgstr ""
 
 msgid "of Quota limit for running Instances for %s account has been reached."
+msgstr ""
+
+msgid "pending"
 msgstr ""
 
 msgid "pushed to %s, provider id: %s"
@@ -2470,13 +2675,34 @@ msgstr ""
 msgid "reboot is already scheduled."
 msgstr ""
 
+msgid "running"
+msgstr ""
+
 msgid "seems to be not valid Deployable XML: %s"
+msgstr ""
+
+msgid "shutting_down"
+msgstr ""
+
+msgid "state changed to stopped."
+msgstr ""
+
+msgid "stop action was successfully queued."
+msgstr ""
+
+msgid "stopped"
+msgstr ""
+
+msgid "stopping"
 msgstr ""
 
 msgid "to %s Pool"
 msgstr ""
 
 msgid "unlimited"
+msgstr ""
+
+msgid "vanished"
 msgstr ""
 
 msgid "via SSH"

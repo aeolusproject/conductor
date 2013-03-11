@@ -135,7 +135,7 @@ class UsersController < ApplicationController
       end
 
       unless deleted_users.empty?
-        flash[:notice] =  "#{t('users.flash.notice.more_deleted', :count => deleted_users.length)} #{deleted_users.join(', ')}"
+        flash[:notice] =  n_('Deleted user','Deleted users',deleted_users.length)
       end
 
     rescue => ex

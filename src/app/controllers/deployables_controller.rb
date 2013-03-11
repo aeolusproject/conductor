@@ -129,8 +129,7 @@ class DeployablesController < ApplicationController
           :provider_account_label => provider_account.label,
           :provider_name => provider_account.provider.name,
           :build_status => build_status,
-          :translated_build_status =>
-            t("deployables.show.build_statuses_descriptions.#{build_status}")
+          :translated_build_status => view_context.translate_build_status(build_status)
         }
 
         @image_status.sort_by do |image_status_for_account|
@@ -285,11 +284,11 @@ class DeployablesController < ApplicationController
       end
       unless not_deleted.empty? and not_deleted_perms.empty?
         flasherr = []
-        flasherr =  t("deployables.flash.error.not_deleted", :count => not_deleted.count, :not_deleted => not_deleted.join(', ')) unless not_deleted.empty?
-        flasherr =  t("deployables.flash.error.not_deleted_perms", :count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')) unless not_deleted_perms.empty?
+        flasherr =  n_('Deployable %{not_deleted} removal failed.','%{count} Deployables %{not_deleted} were not removed.',not_deleted.count) % {:count => not_deleted.count, :not_deleted => not_deleted.join(', ')} unless not_deleted.empty?
+        flasherr =  n_('Insufficient permissions to remove Deployable %{not_deleted}.','Insufficient permissions to remove %{count} Deployables %{not_deleted}.',not_deleted_perms.count) % {:count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')} unless not_deleted_perms.empty?
         flash[:error] = flasherr
       end
-      flash[:notice] = t("deployables.flash.notice.deleted", :count => deleted.count, :deleted => deleted.join(', ')) unless deleted.empty?
+      flash[:notice] = flash[:notice] = n_('Deployable %{deleted} removed successfully.','%{count} Deployables %{deleted} were removed.', deleted.count) % {:count => deleted.count, :deleted => deleted.join(', ')} unless deleted.empty?
     else
       flash[:error] = _('No Deployable was selected')
     end

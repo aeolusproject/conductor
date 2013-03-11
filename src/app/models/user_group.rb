@@ -26,6 +26,9 @@ class UserGroup < ActiveRecord::Base
   MEMBERSHIP_SOURCE_LOCAL = "local"
   MEMBERSHIP_SOURCES = [MEMBERSHIP_SOURCE_LOCAL, MEMBERSHIP_SOURCE_LDAP]
 
+  N_("LDAP")
+  N_("local")
+
   PRESET_FILTERS_OPTIONS = [
       {:title => "user_groups.preset_filters.local", :id => "local_user_groups", :query => where("user_groups.membership_source = ?", MEMBERSHIP_SOURCE_LOCAL)},
       {:title => "user_groups.preset_filters.ldap", :id => "ldap_user_groups", :query => where("user_groups.membership_source = ?", MEMBERSHIP_SOURCE_LDAP)}
