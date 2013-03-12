@@ -1,0 +1,10 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  %h1.no-icon= _('Edit Weight')
+
+%section.content-section
+  .content
+    = conductor_form_for @pool_provider_account_option, :url => pool_provider_selection_provider_account_options_path(@pool) do |f|
+      = render :partial => "form", :locals => { :form => f }
+      = f.button :form_buttons, :cancel => pool_provider_selection_provider_account_options_path(@pool)
