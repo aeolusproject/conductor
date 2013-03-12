@@ -58,6 +58,7 @@ class ProviderAccount < ActiveRecord::Base
   # eventually, this might be "has_many", but first pass is one-to-one
   has_one :config_server, :dependent => :destroy
   has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
+  has_many :pool_provider_account_options, :dependent => :destroy
   has_many :events, :as => :source, :dependent => :destroy, :order => 'events.id ASC'
 
   # Scopes

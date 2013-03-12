@@ -50,6 +50,7 @@ class Pool < ActiveRecord::Base
   has_many :catalogs, :dependent => :destroy
   has_many :provider_selection_strategies, :dependent => :destroy
   has_many :provider_priority_groups, :dependent => :destroy
+  has_many :pool_provider_account_options, :dependent => :destroy
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
                          :include => [:role],
                          :order => "permissions.id ASC"
