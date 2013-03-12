@@ -37,7 +37,7 @@ describe DerivedPermission do
     derived_perms_count = @instance.derived_permissions.size
     @pool_perm = Permission.create(:entity => @admin.entity,
                                     :role => Role.first(:conditions =>
-                                               ['name = ?', 'pool.admin']),
+                                               ['name = ?', 'Role|Pool Administrator']),
                                      :permission_object => @pool)
     @instance.reload
     inst_perm_sources = @instance.derived_permissions.collect {|p| p.permission}

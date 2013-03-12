@@ -30,31 +30,71 @@ CRE  = "create"
 VPRM = "view_perms"
 GPRM = "set_perms"
 
+# gettext strings for translation
+# FIXME: this is a bit of a hack in that string literals must be passed into
+#        the N_() call for the gettext parser to generate app.pot entries.
+#        We should eventually come up with a way for the gettext parser
+#        to pull these directly from the names column in the roles db table.
+N_("Role|Global Administrator")
+N_("Role|Global Deployable Administrator")
+N_("Role|Global HWP Administrator")
+N_("Role|Global HWP User")
+N_("Role|Global Image Administrator")
+N_("Role|Global Pool Administrator")
+N_("Role|Global Pool User")
+N_("Role|Global Provider Administrator")
+N_("Role|Global Provider User")
+N_("Role|Global Realm Administrator")
+
+N_("Role|Catalog Administrator")
+N_("Role|Catalog User")
+N_("Role|Deployable Owner")
+N_("Role|Deployable User")
+N_("Role|Deployment Owner")
+N_("Role|Deployment User")
+N_("Role|Instance Owner")
+N_("Role|Instance User")
+N_("Role|Pool Administrator")
+N_("Role|Pool Deployable Admin")
+N_("Role|Pool User")
+N_("Role|Environment Administrator")
+N_("Role|Environment Image Administrator")
+N_("Role|Environment User")
+N_("Role|Provider Administrator")
+N_("Role|Provider User")
+N_("Role|Provider Account Owner")
+N_("Role|Provider Account User")
+N_("Role|Provider Type Owner")
+N_("Role|Image Owner")
+N_("Role|Image User")
+N_("Role|Template Owner")
+N_("Role|Template User")
+
 roles =
   {Instance =>
-     {"instance.user"               => [false, {Instance        => [VIEW,USE]}],
-      "instance.owner"              => [true,  {Instance        => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+     {"Role|Instance User"          => [false, {Instance        => [VIEW,USE]}],
+      "Role|Instance Owner"         => [true,  {Instance        => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    Deployment =>
-     {"deployment.user"             => [false, {Deployment      => [VIEW,USE],
+     {"Role|Deployment User"        => [false, {Deployment      => [VIEW,USE],
                                                 Instance        => [VIEW]}],
-      "deployment.owner"            => [true,  {Deployment      => [VIEW,USE,MOD,    VPRM,GPRM],
+      "Role|Deployment Owner"       => [true,  {Deployment      => [VIEW,USE,MOD,    VPRM,GPRM],
                                                 Instance        => [VIEW,USE,MOD]}]},
     Tim::BaseImage =>
-     {"tim.base_image.user"         => [false, {Tim::BaseImage  => [VIEW,USE]}],
-      "tim.base_image.owner"        => [true,  {Tim::BaseImage  => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+     {"Role|Image User"             => [false, {Tim::BaseImage  => [VIEW,USE]}],
+      "Role|Image Owner"            => [true,  {Tim::BaseImage  => [VIEW,USE,MOD,    VPRM,GPRM]}]},
     Tim::Template =>
-     {"tim.template.user"           => [false, {Tim::Template   => [VIEW,USE]}],
-      "tim.template.owner"          => [true,  {Tim::Template   => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+     {"Role|Template User"          => [false, {Tim::Template   => [VIEW,USE]}],
+      "Role|Template Owner"         => [true,  {Tim::Template   => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    PoolFamily =>
-     {"pool_family.user"            => [false, {PoolFamily      => [VIEW]}],
-      "pool_family.image.admin"     => [false, {PoolFamily      => [VIEW,USE],
+     {"Role|Environment User"       => [false, {PoolFamily      => [VIEW]}],
+      "Role|Environment Image Administrator"=>[false,{PoolFamily=> [VIEW,USE],
                                                 Pool            => [VIEW],
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Tim::BaseImage  => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Tim::Template   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW]}],
-      "pool_family.admin"           => [true,  {PoolFamily      => [VIEW,USE,MOD,    VPRM,GPRM],
+      "Role|Environment Administrator"=> [true, {PoolFamily     => [VIEW,USE,MOD,    VPRM,GPRM],
                                                 Pool            => [VIEW,    MOD,CRE,VPRM,GPRM],
                                                 Instance        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployment      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
@@ -64,47 +104,47 @@ roles =
                                                 Tim::Template   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW]}]},
    Pool =>
-     {"pool.user"                   => [false, {Pool            => [VIEW],
+     {"Role|Pool User"              => [false, {Pool            => [VIEW],
                                                 Instance        => [             CRE],
                                                 Deployment      => [             CRE],
                                                 Catalog         => [VIEW, USE],
                                                 Deployable      => [VIEW,USE],
                                                 Quota           => [VIEW]}],
-      "pool.deployable.admin"       => [false, {Pool            => [VIEW],
+      "Role|Pool Deployable Admin"  => [false, {Pool            => [VIEW],
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW]}],
-      "pool.admin"                  => [true,  {Pool            => [VIEW,    MOD,    VPRM,GPRM],
+      "Role|Pool Administrator"     => [true,  {Pool            => [VIEW,    MOD,    VPRM,GPRM],
                                                 Instance        => [VIEW,USE,MOD,CRE],
                                                 Deployment      => [VIEW,USE,MOD,CRE],
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW]}]},
    ProviderType =>
-     {"provider_type.owner"         => [true,  {ProviderType    => [MOD]}]},
+     {"Role|Provider Type Owner"   => [true,  {ProviderType    => [MOD]}]},
    Provider =>
-     {"provider.admin"              => [true,  {Provider        => [VIEW,USE,MOD,    VPRM,GPRM],
+     {"Role|Provider Administrator" => [true,  {Provider        => [VIEW,USE,MOD,    VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "provider.user"               => [false,  {Provider        => [VIEW,USE],
+      "Role|Provider User"          => [false,  {Provider        => [VIEW,USE],
                                                 ProviderAccount => [             CRE]}]},
    ProviderAccount =>
-     {"provider_account.user"       => [false, {ProviderAccount => [VIEW,USE]}],
-      "provider_account.owner"      => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+     {"Role|Provider Account User"  => [false, {ProviderAccount => [VIEW,USE]}],
+      "Role|Provider Account Owner" => [true,  {ProviderAccount => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    Catalog =>
-     {"catalog.user"                => [false, {Catalog         => [VIEW, USE],
+     {"Role|Catalog User"           => [false, {Catalog         => [VIEW, USE],
                                                 Deployable      => [VIEW,USE]}],
-      "catalog.admin"               => [true,  {Catalog         => [VIEW,USE,MOD,    VPRM,GPRM],
+      "Role|Catalog Administrator"  => [true,  {Catalog         => [VIEW,USE,MOD,    VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM]}]},
    Deployable =>
-     {"deployable.user"             => [false, {Deployable      => [VIEW,USE]}],
-      "deployable.owner"            => [true,  {Deployable      => [VIEW,USE,MOD,    VPRM,GPRM]}]},
+     {"Role|Deployable User"        => [false, {Deployable      => [VIEW,USE]}],
+      "Role|Deployable Owner"       => [true,  {Deployable      => [VIEW,USE,MOD,    VPRM,GPRM]}]},
    BasePermissionObject =>
-     {"base.provider.user"          => [false, {Provider        => [VIEW,USE]}],
-      "base.provider.admin"         => [false, {Provider        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
+     {"Role|Global Provider User"   => [false, {Provider        => [VIEW,USE]}],
+      "Role|Global Provider Administrator"=> [false, {Provider  => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "base.hwp.admin"              => [false, {HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM]}],
-      "base.realm.admin"            => [false, {FrontendRealm   => [     USE,MOD,CRE,VPRM,GPRM]}],
-      "base.pool.admin"             => [false, {Pool            => [VIEW,    MOD,CRE,VPRM,GPRM],
+      "Role|Global HWP Administrator" => [false,{HardwareProfile=> [VIEW,    MOD,CRE,VPRM,GPRM]}],
+      "Role|Global Realm Administrator"=> [false, {FrontendRealm=> [     USE,MOD,CRE,VPRM,GPRM]}],
+      "Role|Global Pool Administrator" => [false, {Pool         => [VIEW,    MOD,CRE,VPRM,GPRM],
                                                 Instance        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployment      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
@@ -113,24 +153,24 @@ roles =
                                                 Tim::Template   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Quota           => [VIEW,    MOD],
                                                 PoolFamily      => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "base.deployable.admin"       => [false, {PoolFamily      => [VIEW],
+      "Role|Global Deployable Administrator" => [false, {PoolFamily => [VIEW],
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
-      "base.hwp.user"               => [false, {HardwareProfile => [VIEW,USE]}],
-      "base.pool.user"              => [false, {PoolFamily      => [VIEW],
+      "Role|Global HWP User"        => [false, {HardwareProfile => [VIEW,USE]}],
+      "Role|Global Pool User"       => [false, {PoolFamily      => [VIEW],
                                                 Pool            => [VIEW],
                                                 Instance        => [             CRE],
                                                 Deployment      => [             CRE],
                                                 Deployable      => [VIEW,USE],
                                                 Catalog         => [VIEW,USE],
                                                 Quota           => [VIEW]}],
-      "base.image.admin"            => [false, {PoolFamily      => [VIEW, USE],
+      "Role|Global Image Administrator" => [false, {PoolFamily  => [VIEW, USE],
                                                 Catalog         => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Tim::BaseImage  => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Tim::Template   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE]}],
-      "base.admin"                  => [false, {ProviderType    => [MOD],
+      "Role|Global Administrator"   => [false, {ProviderType    => [MOD],
                                                 Provider        => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 HardwareProfile => [VIEW,    MOD,CRE,VPRM,GPRM],
@@ -165,14 +205,14 @@ end
 
 # Set meta objects
 default_pool_family = PoolFamily.find_by_name('default')
-default_pool_family_role = Role.find_by_name('pool_family.user')
+default_pool_family_role = Role.find_by_name('Role|Environment User')
 MetadataObject.set("default_pool_family", default_pool_family)
 
 default_quota = Quota.create
 
 default_pool = Pool.find_by_name("Default")
-default_role = Role.find_by_name("pool.user")
-default_hwp_global_user_role = Role.find_by_name("base.hwp.user")
+default_role = Role.find_by_name("Role|Pool User")
+default_hwp_global_user_role = Role.find_by_name("Role|Global HWP User")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,

@@ -58,11 +58,9 @@ class PermissionsController < ApplicationController
                                     :role_id => role_id,
                                     :permission_object => @permission_object)
         if permission.save
-          added << t('permissions.flash.fragment.user_and_role', :user => permission.entity.name,
-                      :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
+          added << "#{permission.entity.name} (#{_(permission.role.name)})"
         else
-          not_added << t('permissions.flash.fragment.user_and_role', :user => permission.entity.name,
-                          :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name) )
+          not_added << "#{permission.entity.name} (#{_(permission.role.name)})"
         end
       end
     end
@@ -95,14 +93,15 @@ class PermissionsController < ApplicationController
         old_role = permission.role
         unless permission.role == role
           permission.role = role
+          old_role_name = _(old_role.name)
+          role_name = _(role.name)
+          update_str = _('%{entity} (from %{old_role} to %{new_role})') % {:entity => permission.entity.name,
+                                               :old_role => old_role_name,
+                                               :new_role => role_name}
           if permission.save
-            modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.entity.name,
-                            :old_role => t(old_role.name, :scope=> :role_defs, :default => old_role.name),
-                            :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
+            modified << update_str
           else
-            not_modified << t('permissions.flash.fragment.user_and_role_change', :user => permission.entity.name,
-                            :old_role => t(old_role.name, :scope=> :role_defs, :default => old_role.name) ,
-                            :role => t(permission.role.name, :scope=> :role_defs, :default => permission.role.name))
+            not_modified << update_str
           end
         end
       end
@@ -131,11 +130,9 @@ class PermissionsController < ApplicationController
 
     Permission.find(params[:permission_selected]).each do |p|
       if check_privilege(Privilege::PERM_SET, p.permission_object) && p.destroy
-        deleted << t('permissions.flash.fragment.user_and_role', :user => p.entity.name,
-                      :role => t(p.role.name, :scope=> :role_defs, :default => p.role.name))
+        deleted << "#{p.entity.name} (#{_(p.role.name)})"
       else
-        not_deleted << t('permissions.flash.fragment.user_and_role', :user => p.entity.name,
-                      :role => t(p.role.name, :scope=> :role_defs, :default => p.role.name))
+        not_deleted << "#{p.entity.name} (#{_(p.role.name)})"
       end
     end
 
