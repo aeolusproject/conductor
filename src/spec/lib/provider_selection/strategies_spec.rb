@@ -203,7 +203,7 @@ describe ProviderSelection::Strategies do
       @pool = FactoryGirl.create(:pool)
     end
 
-    it "should return matches with provider account with number of failures lower then the failure_count_hard_limit" do
+    it "should return matches with provider account with number of failures lower than the failure_count_hard_limit" do
       @account1.stub!(:failure_count).and_return(3)
       @account2.stub!(:failure_count).and_return(4)
 
@@ -223,6 +223,37 @@ describe ProviderSelection::Strategies do
       match = provider_selection.next_match
       match.multi_assembly_match.length.should be_equal(1)
       match.provider_account.label.should == 'test_account3'
+    end
+  end
+
+  describe ProviderSelection::Strategies::Weighting do
+    before(:each) do
+      @pool = FactoryGirl.create(:pool)
+
+      @provider_account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
+      @provider_account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
+
+      FactoryGirl.create(:pool_provider_account_option, :pool => @pool, :provider_account => @provider_account1, :score => -100)
+      FactoryGirl.create(:pool_provider_account_option, :pool => @pool, :provider_account => @provider_account2, :score => 100)
+
+      assembly_match_1 = DeployableMatching::AssemblyMatch.new(@provider_account1, nil, nil, nil, nil, nil)
+      assembly_match_2 = DeployableMatching::AssemblyMatch.new(@provider_account2, nil, nil, nil, nil, nil)
+      assembly_matches = [assembly_match_1, assembly_match_2]
+      assembly_instance = DeployableMatching::AssemblyInstance.new(nil, nil, nil, assembly_matches)
+      @assembly_instances = [assembly_instance]
+
+      strategy = FactoryGirl.create(:provider_selection_strategy,
+                                    :name => 'weighting',
+                                    :pool => @pool)
+      @pool.stub_chain(:provider_selection_strategies, :enabled).and_return([strategy])
+    end
+
+    it "should return match with provider account with more weight" do
+      provider_selection = ProviderSelection::Base.new(@pool, @assembly_instances)
+      provider_selection.match_exists?.should be_true
+
+      matches = provider_selection.rank.default_priority_group.matches.sort!{ |m1,m2| m2.score <=> m1.score }
+      matches[0].provider_account.label.should == 'test_account2'
     end
   end
 
