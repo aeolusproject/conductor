@@ -38,4 +38,4 @@
       - selected = params[:select] == 'all'
       = check_box_tag "user_group_selected[]", user_group.id, selected, :id => "user_group_checkbox_#{user_group.id}"
     %td= link_to user_group.name, user_group_path(user_group)
-    %td= t("user_groups.#{user_group.membership_source.downcase}")
+    %td= _(user_group.membership_source)

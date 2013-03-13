@@ -18,10 +18,11 @@
 # Likewise, all the methods added will be available for all controllers.
 
 module MustacheHelper
+  include DeploymentsHelper
 
   def user_info_for_mustache
     user_pools = Pool.list_for_user(current_session, current_user,
-                                    Privilege::CREATE, Deployment);
+                                    Privilege::CREATE, Deployment)
     user_instances = current_user.owned_instances
     user_available_quota = current_user.quota.maximum_running_instances
     {
@@ -49,7 +50,7 @@ module MustacheHelper
       :path     => instance_path(instance),
       :uptime   => count_uptime(instance.uptime),
       :failed   => instance.failed?,
-      :translated_state     => t("instances.states.#{instance.state}"),
+      :translated_state     => _(instance.state),
       :public_addresses     => instance.public_addresses.present? ? instance.public_addresses : '-',
       :instance_key_present => instance.instance_key.present?,
       :last_error           => instance.last_error,
@@ -70,12 +71,12 @@ module MustacheHelper
       :path                 => deployment_path(deployment),
       :filter_view_path     => deployment_path(deployment, :view => :filter),
       :state                => deployment.state,
-      :translated_state     => I18n.t("deployments.status_description.#{deployment.state}"),
+      :translated_state     => translate_state_description(deployment.state),
       :uptime               => count_uptime(deployment.uptime_1st_instance),
       :deployable_xml_name  => deployment.deployable_xml.name,
       :created_at           => deployment.created_at.to_s,
       :instances_count      => deployment.instances.count,
-      :instances_count_text => I18n.t('instances.instances', :count => deployment.instances.count.to_i),
+      :instances_count_text => n_("Instance","Instances",deployment.instances.count),
       :owner                => deployment.owner.present? ? deployment.owner.name : nil,
       :failed_instances_present => deployment.failed_instances.count > 0,
       :provider => {

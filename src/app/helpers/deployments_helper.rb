@@ -22,4 +22,29 @@ module DeploymentsHelper
       api_deployments_url
     end
   end
+
+  def translate_state_description(state)
+    case state
+      when Deployment::STATE_NEW
+        _('Deployment wasn\'t started')
+      when Deployment::STATE_PENDING
+        _('Deployment is starting up')
+      when Deployment::STATE_RUNNING
+        _('All Instances are running')
+      when Deployment::STATE_INCOMPLETE
+        _('Some Instances are not running')
+      when Deployment::STATE_SHUTTING_DOWN
+        _('Deployment is shutting down')
+      when Deployment::STATE_STOPPED
+        _('All Instances are stopped')
+      when Deployment::STATE_FAILED
+        _('All Instances are in failed state')
+      when Deployment::STATE_ROLLBACK_IN_PROGRESS
+        _('Launch failed, rollback is in progress')
+      when Deployment::STATE_ROLLBACK_COMPLETE
+        _('Rollback successfully completed')
+      when Deployment::STATE_ROLLBACK_FAILED
+        _('Rollback failed, re-launch terminated')
+    end
+  end
 end

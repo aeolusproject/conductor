@@ -120,6 +120,16 @@ class Instance < ActiveRecord::Base
   STATE_ERROR          = "error"
   STATE_VANISHED       = "vanished"
 
+  N_('new')
+  N_('pending')
+  N_('running')
+  N_('shutting_down')
+  N_('stopped')
+  N_('stopping')
+  N_('create_failed')
+  N_('error')
+  N_('vanished')
+
   STATES = [STATE_NEW, STATE_PENDING, STATE_RUNNING,
              STATE_SHUTTING_DOWN, STATE_STOPPED, STATE_CREATE_FAILED,
              STATE_ERROR, STATE_VANISHED]
@@ -603,7 +613,9 @@ class Instance < ActiveRecord::Base
 
   def do_operation(user, operation)
     task = self.queue_action(user, operation)
-    raise I18n.t("instances.errors.#{operation}_invalid_action") unless task
+    unless task
+      raise operation == 'stop' ? _('Stop is an invalid action.') : _('Reboot is an invalid action.')
+    end
     Taskomatic.send("#{operation}_instance", task)
   end
 
