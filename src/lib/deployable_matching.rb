@@ -14,11 +14,7 @@
 #   limitations under the License.
 #
 
-# Load deployable matching classes in lib
-require File.join(Rails.root, 'lib', 'deployable_matching.rb')
-
-# Load base classes in lib
-require File.join(Rails.root, 'lib', 'provider_selection.rb')
-
-# Load extensions in vendor
-require File.join(Rails.root, 'vendor/provider_selection/provider_selection.rb')
+# Require files in lib dir
+['structs', 'image_fetcher', 'assembly_instances_builder', 'assembly_matches_builder', 'validator'].each do |file_name|
+  require File.join(File.dirname(__FILE__), 'deployable_matching', file_name)
+end

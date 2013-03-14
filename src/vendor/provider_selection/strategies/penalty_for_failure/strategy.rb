@@ -60,13 +60,20 @@ module ProviderSelection
             result
           end.uniq
 
-          rank.priority_groups.each do |priority_group|
-            priority_group.delete_matches(:provider_account, failing_provider_accounts)
-          end
-
           failing_priority_group = ProviderSelection::PriorityGroup.new(rank.default_priority_group.score * 100)
           failing_provider_accounts.each do |provider_account|
-            failing_priority_group.matches << Match.new(:provider_account => provider_account)
+            rank.default_priority_group.matches.each do |match|
+              next unless match.provider_account == provider_account
+
+              failing_priority_group.matches <<
+                DeployableMatch.new(:provider_account => match.provider_account,
+                                    :multi_assembly_match => match.multi_assembly_match)
+            end
+
+          end
+
+          rank.priority_groups.each do |priority_group|
+            priority_group.delete_matches(:provider_account, failing_provider_accounts)
           end
 
           rank.priority_groups << failing_priority_group

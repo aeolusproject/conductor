@@ -15,6 +15,6 @@
 #
 
 # Require files in lib dir
-['match', 'priority_group', 'rank', 'strategy', 'base', 'chainable_strategy', 'chainable_strategy_options'].each do |file_name|
+['deployable_match', 'priority_group', 'rank', 'strategy', 'base', 'chainable_strategy', 'chainable_strategy_options'].each do |file_name|
   require File.join(File.dirname(__FILE__), 'provider_selection', file_name)
 end

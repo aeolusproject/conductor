@@ -82,6 +82,10 @@ class HardwareProfile < ActiveRecord::Base
   validates_associated :cpu
   validates_associated :architecture
 
+  def self.find_allowed_frontend_hwp_by_name(permission_session, user, name)
+    HardwareProfile.list_for_user(permission_session, user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => name}).first
+  end
+
   def get_property_map
     {'memory' => memory, 'cpu' => cpu, 'architecture' => architecture, 'storage' => storage}
   end

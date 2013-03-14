@@ -373,58 +373,6 @@ class ProviderAccount < ActiveRecord::Base
     doc.root.to_xml
   end
 
-  def instance_matches(instance, matched, errors)
-    if !provider.enabled?
-      errors << _('%s: Provider must be enabled') % name
-    elsif !provider.available?
-      errors << _('%s: Provider is not available') % name
-    elsif quota.reached?
-      errors << _('%s: Provider Account quota reached') % name
-    # match_provider_hardware_profile returns a single provider
-    # hardware_profile that can satisfy the input hardware_profile
-    elsif !(hwp = HardwareProfile.match_provider_hardware_profile(provider, instance.hardware_profile))
-      errors << _('%s: Hardware Profile match not found') % name
-    elsif !(account_image = instance.provider_image_for_account(self))
-      errors << _('%s: Image is not pushed to this Provider Account') % name
-    elsif instance.requires_config_server? and config_server.nil?
-      errors << _('%s: no Config Server available for Provider Account') % name
-    else
-      if not instance.frontend_realm.nil?
-        brealms = instance.frontend_realm.realm_backend_targets.select do |brealm_target|
-          brealm_target.target_provider == provider &&
-            (brealm_target.target_realm.nil? || (brealm_target.target_realm.available &&
-                                                 provider_realms.include?(brealm_target.target_realm)))
-        end
-        if brealms.empty?
-          errors << _('%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm') % [name, instance.frontend_realm.name]
-        else
-          brealms.each do |brealm_target|
-            # add match if realm is mapped to provider or if it's mapped to
-            # backend realm which is available and is accessible for this
-            # provider account
-            matched << InstanceMatch.new(
-              :pool_family => instance.pool.pool_family,
-              :provider_account => self,
-              :hardware_profile => hwp,
-              :provider_image => account_image.external_image_id,
-              :provider_realm => brealm_target.target_realm,
-              :instance => instance
-            )
-          end
-        end
-      else
-        matched << InstanceMatch.new(
-          :pool_family => instance.pool.pool_family,
-          :provider_account => self,
-          :hardware_profile => hwp,
-          :provider_image => account_image.external_image_id,
-          :provider_realm => nil,
-          :instance => instance
-        )
-      end
-    end
-  end
-
   def failure_count(options = {})
     relation = self.events.where(:status_code => 'provider_account_failure')
 
