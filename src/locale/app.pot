@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-04 14:55+0100\n"
+"POT-Creation-Date: 2013-03-14 15:34+0100\n"
 "PO-Revision-Date: 2013-01-31 17:10+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,31 +49,10 @@ msgstr ""
 msgid "%s has running instances"
 msgstr ""
 
-msgid "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
-msgstr ""
-
-msgid "%s: Hardware Profile match not found"
-msgstr ""
-
 msgid "%s: Image (UUID: %s) doesn't exist"
 msgstr ""
 
-msgid "%s: Image is not pushed to this Provider Account"
-msgstr ""
-
-msgid "%s: Provider Account quota reached"
-msgstr ""
-
-msgid "%s: Provider is not available"
-msgstr ""
-
-msgid "%s: Provider must be enabled"
-msgstr ""
-
 msgid "%s: You have insufficient privileges to perform the selected action."
-msgstr ""
-
-msgid "%s: no Config Server available for Provider Account"
 msgstr ""
 
 msgid "%s: reboot action was successfully queued."
@@ -307,9 +286,6 @@ msgid "Assembly %{from_assembly}, service %{from_service}, parameter %{from_para
 msgstr ""
 
 msgid "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references param %{to_param} which is not returned by Assembly %{to_assembly}"
-msgstr ""
-
-msgid "Assembly hardware profile architecture ('%s') doesn't match image hardware profile architecture ('%s')."
 msgstr ""
 
 msgid "Assign Costs to Hardware Profile"
@@ -852,6 +828,12 @@ msgstr ""
 msgid "Edit User Group"
 msgstr ""
 
+msgid "Edit Weight"
+msgstr ""
+
+msgid "Edit Weighting Strategy"
+msgstr ""
+
 msgid "Edit XML"
 msgstr ""
 
@@ -889,9 +871,6 @@ msgid "Environment"
 msgstr ""
 
 msgid "Environment Quota Used"
-msgstr ""
-
-msgid "Environment quota reached"
 msgstr ""
 
 msgid "Environment was added."
@@ -1107,15 +1086,6 @@ msgid "HardwareProfile|Name"
 msgstr ""
 
 msgid "History"
-msgstr ""
-
-msgid "Hook"
-msgstr ""
-
-msgid "Hook|Uri"
-msgstr ""
-
-msgid "Hook|Version"
 msgstr ""
 
 msgid "If you did not request this password to be reset, just ignore this email and the password will stay the same."
@@ -1543,10 +1513,10 @@ msgstr ""
 msgid "No available priority group to display"
 msgstr ""
 
-msgid "No image build was found with uuid %s and no image was found with uuid %s"
+msgid "No matching results."
 msgstr ""
 
-msgid "No matching results."
+msgid "No more matches left. All of them are tried already."
 msgstr ""
 
 msgid "No users selected"
@@ -1655,7 +1625,7 @@ msgstr ""
 msgid "Pool name"
 msgstr ""
 
-msgid "Pool quota reached"
+msgid "Pool provider account option"
 msgstr ""
 
 msgid "Pool updated."
@@ -1668,6 +1638,9 @@ msgid "PoolFamily|Lock version"
 msgstr ""
 
 msgid "PoolFamily|Name"
+msgstr ""
+
+msgid "PoolProviderAccountOption|Score"
 msgstr ""
 
 msgid "Pools"
@@ -1683,9 +1656,6 @@ msgid "Pool|Lock version"
 msgstr ""
 
 msgid "Pool|Name"
-msgstr ""
-
-msgid "Priority"
 msgstr ""
 
 msgid "Priority Group successfully created"
@@ -1737,6 +1707,9 @@ msgid "Provider"
 msgstr ""
 
 msgid "Provider Account"
+msgstr ""
+
+msgid "Provider Account Weight successfully modified."
 msgstr ""
 
 msgid "Provider Account updated"
@@ -1836,9 +1809,6 @@ msgid "ProviderAccount|Label"
 msgstr ""
 
 msgid "ProviderAccount|Lock version"
-msgstr ""
-
-msgid "ProviderAccount|Priority"
 msgstr ""
 
 msgid "ProviderPriorityGroupElement|Value type"
@@ -2099,6 +2069,9 @@ msgstr ""
 msgid "Scope"
 msgstr ""
 
+msgid "Score"
+msgstr ""
+
 msgid "Search"
 msgstr ""
 
@@ -2130,9 +2103,6 @@ msgid "Shared to"
 msgstr ""
 
 msgid "Show/Hide"
-msgstr ""
-
-msgid "Some Assemblies will not be launched:"
 msgstr ""
 
 msgid "Some Instances are not running"
@@ -2354,9 +2324,6 @@ msgstr ""
 msgid "There are following associated provider images: %s. Delete them first."
 msgstr ""
 
-msgid "There are no Provider Accounts associated with the selected Pool's Environment."
-msgstr ""
-
 msgid "There are no Provider Accounts available."
 msgstr ""
 
@@ -2445,9 +2412,6 @@ msgid "User group"
 msgstr ""
 
 msgid "User has been successfully deleted."
-msgstr ""
-
-msgid "User quota reached"
 msgstr ""
 
 msgid "User registered"
@@ -2574,9 +2538,6 @@ msgid "XML is not valid:"
 msgstr ""
 
 msgid "Yes"
-msgstr ""
-
-msgid "You do not have sufficient permission to access the %s Hardware Profile."
 msgstr ""
 
 msgid "You have insufficient privileges to perform the selected action."
