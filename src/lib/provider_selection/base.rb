@@ -42,48 +42,30 @@ module ProviderSelection
       end
     end
 
-    attr_reader :instances
+    attr_reader :assembly_instances
+    attr_reader :rank
     attr_reader :errors
 
-    def initialize(instances)
-      @instances = instances
+    def initialize(pool, assembly_instances)
+      @pool = pool
+      @assembly_instances = assembly_instances
       @errors = []
       @strategy_chain = self
+
+      build_strategy_chain
+      build_rank
+    end
+
+    def valid?
+      @errors.empty?
     end
 
     def calculate
-      pool = @instances.first.pool
-      rank = Rank.new(pool)
-
-      # Adding a priority of 100000 to the default priority group which contains
-      # all the available provider accounts.
-      # The user defined priority groups has a score between -100 and +100.
-      default_priority_group = PriorityGroup.new(100000)
-      rank.default_priority_group = default_priority_group
-
-      find_common_provider_accounts.each do |acc_with_hwp|
-        next unless acc_with_hwp.provider_account.quota.can_start?(@instances)
-
-        # Rescale to provider account priority to the [-100, 100] interval
-        score = acc_with_hwp.provider_account.priority
-        if score.present? && score > Match::UPPER_LIMIT
-          score = Match::UPPER_LIMIT
-        elsif score.present? && score < Match::LOWER_LIMIT
-          score = Match::LOWER_LIMIT
-        end
-
-        default_priority_group.matches << Match.new(:provider_account  => acc_with_hwp.provider_account,
-                                                    :hardware_profiles => acc_with_hwp.hardware_profiles,
-                                                    :instance_hwps     => acc_with_hwp.instance_hwps,
-                                                    :score => score)
-      end
-
-      rank
+      @rank
     end
 
     def match_exists?
-      rank = @strategy_chain.calculate
-      rank.priority_groups.each do |priority_group|
+      @rank.priority_groups.each do |priority_group|
         return true if priority_group.match_exists?
       end
 
@@ -91,8 +73,7 @@ module ProviderSelection
     end
 
     def next_match
-      rank = @strategy_chain.calculate
-      rank.ordered_priority_groups.each do |priority_group|
+      @rank.ordered_priority_groups.each do |priority_group|
         random_match = priority_group.get_random_match
         return random_match if random_match.present?
       end
@@ -100,57 +81,27 @@ module ProviderSelection
       nil
     end
 
+    private
+
+    def build_strategy_chain
+      @pool.provider_selection_strategies.enabled.each do  |strategy|
+        chain_strategy(strategy.name, strategy.config)
+      end
+    end
+
+    def build_rank
+      @rank = Rank.build_from_assembly_instances(@pool, @assembly_instances)
+
+      if @rank.default_priority_group.matches.length == 0
+        @errors << I18n.t('deployments.errors.match_not_found')
+      else
+        @strategy_chain.calculate
+      end
+    end
+
     def chain_strategy(name, options = {})
       @strategy = self.class.find_strategy_by_name(name)
       @strategy_chain = @strategy.strategy_klass.new(@strategy_chain, options) unless @strategy.nil?
-
-      @strategy_chain
-    end
-
-    ProviderAccWithHwp = Struct.new(:provider_account, :hardware_profiles, :instance_hwps)
-    ProviderAccWithHwp.class_eval do
-      def merge(pacc_hwp)
-        self.hardware_profiles += pacc_hwp.hardware_profiles
-        self.instance_hwps     += pacc_hwp.instance_hwps
-      end
-    end
-
-    private
-    def find_common_provider_accounts
-
-      instance_matches_grouped_by_instances = @instances.map do |instance|
-        filter_instance_matches(instance)
-      end
-
-      common_accounts = nil
-      instance_matches_grouped_by_instances.each_with_index do |instance_matches, index|
-        accounts = {}
-        instance_matches.each do |instance_match|
-          acc = instance_match.provider_account
-          accounts[acc] = ProviderAccWithHwp.new(acc, [instance_match.hardware_profile], [instance_match.instance.instance_hwp])
-        end
-
-        if index == 0
-          common_accounts = accounts
-        else
-          provider_accounts = accounts.keys
-
-          common_accounts.delete_if do |acc,pa_hwp|
-            present = provider_accounts.include?(acc)
-            pa_hwp.merge(accounts[acc]) if present
-            !present
-          end
-        end
-      end
-
-      common_accounts.values
-    end
-
-    def filter_instance_matches(instance)
-      matches, e = instance.matches
-      @errors += e.map {|e| "#{instance.name}: #{e}"}
-      # filter matches we used in previous retries
-      matches.select {|inst_match| !instance.includes_instance_match?(inst_match)}
     end
 
   end

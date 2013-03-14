@@ -16,27 +16,31 @@
 
 module ProviderSelection
 
-  class Match
+  class DeployableMatch
 
     UPPER_LIMIT = 100
     LOWER_LIMIT = -100
 
     attr_reader :score
-    attr_accessor :provider_account
-    attr_accessor :hardware_profiles
-    attr_accessor :instance_hwps
+    attr_reader :provider_account
+    attr_reader :multi_assembly_match
 
     def initialize(attributes)
+      @multi_assembly_match = []
+
       attributes.each do |name, value|
         instance_variable_set("@#{name}", value)
       end
     end
 
     def score=(val)
-      raise ArgumentError.new("score cannot be higher than #{UPPER_LIMIT}") if val > UPPER_LIMIT
-      raise ArgumentError.new("score cannot be lower than #{LOWER_LIMIT}") if val < LOWER_LIMIT
-
-      @score = val
+      if val > UPPER_LIMIT
+        @score = Match::UPPER_LIMIT
+      elsif val < Match::LOWER_LIMIT
+        @score = Match::LOWER_LIMIT
+      else
+        @score = val
+      end
     end
 
     # nil values should value more then any other value
@@ -46,6 +50,10 @@ module ProviderSelection
       else
         @score
       end
+    end
+
+    def abs_score
+      (Match::UPPER_LIMIT + 1) - calculated_score + 1
     end
 
     def penalize_by(percentage)

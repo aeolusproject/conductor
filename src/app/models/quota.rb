@@ -100,7 +100,11 @@ class Quota < ActiveRecord::Base
 
   def can_start?(instances)
     size = (instances.kind_of? Array) ? instances.size : 1
-    potential_running_instances = running_instances + size
+    can_start_instance_count?(size)
+  end
+
+  def can_start_instance_count?(instance_count)
+    potential_running_instances = running_instances + instance_count
     Quota.no_limit(maximum_running_instances) || maximum_running_instances >= potential_running_instances
   end
 

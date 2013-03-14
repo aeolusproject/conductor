@@ -1,5 +1,5 @@
 #
-#   Copyright 2012 Red Hat, Inc.
+#   Copyright 2013 Red Hat, Inc.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -14,11 +14,10 @@
 #   limitations under the License.
 #
 
-# Load deployable matching classes in lib
-require File.join(Rails.root, 'lib', 'deployable_matching.rb')
+FactoryGirl.define do
 
-# Load base classes in lib
-require File.join(Rails.root, 'lib', 'provider_selection.rb')
+  factory :provider_selection_strategy do
+    enabled true
+  end
 
-# Load extensions in vendor
-require File.join(Rails.root, 'vendor/provider_selection/provider_selection.rb')
+end

@@ -1,5 +1,5 @@
 #
-#   Copyright 2012 Red Hat, Inc.
+#   Copyright 2013 Red Hat, Inc.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -14,11 +14,18 @@
 #   limitations under the License.
 #
 
-# Load deployable matching classes in lib
-require File.join(Rails.root, 'lib', 'deployable_matching.rb')
+module DeployableMatching
 
-# Load base classes in lib
-require File.join(Rails.root, 'lib', 'provider_selection.rb')
+  AssemblyInstance = Struct.new(:assembly,
+                                :attributes,
+                                :service_parameters,
+                                :matches)
 
-# Load extensions in vendor
-require File.join(Rails.root, 'vendor/provider_selection/provider_selection.rb')
+  AssemblyMatch = Struct.new(:provider_account,
+                             :provider_image,
+                             :instance_hwp,
+                             :provider_hwp,
+                             :provider_realm,
+                             :instance)
+
+end

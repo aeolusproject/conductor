@@ -32,9 +32,8 @@ module ProviderSelection
       matches = []
       allowed_matches.each do |match|
         if possible_provider_accounts.include?(match.provider_account)
-          matches << Match.new(:provider_account => match.provider_account,
-                               :hardware_profiles => match.hardware_profiles,
-                               :instance_hwps     => match.instance_hwps)
+          matches << DeployableMatch.new(:provider_account => match.provider_account,
+                                         :multi_assembly_match => match.multi_assembly_match)
         end
       end
 
@@ -47,7 +46,7 @@ module ProviderSelection
 
     def get_random_match
       match_sum_score = @matches.sum do |match|
-        (Match::UPPER_LIMIT + 1) - match.calculated_score
+        (DeployableMatch::UPPER_LIMIT + 1) - match.calculated_score
       end
 
       # In order to work with 'nil' scores adding the size of the @matches array
@@ -56,7 +55,7 @@ module ProviderSelection
 
       sum = match_sum_score
       matches.each do |match|
-        difference = (Match::UPPER_LIMIT + 1) - match.calculated_score
+        difference = (DeployableMatch::UPPER_LIMIT + 1) - match.calculated_score
         sum -= (difference + 1)
         if random_value >= sum
           return match

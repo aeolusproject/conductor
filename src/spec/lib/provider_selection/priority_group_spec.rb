@@ -23,7 +23,7 @@ describe ProviderSelection::PriorityGroup do
     provider_account = FactoryGirl.create :mock_provider_account
     priority_group_ar.provider_accounts << provider_account
 
-    match = ProviderSelection::Match.new(:provider_account => provider_account)
+    match = ProviderSelection::DeployableMatch.new(:provider_account => provider_account)
     priority_group = ProviderSelection::PriorityGroup.create_from_active_record(priority_group_ar, [match])
     priority_group.should_not be nil
   end
@@ -41,7 +41,7 @@ describe ProviderSelection::PriorityGroup do
       priority_group_ar.provider_accounts << other_provider_account
     end
 
-    allowed_match = ProviderSelection::Match.new(:provider_account => provider_account)
+    allowed_match = ProviderSelection::DeployableMatch.new(:provider_account => provider_account)
     priority_group = ProviderSelection::PriorityGroup.create_from_active_record(priority_group_ar, [allowed_match])
     priority_group.matches.length.should eql(1)
     priority_group.matches.first.provider_account.should eql(provider_account)
@@ -51,14 +51,14 @@ describe ProviderSelection::PriorityGroup do
   it "should be able to delete existing matches" do
     priority_group = ProviderSelection::PriorityGroup.new(0)
     priority_group.matches <<
-      ProviderSelection::Match.new(:provider_account => 'Provider Account 1',
-                                   :score => 100)
+      ProviderSelection::DeployableMatch.new(:provider_account => 'Provider Account 1',
+                                             :score => 100)
     priority_group.matches <<
-        ProviderSelection::Match.new(:provider_account => 'Provider Account 2',
-                                     :score => 100)
+      ProviderSelection::DeployableMatch.new(:provider_account => 'Provider Account 2',
+                                             :score => 100)
     priority_group.matches <<
-        ProviderSelection::Match.new(:provider_account => 'Provider Account 3',
-                                     :score => 0)
+      ProviderSelection::DeployableMatch.new(:provider_account => 'Provider Account 3',
+                                             :score => 0)
 
     lambda { priority_group.delete_matches(:score, [100]) }.should change(priority_group.matches, :length).from(3).to(1)
   end
