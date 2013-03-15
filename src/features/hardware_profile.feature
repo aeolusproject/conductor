@@ -107,12 +107,12 @@ Feature: Manage Hardware Profiles
      Then I should be on the new hardware profile page
      When I fill in "hardware_profile_name" with "Test Hardware Profile"
      And I enter the following details for the Hardware Profile Properties
-     | name         | value | unit  |
-     | memory       | 1740  | MB    |
-     | cpu          | 2     | count |
-     | storage      | 250   | GB    |
-     | architecture | i386  | label |
-     And I press "save_button"
+     | name         | value |
+     | memory       | 1740  |
+     | cpu          | 2     |
+     | storage      | 250   |
+     | architecture | i386  |
+     And I press "Create Hardware Profile"
      Then I should be on the hardware profiles page
      And I should see the following:
      | Test Hardware Profile | 1740   | 2 | 250 | i386 |
@@ -133,12 +133,12 @@ Feature: Manage Hardware Profiles
     And I am on the new hardware profile page
     When I fill in "hardware_profile_name" with "Test Hardware Profile"
     And I enter the following details for the Hardware Profile Properties
-    | name         | value         | unit  |
-    | memory       | 1740          | MB    |
-    | cpu          | 2             | count |
-    | storage      | 300           | GB    |
-    | architecture | i386          | label |
-    And I press "check_matches"
+    | name         | value |
+    | memory       | 1740  |
+    | cpu          | 2     |
+    | storage      | 300   |
+    | architecture | i386  |
+    And I press "Check Matches"
     Then I should see the following:
     | Provider  | Name         | Memory | CPU | Storage | Architecture |
     | provider1 | m1-medium    | 1740   | 2   | 500     | i386         |
@@ -153,12 +153,12 @@ Feature: Manage Hardware Profiles
      When I follow "edit_button"
      Then I should be on m1-small's edit hardware profile page
      When I enter the following details for the Hardware Profile Properties
-     | name         | value | unit  |
-     | memory       | 1740  | MB    |
-     | cpu          | 2     | count |
-     | storage      | 250   | GB    |
-     | architecture | i386  | label |
-     And I press "save_button"
+     | name         | value |
+     | memory       | 1740  |
+     | cpu          | 2     |
+     | storage      | 250   |
+     | architecture | i386  |
+     And I press "Update Hardware Profile"
      Then I should be on the hardware profiles page
      Then I should see the following:
      | Name         | Memory | CPU | Storage | Architecture |
@@ -170,13 +170,13 @@ Feature: Manage Hardware Profiles
      Then I should be on the new hardware profile page
      When I fill in "hardware_profile_name" with "Test Hardware Profile"
      And I enter the following details for the Hardware Profile Properties
-     | name         | value | unit  |
-     | memory       | ten   | MB    |
-     | cpu          | no    | count |
-     | storage      | ?     | GB    |
-     | architecture |       | label |
-     And I press "save_button"
-     Then I should see "is invalid"
+     | name         | value |
+     | memory       | ten   |
+     | cpu          | no    |
+     | storage      | ?     |
+     | architecture |       |
+     And I press "Create Hardware Profile"
+     Then I should see "Some errors prevented the Hardware Profile from being saved."
 
   Scenario: Search Hardware Profiles
     Given there is a "myhardware_profile" hardware profile
