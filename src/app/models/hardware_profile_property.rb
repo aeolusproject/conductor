@@ -36,6 +36,8 @@
 
 class HardwareProfileProperty < ActiveRecord::Base
 
+  include CostEngine::Mixins::HardwareProfileProperty
+
   MEMORY       = "memory"
   STORAGE      = "storage"
   CPU          = "cpu"
@@ -52,31 +54,28 @@ class HardwareProfileProperty < ActiveRecord::Base
 
   has_many :property_enum_entries
 
-  before_validation :is_form_empty?
-  validates_presence_of :name
-  validates_inclusion_of :name,
-     :in => [MEMORY, STORAGE, CPU, ARCHITECTURE]
-
-  validates_presence_of :kind
-  validates_inclusion_of :kind,
-     :in => [FIXED, RANGE, ENUM]
-
-  validates_presence_of :unit
-  validates_numericality_of :value, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == MEMORY or p.name == CPU) and p.value.present?}
-
-  validates_numericality_of :value, :greater_than_or_equal_to => 0,
-                :if => Proc.new{|p| p.name == STORAGE and p.value.present?}
-
-  validates_numericality_of :range_first, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and
-                                     p.kind == RANGE and p.value.present?}
-  validates_numericality_of :range_last, :greater_than => 0,
-                :if => Proc.new{|p| (p.name == MEMORY or p.name == STORAGE or p.name == CPU) and
-                                     p.kind == RANGE and p.value.present?}
-  validates_associated :property_enum_entries
-
+  validates :name, :presence => true,
+                   :inclusion => { :in => [MEMORY, STORAGE, CPU, ARCHITECTURE] }
+  validates :kind, :presence => true,
+                   :inclusion => { :in => [FIXED, RANGE, ENUM] }
+  validates :unit, :presence => true
+  validates :value, :numericality => { :greater_than => 0, :less_than_or_equal_to => 1048576 },
+                    :allow_blank => true,
+                    :if => Proc.new{ |p| p.name == MEMORY }
+  validates :value, :numericality => { :greater_than => 0, :less_than_or_equal_to => 1024 },
+                    :allow_blank => true,
+                    :if => Proc.new{ |p| p.name == CPU }
+  validates :value, :numericality => { :greater_than_or_equal_to => 0, :less_than_or_equal_to => 1048576 },
+                    :allow_blank => true,
+                    :if => Proc.new{ |p| p.name == STORAGE }
+  validates :range_first, :numericality => { :greater_than => 0 },
+                          :allow_blank => true,
+                          :if => Proc.new{ |p| [MEMORY, STORAGE, CPU].include?(p.name) && p.kind == RANGE }
+  validates :range_last, :numericality => { :greater_than => 0 },
+                          :allow_blank => true,
+                         :if => Proc.new{ |p| [MEMORY, STORAGE, CPU].include?(p.name) && p.kind == RANGE }
   validate :validate_hwp
+  validates_associated :property_enum_entries
 
   def validate_hwp
     case name
@@ -146,11 +145,11 @@ class HardwareProfileProperty < ActiveRecord::Base
   end
 
   protected
+
   def is_form_empty?
     # If the form isn't filled out, it comes in as "", which we treat as nil:
     self.value = nil if self.value==""
   end
 
-  include CostEngine::Mixins::HardwareProfileProperty
 end
 

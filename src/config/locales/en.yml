@@ -715,6 +715,12 @@ en:
       virtual_cpu: Virtual CPU
       minimal_cost: Minimal Cost
     form:
+      memory: Memory
+      cpu: CPU
+      storage: Storage
+      architecture: Architecture
+      unit_note: The unit is in %{unit_name}
+      number_of_required_cpus: Number of required CPUs
       check_matches: Check Matches
     history:
       history: History
@@ -726,7 +732,6 @@ en:
     create:
       check_matching_hwp: Check Matching Hardware Profiles
     edit:
-      cancel_editing: Cancel Editing
       edit_hwp: Edit Hardware Profile
       edit_hwp_cost: Assign Costs to Hardware Profile
       edit_hwp_billing_model: Select Billing Model for Hardware Profile

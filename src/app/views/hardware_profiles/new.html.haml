@@ -8,7 +8,13 @@
   %h1.hardware_profiles= @hardware_profile.name.blank? ? _('New Hardware Profile') : @hardware_profile.name
 
 %section.content-section
-  = form_for @hardware_profile, :url => hardware_profiles_path, :html => { :multipart => true, :class => 'generic' } do |hwp_form|
-    = render :partial => "form", :locals => { :hwp_form => hwp_form }
+  .content
+    = conductor_form_for @hardware_profile do |f|
+      = render :partial => "form", :locals => { :form => f }
+      .control_group.buttons
+        .input
+          = f.submit :class => 'btn primary'
+          = f.submit(t('hardware_profiles.form.check_matches'), :id => 'check_mates', :class => 'btn')
+          = link_to(_('Cancel'), hardware_profiles_path, :class => 'btn')
 
 = render :partial => 'matching_provider_hardware_profiles' if @matching_hwps.present? && @matching_hwps.any?

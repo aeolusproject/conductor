@@ -34,6 +34,11 @@ en:
         name: 'Must be a unique name with at least 1 character and at most 100 characters.'
       frontend_realm:
         name: 'Must be a unique name with at least 1 character and at most 100 characters.'
+      hardware_profile:
+        name: 'Must be a unique name with at least 1 character and at most 100 characters.'
+        memory: 'Must be greater than 0 and at most 1048576.'
+        cpu: 'Must be an integer greater than 0 and at most 1024.'
+        storage: 'Must at least 0 and at most 1048576.'
       user:
         first_name: 'Must be at most 255 characters.'
         last_name: 'Must be at most 255 characters.'

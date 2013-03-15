@@ -1,28 +1,26 @@
-- if @hardware_profile.errors.any?
-  = render 'layouts/error_messages', :object => @hardware_profile
-%fieldset
-  .field
-    = hwp_form.label :name, :class => 'em'
-    = hwp_form.text_field :name, :class => 'em long'
-%fieldset
-  %table
-    %thead
-      %tr
-        - @header.each do |header|
-          %th
-            = header[:name]
-    - [:memory, :cpu, :storage, :architecture].each do |type|
-      = hwp_form.fields_for type do |hwpp_form|
-        %tr
-          %td= hwpp_form.text_field(:name, :readonly => "readonly")
-          %td= hwpp_form.text_field(:unit, :size => 5, :readonly => "readonly")
-          %td
-            -if type == :architecture
-              = hwpp_form.select("value", ["i386", "x86_64"], {})
-            -else
-              = hwpp_form.text_field(:value)
-
-%fieldset.options
-  = hwp_form.submit _('Save'), :class => 'submit button primary', :id => 'save_button'
-  = hwp_form.submit _('Check Matches'), :class => 'button', :id => 'check_matches'
-  = link_to _('Cancel'), hardware_profiles_path, :class => "button danger"
+= form.input :name
+= form.fields_for :memory do |memory_form|
+  = memory_form.input :name, :as => :hidden
+  = memory_form.input :unit, :as => :hidden
+  = memory_form.input :value, :label => t('hardware_profiles.form.memory'),
+                              :hint => t('simple_form.hints.hardware_profile.memory'),
+                              :note => t('hardware_profiles.form.unit_note', :unit_name => memory_form.object.unit),
+                              :input_html => { :type => 'number', :min => 0 }
+= form.fields_for :cpu do |cpu_form|
+  = cpu_form.input :name, :as => :hidden
+  = cpu_form.input :unit, :as => :hidden
+  = cpu_form.input :value, :label => t('hardware_profiles.form.cpu'),
+                           :hint => t('simple_form.hints.hardware_profile.cpu'),
+                           :note => t('hardware_profiles.form.number_of_required_cpus'),
+                           :input_html => { :type => 'number', :min => 1, :step => 1 }
+= form.fields_for :storage do |storage_form|
+  = storage_form.input :name, :as => :hidden
+  = storage_form.input :unit, :as => :hidden
+  = storage_form.input :value, :label => t('hardware_profiles.form.storage'),
+                               :hint => t('simple_form.hints.hardware_profile.storage'),
+                               :note => t('hardware_profiles.form.unit_note', :unit_name => storage_form.object.unit),
+                               :input_html => { :type => 'number', :min => 0 }
+= form.fields_for :architecture do |architecture_form|
+  = architecture_form.input :name, :as => :hidden
+  = architecture_form.input :unit, :as => :hidden
+  = architecture_form.input :value, :label => t('hardware_profiles.form.architecture'), :collection => ["i386", "x86_64"]

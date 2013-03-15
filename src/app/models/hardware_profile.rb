@@ -36,51 +36,72 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class HardwareProfile < ActiveRecord::Base
+
   class << self
     include CommonFilterMethods
   end
   include PermissionedObject
+  include CostEngine::Mixins::HardwareProfile
+  extend CostEngine::Mixins::HardwareProfileClass
+
+  PRESET_FILTERS_OPTIONS = [
+      #{:title => "hardware_profiles.preset_filters.i386architecture", :id => "i386architecture", :query => includes(:architecture).where('architecture.value' => "i386")},
+      #{:title => "hardware_profiles.preset_filters.x86_64architecture", :id => "x86_64architecture", :query => includes(:architecture).where('architecture.value' => "x86_64")}
+  ]
+
   has_many :permissions, :as => :permission_object, :dependent => :destroy
   has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
            :include => [:role],
            :order => "derived_permissions.id ASC"
-
   has_many :instances
-  scope :frontend, :conditions => { :provider_id => nil }
   has_many :provider_instances, :class_name => "Instance",
            :foreign_key => "provider_hardware_profile_id"
-
   belongs_to :provider
-
   belongs_to :memory,       :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy,
-                            :validate => false
-
+                            :dependent => :destroy
   belongs_to :storage,      :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy,
-                            :validate => false
-
+                            :dependent => :destroy
   belongs_to :cpu,          :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy,
-                            :validate => false
-
+                            :dependent => :destroy
   belongs_to :architecture, :class_name => "HardwareProfileProperty",
-                            :dependent => :destroy,
-                            :validate => false
+                            :dependent => :destroy
 
   accepts_nested_attributes_for :memory, :cpu, :storage, :architecture
 
-  validates_presence_of :external_key, :if => Proc.new { |hwp| !hwp.provider.nil? }
-  validates_uniqueness_of :external_key, :scope => [:provider_id], :if => Proc.new { |hwp| !hwp.provider.nil? }
+  scope :frontend, :conditions => { :provider_id => nil }
 
-  validates_presence_of :name
-  validates_uniqueness_of :name, :scope => [:provider_id]
+  validates :external_key, :presence => true,
+                           :if => Proc.new { |hwp| !hwp.provider.nil? }
+  validates :external_key, :uniqueness => { :scope => [:provider_id] },
+                           :if => Proc.new { |hwp| !hwp.provider.nil? }
+  validates :name, :presence => true,
+                   :uniqueness => { :scope => [:provider_id] },
+                   :length => { :within => 1..100 }
 
+  def self.matching_hardware_profiles(hardware_profile)
+    hardware_profiles = Provider.find(:all).map { |provider| match_provider_hardware_profile(provider, hardware_profile)}
+    hardware_profiles.select {|hwp| hwp != nil }
+  end
 
-  validates_associated :memory
-  validates_associated :storage
-  validates_associated :cpu
-  validates_associated :architecture
+  def self.match_provider_hardware_profile(provider, hardware_profile)
+    hardware_profiles = match_hardware_profiles(provider, hardware_profile)
+    # there can be multiple matching hw profiles,
+    # for now pick hw profile with lowest memory.
+    # (supposing that memory is most expensive component
+    # of hw profile)
+    hardware_profiles.sort do |hw1, hw2|
+      BigDecimal.new(hw1.memory.sort_value(false).to_s) <=> BigDecimal.new(hw2.memory.sort_value(false).to_s)
+    end.first
+  end
+
+  def self.generate_override_property_values(front_end_hwp, back_end_hwp)
+    property_overrides = {}
+    property_overrides[:memory] = generate_override_property_value(front_end_hwp.memory, back_end_hwp.memory)
+    property_overrides[:storage] = generate_override_property_value(front_end_hwp.storage, back_end_hwp.storage)
+    property_overrides[:cpu] = generate_override_property_value(front_end_hwp.cpu, back_end_hwp.cpu)
+    property_overrides[:architecture] = front_end_hwp.architecture.value
+    return property_overrides
+  end
 
   def self.find_allowed_frontend_hwp_by_name(permission_session, user, name)
     HardwareProfile.list_for_user(permission_session, user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => name}).first
@@ -138,36 +159,6 @@ class HardwareProfile < ActiveRecord::Base
     end
     the_property
   end
-
-  def self.matching_hardware_profiles(hardware_profile)
-    hardware_profiles = Provider.find(:all).map { |provider| match_provider_hardware_profile(provider, hardware_profile)}
-    hardware_profiles.select {|hwp| hwp != nil }
-  end
-
-  def self.match_provider_hardware_profile(provider, hardware_profile)
-    hardware_profiles = match_hardware_profiles(provider, hardware_profile)
-    # there can be multiple matching hw profiles,
-    # for now pick hw profile with lowest memory.
-    # (supposing that memory is most expensive component
-    # of hw profile)
-    hardware_profiles.sort do |hw1, hw2|
-      BigDecimal.new(hw1.memory.sort_value(false).to_s) <=> BigDecimal.new(hw2.memory.sort_value(false).to_s)
-    end.first
-  end
-
-  def self.generate_override_property_values(front_end_hwp, back_end_hwp)
-    property_overrides = {}
-    property_overrides[:memory] = generate_override_property_value(front_end_hwp.memory, back_end_hwp.memory)
-    property_overrides[:storage] = generate_override_property_value(front_end_hwp.storage, back_end_hwp.storage)
-    property_overrides[:cpu] = generate_override_property_value(front_end_hwp.cpu, back_end_hwp.cpu)
-    property_overrides[:architecture] = front_end_hwp.architecture.value
-    return property_overrides
-  end
-
-  PRESET_FILTERS_OPTIONS = [
-    #{:title => "hardware_profiles.preset_filters.i386architecture", :id => "i386architecture", :query => includes(:architecture).where('architecture.value' => "i386")},
-    #{:title => "hardware_profiles.preset_filters.x86_64architecture", :id => "x86_64architecture", :query => includes(:architecture).where('architecture.value' => "x86_64")}
-  ]
 
   private
 
@@ -266,6 +257,4 @@ class HardwareProfile < ActiveRecord::Base
     true if Float(value) rescue false
   end
 
-  include CostEngine::Mixins::HardwareProfile
-  extend CostEngine::Mixins::HardwareProfileClass
 end
