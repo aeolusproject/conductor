@@ -56,7 +56,6 @@ class DeploymentsController < ApplicationController
       redirect_to pool_path(@pool) and return
     end
 
-
     init_new_deployment_attrs
     respond_to do |format|
       format.html
@@ -64,8 +63,6 @@ class DeploymentsController < ApplicationController
       format.json { render :json => @deployment }
     end
   end
-
-
 
   def launch_time_params
     @title = _('New Deployment')
@@ -114,7 +111,6 @@ class DeploymentsController < ApplicationController
       flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
       flash[:warning]+=warnings
     end
-
   end
 
   def overview
@@ -165,8 +161,7 @@ class DeploymentsController < ApplicationController
       load_assemblies_services
       view = @deployment.launch_parameters.blank? ?
         'launch_new' : 'launch_time_params'
-      render view
-      return
+      render view and return
     end
     return unless check_deployable_images
 

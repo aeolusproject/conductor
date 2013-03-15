@@ -87,8 +87,8 @@ class DeployablesController < ApplicationController
     end
     @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
-        format.html
-        format.js {render :partial => @form_option}
+      format.html
+      format.js {render :partial => @form_option}
     end
   end
 
@@ -132,9 +132,7 @@ class DeployablesController < ApplicationController
           :translated_build_status => view_context.translate_build_status(build_status)
         }
 
-        @image_status.sort_by do |image_status_for_account|
-          image_status_for_account[:deltacloud_driver]
-        end
+        @image_status.sort_by { |status| status[:deltacloud_driver] }
       end
     end
 
@@ -149,7 +147,6 @@ class DeployablesController < ApplicationController
            :images => images}
       end
     end
-
   end
 
   def definition
@@ -284,20 +281,19 @@ class DeployablesController < ApplicationController
       end
       unless not_deleted.empty? and not_deleted_perms.empty?
         flasherr = []
-        flasherr =  n_('Deployable %{not_deleted} removal failed.','%{count} Deployables %{not_deleted} were not removed.',not_deleted.count) % {:count => not_deleted.count, :not_deleted => not_deleted.join(', ')} unless not_deleted.empty?
-        flasherr =  n_('Insufficient permissions to remove Deployable %{not_deleted}.','Insufficient permissions to remove %{count} Deployables %{not_deleted}.',not_deleted_perms.count) % {:count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')} unless not_deleted_perms.empty?
+        flasherr =  n_('Deployable %{not_deleted} removal failed.','%{count} Deployables %{not_deleted} were not removed.', not_deleted.count) %
+          {:count => not_deleted.count, :not_deleted => not_deleted.join(', ')} unless not_deleted.empty?
+        flasherr =  n_('Insufficient permissions to remove Deployable %{not_deleted}.','Insufficient permissions to remove %{count} Deployables %{not_deleted}.', not_deleted_perms.count) %
+          {:count => not_deleted_perms.count, :not_deleted => not_deleted_perms.join(', ')} unless not_deleted_perms.empty?
         flash[:error] = flasherr
       end
-      flash[:notice] = flash[:notice] = n_('Deployable %{deleted} removed successfully.','%{count} Deployables %{deleted} were removed.', deleted.count) % {:count => deleted.count, :deleted => deleted.join(', ')} unless deleted.empty?
+      flash[:notice] = flash[:notice] = n_('Deployable %{deleted} removed successfully.','%{count} Deployables %{deleted} were removed.', deleted.count) %
+        {:count => deleted.count, :deleted => deleted.join(', ')} unless deleted.empty?
     else
       flash[:error] = _('No Deployable was selected')
     end
 
-    if @catalog.present?
-      redirect_to catalog_path(@catalog)
-    else
-      redirect_to deployables_path
-    end
+    redirect_to @catalog.present? ? catalog_path(@catalog) : deployables_path
   end
 
   def destroy
@@ -312,11 +308,7 @@ class DeployablesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if @catalog.present?
-          redirect_to catalog_path(@catalog)
-        else
-          redirect_to deployables_path
-        end
+        redirect_to @catalog.present? ? catalog_path(@catalog) : deployables_path
       end
 
       format.xml do

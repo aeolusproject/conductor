@@ -281,7 +281,7 @@ class InstancesController < ApplicationController
       end
       return false
     end
-    return true
+    true
   end
 
   def do_operation(operation)
