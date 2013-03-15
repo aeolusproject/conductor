@@ -162,19 +162,19 @@ class ApplicationController < ActionController::Base
     # unconditionally, the user will get validation errors twice: once
     # inline in the form, and once in the flash
     json[:alert] = msg unless json[:errors]
-    return json
+    json
   end
 
   def xml_errors(msg)
     xml = {}
     xml[:message] = msg
     xml.merge!(instance_errors)
-    return xml
+    xml
   end
 
   def instance_errors
     hash = {}
-    arr = Array.new
+    arr = []
     instance_variables.each do |ivar|
       val = instance_variable_get(ivar)
       if val && val.respond_to?(:errors) && val.errors.respond_to?(:size) && val.errors.size > 0
@@ -186,7 +186,7 @@ class ApplicationController < ActionController::Base
         hash[:errors] += arr
       end
     end
-    return hash
+    hash
   end
 
   def http_auth_user
@@ -200,7 +200,7 @@ class ApplicationController < ActionController::Base
     # But it's handy to set authenticated user in default scope, so we
     # can use current_user, instead of current_user(:api)
     env['warden'].set_user(user(:api)) if user(:api)
-    return user(:api)
+    user(:api)
   end
 
   def current_session
@@ -310,8 +310,8 @@ class ApplicationController < ActionController::Base
 
   def sort_column(model, default = nil)
     return params[:order_field] if model.column_names.include?(params[:order_field])
-    return default unless default.nil? || !model.column_names.include?(default)
-    return "#{model.quoted_table_name}.name"
+    return default if model.column_names.include?(default)
+    "#{model.quoted_table_name}.name"
   end
 
   def sort_direction
@@ -325,11 +325,8 @@ class ApplicationController < ActionController::Base
     @inline = true
     @show_inherited = params[:show_inherited]
     @show_global = params[:show_global]
-    if @show_inherited
-      local_perms = @entity.derived_permissions
-    else
-      local_perms = @entity.permissions
-    end
+    local_perms = @show_inherited ? @entity.derived_permissions :
+                                    @entity.permissions
     @permissions = paginate_collection(local_perms.
       apply_filters(:preset_filters_options =>
                       Permission::PROFILE_PRESET_FILTERS_OPTIONS,
@@ -466,7 +463,6 @@ class ApplicationController < ActionController::Base
   def paginate_collection(collection, page = nil, per_page = PER_PAGE)
     result = collection.paginate(:page => page, :per_page => per_page)
     result = collection.paginate(:page => result.total_pages, :per_page => per_page) if result.out_of_bounds? && result.total_pages > 0
-
     result
   end
 
