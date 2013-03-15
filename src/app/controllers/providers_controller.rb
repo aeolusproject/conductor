@@ -116,14 +116,8 @@ class ProvidersController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html do
-          render :action => "new"
-        end
-        format.xml do
-          render :template => 'api/validation_error',
-                 :locals => { :errors => @provider.errors },
-                 :status => :unprocessable_entity
-        end
+        format.html { render :action => "new" }
+        format.xml { render_api_error(@provider.errors) }
       end
     end
   rescue Errno::EACCES
@@ -170,11 +164,7 @@ class ProvidersController < ApplicationController
           @alerts = provider_alerts(@provider)
           render :action => "edit"
         end
-        format.xml do
-          render :template => 'api/validation_error',
-                 :locals => { :errors => @provider.errors },
-                 :status => :unprocessable_entity
-        end
+        format.xml { render_api_error(@provider.errors) }
       end
     end
   rescue Errno::EACCES

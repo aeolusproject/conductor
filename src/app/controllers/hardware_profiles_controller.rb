@@ -97,9 +97,7 @@ class HardwareProfilesController < ApplicationController
         format.xml  { render :show, :status => :created }
       else
         format.html { render :action => 'new' }
-        format.xml  { render :template => 'api/validation_error',
-                             :locals => { :errors => @hardware_profile.errors },
-                             :status => :unprocessable_entity }
+        format.xml { render_api_error(@hardware_profile.errors) }
       end
     end
   end

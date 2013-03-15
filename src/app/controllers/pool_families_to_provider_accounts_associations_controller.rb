@@ -53,9 +53,7 @@ class PoolFamiliesToProviderAccountsAssociationsController < ApplicationControll
           @pool_family.provider_accounts << provider_account)
         format.xml { render :nothing => true, :status => :no_content }
       else
-        format.xml { render :template => 'api/validation_error',
-          :status => :bad_request,
-          :locals => { :errors => @pool_family.errors }}
+        format.xml { render_api_error(@pool_family.errors, :bad_request ) }
       end
     end
   end
@@ -70,9 +68,7 @@ class PoolFamiliesToProviderAccountsAssociationsController < ApplicationControll
       if @pool_family.provider_accounts.delete provider_account
         format.xml { render :nothing => true, :status => :no_content }
       else
-        format.xml { render :template => 'api/validation_error',
-          :status => :bad_request,
-          :locals => { :errors => @pool_family.errors }}
+        format.xml { render_api_error(@pool_family.errors, :bad_request) }
       end
     end
   end
