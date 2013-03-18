@@ -1,0 +1,5 @@
+= form.input :score,
+             :input_html => { :type => 'number',
+                              :min => ProviderSelection::DeployableMatch::LOWER_LIMIT,
+                              :max => ProviderSelection::DeployableMatch::UPPER_LIMIT }
+= form.input :provider_account_id, :as => :hidden

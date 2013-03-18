@@ -3,9 +3,6 @@
     %tr
       %td= _('Running instances quota')
       %td= @provider_account.quota.maximum_running_instances or _('unlimited')
-    %tr
-      %td= _('Priority')
-      %td= @provider_account.priority
     - if @account_id
       %tr
         %td= _('Account number')

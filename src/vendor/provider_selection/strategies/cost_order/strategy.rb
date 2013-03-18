@@ -54,7 +54,7 @@ module ProviderSelection
         def calculate
           rank = @strategies.calculate
           rank.default_priority_group.matches.each do |deployable_match|
-            old_score = deployable_match.calculated_score
+            old_score = deployable_match.score
 
             # calculate average price of hardware_profile in the match
             sum = 0

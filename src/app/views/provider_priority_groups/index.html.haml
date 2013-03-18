@@ -35,7 +35,6 @@
                   %th= _('Username')
                   %th= _('Provider Name')
                   %th= _('Provider Type')
-                  %th= ProviderAccount.human_attribute_name(:priority)
                   %th= _('Quota Used')
                   %th= _('Quota Limit')
 
@@ -45,7 +44,6 @@
                     %td= account.credentials_hash['username']
                     %td= account.provider.name
                     %td= account.provider.provider_type.name
-                    %td= account.priority
                     %td{:class => 'center'}= number_to_percentage account.quota.percentage_used, :precision => 0
                     %td{:class => 'center'}= account.quota.maximum_running_instances or _('unlimited')
     - else

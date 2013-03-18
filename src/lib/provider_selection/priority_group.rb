@@ -46,18 +46,14 @@ module ProviderSelection
 
     def get_random_match
       match_sum_score = @matches.sum do |match|
-        (DeployableMatch::UPPER_LIMIT + 1) - match.calculated_score
+        match.abs_score + 1
       end
 
-      # In order to work with 'nil' scores adding the size of the @matches array
-      match_sum_score += @matches.length
       random_value = rand(match_sum_score)
-
-      sum = match_sum_score
+      sum = 0
       matches.each do |match|
-        difference = (DeployableMatch::UPPER_LIMIT + 1) - match.calculated_score
-        sum -= (difference + 1)
-        if random_value >= sum
+        sum += (match.abs_score + 1)
+        if random_value < sum
           return match
         end
       end

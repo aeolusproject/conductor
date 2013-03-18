@@ -8,8 +8,6 @@
     -if local_assigns[:with_credentials]
       = content_tag('credentials') do
         = render 'credentials', :creds_hash => provider_account.credentials_hash
-    -if provider_account.priority
-      %priority= provider_account.priority
     -if local_assigns[:with_quota]
       %quota_used= number_to_percentage provider_account.quota.percentage_used, :precision => 0
       -if provider_account.quota.maximum_running_instances

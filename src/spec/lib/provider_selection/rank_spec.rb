@@ -65,9 +65,9 @@ describe ProviderSelection::Rank do
       @rank.priority_groups << ProviderSelection::PriorityGroup.new(-100)
 
       @rank.ordered_priority_groups.length.should == 2
-      @rank.ordered_priority_groups[0].score.should < @rank.ordered_priority_groups[1].score
-      @rank.ordered_priority_groups[0].score.should == -100
-      @rank.ordered_priority_groups[1].score.should == 100
+      @rank.ordered_priority_groups[0].score.should > @rank.ordered_priority_groups[1].score
+      @rank.ordered_priority_groups[0].score.should == 100
+      @rank.ordered_priority_groups[1].score.should == -100
     end
   end
 

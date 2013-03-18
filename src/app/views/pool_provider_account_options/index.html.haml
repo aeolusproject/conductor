@@ -1,0 +1,10 @@
+= render :partial => 'layouts/admin_nav'
+
+%header.page-header
+  %h1.no-icon= _('Provider Selection Strategies')
+
+%section.content-section
+  %header
+    %h2= _('Edit Weighting Strategy')
+  .content
+    = render :partial => 'pool_provider_account_options/provider_accounts', :locals => { :provider_accounts => @provider_accounts }

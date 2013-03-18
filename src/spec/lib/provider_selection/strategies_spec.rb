@@ -55,7 +55,7 @@ describe ProviderSelection::Strategies do
         provider_selection.match_exists?.should be_true
 
         # if we order the matches by score
-        matches = provider_selection.rank.default_priority_group.matches.sort!{ |m1,m2| m1.score <=> m2.score }
+        matches = provider_selection.rank.default_priority_group.matches.sort!{ |m1,m2| m2.score <=> m1.score }
 
         # then the first one should be for the cheaper hardware_profile etc.
         matches[0].multi_assembly_match[0].provider_hwp.default_cost_per_hour.should <  matches[1].multi_assembly_match[0].provider_hwp.default_cost_per_hour
@@ -78,17 +78,18 @@ describe ProviderSelection::Strategies do
           provider_selection = ProviderSelection::Base.new(@pool, assembly_instances)
 
           pac_ids = Hash.new(0)
-          1000.times {
+          25000.times do
             pac_id = provider_selection.next_match.provider_account.label
             pac_ids[pac_id] += 1
-          }
+          end
+
           pac_ids['test_account1'].should < pac_ids['test_account3']
         end
 
         # 3.times { |impact| test.call(impact) } # FIXME: the low impact case
         # fails from time to time this has to be fixed by 1) adjusting the
         # price2penalty function; 2) testing this in "statistically correct" way
-        2.upto(3).each { |impact| test.call(impact) }
+        1.upto(3).each { |impact| test.call(impact) }
       end
     end
 
@@ -133,7 +134,7 @@ describe ProviderSelection::Strategies do
           provider_selection = ProviderSelection::Base.new(pool, assembly_instances)
 
           # if we order the matches by score
-          matches = provider_selection.rank.default_priority_group.matches.sort!{ |m1,m2| m1.score <=> m2.score }
+          matches = provider_selection.rank.default_priority_group.matches.sort!{ |m1,m2| m2.score <=> m1.score }
           # better score should have the 1st provider
           matches[0].provider_account.label.should == 'test_account1'
         end
@@ -156,18 +157,18 @@ describe ProviderSelection::Strategies do
       assembly_instance = DeployableMatching::AssemblyInstance.new(nil, nil, nil, assembly_matches)
       @assembly_instances = [assembly_instance]
 
-      pg1 = FactoryGirl.create(:provider_priority_group, :name => 'pg1', :score => 10)
+      pg1 = FactoryGirl.create(:provider_priority_group, :name => 'pg1', :score => 30)
       pg1.provider_accounts = [account1]
       pg2 = FactoryGirl.create(:provider_priority_group, :name => 'pg2', :score => 20)
       pg2.provider_accounts = [account2]
-      pg3 = FactoryGirl.create(:provider_priority_group, :name => 'pg3', :score => 30)
+      pg3 = FactoryGirl.create(:provider_priority_group, :name => 'pg3', :score => 10)
       pg3.provider_accounts = [account3]
 
       @pool = FactoryGirl.create(:pool)
       @pool.provider_priority_groups = [pg1, pg2, pg3]
     end
 
-    it "should return matches from priority group with lower score" do
+    it "should return matches from priority group with higher score" do
       strategy = FactoryGirl.create(:provider_selection_strategy, :name => 'strict_order', :pool => @pool)
       @pool.stub_chain(:provider_selection_strategies, :enabled).and_return([strategy])
 
@@ -202,7 +203,7 @@ describe ProviderSelection::Strategies do
       @pool = FactoryGirl.create(:pool)
     end
 
-    it "should return matches with provider account with number of failures lower then the failure_count_hard_limit" do
+    it "should return matches with provider account with number of failures lower than the failure_count_hard_limit" do
       @account1.stub!(:failure_count).and_return(3)
       @account2.stub!(:failure_count).and_return(4)
 
@@ -222,6 +223,37 @@ describe ProviderSelection::Strategies do
       match = provider_selection.next_match
       match.multi_assembly_match.length.should be_equal(1)
       match.provider_account.label.should == 'test_account3'
+    end
+  end
+
+  describe ProviderSelection::Strategies::Weighting do
+    before(:each) do
+      @pool = FactoryGirl.create(:pool)
+
+      @provider_account1 = FactoryGirl.create(:mock_provider_account, :label => "test_account1")
+      @provider_account2 = FactoryGirl.create(:mock_provider_account, :label => "test_account2")
+
+      FactoryGirl.create(:pool_provider_account_option, :pool => @pool, :provider_account => @provider_account1, :score => -100)
+      FactoryGirl.create(:pool_provider_account_option, :pool => @pool, :provider_account => @provider_account2, :score => 100)
+
+      assembly_match_1 = DeployableMatching::AssemblyMatch.new(@provider_account1, nil, nil, nil, nil, nil)
+      assembly_match_2 = DeployableMatching::AssemblyMatch.new(@provider_account2, nil, nil, nil, nil, nil)
+      assembly_matches = [assembly_match_1, assembly_match_2]
+      assembly_instance = DeployableMatching::AssemblyInstance.new(nil, nil, nil, assembly_matches)
+      @assembly_instances = [assembly_instance]
+
+      strategy = FactoryGirl.create(:provider_selection_strategy,
+                                    :name => 'weighting',
+                                    :pool => @pool)
+      @pool.stub_chain(:provider_selection_strategies, :enabled).and_return([strategy])
+    end
+
+    it "should return match with provider account with more weight" do
+      provider_selection = ProviderSelection::Base.new(@pool, @assembly_instances)
+      provider_selection.match_exists?.should be_true
+
+      matches = provider_selection.rank.default_priority_group.matches.sort!{ |m1,m2| m2.score <=> m1.score }
+      matches[0].provider_account.label.should == 'test_account2'
     end
   end
 

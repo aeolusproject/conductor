@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-04 14:55+0100\n"
+"POT-Creation-Date: 2013-03-14 15:34+0100\n"
 "PO-Revision-Date: 2013-01-31 17:51+0100\n"
 "Last-Translator: Jozef Zigmund <jzigmund@redhat.com>\n"
 "Language-Team: English\n"
@@ -48,32 +48,11 @@ msgstr "%s Pool details &raquo;"
 msgid "%s has running instances"
 msgstr "%s has running instances"
 
-msgid "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
-msgstr "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
-
-msgid "%s: Hardware Profile match not found"
-msgstr "%s: Hardware Profile match not found"
-
 msgid "%s: Image (UUID: %s) doesn't exist"
 msgstr "%s: Image (UUID: %s) doesn't exist"
 
-msgid "%s: Image is not pushed to this Provider Account"
-msgstr "%s: Image is not pushed to this Provider Account"
-
-msgid "%s: Provider Account quota reached"
-msgstr "%s: Provider Account quota reached"
-
-msgid "%s: Provider is not available"
-msgstr "s: Provider is not available"
-
-msgid "%s: Provider must be enabled"
-msgstr "s: Provider must be enabled"
-
 msgid "%s: You have insufficient privileges to perform the selected action."
 msgstr "%s: You have insufficient privileges to perform the selected action."
-
-msgid "%s: no Config Server available for Provider Account"
-msgstr ""
 
 msgid "%s: reboot action was successfully queued."
 msgstr ""
@@ -306,9 +285,6 @@ msgid "Assembly %{from_assembly}, service %{from_service}, parameter %{from_para
 msgstr ""
 
 msgid "Assembly %{from_assembly}, service %{from_service}, parameter %{from_param} references param %{to_param} which is not returned by Assembly %{to_assembly}"
-msgstr ""
-
-msgid "Assembly hardware profile architecture ('%s') doesn't match image hardware profile architecture ('%s')."
 msgstr ""
 
 msgid "Assign Costs to Hardware Profile"
@@ -851,6 +827,12 @@ msgstr "Edit User"
 msgid "Edit User Group"
 msgstr "Edit User Group"
 
+msgid "Edit Weight"
+msgstr "Edit Weight"
+
+msgid "Edit Weighting Strategy"
+msgstr "Edit Weighting strategy"
+
 msgid "Edit XML"
 msgstr "Edit XML"
 
@@ -889,9 +871,6 @@ msgstr "Environment"
 
 msgid "Environment Quota Used"
 msgstr "Environment Quota Used"
-
-msgid "Environment quota reached"
-msgstr "Environment quota reached"
 
 msgid "Environment was added."
 msgstr "Environment was added."
@@ -1107,15 +1086,6 @@ msgstr "Name"
 
 msgid "History"
 msgstr "History"
-
-msgid "Hook"
-msgstr "Hook"
-
-msgid "Hook|Uri"
-msgstr "Uri"
-
-msgid "Hook|Version"
-msgstr "Version"
 
 msgid "If you did not request this password to be reset, just ignore this email and the password will stay the same."
 msgstr "If you did not request this password to be reset, just ignore this email and the password will stay the same."
@@ -1542,11 +1512,11 @@ msgstr ""
 msgid "No available priority group to display"
 msgstr "No available priority group to display"
 
-msgid "No image build was found with uuid %s and no image was found with uuid %s"
-msgstr ""
-
 msgid "No matching results."
 msgstr "No matching results."
+
+msgid "No more matches left. All of them are tried already."
+msgstr ""
 
 msgid "No users selected"
 msgstr "No users selected"
@@ -1654,8 +1624,8 @@ msgstr "Pool Family"
 msgid "Pool name"
 msgstr "Pool name"
 
-msgid "Pool quota reached"
-msgstr "Pool quota reached"
+msgid "Pool provider account option"
+msgstr "Pool Provider Account Option"
 
 msgid "Pool updated."
 msgstr "Pool updated."
@@ -1668,6 +1638,9 @@ msgstr "Lock version"
 
 msgid "PoolFamily|Name"
 msgstr "Name"
+
+msgid "PoolProviderAccountOption|Score"
+msgstr "Score"
 
 msgid "Pools"
 msgstr "Pools"
@@ -1683,9 +1656,6 @@ msgstr "Lock version"
 
 msgid "Pool|Name"
 msgstr "Name"
-
-msgid "Priority"
-msgstr "Priority"
 
 msgid "Priority Group successfully created"
 msgstr "Priority Group successfully created"
@@ -1737,6 +1707,9 @@ msgstr "Provider"
 
 msgid "Provider Account"
 msgstr "Provider Account"
+
+msgid "Provider Account Weight successfully modified."
+msgstr "Provider Account Weight successfully modified."
 
 msgid "Provider Account updated"
 msgstr "Provider Account updated"
@@ -1836,9 +1809,6 @@ msgstr "Label"
 
 msgid "ProviderAccount|Lock version"
 msgstr "Lock version"
-
-msgid "ProviderAccount|Priority"
-msgstr "Priority"
 
 msgid "ProviderPriorityGroupElement|Value type"
 msgstr "Value type"
@@ -2098,6 +2068,9 @@ msgstr "Save and Continue"
 msgid "Scope"
 msgstr "Scope"
 
+msgid "Score"
+msgstr "Score"
+
 msgid "Search"
 msgstr "Search"
 
@@ -2130,9 +2103,6 @@ msgstr "Shared to"
 
 msgid "Show/Hide"
 msgstr "Show/Hide"
-
-msgid "Some Assemblies will not be launched:"
-msgstr "Some Assemblies will not be launched:"
 
 msgid "Some Instances are not running"
 msgstr ""
@@ -2355,9 +2325,6 @@ msgstr ""
 msgid "There are following associated provider images: %s. Delete them first."
 msgstr ""
 
-msgid "There are no Provider Accounts associated with the selected Pool's Environment."
-msgstr "There are no Provider Accounts associated with the selected Pool's Environment."
-
 msgid "There are no Provider Accounts available."
 msgstr "There are no Provider Accounts available."
 
@@ -2447,9 +2414,6 @@ msgstr "User Group"
 
 msgid "User has been successfully deleted."
 msgstr "User has been successfully deleted."
-
-msgid "User quota reached"
-msgstr "User quota reached"
 
 msgid "User registered"
 msgstr "User registered"
@@ -2576,9 +2540,6 @@ msgstr "XML is not valid:"
 
 msgid "Yes"
 msgstr "Yes"
-
-msgid "You do not have sufficient permission to access the %s Hardware Profile."
-msgstr ""
 
 msgid "You have insufficient privileges to perform the selected action."
 msgstr "You have insufficient privileges to perform the selected action."
@@ -2711,3 +2672,48 @@ msgstr "via SSH"
 
 msgid "was not found on the Provider."
 msgstr "was not found on the Provider."
+
+#~ msgid "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
+#~ msgstr "%s: Frontend Realm %s is not mapped to an applicable Provider or Provider Realm"
+
+#~ msgid "%s: Hardware Profile match not found"
+#~ msgstr "%s: Hardware Profile match not found"
+
+#~ msgid "%s: Image is not pushed to this Provider Account"
+#~ msgstr "%s: Image is not pushed to this Provider Account"
+
+#~ msgid "%s: Provider Account quota reached"
+#~ msgstr "%s: Provider Account quota reached"
+
+#~ msgid "%s: Provider is not available"
+#~ msgstr "s: Provider is not available"
+
+#~ msgid "%s: Provider must be enabled"
+#~ msgstr "s: Provider must be enabled"
+
+#~ msgid "Environment quota reached"
+#~ msgstr "Environment quota reached"
+
+#~ msgid "Hook"
+#~ msgstr "Hook"
+
+#~ msgid "Hook|Uri"
+#~ msgstr "Uri"
+
+#~ msgid "Hook|Version"
+#~ msgstr "Version"
+
+#~ msgid "Pool quota reached"
+#~ msgstr "Pool quota reached"
+
+#~ msgid "Priority"
+#~ msgstr "Priority"
+
+#~ msgid "Some Assemblies will not be launched:"
+#~ msgstr "Some Assemblies will not be launched:"
+
+#~ msgid "There are no Provider Accounts associated with the selected Pool's Environment."
+#~ msgstr "There are no Provider Accounts associated with the selected Pool's Environment."
+
+#~ msgid "User quota reached"
+#~ msgstr "User quota reached"
