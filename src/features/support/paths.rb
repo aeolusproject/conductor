@@ -212,6 +212,9 @@ module NavigationHelpers
     when /^the (.*)'s provider priority groups page$/
       pool_provider_selection_provider_priority_groups_path(Pool.find_by_name($1))
 
+    when /^the (.*)'s provider account options page$/
+      pool_provider_selection_provider_account_options_path(Pool.find_by_name($1))
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

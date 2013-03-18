@@ -262,23 +262,6 @@ describe Deployment do
       @deployment.instances.count.should == 2
     end
 
-    it "should not fail to launch if a provider account has a nil priority" do
-      @deployment.save!
-      @deployment.instances.should be_empty
-
-      @provider_account1.priority = nil
-      @provider_account1.save!
-
-      Instance.any_instance.stub(:provider_image_for_match).and_return(@provider_image)
-      Taskomatic.stub!(:create_dcloud_instance).and_return(true)
-      Taskomatic.stub!(:handle_dcloud_error).and_return(true)
-      Taskomatic.stub!(:handle_instance_state).and_return(true)
-      @deployment.create_and_launch(@permission_session, @user_for_launch)
-      @deployment.errors.should be_empty
-      @deployment.reload
-      @deployment.instances.count.should == 2
-    end
-
     it "should not create deployment with instances if match not found" do
       @deployment.instances.should be_empty
       @deployment.pool.pool_family.provider_accounts = []

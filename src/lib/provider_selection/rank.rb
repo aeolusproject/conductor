@@ -24,7 +24,7 @@ module ProviderSelection
     def self.build_from_assembly_instances(pool, assembly_instances)
       rank = Rank.new(pool)
 
-      default_priority_group = PriorityGroup.new(100000)
+      default_priority_group = PriorityGroup.new(-100000)
       rank.default_priority_group = default_priority_group
 
       matches_by_instances = assembly_instances.map(&:matches)
@@ -60,17 +60,7 @@ module ProviderSelection
     end
 
     def ordered_priority_groups
-      @priority_groups.sort do |a, b|
-        if a.score.nil? && b.score.nil?
-          0
-        elsif a.score.nil?
-          1
-        elsif b.score.nil?
-          -1
-        else
-          a.score <=> b.score
-        end
-      end
+      @priority_groups.sort {|x,y| y.score <=> x.score }
     end
 
     def default_priority_group

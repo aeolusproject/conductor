@@ -13,21 +13,32 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-module ProviderAccountsHelper
-  def provider_accounts_header(options = {})
-    columns = [{ :name => 'checkbox', :sortable => false, :class => 'checkbox' }]
 
-    unless options[:without_alert]
-      columns << { :name => '', :sortable => false, :class => 'alert' }
-    end
+module PoolProviderAccountOptionsHelper
 
-    columns += [
+  def pool_provider_account_options_header(options = {})
+    [
       { :name => _('Account Name'), :sortable => false },
-      { :name => _('Username'), :sortable => false},
+      { :name => _('Username'), :sortable => false },
       { :name => _('Provider Name'), :sortable => false },
       { :name => _('Provider Type'), :sortable => false },
       { :name => _('Quota Used'), :sortable => false, :class => 'center' },
-      { :name => _('Quota Limit'), :sortable => false, :class => 'center' }
+      { :name => _('Quota Limit'), :sortable => false, :class => 'center' },
+      { :name => _('Score'), :sortable => false, :class => 'center' },
     ]
   end
+
+  def render_score(options, provider_account)
+    provider_account_option = options.find do |option|
+      option.provider_account_id == provider_account.id
+    end
+
+    if provider_account_option
+      link_to(provider_account_option.score, edit_pool_provider_selection_provider_account_option_path(provider_account_option.pool_id, provider_account_option))
+    else
+      link_to(0, new_pool_provider_selection_provider_account_option_path(:provider_account_id => provider_account.id))
+    end
+
+  end
+
 end

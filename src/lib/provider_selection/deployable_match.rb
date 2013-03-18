@@ -21,49 +21,45 @@ module ProviderSelection
     UPPER_LIMIT = 100
     LOWER_LIMIT = -100
 
-    attr_reader :score
     attr_reader :provider_account
     attr_reader :multi_assembly_match
 
     def initialize(attributes)
       @multi_assembly_match = []
 
+      score_val = attributes[:score] || attributes['score']
+      self.score = score_val if score_val
+      attributes.delete_if {|name, value| name.to_s == 'score' }
+
       attributes.each do |name, value|
         instance_variable_set("@#{name}", value)
       end
     end
 
+    def score
+      @score || 0
+    end
+
     def score=(val)
       if val > UPPER_LIMIT
-        @score = Match::UPPER_LIMIT
-      elsif val < Match::LOWER_LIMIT
-        @score = Match::LOWER_LIMIT
+        @score = UPPER_LIMIT
+      elsif val < LOWER_LIMIT
+        @score = LOWER_LIMIT
       else
         @score = val
       end
     end
 
-    # nil values should value more then any other value
-    def calculated_score
-      if @score.nil?
-        UPPER_LIMIT + 1
-      else
-        @score
-      end
-    end
-
     def abs_score
-      (Match::UPPER_LIMIT + 1) - calculated_score + 1
+      self.score - LOWER_LIMIT
     end
 
     def penalize_by(percentage)
-      new_score = calculated_score + ((UPPER_LIMIT - LOWER_LIMIT) * percentage / 100)
-      @score = [(UPPER_LIMIT + 1), new_score].min
+      self.score -= ((UPPER_LIMIT - 0) * percentage / 100)
     end
 
     def reward_by(percentage)
-      new_score = calculated_score - ((UPPER_LIMIT - LOWER_LIMIT) * percentage / 100)
-      @score = [LOWER_LIMIT, new_score].max
+      self.score += ((0 - LOWER_LIMIT) * percentage / 100)
     end
 
   end

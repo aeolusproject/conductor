@@ -18,33 +18,33 @@ require 'spec_helper'
 
 describe ProviderSelection::DeployableMatch do
 
-  it "nil score should worth more than any defined score" do
+  it "nil score should value 0" do
     match_with_assigned_score = ProviderSelection::DeployableMatch.new(:provider_account => nil, :score => 0)
     match_with_nil_score = ProviderSelection::DeployableMatch.new(:provider_account => nil)
-    match_with_assigned_score.calculated_score.should be < match_with_nil_score.calculated_score
+    match_with_assigned_score.score.should == match_with_nil_score.score
   end
 
   it "should be able to penalize if score is under the upper limit" do
     match = ProviderSelection::DeployableMatch.new(:provider_account => nil, :score => 0)
-    lambda { match.penalize_by(20) }.should change(match, :calculated_score).from(0)
+    lambda { match.penalize_by(20) }.should change(match, :score).from(0).to(-20)
   end
 
-  it "should not be able to penalize if score is equal to the upper limit" do
+  it "should not be able to penalize if score is equal to the lower limit" do
     match = ProviderSelection::DeployableMatch.new(:provider_account => nil,
-                                                   :score => ProviderSelection::DeployableMatch::UPPER_LIMIT)
-    lambda { match.penalize_by(20) }.should_not change(match, :calculated_score).from(0)
+                                                   :score => ProviderSelection::DeployableMatch::LOWER_LIMIT)
+    lambda { match.penalize_by(20) }.should_not change(match, :score)
   end
 
 
   it "should be able to reward if score is above the lower limit" do
     match = ProviderSelection::DeployableMatch.new(:provider_account => nil, :score => 0)
-    lambda { match.reward_by(20) }.should change(match, :calculated_score).from(0)
+    lambda { match.reward_by(20) }.should change(match, :score).from(0).to(20)
   end
 
   it "should not be able to reward if score is equal to the lower limit" do
     match = ProviderSelection::DeployableMatch.new(:provider_account => nil,
-                                                   :score => ProviderSelection::DeployableMatch::LOWER_LIMIT)
-    lambda { match.reward_by(20) }.should_not change(match, :calculated_score).from(0)
+                                                   :score => ProviderSelection::DeployableMatch::UPPER_LIMIT)
+    lambda { match.reward_by(20) }.should_not change(match, :score).from(0)
   end
 
 end
