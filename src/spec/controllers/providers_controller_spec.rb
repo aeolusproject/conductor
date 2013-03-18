@@ -105,42 +105,39 @@ describe ProvidersController do
 
             let(:providers) { 3.times{ FactoryGirl.create(:mock_provider) }; Provider.all }
 
-            it_behaves_like "http OK"
+            it_behaves_like 'http', 'OK'
             it_behaves_like "responding with XML"
 
             context "XML body" do
               let(:number_of_providers) { 3 }
               it_behaves_like "having XML with providers"
             end
-
           end
 
           context "when there is 1 provider" do
 
             let(:providers) { FactoryGirl.create(:mock_provider); Provider.all }
 
-            it_behaves_like "http OK"
+            it_behaves_like 'http', 'OK'
             it_behaves_like "responding with XML"
 
             context "XML body" do
               let(:number_of_providers) { 1 }
               it_behaves_like "having XML with providers"
             end
-
           end
 
           context "when there are no providers" do
 
             let(:providers) { Provider.all }
 
-            it_behaves_like "http OK"
+            it_behaves_like 'http', 'OK'
             it_behaves_like "responding with XML"
 
             context "XML body" do
               let(:number_of_providers) { 0 }
               it_behaves_like "having XML with providers"
             end
-
           end
         end # #index
 
@@ -155,7 +152,7 @@ describe ProvidersController do
 
             let(:provider) { FactoryGirl.create(:mock_provider); Provider.last }
 
-            it_behaves_like "http OK"
+            it_behaves_like 'http', 'OK'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -168,7 +165,6 @@ describe ProvidersController do
                 xml_provider['href'].should be_eql(api_provider_url(provider))
               end
             end
-
           end # when requested provider exists
 
           context "when requested provider does not exist" do
@@ -179,7 +175,7 @@ describe ProvidersController do
               get :show, :id => 1
             end
 
-            it_behaves_like "http Not Found"
+            it_behaves_like 'http', 'Not Found'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -190,9 +186,7 @@ describe ProvidersController do
                 subject.xpath('//error').size.should be_eql(1)
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
               }
-
             end
-
           end
         end # #show
 
@@ -209,7 +203,7 @@ describe ProvidersController do
           context "with correct parameters" do
             let(:provider) { FactoryGirl.build(:mock_provider) }
 
-            it_behaves_like "http Created"
+            it_behaves_like 'http', 'Created'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -235,7 +229,7 @@ describe ProvidersController do
               provider
             end
 
-            it_behaves_like "http Unprocessable Entity"
+            it_behaves_like 'http', 'Unprocessable Entity'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -258,10 +252,8 @@ describe ProvidersController do
               delete :destroy, :id => provider.id
             end
 
-            it_behaves_like "http No Content"
-
+            it_behaves_like 'http', 'No Content'
             it { expect { provider.reload }.to raise_error(ActiveRecord::RecordNotFound) }
-
           end
 
           context "non existing provider" do
@@ -271,7 +263,7 @@ describe ProvidersController do
               delete :destroy, :id => provider.id
             end
 
-            it_behaves_like "http Not Found"
+            it_behaves_like 'http', 'Not Found'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -307,7 +299,7 @@ describe ProvidersController do
                 }
               }
 
-              it_behaves_like "http OK"
+              it_behaves_like 'http', 'OK'
               it_behaves_like "responding with XML"
 
               context "XML body" do
@@ -335,9 +327,8 @@ describe ProvidersController do
                 }
               }
 
-              it_behaves_like "http Unprocessable Entity"
+              it_behaves_like 'http', 'Unprocessable Entity'
               it_behaves_like "responding with XML"
-
             end
           end # existing provider
 
@@ -348,7 +339,7 @@ describe ProvidersController do
               put :update, :id => orig_provider.id
             end
 
-            it_behaves_like "http Not Found"
+            it_behaves_like 'http', 'Not Found'
             it_behaves_like "responding with XML"
 
             context "XML body" do

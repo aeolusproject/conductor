@@ -228,9 +228,7 @@ class PoolsController < ApplicationController
         format.html { render :new }
         format.js { render :partial => 'new' }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
-        format.xml { render :template => 'api/validation_error',
-                            :locals => { :errors => @pool.errors },
-                            :status => :unprocessable_entity }
+        format.xml { render_api_error(@pool.errors) }
       end
     end
   end
@@ -276,9 +274,7 @@ class PoolsController < ApplicationController
         end
         format.js { render :partial => 'edit', :id => @pool.id }
         format.json { render :json => @pool.errors, :status => :unprocessable_entity }
-        format.xml { render :template => 'api/validation_error',
-                            :locals => { :errors => @pool.errors },
-                            :status => :unprocessable_entity }
+        format.xml { render_api_error(@pool.errors) }
       end
     end
   end

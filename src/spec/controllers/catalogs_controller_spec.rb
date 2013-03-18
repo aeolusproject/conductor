@@ -80,7 +80,7 @@ describe CatalogsController do
         get :index
       end
 
-      it_behaves_like "http OK"
+      it_behaves_like 'http', 'OK'
       it_behaves_like "responding with XML"
 
       it "should print list of catalogs" do
@@ -96,7 +96,7 @@ describe CatalogsController do
         get :show, :id => @catalog.id
       end
 
-      it_behaves_like "http OK"
+      it_behaves_like 'http', 'OK'
       it_behaves_like "responding with XML"
 
       it "should print catalog details" do
@@ -128,7 +128,7 @@ describe CatalogsController do
         }
       end
 
-      it_behaves_like "http Created"
+      it_behaves_like 'http', 'Created'
       it_behaves_like "responding with XML"
 
       it "should print catalog details" do
@@ -158,7 +158,7 @@ describe CatalogsController do
         }
       end
 
-      it_behaves_like "http OK"
+      it_behaves_like 'http', 'OK'
       it_behaves_like "responding with XML"
 
       it "should print updated catalog details" do
@@ -181,7 +181,7 @@ describe CatalogsController do
           delete :destroy, :id => @catalog.id
         end
 
-        it_behaves_like "http No Content"
+        it_behaves_like 'http', 'No Content'
         it { expect { @catalog.reload }.to raise_error(ActiveRecord::RecordNotFound) }
       end
 
@@ -191,7 +191,7 @@ describe CatalogsController do
           delete :destroy, :id => @catalog.id
         end
 
-        it_behaves_like "http Internal Server Error"
+        it_behaves_like 'http', 'Internal Server Error'
         it_behaves_like "responding with XML"
       end
     end

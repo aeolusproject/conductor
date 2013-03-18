@@ -95,7 +95,6 @@ describe HardwareProfilesController do
           HardwareProfile.exists?(hardware_profile.id).should be_false
           response.should redirect_to(hardware_profiles_path)
         end
-
       end
 
 
@@ -144,7 +143,6 @@ describe HardwareProfilesController do
           response.should render_template('layouts/error')
         end
 
-
         it "should not be able to delete hardware profiles" do
           hardware_profile = Factory.create :hardware_profile
           mock_warden(@user)
@@ -155,7 +153,6 @@ describe HardwareProfilesController do
           response.should render_template('layouts/error')
         end
       end
-
     end
   end
 
@@ -182,7 +179,7 @@ describe HardwareProfilesController do
               get :show, :id => hwp.id
             end
 
-            it_behaves_like "http OK"
+            it_behaves_like 'http', 'OK'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -191,7 +188,6 @@ describe HardwareProfilesController do
               it {
                 subject.xpath("//hardware_profile/@id").text.should be_eql(hwp.id.to_s)
               }
-
             end
           end
 
@@ -203,7 +199,7 @@ describe HardwareProfilesController do
               get :show, :id => hwp.id
             end
 
-            it_behaves_like "http Not Found"
+            it_behaves_like 'http', 'Not Found'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -214,9 +210,7 @@ describe HardwareProfilesController do
                 subject.xpath('//error/code').text.should be_eql('RecordNotFound')
               }
             end
-
           end
-
         end
 
         describe "#create" do
@@ -232,7 +226,7 @@ describe HardwareProfilesController do
               }
             end
 
-            it_behaves_like "http Created"
+            it_behaves_like 'http', 'Created'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -254,7 +248,7 @@ describe HardwareProfilesController do
               }
             end
 
-            it_behaves_like "http Unprocessable Entity"
+            it_behaves_like 'http', 'Unprocessable Entity'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -278,10 +272,8 @@ describe HardwareProfilesController do
               delete :destroy, :id => hwp.id
             end
 
-            it_behaves_like "http No Content"
-
+            it_behaves_like 'http', 'No Content'
             it { expect { hwp.reload }.to raise_error(ActiveRecord::RecordNotFound) }
-
           end
 
           context "non existing hwp" do
@@ -290,7 +282,7 @@ describe HardwareProfilesController do
               delete :destroy, :id => -1
             end
 
-            it_behaves_like "http Not Found"
+            it_behaves_like 'http', 'Not Found'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -310,7 +302,7 @@ describe HardwareProfilesController do
               delete :destroy, :id => hwp.id
             end
 
-            it_behaves_like "http Forbidden"
+            it_behaves_like 'http', 'Forbidden'
             it_behaves_like "responding with XML"
 
             context "XML body" do
@@ -321,7 +313,6 @@ describe HardwareProfilesController do
               }
             end
           end
-
         end
       end
     end

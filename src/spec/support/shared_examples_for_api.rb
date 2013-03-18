@@ -14,59 +14,22 @@
 #   limitations under the License.
 #
 
-shared_examples_for "http OK" do
-  context "response status code" do
-    subject { response.status }
-    it { should == 200 }
-  end
-end
+shared_examples_for 'http' do |code|
+  http_codes = {
+    'OK'                    => 200,
+    'Created'               => 201,
+    'No Content'            => 204,
+    'Bad Request'           => 400,
+    'Forbidden'             => 403,
+    'Not Found'             => 404,
+    'Unprocessable Entity'  => 422,
+    'Internal Server Error' => 500,
+  }
+  code = http_codes[code] unless code.kind_of?(Fixnum)
 
-shared_examples_for "http Created" do
   context "response status code" do
     subject { response.status }
-    it { should == 201 }
-  end
-end
-
-shared_examples_for "http No Content" do
-  context "response status code" do
-    subject { response.status }
-    it { should == 204 }
-  end
-end
-
-shared_examples_for "http Bad Request" do
-  context "response status code" do
-    subject { response.status }
-    it { should == 400 }
-  end
-end
-
-shared_examples_for "http Forbidden" do
-  context "response status code" do
-    subject { response.status }
-    it { should == 403 }
-  end
-end
-
-shared_examples_for "http Not Found" do
-  context "response status code" do
-    subject { response.status }
-    it { should == 404 }
-  end
-end
-
-shared_examples_for "http Unprocessable Entity" do
-  context "response status code" do
-    subject { response.status }
-    it { should == 422 }
-  end
-end
-
-shared_examples_for "http Internal Server Error" do
-  context "response status code" do
-    subject { response.status }
-    it { should == 500 }
+    it { should == code }
   end
 end
 

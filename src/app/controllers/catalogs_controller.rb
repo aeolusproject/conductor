@@ -78,9 +78,7 @@ class CatalogsController < ApplicationController
           @title = _('New Catalog')
           render :new
         end
-        format.xml  { render :template => 'api/validation_error',
-                             :status => :unprocessable_entity,
-                             :locals => { :errors => @catalog.errors }}
+        format.xml { render_api_error(@catalog.errors) }
       end
     end
   end
@@ -116,11 +114,7 @@ class CatalogsController < ApplicationController
           @title = _('Edit Catalog')
           render :action => 'edit'
         end
-        format.xml  do
-          render :template => 'api/validation_error',
-                 :status => :unprocessable_entity,
-                 :locals => { :errors => @catalog.errors }
-          end
+        format.xml { render_api_error(@catalog.errors) }
       end
     end
   end

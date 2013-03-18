@@ -103,6 +103,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_api_error(errors, status = :unprocessable_entity)
+    render :template => 'api/validation_error',
+           :status   => status,
+           :locals   => { :errors => errors }
+  end
+
   def get_nav_items
     if current_user.present?
       @providers = Provider.list_for_user(current_session, current_user,
