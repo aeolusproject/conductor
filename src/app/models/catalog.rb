@@ -33,6 +33,7 @@ class Catalog < ActiveRecord::Base
 
   belongs_to :pool
   belongs_to :pool_family
+
   has_many :catalog_entries, :dependent => :destroy
   has_many :deployables, :through => :catalog_entries
   has_many :permissions, :as => :permission_object, :dependent => :destroy,
@@ -43,10 +44,11 @@ class Catalog < ActiveRecord::Base
            :order => "derived_permissions.id ASC"
 
   before_destroy :destroy_deployables_related_only_to_self
-  before_create :set_pool_family
+  before_validation :set_pool_family
   after_update :update_deployable_permissions
 
   validates :pool_id, :presence => true
+  validates :pool_family_id, :presence => true
   validates :name, :presence => true, :uniqueness => true, :length => { :within => 1..100 }
 
   def perm_ancestors
@@ -70,7 +72,7 @@ class Catalog < ActiveRecord::Base
   end
 
   def set_pool_family
-    self[:pool_family_id] = pool.pool_family_id
+    self[:pool_family_id] = pool.pool_family_id if pool
   end
 
   def update_deployable_permissions

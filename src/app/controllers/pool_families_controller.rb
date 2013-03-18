@@ -62,9 +62,7 @@ class PoolFamiliesController < ApplicationController
           @title = _('New Environment')
           render :new
         end
-        format.xml { render :template => 'api/validation_error',
-          :locals => { :errors => @pool_family.errors },
-          :status => :unprocessable_entity }
+        format.xml { render_api_error(@pool_family.errors) }
       end
     end
   end
@@ -95,11 +93,7 @@ class PoolFamiliesController < ApplicationController
         format.html do
           render :action => 'edit'
         end
-        format.xml do
-          render :template => 'api/validation_error',
-                 :locals => { :errors => @pool_family.errors },
-                 :status => :unprocessable_entity
-        end
+        format.xml { render_api_error(@pool_family.errors) }
       end
     end
   end

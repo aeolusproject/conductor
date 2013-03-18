@@ -72,7 +72,7 @@ describe "ProviderTypes" do
       resp = get '/api/provider_types', nil, headers
     end
 
-    it_behaves_like "http OK"
+    it_behaves_like 'http', 'OK'
     it_behaves_like "responding with XML"
 
     context "XML body" do
@@ -88,7 +88,7 @@ describe "ProviderTypes" do
         get "/api/provider_types/#{provider_type.id}", nil, headers
       end
 
-      it_behaves_like "http OK"
+      it_behaves_like 'http', 'OK'
       it_behaves_like "responding with XML"
 
       context "XML body" do
@@ -103,7 +103,7 @@ describe "ProviderTypes" do
          get "/api/provider_types/#{provider_type.id}", nil, headers
        end
 
-       it_behaves_like "http Not Found"
+       it_behaves_like 'http', 'Not Found'
        it_behaves_like "responding with XML"
     end
   end
@@ -117,7 +117,7 @@ describe "ProviderTypes" do
         delete "/api/provider_types/#{provider_type.id}", nil, headers
       end
 
-      it_behaves_like "http No Content"
+      it_behaves_like 'http', 'No Content'
 
       it "should be deleted" do
         expect { ProviderType.find(provider_type.id) }.to raise_error(ActiveRecord::RecordNotFound)
@@ -135,7 +135,7 @@ describe "ProviderTypes" do
         delete "/api/provider_types/#{provider_type.id}", nil, headers
       end
 
-      it_behaves_like "http Not Found"
+      it_behaves_like 'http', 'Not Found'
       it_behaves_like "responding with XML"
 
       it "should not delete any provider type" do

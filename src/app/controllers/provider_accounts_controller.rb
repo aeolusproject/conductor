@@ -110,11 +110,7 @@ class ProviderAccountsController < ApplicationController
           @title = _('New Provider Account')
           render :action => 'new'
         end
-        format.xml do
-          render('api/validation_error',
-                 :locals => { :errors => @provider_account.errors },
-                 :status => :unprocessable_entity)
-        end
+        format.xml { render_api_error(@provider_account.errors) }
       end
     end
   rescue Exception => ex
@@ -166,11 +162,7 @@ class ProviderAccountsController < ApplicationController
           flash[:error] = _('Provider Account wasn\'t updated')
           render :action => :edit
         end
-        format.xml do
-          render 'api/validation_error',
-                 :locals => { :errors => @provider_account.errors },
-                 :status => :unprocessable_entity
-        end
+        format.xml { render_api_error(@provider_account.errors) }
       end
     end
   end
