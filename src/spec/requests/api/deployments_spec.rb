@@ -100,7 +100,7 @@ describe "Deployments API" do
       get '/api/deployments', nil, headers
     end
 
-    it_behaves_like "http OK"
+    it_behaves_like 'http', 'OK'
     it_behaves_like "responding with XML"
     it_behaves_like "listing deployments in XML"
   end
@@ -124,7 +124,7 @@ describe "Deployments API" do
       get "/api/deployments/#{deployment.id}", nil, headers
     end
 
-    it_behaves_like "http OK"
+    it_behaves_like 'http', 'OK'
     it_behaves_like "responding with XML"
     it_behaves_like "showing deployment details in XML"
   end
@@ -146,7 +146,7 @@ describe "Deployments API" do
       get "/api/pools/#{pool.id}/deployments", nil, headers
     end
 
-    it_behaves_like "http OK"
+    it_behaves_like 'http', 'OK'
     it_behaves_like "responding with XML"
     it_behaves_like "listing deployments in XML"
   end

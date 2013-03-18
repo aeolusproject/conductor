@@ -117,7 +117,7 @@ describe "Deployabless" do
           delete 'deployables/-1234', nil, headers
         end
 
-        it_behaves_like "http Not Found"
+        it_behaves_like 'http', 'Not Found'
       end
 
       context "existing one" do
@@ -129,7 +129,7 @@ describe "Deployabless" do
           delete "deployables/#{@depl.id}", nil, headers
         end
 
-        it_behaves_like "http No Content"
+        it_behaves_like 'http', 'No Content'
         it "the deployable is gone" do
           Deployable.find_all_by_id(@depl.id).should == []
           @cat.deployables.map(&:id).should_not include(@depl.id)
@@ -151,7 +151,7 @@ describe "Deployabless" do
           delete "deployables/#{d.id}", nil, headers
         end
 
-        it_behaves_like "http Internal Server Error"
+        it_behaves_like 'http', 'Internal Server Error'
 
         it "deployable count stays the same" do
           Deployable.all.length.should == @cnt
@@ -166,7 +166,7 @@ describe "Deployabless" do
         end
 
         it_behaves_like 'return xml'
-        it_behaves_like 'http Not Found'
+        it_behaves_like 'http', 'Not Found'
 
       end
 
@@ -179,7 +179,7 @@ describe "Deployabless" do
         end
 
         it_behaves_like 'return xml'
-        it_behaves_like 'http OK'
+        it_behaves_like 'http', 'OK'
 
         it_behaves_like 'correct xml'
       end
@@ -193,7 +193,7 @@ describe "Deployabless" do
         end
 
         it_behaves_like 'return xml'
-        it_behaves_like 'http OK'
+        it_behaves_like 'http', 'OK'
 
         it_behaves_like 'correct xml'
       end
@@ -208,7 +208,7 @@ describe "Deployabless" do
         end
 
         it_behaves_like 'return xml'
-        it_behaves_like 'http OK'
+        it_behaves_like 'http', 'OK'
 
         it_behaves_like 'correct xml'
       end

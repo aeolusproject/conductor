@@ -23,7 +23,7 @@ describe "Catalogs" do
         '<catalog><name>haha</name><pool id="?"/></catalog>' % pool_id
       end
 
-      it_behaves_like "http Unprocessable Entity"
+      it_behaves_like 'http', 'Unprocessable Entity'
       it_behaves_like 'responding with XML'
     end
   end
