@@ -20,7 +20,7 @@ describe "Catalogs" do
       while Pool.where(:id => pool_id+=1).first; end
 
       let(:xml) do
-        '<catalog><name>haha</name><pool id="?"/></catalog>' % pool_id
+        '<catalog><name>haha</name><pool id="%s"/></catalog>' % pool_id
       end
 
       it_behaves_like 'http', 'Unprocessable Entity'
