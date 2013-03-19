@@ -242,7 +242,7 @@ Conductor::Application.routes.draw do
     resources :catalogs, :only => [:index, :show, :create, :update, :destroy] do
       resources :deployables, :only => [:index]
     end
-    resources :deployments, :only => [:index, :show] do
+    resources :deployments, :only => [:index, :show, :create] do
       resources :instances, :only => [:index]
     end
     resources :deployables, :only => [:index, :show, :destroy]
@@ -254,8 +254,8 @@ Conductor::Application.routes.draw do
   end
 
   #match 'matching_profiles', :to => '/hardware_profiles/matching_profiles/:hardware_profile_id/provider/:provider_id', :controller => 'hardware_profiles', :action => 'matching_profiles', :conditions => { :method => :get }, :as =>'matching_profiles'
-  match     'dashboard', :to => 'dashboard', :as => 'dashboard'
-  root      :to => "pools#index"
+  match 'dashboard', :to => 'dashboard', :as => 'dashboard'
+  root :to => "pools#index"
 
   match '/:controller(/:action(/:id))'
 

@@ -165,7 +165,7 @@ describe ProviderAccountsController do
               end
 
               it_behaves_like 'http', 'OK'
-              it_behaves_like "responding with XML"
+              it_behaves_like 'return xml'
 
               context "XML body" do
                 let(:number_of_provider_accounts) { 3 }
@@ -207,7 +207,7 @@ describe ProviderAccountsController do
               end
 
               it_behaves_like 'http', 'OK'
-              it_behaves_like "responding with XML"
+              it_behaves_like 'return xml'
 
               context "XML body" do
                 let(:number_of_provider_accounts) { 6 }
@@ -254,7 +254,7 @@ describe ProviderAccountsController do
             let(:provider_account) { FactoryGirl.create(:mock_provider_account); ProviderAccount.last }
 
             it_behaves_like 'http', 'OK'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               # TODO: implement more attributes checks
@@ -301,7 +301,7 @@ describe ProviderAccountsController do
             end
 
             it_behaves_like 'http', 'Not Found'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
 

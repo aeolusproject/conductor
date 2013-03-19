@@ -80,7 +80,6 @@ class ParameterXML
   def value_node=(value)
     @root.content = "<value><![CDATA[#{value}]]></value>"
   end
-
 end
 
 class ServiceXML
@@ -111,7 +110,6 @@ class ServiceXML
 end
 
 class AssemblyXML
-
   def initialize(xmlstr_or_node = "")
     if xmlstr_or_node.is_a? Nokogiri::XML::Node
       @root = xmlstr_or_node
@@ -171,7 +169,7 @@ class AssemblyXML
   end
 
   def requires_config_server?
-    not (services.empty? and output_parameters.empty?)
+    !services.empty? or !output_parameters.empty?
   end
 
   def to_s
@@ -189,21 +187,17 @@ class AssemblyXML
   private
   def collect_services
     # collect the service level tooling
-    nil_if_empty(@root.xpath("./services/service").collect do |service|
-      name = service['name']
-      description = service.at_xpath('./description')
-      exe = service.at_xpath("./executable")
-      files = service.xpath("./files/file")
-      parameters = service.xpath("./parameters/parameter")
-      ServiceXML.new(name, (description and description.text), exe, files, parameters)
-    end)
-  end
-
-  def nil_if_empty(array)
-    array unless array.nil? or array.empty?
+    result = @root.xpath("./services/service").collect do |service|
+       name = service['name']
+       description = service.at_xpath('./description')
+       exe = service.at_xpath("./executable")
+       files = service.xpath("./files/file")
+       parameters = service.xpath("./parameters/parameter")
+       ServiceXML.new(name, (description and description.text), exe, files, parameters)
+    end
+    Array(result).empty? ? nil : result
   end
 end
-
 
 class DeployableXML
 
@@ -284,11 +278,7 @@ class DeployableXML
     # Right now we allow this to raise exceptions on timeout / errors
     resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout => 45)
     response = resource.get
-    if response.code == 200
-      response
-    else
-      false
-    end
+    response.code == 200 ? response : false
   end
 
   def dependency_graph

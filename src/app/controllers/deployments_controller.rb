@@ -15,6 +15,9 @@
 #
 
 class DeploymentsController < ApplicationController
+  before_filter ResourceLinkFilter.new({ :deployment => :pool }),
+                :only => [:create]
+
   before_filter :require_user
   before_filter :load_deployments, :only => [:index, :show]
   before_filter :load_deployment, :only => [:edit, :update]
@@ -56,7 +59,7 @@ class DeploymentsController < ApplicationController
       redirect_to pool_path(@pool) and return
     end
 
-    init_new_deployment_attrs
+    init_new_deployment_attrs # FIXME: why call it here?
     respond_to do |format|
       format.html
       format.js { render :partial => 'launch_new' }
@@ -69,7 +72,7 @@ class DeploymentsController < ApplicationController
 
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
-    init_new_deployment_attrs
+    init_new_deployment_attrs(params[:deployable_id])
 
     if @deployable.nil?
       @deployment.errors.add(:base, _('You need to select a Deployable'))
@@ -86,14 +89,14 @@ class DeploymentsController < ApplicationController
 
     require_privilege(Privilege::CREATE, Deployment, @pool)
     require_privilege(Privilege::USE, @deployable)
-    img, img2, missing, d_errors = @deployable.get_image_details
-    flash[:error] = d_errors unless d_errors.empty?
+    _, _, _, errors = @deployable.get_image_details
+    flash[:error] = errors unless errors.empty?
 
-    unless @deployable && @deployable.xml && @deployment.valid_deployable_xml?(@deployable.xml) && d_errors.empty?
+    unless @deployable && @deployable.xml && @deployment.valid_deployable_xml?(@deployable.xml) && errors.empty?
       render 'launch_new' and return
     end
 
-    load_assemblies_services
+    @services = @deployable.get_assemblies_services
 
     if @services.empty? or @services.all? {|s, a| s.parameters.empty?}
       # we can skip the launch-time parameters screen
@@ -117,15 +120,15 @@ class DeploymentsController < ApplicationController
     @title = _('New Deployment')
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
-    init_new_deployment_attrs
+    init_new_deployment_attrs(params[:deployable_id])
     require_privilege(Privilege::CREATE, Deployment, @pool)
     require_privilege(Privilege::USE, @deployable)
     @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(@deployment.launch_parameters))
-    img, img2, missing, d_errors = @deployable.get_image_details
-    flash[:error] = d_errors unless d_errors.empty?
+    _, _, _, errors = @deployable.get_image_details
+    flash[:error] = errors unless errors.empty?
 
     respond_to do |format|
-      if @deployable.xml && @deployment.valid_deployable_xml?(@deployable.xml) && d_errors.empty?
+      if @deployable.xml && @deployment.valid_deployable_xml?(@deployable.xml) && errors.empty?
         @errors = @deployment.check_assemblies_matches(current_session,
                                                        current_user)
         set_errors_flash(@errors)
@@ -143,27 +146,51 @@ class DeploymentsController < ApplicationController
   end
 
   def create
+    # process params
+    deployable_id = request.format.xml? && params[:deployment] ?
+        params[:deployment].delete(:deployable)[:id] : params[:deployable_id]
+
     @deployment = Deployment.new(params[:deployment])
-    @pool = @deployment.pool
-    require_privilege(Privilege::CREATE, Deployment, @pool)
 
     if params[:launch_parameters_encoded].present?
       @deployment.launch_parameters = JSON.load(
         Base64.decode64(params[:launch_parameters_encoded]))
     end
 
-    init_new_deployment_attrs
-    require_privilege(Privilege::USE, @deployable)
+    begin
+      raise ActiveRecord::RecordNotFound.new if deployable_id.nil?
+      init_new_deployment_attrs(deployable_id)
+    rescue ActiveRecord::RecordNotFound => e # turn a 404 into 422 in case of REST API call
+      if request.format.xml?
+        render_api_error(@deployment.errors) and return
+      else
+        raise e
+      end
+    end
     @deployment.deployable_xml = @deployable.xml
     @deployment.owner = current_user
+    @pool = @deployment.pool
 
-    if params.delete(:commit) == _('Back')
-      load_assemblies_services
-      view = @deployment.launch_parameters.blank? ?
-        'launch_new' : 'launch_time_params'
+    require_privilege(Privilege::CREATE, Deployment, @pool)
+    require_privilege(Privilege::USE, @deployable)
+
+    if params.delete(:commit) == _('Back')  # valid only for html format
+      @services = @deployable.get_assemblies_services
+      view = @deployment.launch_parameters.blank? ? 'launch_new' : 'launch_time_params'
       render view and return
     end
-    return unless check_deployable_images
+
+    _, _, _, errors = @deployable.get_image_details
+    unless errors.empty?
+      respond_to do |format|
+        flash.now[:warning] = _('Deployment launch failed.')
+        flash[:error] = deployable_errors
+        format.html { render :action => 'overview' }
+        format.js   { render :partial => 'overview' }
+        format.json { render :json => deployable_errors, :status => :unprocessable_entity }
+        format.xml  { render_api_error(Struct.new('DeployableErrors', :full_messages).new(deployable_errors)) }
+      end and return
+    end
 
     respond_to do |format|
       if @deployment.create_and_launch(current_session, current_user)
@@ -174,13 +201,12 @@ class DeploymentsController < ApplicationController
           end
           redirect_to deployment_path(@deployment)
         end
-        format.js { render :partial => 'properties' }
+        format.js   { render :partial => 'properties' }
         format.json { render :json => @deployment, :status => :created }
+        format.xml  { render :show, :status => :created }
       else
         # if rollback was done, we create new @deployment object instead of
         # trying restoring the original @deployment's state
-        # TODO: replace with 'initialize_dup' method after upgrading
-        # to newer Rails
         @deployment = @deployment.copy_as_new
 
         # TODO: put deployment's errors into flash or display inside page?
@@ -188,9 +214,10 @@ class DeploymentsController < ApplicationController
           flash.now[:warning] = _('Deployment launch failed.')
           render :action => 'overview'
         end
-        format.js { render :partial => 'overview' }
+        format.js   { render :partial => 'overview' }
         format.json { render :json => @deployment.errors,
                              :status => :unprocessable_entity }
+        format.xml  { render_api_error(@deployment.errors) }
       end
     end
   end
@@ -199,12 +226,12 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.find(params[:id])
     @title = _('%s Deployment') % @deployment.name
     require_privilege(Privilege::VIEW, @deployment)
-    init_new_deployment_attrs
+    init_new_deployment_attrs(params[:deployable_id])
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
     @failed_instances = @deployment.failed_instances.list(sort_column(Instance), sort_direction)
     if filter_view?
       @view = 'instances/list'
-      params[:instances_preset_filter] = "" unless params[:instances_preset_filter]
+      params[:instances_preset_filter] = '' unless params[:instances_preset_filter]
       @instances = paginate_collection(Instance.apply_filters(:preset_filter_id => params[:instances_preset_filter],
                                                               :search_filter => params[:instances_search]).
                                                 list(sort_column(Instance), sort_direction).
@@ -227,12 +254,8 @@ class DeploymentsController < ApplicationController
     add_permissions_tab(@deployment)
     details_tab_name = params[:details_tab].blank? ? 'instances' : params[:details_tab]
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
-    if @details_tab[:id] == 'history'
-      @events = @deployment.events_of_deployment_and_instances
-    end
-    if params[:details_tab]
-      @view = @details_tab[:view]
-    end
+    @events = @deployment.events_of_deployment_and_instances if @details_tab[:id] == 'history'
+    @view = @details_tab[:view] if params[:details_tab]
     respond_to do |format|
       format.html { render :action => 'show'}
       format.js   { render :partial => @details_tab[:view] }
@@ -473,40 +496,19 @@ class DeploymentsController < ApplicationController
     end
   end
 
-  def init_new_deployment_attrs
+  def init_new_deployment_attrs(deployable_id=nil)
     @deployables = Deployable.includes({:catalogs => :pool}).
       list_for_user(current_session, current_user, Privilege::USE).
       select{|d| d.catalogs.collect{|c| c.pool}.include?(@pool)}
     @pools = Pool.list_for_user(current_session, current_user,
                                 Privilege::CREATE, Deployment)
-    @deployable = params[:deployable_id] ? Deployable.find(params[:deployable_id]) : nil
+    @deployable = deployable_id ? Deployable.find(deployable_id) : nil
+    Rails.logger.debug( ['init_new_deployment_attr', deployable_id, @deployable].inspect )
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
         :include => :architecture,
         :conditions => {:provider_id => nil}
     )
-  end
-
-  def load_assemblies_services
-    @services = []
-    @deployment.deployable_xml.assemblies.each do |assembly|
-      assembly.services.each do |service|
-        @services << [service, assembly.name]
-      end
-    end
-  end
-
-  def check_deployable_images
-    image_details, images, missing_images, deployable_errors = @deployable.get_image_details
-    return true if deployable_errors.empty?
-    respond_to do |format|
-      flash.now[:warning] = _('Deployment launch failed.')
-      flash[:error] = deployable_errors
-      format.html { render :action => 'overview' }
-      format.js { render :partial => 'overview' }
-      format.json { render :json => deployable_errors, :status => :unprocessable_entity }
-    end
-    false
   end
 
   def set_backlink

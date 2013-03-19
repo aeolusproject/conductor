@@ -106,7 +106,7 @@ describe ProvidersController do
             let(:providers) { 3.times{ FactoryGirl.create(:mock_provider) }; Provider.all }
 
             it_behaves_like 'http', 'OK'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               let(:number_of_providers) { 3 }
@@ -119,7 +119,7 @@ describe ProvidersController do
             let(:providers) { FactoryGirl.create(:mock_provider); Provider.all }
 
             it_behaves_like 'http', 'OK'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               let(:number_of_providers) { 1 }
@@ -132,7 +132,7 @@ describe ProvidersController do
             let(:providers) { Provider.all }
 
             it_behaves_like 'http', 'OK'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               let(:number_of_providers) { 0 }
@@ -153,7 +153,7 @@ describe ProvidersController do
             let(:provider) { FactoryGirl.create(:mock_provider); Provider.last }
 
             it_behaves_like 'http', 'OK'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               # TODO: implement more attributes checks
@@ -176,7 +176,7 @@ describe ProvidersController do
             end
 
             it_behaves_like 'http', 'Not Found'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
 
@@ -204,7 +204,7 @@ describe ProvidersController do
             let(:provider) { FactoryGirl.build(:mock_provider) }
 
             it_behaves_like 'http', 'Created'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               # TODO: implement more attributes checks
@@ -230,7 +230,7 @@ describe ProvidersController do
             end
 
             it_behaves_like 'http', 'Unprocessable Entity'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }
@@ -264,7 +264,7 @@ describe ProvidersController do
             end
 
             it_behaves_like 'http', 'Not Found'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }
@@ -300,7 +300,7 @@ describe ProvidersController do
               }
 
               it_behaves_like 'http', 'OK'
-              it_behaves_like "responding with XML"
+              it_behaves_like 'return xml'
 
               context "XML body" do
                 # TODO: implement more attributes checks
@@ -328,7 +328,7 @@ describe ProvidersController do
               }
 
               it_behaves_like 'http', 'Unprocessable Entity'
-              it_behaves_like "responding with XML"
+              it_behaves_like 'return xml'
             end
           end # existing provider
 
@@ -340,7 +340,7 @@ describe ProvidersController do
             end
 
             it_behaves_like 'http', 'Not Found'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }
