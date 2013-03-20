@@ -15,13 +15,10 @@
 #
 
 Then /^I should see score "(.*?)" for provider account with label "(.*?)"$/ do |score, provider_account_label|
-  found = false
-  all("tr").each do |tr|
-    if tr.has_content?(provider_account_label) && tr.has_content?(score)
-      found = true
-    end
+  row = all("tr").detect do |tr|
+    tr.has_content?(provider_account_label) && tr.has_content?(score)
   end
-  assert found
+  assert row
 end
 
 Given /^a pool "([^"]*)" with provider account "([^"]*)" exists$/ do |pool_name, provider_account_label|
