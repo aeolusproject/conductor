@@ -24,7 +24,7 @@ describe "Catalogs" do
       end
 
       it_behaves_like 'http', 'Unprocessable Entity'
-      it_behaves_like 'responding with XML'
+      it_behaves_like 'return xml'
     end
   end
 end

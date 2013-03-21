@@ -33,15 +33,7 @@ shared_examples_for 'http' do |code|
   end
 end
 
-shared_examples_for "responding with XML" do
-  context "response" do
-    subject { response }
-
-    it { should have_content_type("application/xml") }
-
-    context "body" do
-      subject { response.body }
-      it { should be_xml }
-    end
-  end
+shared_examples_for 'return xml' do
+  it { response.should have_content_type("application/xml") }
+  it { response.body.should be_xml }
 end

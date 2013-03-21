@@ -16,7 +16,7 @@ describe "ProviderAccounts" do
   #    end
   #
   #    it_behaves_like 'http', 'OK'
-  #    it_behaves_like "responding with XML"
+  #    it_behaves_like 'return xml'
   #  end
 
   describe "POST /api/provider_accounts" do
@@ -32,7 +32,7 @@ describe "ProviderAccounts" do
         let(:provider) { FactoryGirl.create(:mock_provider) }
 
         it_behaves_like 'http', 'Created'
-        it_behaves_like "responding with XML"
+        it_behaves_like 'return xml'
         context "XML body" do
           subject { Nokogiri::XML(response.body) }
           it "should have correct nodes" do
@@ -68,7 +68,7 @@ describe "ProviderAccounts" do
         let(:provider) { DeltaCloud.stub(:valid_credentials?).and_return(true); FactoryGirl.create(:ec2_provider) }
 
         it_behaves_like 'http', 'Created'
-        it_behaves_like "responding with XML"
+        it_behaves_like 'return xml'
         context "XML body" do
           subject { Nokogiri::XML(response.body) }
           it "should have correct nodes" do
@@ -97,7 +97,7 @@ describe "ProviderAccounts" do
         let(:provider) { FactoryGirl.create(:mock_provider) }
 
         it_behaves_like 'http', 'Unprocessable Entity'
-        it_behaves_like "responding with XML"
+        it_behaves_like 'return xml'
         context "XML body" do
           subject { Nokogiri::XML(response.body) }
           it "should have some errors" do
@@ -126,7 +126,7 @@ describe "ProviderAccounts" do
         let(:provider) { FactoryGirl.create(:ec2_provider) }
 
         it_behaves_like 'http', 'Unprocessable Entity'
-        it_behaves_like "responding with XML"
+        it_behaves_like 'return xml'
         context "XML body" do
           subject { Nokogiri::XML(response.body) }
           it "should have some errors" do
@@ -153,7 +153,7 @@ describe "ProviderAccounts" do
           let(:provider_account) { FactoryGirl.create(:mock_provider_account, :provider => provider) }
 
           it_behaves_like 'http', 'OK'
-          it_behaves_like "responding with XML"
+          it_behaves_like 'return xml'
           context "XML body" do
             subject { Nokogiri::XML(response.body) }
             it "should have correct nodes" do
@@ -189,7 +189,7 @@ describe "ProviderAccounts" do
           let(:provider_account) { DeltaCloud.stub(:valid_credentials?).and_return(true); FactoryGirl.create(:ec2_provider_account, :provider => provider) }
 
           it_behaves_like 'http', 'OK'
-          it_behaves_like "responding with XML"
+          it_behaves_like 'return xml'
           context "XML body" do
             subject { Nokogiri::XML(response.body) }
             it "should have correct nodes" do
@@ -223,7 +223,7 @@ describe "ProviderAccounts" do
           let(:provider_account) { FactoryGirl.create(:mock_provider_account, :provider => provider) }
 
           it_behaves_like 'http', 'Unprocessable Entity'
-          it_behaves_like "responding with XML"
+          it_behaves_like 'return xml'
           context "XML body" do
             subject { Nokogiri::XML(response.body) }
             it "should have some errors" do
@@ -253,7 +253,7 @@ describe "ProviderAccounts" do
           let(:provider_account) { DeltaCloud.stub(:valid_credentials?).and_return(true); FactoryGirl.create(:ec2_provider_account, :provider => provider) }
 
           it_behaves_like 'http', 'Unprocessable Entity'
-          it_behaves_like "responding with XML"
+          it_behaves_like 'return xml'
           context "XML body" do
             subject { Nokogiri::XML(response.body) }
             it "should have some errors" do
@@ -271,7 +271,7 @@ describe "ProviderAccounts" do
       let(:xml) { "" }
 
       it_behaves_like 'http', 'Not Found'
-      it_behaves_like "responding with XML"
+      it_behaves_like 'return xml'
 
       context "XML body" do
         subject { Nokogiri::XML(response.body) }

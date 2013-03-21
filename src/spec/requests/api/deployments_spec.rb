@@ -101,7 +101,7 @@ describe "Deployments API" do
     end
 
     it_behaves_like 'http', 'OK'
-    it_behaves_like "responding with XML"
+    it_behaves_like 'return xml'
     it_behaves_like "listing deployments in XML"
   end
 
@@ -125,7 +125,7 @@ describe "Deployments API" do
     end
 
     it_behaves_like 'http', 'OK'
-    it_behaves_like "responding with XML"
+    it_behaves_like 'return xml'
     it_behaves_like "showing deployment details in XML"
   end
 
@@ -147,7 +147,52 @@ describe "Deployments API" do
     end
 
     it_behaves_like 'http', 'OK'
-    it_behaves_like "responding with XML"
+    it_behaves_like 'return xml'
     it_behaves_like "listing deployments in XML"
+  end
+
+  describe "POST /api/deployments" do
+    before(:each) do
+      Deployment.any_instance.stub(:create_and_launch).and_return(true)
+      Deployment.any_instance.stub(:id).and_return(42)
+      post "/api/deployments", xml, headers
+    end
+
+    context "with valid xml for deployable with nonexistent image" do #FIXME
+      let(:xml) do
+        '<deployment><name>haha</name><pool id="1"/><deployable id="4"/></deployment>'
+      end
+
+      it_behaves_like 'http', 'Unprocessable Entity'
+      it_behaves_like 'return xml'
+    end
+
+    context "with valid xml for nonexistent pool" do  #FIXME: xml has more bugs
+      pool_id = 12 # ensure nonexistent pool_id
+      while Pool.where(:id => pool_id+=1).first; end
+
+      let(:xml) do
+        '<deployable><name>haha</name><pool id="%d"/></deployable>' % pool_id
+      end
+
+      it_behaves_like 'http', 'Unprocessable Entity'
+      it_behaves_like 'return xml'
+    end
+
+    context "with valid pool and valid deployable" do
+      let!(:catalog) { Factory.create(:catalog) }
+      let!(:deployable) { Factory.create(:deployable, :catalogs => [catalog]) }
+      let!(:pool) { Factory.create(:pool) }
+      let!(:hwp1) { Factory.create(:front_hwp1) }
+      let!(:hwp2) { Factory.create(:front_hwp2) }
+
+      let(:xml) do
+        p hwp1; p hwp2; # FIXME: touch these objects
+        '<deployment><name>haha</name><pool id="%d"/><deployable id="%d"/></deployment>' % [pool.id, deployable.id]
+      end
+
+      it_behaves_like 'http', 'Created'
+      it_behaves_like 'return xml'
+    end
   end
 end
