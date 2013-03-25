@@ -157,7 +157,7 @@ class DeployablesController < ApplicationController
 
   def create
     if params[:cancel]
-      redirect_to polymorphic_path([params[:catalog_id], Deployable])
+      redirect_to polymorphic_path([Catalog.find(Array(params[:catalog_id])[0]), Deployable])
       return
     end
 
