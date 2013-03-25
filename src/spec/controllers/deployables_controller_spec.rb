@@ -56,18 +56,70 @@ describe DeployablesController do
   describe "#create" do
     before(:each) do
       @image = FactoryGirl.create(:base_image_with_template)
+      @catalog2 = FactoryGirl.create(:catalog)
     end
 
-    it "creates new deployable from image via UI" do
+    it "shows 'new' deployable from image via UI" do
+      c1 = Deployable.all.size
       get :new, :create_from_image => @image.id
       response.should be_success
       response.should render_template("new")
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(0)
     end
 
     it "creates new deployable from image via POST" do
       hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
       post(:create, :create_from_image => @image.id, :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
       response.should be_redirect
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(1)
+    end
+
+    it "should redirect if :cancel is in params and there should be no new deployable" do
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :cancel => true, :create_from_image => @image.id, :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
+      response.should be_redirect  # getting 500 instead
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(0)
+    end
+
+    it "creates new deployable from image when more catalogs are spec'd + shows notice" do
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :create_from_image => @image.id,
+           :deployable => {:name => @image.name}, :hardware_profile => hw_profile.id,
+           :catalog_id => [@catalog.id, @catalog2.id])
+      response.should be_redirect
+      flash[:notice].should eql("Deployable added to Catalog #{@catalog.name}, #{@catalog2.name}.")
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(1)
+    end
+
+    it "returns flash[:warning] when there is no selected_catalog" do
+      Catalog.stub(:find).and_return(Catalog.where('1=0'))
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :deployable => {:name => @image.name},
+           :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
+      response.should be_success
+      flash[:warning].should eql("Deployable was not created: No Catalogs selected")
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(0)
+    end
+
+    it "returns flash[:error] when there is invalid url" do
+      hw_profile = FactoryGirl.create(:front_hwp1)
+      c1 = Deployable.all.size
+      post(:create, :url => 't1s1s1nval1d',
+           :deployable => {:name => @image.name},
+           :hardware_profile => hw_profile.id, :catalog_id => @catalog.id)
+      response.should be_success
+      flash[:error].should_not eql(nil)
+      c2 = Deployable.all.size
+      (c2 - c1).should eql(0)
     end
   end
 
