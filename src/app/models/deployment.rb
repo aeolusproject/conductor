@@ -472,7 +472,7 @@ class Deployment < ActiveRecord::Base
 
   def copy_as_new
     d = Deployment.new(self.attributes)
-    d.errors.merge!(self.errors)
+    d.errors.initialize_dup(self.errors.dup)
     d
   end
 

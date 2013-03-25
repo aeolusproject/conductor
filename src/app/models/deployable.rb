@@ -149,6 +149,12 @@ class Deployable < ActiveRecord::Base
     self.xml_filename = name
   end
 
+  def get_assemblies_services
+    deployable_xml.assemblies.inject([]) do |services,assembly|
+      services += assembly.services.collect { |service| [service, assembly.name] }
+    end
+  end
+
   #get details of image for deployable#show
   def get_image_details
     deployable_xml = DeployableXML.new(xml)

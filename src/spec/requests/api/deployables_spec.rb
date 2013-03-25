@@ -40,11 +40,6 @@ describe "Deployabless" do
       it { response.body.should be_xml }
     end
 
-    shared_examples_for "return xml" do
-      it { response.should have_content_type("application/xml") }
-      it { response.body.should be_xml }
-    end
-
     shared_examples_for "correct xml" do
       it "is correct indeed" do
         doc = Nokogiri::XML(response.body)

@@ -81,7 +81,7 @@ describe CatalogsController do
       end
 
       it_behaves_like 'http', 'OK'
-      it_behaves_like "responding with XML"
+      it_behaves_like 'return xml'
 
       it "should print list of catalogs" do
         xml = Nokogiri::XML(response.body)
@@ -97,7 +97,7 @@ describe CatalogsController do
       end
 
       it_behaves_like 'http', 'OK'
-      it_behaves_like "responding with XML"
+      it_behaves_like 'return xml'
 
       it "should print catalog details" do
         xml = Nokogiri::XML(response.body)
@@ -129,7 +129,7 @@ describe CatalogsController do
       end
 
       it_behaves_like 'http', 'Created'
-      it_behaves_like "responding with XML"
+      it_behaves_like 'return xml'
 
       it "should print catalog details" do
         xml = Nokogiri::XML(response.body)
@@ -159,7 +159,7 @@ describe CatalogsController do
       end
 
       it_behaves_like 'http', 'OK'
-      it_behaves_like "responding with XML"
+      it_behaves_like 'return xml'
 
       it "should print updated catalog details" do
         xml = Nokogiri::XML(response.body)
@@ -192,7 +192,7 @@ describe CatalogsController do
         end
 
         it_behaves_like 'http', 'Internal Server Error'
-        it_behaves_like "responding with XML"
+        it_behaves_like 'return xml'
       end
     end
   end

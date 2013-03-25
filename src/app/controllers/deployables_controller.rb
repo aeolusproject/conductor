@@ -85,7 +85,7 @@ class DeployablesController < ApplicationController
       @catalog = Catalog.find(params[:catalog_id])
       require_privilege(Privilege::CREATE, @catalog, Deployable)
     end
-    @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
+    @form_option= params.key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
       format.html
       format.js {render :partial => @form_option}
@@ -168,7 +168,7 @@ class DeployablesController < ApplicationController
       require_privilege(Privilege::CREATE, Deployable, catalog)
     end
 
-    if params.has_key? :url
+    if params.key?(:url)
       # TODO: this whole action should be refactored,
       # for now add at least flash message if download from
       # URL fails
@@ -190,32 +190,29 @@ class DeployablesController < ApplicationController
     begin
       raise _('No Catalogs selected') if @selected_catalogs.empty?
       @deployable.transaction do
-        @selected_catalogs.each do |catalog|
-          @deployable.catalogs << catalog
-        end
+        @deployable.catalogs = @selected_catalogs
         @deployable.save!
-        flash[:notice] = _('Deployable added to Catalog %s.') % @selected_catalogs.map{|c| c.name}.join(", ")
-        if params[:edit_xml]
-          redirect_to edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
-        elsif params[:create_from_image]
-          redirect_to @deployable
-        else
-          redirect_to catalog_path(@selected_catalogs.first)
-        end
       end
+      flash[:notice] = _('Deployable added to Catalog %s.') % @selected_catalogs.map{|c| c.name}.join(", ")
 
+      redirect_to
+        if params[:edit_xml]
+          edit_polymorphic_path([@selected_catalogs.first, @deployable], :edit_xml =>true)
+        elsif params[:create_from_image]
+          @deployable
+        else
+          catalog_path(@selected_catalogs.first)
+        end
+
+      # FIXME ?set flash after redirect_to call?
       # check that type attrs on service params are used properly
       warnings = @deployable.check_service_params_types
-      unless warnings.empty?
-        flash[:warning] ||= []
-        flash[:warning] = [flash[:warning]] if flash[:warning].kind_of? String
-        flash[:warning]+=warnings
-      end
+      flash[:warning] = Array(flash[:warning]) + warnings unless warnings.empty?
 
     rescue => ex
       if @deployable.errors.empty?
         log_backtrace(ex)
-        flash.now[:warning]= _('Deployable was not created: %s') % ex.message
+        flash.now[:warning] = _('Deployable was not created: %s') % ex.message
       end
       if params[:create_from_image].present?
         @image = Tim::BaseImage.find(params[:create_from_image])

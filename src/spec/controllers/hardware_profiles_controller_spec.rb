@@ -180,7 +180,7 @@ describe HardwareProfilesController do
             end
 
             it_behaves_like 'http', 'OK'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               # TODO: implement more attributes checks
@@ -200,7 +200,7 @@ describe HardwareProfilesController do
             end
 
             it_behaves_like 'http', 'Not Found'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }
@@ -227,7 +227,7 @@ describe HardwareProfilesController do
             end
 
             it_behaves_like 'http', 'Created'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }
@@ -249,7 +249,7 @@ describe HardwareProfilesController do
             end
 
             it_behaves_like 'http', 'Unprocessable Entity'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }
@@ -283,7 +283,7 @@ describe HardwareProfilesController do
             end
 
             it_behaves_like 'http', 'Not Found'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }
@@ -303,7 +303,7 @@ describe HardwareProfilesController do
             end
 
             it_behaves_like 'http', 'Forbidden'
-            it_behaves_like "responding with XML"
+            it_behaves_like 'return xml'
 
             context "XML body" do
               subject { Nokogiri::XML(response.body) }

@@ -73,7 +73,7 @@ describe "ProviderTypes" do
     end
 
     it_behaves_like 'http', 'OK'
-    it_behaves_like "responding with XML"
+    it_behaves_like 'return xml'
 
     context "XML body" do
       it_behaves_like "having XML with provider types"
@@ -89,7 +89,7 @@ describe "ProviderTypes" do
       end
 
       it_behaves_like 'http', 'OK'
-      it_behaves_like "responding with XML"
+      it_behaves_like 'return xml'
 
       context "XML body" do
         it_behaves_like "having XML with provider type"
@@ -104,7 +104,7 @@ describe "ProviderTypes" do
        end
 
        it_behaves_like 'http', 'Not Found'
-       it_behaves_like "responding with XML"
+       it_behaves_like 'return xml'
     end
   end
 
@@ -136,7 +136,7 @@ describe "ProviderTypes" do
       end
 
       it_behaves_like 'http', 'Not Found'
-      it_behaves_like "responding with XML"
+      it_behaves_like 'return xml'
 
       it "should not delete any provider type" do
         ProviderType.count.should eql(@provider_type_count)
