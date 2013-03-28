@@ -18,7 +18,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2013-03-14 15:34+0100\n"
+=======
+"POT-Creation-Date: 2013-03-18 15:50-0400\n"
+>>>>>>> gettext conversion for role UI and role names
 "PO-Revision-Date: 2013-01-31 17:10+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,6 +60,9 @@ msgid "%s: You have insufficient privileges to perform the selected action."
 msgstr ""
 
 msgid "%s: reboot action was successfully queued."
+msgstr ""
+
+msgid "%{entity} (from %{old_role} to %{new_role})"
 msgstr ""
 
 msgid "&#8592; Previous"
@@ -2015,13 +2022,112 @@ msgstr ""
 msgid "Role|Assign to owner"
 msgstr ""
 
+msgid "Role|Catalog Administrator"
+msgstr ""
+
+msgid "Role|Catalog User"
+msgstr ""
+
+msgid "Role|Deployable Owner"
+msgstr ""
+
+msgid "Role|Deployable User"
+msgstr ""
+
+msgid "Role|Deployment Owner"
+msgstr ""
+
+msgid "Role|Deployment User"
+msgstr ""
+
+msgid "Role|Environment Administrator"
+msgstr ""
+
+msgid "Role|Environment Image Administrator"
+msgstr ""
+
+msgid "Role|Environment User"
+msgstr ""
+
+msgid "Role|Global Administrator"
+msgstr ""
+
+msgid "Role|Global Deployable Administrator"
+msgstr ""
+
+msgid "Role|Global HWP Administrator"
+msgstr ""
+
+msgid "Role|Global HWP User"
+msgstr ""
+
+msgid "Role|Global Image Administrator"
+msgstr ""
+
+msgid "Role|Global Pool Administrator"
+msgstr ""
+
+msgid "Role|Global Pool User"
+msgstr ""
+
+msgid "Role|Global Provider Administrator"
+msgstr ""
+
+msgid "Role|Global Provider User"
+msgstr ""
+
+msgid "Role|Global Realm Administrator"
+msgstr ""
+
+msgid "Role|Image Owner"
+msgstr ""
+
+msgid "Role|Image User"
+msgstr ""
+
+msgid "Role|Instance Owner"
+msgstr ""
+
+msgid "Role|Instance User"
+msgstr ""
+
 msgid "Role|Lock version"
 msgstr ""
 
 msgid "Role|Name"
 msgstr ""
 
+msgid "Role|Pool Administrator"
+msgstr ""
+
+msgid "Role|Pool Deployable Admin"
+msgstr ""
+
+msgid "Role|Pool User"
+msgstr ""
+
+msgid "Role|Provider Account Owner"
+msgstr ""
+
+msgid "Role|Provider Account User"
+msgstr ""
+
+msgid "Role|Provider Administrator"
+msgstr ""
+
+msgid "Role|Provider Type Owner"
+msgstr ""
+
+msgid "Role|Provider User"
+msgstr ""
+
 msgid "Role|Scope"
+msgstr ""
+
+msgid "Role|Template Owner"
+msgstr ""
+
+msgid "Role|Template User"
 msgstr ""
 
 msgid "Rollback failed, re-launch terminated"
