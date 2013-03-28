@@ -17,7 +17,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2013-03-14 15:34+0100\n"
+=======
+"POT-Creation-Date: 2013-03-18 15:50-0400\n"
+>>>>>>> gettext conversion for role UI and role names
 "PO-Revision-Date: 2013-01-31 17:51+0100\n"
 "Last-Translator: Jozef Zigmund <jzigmund@redhat.com>\n"
 "Language-Team: English\n"
@@ -55,6 +59,9 @@ msgid "%s: You have insufficient privileges to perform the selected action."
 msgstr "%s: You have insufficient privileges to perform the selected action."
 
 msgid "%s: reboot action was successfully queued."
+msgstr ""
+
+msgid "%{entity} (from %{old_role} to %{new_role})"
 msgstr ""
 
 msgid "&#8592; Previous"
@@ -2014,14 +2021,113 @@ msgstr "Roles List"
 msgid "Role|Assign to owner"
 msgstr "Assign to owner"
 
+msgid "Role|Catalog Administrator"
+msgstr "Catalog Administrator"
+
+msgid "Role|Catalog User"
+msgstr "Catalog User"
+
+msgid "Role|Deployable Owner"
+msgstr "Deployable Owner"
+
+msgid "Role|Deployable User"
+msgstr "Deployable User"
+
+msgid "Role|Deployment Owner"
+msgstr "Deployment Owner"
+
+msgid "Role|Deployment User"
+msgstr "Deployment User"
+
+msgid "Role|Environment Administrator"
+msgstr "Environment Administrator"
+
+msgid "Role|Environment Image Administrator"
+msgstr "Environment Image Administrator"
+
+msgid "Role|Environment User"
+msgstr "Environment User"
+
+msgid "Role|Global Administrator"
+msgstr "Global Administrator"
+
+msgid "Role|Global Deployable Administrator"
+msgstr "Global Deployable Administrator"
+
+msgid "Role|Global HWP Administrator"
+msgstr "Global HWP Administrator"
+
+msgid "Role|Global HWP User"
+msgstr "Global HWP User"
+
+msgid "Role|Global Image Administrator"
+msgstr "Global Image Administrator"
+
+msgid "Role|Global Pool Administrator"
+msgstr "Global Pool Administrator"
+
+msgid "Role|Global Pool User"
+msgstr "Global Pool User"
+
+msgid "Role|Global Provider Administrator"
+msgstr "Global Provider Administrator"
+
+msgid "Role|Global Provider User"
+msgstr "Global Provider User"
+
+msgid "Role|Global Realm Administrator"
+msgstr "Global Realm Administrator"
+
+msgid "Role|Image Owner"
+msgstr "Image Owner"
+
+msgid "Role|Image User"
+msgstr "Image User"
+
+msgid "Role|Instance Owner"
+msgstr "Instance Owner"
+
+msgid "Role|Instance User"
+msgstr "Instance User"
+
 msgid "Role|Lock version"
 msgstr "Lock version"
 
 msgid "Role|Name"
 msgstr "Name"
 
+msgid "Role|Pool Administrator"
+msgstr "Pool Administrator"
+
+msgid "Role|Pool Deployable Admin"
+msgstr "Pool Deployable Admin"
+
+msgid "Role|Pool User"
+msgstr "Pool User"
+
+msgid "Role|Provider Account Owner"
+msgstr "Provider Account Owner"
+
+msgid "Role|Provider Account User"
+msgstr "Provider Account User"
+
+msgid "Role|Provider Administrator"
+msgstr "Provider Administrator"
+
+msgid "Role|Provider Type Owner"
+msgstr "Provider Type"
+
+msgid "Role|Provider User"
+msgstr "Provider User"
+
 msgid "Role|Scope"
 msgstr "Scope"
+
+msgid "Role|Template Owner"
+msgstr "Template Owner"
+
+msgid "Role|Template User"
+msgstr "Template User"
 
 msgid "Rollback failed, re-launch terminated"
 msgstr ""

@@ -140,11 +140,11 @@ describe Deployable do
     admin = FactoryGirl.create :admin_user
     pool1_perm = Permission.create(:entity => admin.entity,
                                    :role => Role.first(:conditions =>
-                                                   ['name = ?', 'pool.admin']),
+                                                   ['name = ?', 'Role|Pool Administrator']),
                                      :permission_object => catalog1.pool)
     pool2_perm = Permission.create(:entity => admin.entity,
                                    :role => Role.first(:conditions =>
-                                        ['name = ?', 'pool.deployable.admin']),
+                                        ['name = ?', 'Role|Pool Deployable Admin']),
                                      :permission_object => catalog2.pool)
     deployable = FactoryGirl.create :deployable, :catalogs => [catalog1]
     catalog1.reload
@@ -153,38 +153,38 @@ describe Deployable do
     catalog2.pool.permissions.should == [pool2_perm]
 
     catalog1.derived_permissions.collect {|p|
-      p.role.name}.should == ["pool.admin"]
+      p.role.name}.should == ["Role|Pool Administrator"]
     catalog2.derived_permissions.collect {|p|
-      p.role.name}.should == ["pool.deployable.admin"]
+      p.role.name}.should == ["Role|Pool Deployable Admin"]
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.admin").should be_true
+      p.role.name}.include?("Role|Pool Administrator").should be_true
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.deployable.admin").should be_false
+      p.role.name}.include?("Role|Pool Deployable Admin").should be_false
     deployable.catalogs.should == [catalog1]
 
     deployable.catalogs << catalog2
     deployable.reload
     deployable.catalogs.should == [catalog1, catalog2]
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.admin").should be_true
+      p.role.name}.include?("Role|Pool Administrator").should be_true
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.deployable.admin").should be_true
+      p.role.name}.include?("Role|Pool Deployable Admin").should be_true
 
     deployable.catalog_entries.where(:catalog_id => catalog1.id).first.destroy
     deployable.reload
     deployable.catalogs.should == [catalog2]
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.admin").should be_false
+      p.role.name}.include?("Role|Pool Administrator").should be_false
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.deployable.admin").should be_true
+      p.role.name}.include?("Role|Pool Deployable Admin").should be_true
 
     catalog2.pool = catalog1.pool
     catalog2.save
     deployable.reload
     deployable.catalogs.should == [catalog2]
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.admin").should be_true
+      p.role.name}.include?("Role|Pool Administrator").should be_true
     deployable.derived_permissions.collect {|p|
-      p.role.name}.include?("pool.deployable.admin").should be_false
+      p.role.name}.include?("Role|Pool Deployable Admin").should be_false
   end
 end

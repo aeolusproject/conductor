@@ -21,13 +21,13 @@ FactoryGirl.define do
   end
 
   factory :admin_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'base.admin']) || FactoryGirl.create(:role, :name => 'base.admin') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Role|Global Administrator']) || FactoryGirl.create(:role, :name => 'Role|Global Administrator') }
     permission_object { |r| BasePermissionObject.general_permission_scope }
     entity { |r| FactoryGirl.create(:admin_user).entity }
   end
 
   factory :provider_admin_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'base.provider.admin']) || FactoryGirl.create(:role, :name => 'base.provider.admin') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Role|Global Administrator']) || FactoryGirl.create(:role, :name => 'Role|Global Provider Administrator') }
     permission_object { |r| r.association(:mock_provider) }
     entity { |r| FactoryGirl.create(:provider_admin_user).entity }
   end
@@ -39,31 +39,31 @@ FactoryGirl.define do
   end
 
   factory :pool_user_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'pool.user']) || FactoryGirl.create(:role, :name => 'pool.user') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Role|Pool User']) || FactoryGirl.create(:role, :name => 'Role|Pool User') }
     permission_object { |r| r.association(:pool) }
     entity { |r| FactoryGirl.create(:pool_user).entity }
   end
 
   factory :pool_user2_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'pool.user']) || FactoryGirl.create(:role, :name => 'pool.user') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Role|Pool User']) || FactoryGirl.create(:role, :name => 'Role|Pool User') }
     permission_object { |r| r.association(:pool) }
     entity { |r| FactoryGirl.create(:pool_user2).entity }
   end
 
   factory :pool_family_user_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'pool_family.user']) || FactoryGirl.create(:role, :name => 'pool_family.user') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Role|Environment User']) || FactoryGirl.create(:role, :name => 'Role|Environment User') }
     permission_object { |r| r.association(:pool_family) }
     entity { |r| FactoryGirl.create(:pool_family_user).entity }
   end
 
   factory :pool_family_admin_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'pool_family.admin']) || FactoryGirl.create(:role, :name => 'pool_family.admin') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Role|Environment Administrator']) || FactoryGirl.create(:role, :name => 'Role|Environment Administrator') }
     permission_object { |r| r.association(:pool_family) }
     entity { |r| FactoryGirl.create(:pool_family_user).entity }
   end
 
   factory :group_admin_permission, :parent => :permission do
-    role { |r| Role.first(:conditions => ['name = ?', 'base.admin']) || FactoryGirl.create(:role, :name => 'base.admin') }
+    role { |r| Role.first(:conditions => ['name = ?', 'Role|Global Administrator']) || FactoryGirl.create(:role, :name => 'Role|Global Administrator') }
     permission_object { |r| BasePermissionObject.general_permission_scope }
     entity { |r| FactoryGirl.create(:user_group).entity }
   end
