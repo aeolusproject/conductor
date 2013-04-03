@@ -2,7 +2,7 @@
 
 %header.page-header
   .obj_actions
-    - if check_privilege(Privilege::MODIFY, @deployment)
+    - if check_privilege(Alberich::Privilege::MODIFY, @deployment)
       .button-group
         = link_to _('Edit'), edit_deployment_path(@deployment), :class => 'button',
                                                                 :id => 'edit_deployment_button'

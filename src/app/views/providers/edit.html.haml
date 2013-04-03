@@ -4,7 +4,7 @@
 
 %section.content-section
   .content
-    - can_edit = check_privilege(Privilege::MODIFY, @provider)
+    - can_edit = check_privilege(Alberich::Privilege::MODIFY, @provider)
     = conductor_form_for @provider do |f|
       = render :partial => "form", :locals => { :form => f, :readonly => !can_edit }
       - if can_edit

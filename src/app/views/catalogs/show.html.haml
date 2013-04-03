@@ -4,10 +4,10 @@
     .return_to
       = _('Return to:')
       = link_to _('Catalogs'), catalogs_path
-    - if check_privilege(Privilege::CREATE, Catalog)
+    - if check_privilege(Alberich::Privilege::CREATE, Catalog)
       = link_to _('New Catalog'), new_catalog_url, :class => 'button primary', :id => 'new_catalog_button'
     .button-group
-      - if check_privilege(Privilege::MODIFY, @catalog)
+      - if check_privilege(Alberich::Privilege::MODIFY, @catalog)
         = link_to _('Edit'), edit_catalog_path(@catalog), :class => 'button', :id => 'edit_button'
         = button_to _('Delete'), catalog_path(@catalog), :method => 'delete', :confirm => _('Are you sure you want to delete?'), :class => 'button danger', :id => 'delete'
   %h1.no-icon= @title
@@ -32,7 +32,7 @@
 
   .content
     - content_for :form_header do
-      - if check_privilege(Privilege::CREATE, Deployable)
+      - if check_privilege(Alberich::Privilege::CREATE, Deployable)
         %li= link_to _('New Deployable'), new_catalog_deployable_path(@catalog), :class => 'button primary', :id => 'new_deployable_button'
       %li= restful_submit_tag _('Remove'), "destroy", multi_destroy_catalog_deployables_path(@catalog), 'DELETE', :id => 'delete_button', :class => 'button danger'
 

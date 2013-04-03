@@ -4,7 +4,7 @@
     %h2.providers #{_('Providers')}
   .content
     - content_for :form_header do
-      - if check_privilege(Privilege::CREATE, Provider)
+      - if check_privilege(Alberich::Privilege::CREATE, Provider)
         %li= link_to _('Create New Provider'), new_provider_path, :class => 'button primary', :id => "create_new_provider"
 
     - content_for :filter_controls do

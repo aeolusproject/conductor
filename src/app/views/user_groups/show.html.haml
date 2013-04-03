@@ -4,10 +4,10 @@
     .return_to
       = _('Return to:')
       = link_to _('User Groups'), user_groups_path
-    - if check_privilege(Privilege::CREATE, User)
+    - if check_privilege(Alberich::Privilege::CREATE, User)
       = link_to _('New User Group'), new_user_group_url, :class => 'button primary', :id => 'new_user_group_button' unless UserGroup.active_membership_sources.nil?
     .button-group
-      - if check_privilege(Privilege::MODIFY, User)
+      - if check_privilege(Alberich::Privilege::MODIFY, User)
         = link_to _('Edit'), edit_user_group_path(@user_group), :class => 'button', :id => 'edit_button'
         = button_to _('Delete'), user_group_path(@user_group), :method => 'delete', :confirm => _('Are you sure you want to delete?'), :class => 'button danger', :id => 'delete'
   %h1.no-icon= @title
@@ -36,7 +36,7 @@
 
     .content
       - content_for :form_header do
-        - if check_privilege(Privilege::CREATE, Deployable)
+        - if check_privilege(Alberich::Privilege::CREATE, Deployable)
           %li= link_to _('Add Members'), add_members_user_group_path(@user_group), :class => 'button primary', :id => 'add_members_button'
           %li= restful_submit_tag _('Remove'), "destroy", remove_members_user_group_path(@user_group), 'DELETE', :id => 'delete_button', :class => 'button danger'
 
@@ -73,4 +73,4 @@
   %header
     %h2.permissions=_('Permissions')
   .content
-    = render :partial => 'permissions/objects'
+    = render :partial => 'alberich/permissions/objects'

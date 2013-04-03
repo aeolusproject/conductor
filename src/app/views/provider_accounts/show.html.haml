@@ -24,9 +24,9 @@
   .content
     = render :partial => 'provider_realms/list'
 
-- if check_privilege(Privilege::PERM_VIEW,@permission_object)
+- if check_privilege(Alberich::Privilege::PERM_VIEW,@permission_object)
   %section.content-section
     %header
       %h2.roles= _('Role Assignments')
     .content
-      = render :partial => 'permissions/permissions'
+      = render :partial => 'alberich/permissions/permissions'

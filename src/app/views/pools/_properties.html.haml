@@ -1,6 +1,6 @@
 %h3
   = _('Properties') % @pool.name
-- if check_privilege(Privilege::MODIFY, @pool)
+- if check_privilege(Alberich::Privilege::MODIFY, @pool)
   = link_to t(:edit), edit_pool_path(@pool), { :class => 'button' }
 
 :javascript

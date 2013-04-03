@@ -19,7 +19,7 @@
                 -# doesn't have provider 'view' privileges -- probably depends on whether
                 -# end users are expected to have permission to get to the provider
                 -# show page (read-only). If not, then the below is probably correct.
-                - if check_privilege(Privilege::VIEW, hwp.provider)
+                - if check_privilege(Alberich::Privilege::VIEW, hwp.provider)
                   = link_to hwp.provider.name, provider_path(hwp.provider)
                 - else
                   = hwp.provider.name

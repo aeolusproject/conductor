@@ -4,6 +4,6 @@
 = form.input :username, :disabled => @ldap_user
 = form.input :password, :disabled => @ldap_user, :required => @user.check_password?
 = form.input :password_confirmation, :disabled => @ldap_user, :required => @user.check_password?
-- if check_privilege(Privilege::MODIFY, User)
+- if check_privilege(Alberich::Privilege::MODIFY, User)
   = form.fields_for :quota do |quota_form|
     = quota_form.input :maximum_running_instances, :as => :numeric_input_with_unlimited_check_box
