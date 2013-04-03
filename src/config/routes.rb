@@ -29,6 +29,8 @@ Conductor::Application.routes.draw do
     end
   end
 
+  mount Alberich::Engine, at: "alberich"
+
   resource :user_sessions
   match 'login',       :to => 'user_sessions#new',     :as => 'login'
   match 'logout',      :to => 'user_sessions#destroy', :as => 'logout'
@@ -40,14 +42,17 @@ Conductor::Application.routes.draw do
   resources :username_recoveries, :only => [:create]
 
   resources :templates
-  resources :permissions do
-    collection do
-      get :list
-      delete :multi_destroy
-      post :multi_update
-      post :filter
-      post :filter_entities
-      post :profile_filter
+
+  Alberich::Engine.routes.draw do
+    resources :permissions do
+      collection do
+        get :list
+        delete :multi_destroy
+        post :multi_update
+        post :filter
+        post :filter_entities
+        post :profile_filter
+      end
     end
   end
 

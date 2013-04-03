@@ -138,7 +138,7 @@ roles =
    Deployable =>
      {"Role|Deployable User"        => [false, {Deployable      => [VIEW,USE]}],
       "Role|Deployable Owner"       => [true,  {Deployable      => [VIEW,USE,MOD,    VPRM,GPRM]}]},
-   BasePermissionObject =>
+   Alberich::BasePermissionObject =>
      {"Role|Global Provider User"   => [false, {Provider        => [VIEW,USE]}],
       "Role|Global Provider Administrator"=> [false, {Provider  => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 ProviderAccount => [VIEW,USE,MOD,CRE,VPRM,GPRM]}],
@@ -185,17 +185,17 @@ roles =
                                                 Deployable      => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Tim::BaseImage  => [VIEW,USE,MOD,CRE,VPRM,GPRM],
                                                 Tim::Template   => [VIEW,USE,MOD,CRE,VPRM,GPRM],
-                                                BasePermissionObject    => [ MOD,    VPRM,GPRM]}]}}
-Role.transaction do
+                                                Alberich::BasePermissionObject    => [ MOD,    VPRM,GPRM]}]}}
+Alberich::Role.transaction do
   roles.each do |role_scope, scoped_hash|
     scoped_hash.each do |role_name, role_def|
-      role = Role.find_or_initialize_by_name(role_name)
+      role = Alberich::Role.find_or_initialize_by_name(role_name)
       role.update_attributes({:name => role_name, :scope => role_scope.name,
                                :assign_to_owner => role_def[0]})
       role.save!
       role_def[1].each do |priv_type, priv_actions|
         priv_actions.each do |action|
-          Privilege.create!(:role => role, :target_type => priv_type.name,
+          Alberich::Privilege.create!(:role => role, :target_type => priv_type.name,
                             :action => action)
         end
       end
@@ -205,14 +205,14 @@ end
 
 # Set meta objects
 default_pool_family = PoolFamily.find_by_name('default')
-default_pool_family_role = Role.find_by_name('Role|Environment User')
+default_pool_family_role = Alberich::Role.find_by_name('Role|Environment User')
 MetadataObject.set("default_pool_family", default_pool_family)
 
 default_quota = Quota.create
 
 default_pool = Pool.find_by_name("Default")
-default_role = Role.find_by_name("Role|Pool User")
-default_hwp_global_user_role = Role.find_by_name("Role|Global HWP User")
+default_role = Alberich::Role.find_by_name("Role|Pool User")
+default_hwp_global_user_role = Alberich::Role.find_by_name("Role|Global HWP User")
 
 settings = {"allow_self_service_logins" => "true",
   "self_service_default_quota" => default_quota,
@@ -220,7 +220,7 @@ settings = {"allow_self_service_logins" => "true",
   "self_service_default_role" => default_role,
   "self_service_default_pool_family" => default_pool_family,
   "self_service_default_pool_family_role" => default_pool_family_role,
-  "self_service_default_hwp_global_user_obj" => BasePermissionObject.general_permission_scope,
+  "self_service_default_hwp_global_user_obj" => Alberich::BasePermissionObject.general_permission_scope,
   "self_service_default_hwp_global_user_role" => default_hwp_global_user_role,
   # perm list in the format:
   #   "[resource1_key, resource1_role], [resource2_key, resource2_role], ..."
