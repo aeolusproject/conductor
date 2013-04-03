@@ -33,7 +33,7 @@
 
 class Provider < ActiveRecord::Base
 
-  include PermissionedObject
+  include Alberich::PermissionedObject
 
   DEFAULT_DELTACLOUD_URL = SETTINGS_CONFIG[:default_deltacloud_url]
 
@@ -43,12 +43,6 @@ class Provider < ActiveRecord::Base
   has_many :realm_backend_targets, :as => :provider_realm_or_provider, :dependent => :destroy
   has_many :frontend_realms, :through => :realm_backend_targets
   belongs_to :provider_type
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
   has_many :provider_priority_group_elements, :as => :value, :dependent => :destroy
   has_many :provider_priority_groups, :through => :provider_priority_group_elements
 

@@ -62,8 +62,10 @@ class User < ActiveRecord::Base
   has_many :view_states
   has_and_belongs_to_many :user_groups, :join_table => "members_user_groups",
                           :foreign_key => "member_id"
-  has_one :entity, :as => :entity_target, :dependent => :destroy
-  has_many :session_entities, :dependent => :destroy
+  has_one :entity, :as => :entity_target, :class_name => "Alberich::Entity",
+          :dependent => :destroy
+  has_many :session_entities, :class_name => "Alberich::SessionEntity",
+           :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   has_many :base_images, :class_name => "Tim::BaseImage"
 
@@ -232,7 +234,7 @@ class User < ActiveRecord::Base
   end
 
   def update_entity
-    self.entity = Entity.new(:entity_target => self) unless self.entity
+    self.entity = Alberich::Entity.new(:entity_target => self) unless self.entity
     self.entity.name = "#{self.first_name} #{self.last_name} (#{self.username})"
     self.entity.save!
   end

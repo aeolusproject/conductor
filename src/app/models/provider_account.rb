@@ -36,7 +36,7 @@ class ProviderAccount < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
-  include PermissionedObject
+  include Alberich::PermissionedObject
 
   before_destroy :check_destroyable_instances!
   before_destroy :check_provider_images!
@@ -48,12 +48,6 @@ class ProviderAccount < ActiveRecord::Base
   has_many :instances
   has_and_belongs_to_many :pool_families, :uniq => true
   has_and_belongs_to_many :provider_realms, :uniq => true
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
   has_many :credentials, :dependent => :destroy
   # eventually, this might be "has_many", but first pass is one-to-one
   has_one :config_server, :dependent => :destroy

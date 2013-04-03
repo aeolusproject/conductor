@@ -66,7 +66,7 @@ class Instance < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
-  include PermissionedObject
+  include Alberich::PermissionedObject
 
   before_destroy :destroyable?
 
@@ -81,12 +81,6 @@ class Instance < ActiveRecord::Base
   belongs_to :instance_hwp
 
   has_one :instance_key, :dependent => :destroy
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
 
   has_many :events, :as => :source, :dependent => :destroy,
            :order => 'events.id ASC'
@@ -272,7 +266,7 @@ class Instance < ActiveRecord::Base
     }
 
     instances = []
-    pools = Pool.list_for_user(session, user, Privilege::VIEW, Instance)
+    pools = Pool.list_for_user(session, user, Alberich::Privilege::VIEW, Instance)
     pools.each{|pool| pool.instances.each {|i| instances << i}}
     instances.each do |i|
       if i.state == Instance::STATE_RUNNING

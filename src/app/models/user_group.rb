@@ -38,7 +38,8 @@ class UserGroup < ActiveRecord::Base
   has_and_belongs_to_many :members, :join_table => "members_user_groups",
                                     :class_name => "User",
                                     :association_foreign_key => "member_id"
-  has_one :entity, :as => :entity_target, :dependent => :destroy
+  has_one :entity, :as => :entity_target, :class_name => "Alberich::Entity",
+                   :dependent => :destroy
 
   after_save :update_entity
 
@@ -76,7 +77,7 @@ class UserGroup < ActiveRecord::Base
   end
 
   def update_entity
-    self.entity = Entity.new(:entity_target => self) unless self.entity
+    self.entity = Alberich::Entity.new(:entity_target => self) unless self.entity
     self.entity.name = "#{self.name} (#{self.membership_source})"
     self.entity.save!
   end

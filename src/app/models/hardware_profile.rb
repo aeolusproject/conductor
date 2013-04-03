@@ -40,7 +40,7 @@ class HardwareProfile < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
-  include PermissionedObject
+  include Alberich::PermissionedObject
   include CostEngine::Mixins::HardwareProfile
   extend CostEngine::Mixins::HardwareProfileClass
 
@@ -49,10 +49,6 @@ class HardwareProfile < ActiveRecord::Base
       #{:title => "hardware_profiles.preset_filters.x86_64architecture", :id => "x86_64architecture", :query => includes(:architecture).where('architecture.value' => "x86_64")}
   ]
 
-  has_many :permissions, :as => :permission_object, :dependent => :destroy
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
   has_many :instances
   has_many :provider_instances, :class_name => "Instance",
            :foreign_key => "provider_hardware_profile_id"
@@ -104,7 +100,7 @@ class HardwareProfile < ActiveRecord::Base
   end
 
   def self.find_allowed_frontend_hwp_by_name(permission_session, user, name)
-    HardwareProfile.list_for_user(permission_session, user, Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => name}).first
+    HardwareProfile.list_for_user(permission_session, user, Alberich::Privilege::VIEW).where('hardware_profiles.name = :name AND provider_id IS NULL', {:name => name}).first
   end
 
   def get_property_map
