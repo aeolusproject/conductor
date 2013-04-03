@@ -1,10 +1,10 @@
-- has_admin_perms = check_privilege(Privilege::PERM_SET)
-- prevent_admin_deletion = has_admin_perms && !(@show_inherited || @show_global) && (@permission_object == BasePermissionObject.general_permission_scope) && (BasePermissionObject.global_admin_permission_count == 1)
+- has_admin_perms = check_privilege(Alberich::Privilege::PERM_SET)
+- prevent_admin_deletion = has_admin_perms && !(@show_inherited || @show_global) && (@permission_object == Alberich::BasePermissionObject.general_permission_scope) && (Alberich::BasePermissionObject.global_admin_permission_count == 1)
 - content_for :permissions_form_header do
-  - if not(@show_inherited or @show_global) && check_privilege(Privilege::PERM_SET)
-    %li= link_to _('Grant Access'), new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
-    %li= restful_submit_tag _('Revoke Access'), "destroy", multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
-    %li= restful_submit_tag _('Edit'), "multi_update", multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
+  - if not(@show_inherited or @show_global) && check_privilege(Alberich::Privilege::PERM_SET)
+    %li= link_to _('Grant Access'), alberich.new_permission_path(:permission_object_type => @permission_object.class.name, :permission_object_id => @permission_object.id, :path_prefix => @path_prefix, :use_tabs => @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')), { :class => 'button primary', :id => 'new_permission_button'}
+    %li= restful_submit_tag _('Revoke Access'), "destroy", alberich.multi_destroy_permissions_path, 'DELETE', :id => 'revoke_button', :class => 'button danger'
+    %li= restful_submit_tag _('Edit'), "multi_update", alberich.multi_update_permissions_path, 'POST', :id => 'perm_edit_button', :class => 'hidden'
     = hidden_field_tag :permission_object_type, @permission_object.class.name
     = hidden_field_tag :permission_object_id, @permission_object.id
 
@@ -15,7 +15,7 @@
     = hidden_field_tag :path_prefix, @path_prefix
     = hidden_field_tag :use_tabs, @use_tabs ? @use_tabs : (@tabs ? 'yes' : 'no')
   %span{:id => ("tab-container-1-nav" unless @inline)}
-    - unless @permission_object == BasePermissionObject.general_permission_scope
+    - unless @permission_object == Alberich::BasePermissionObject.general_permission_scope
       - if @show_inherited
         %li= link_to _('Direct Access'), params.merge(:show_inherited => false, :show_global => false, :page => 1), { :class => 'button', :id => 'direct_permission_button'}
         %li= link_to _('Global Access'), params.merge(:show_inherited => false, :show_global => true, :page => 1), { :class => 'button', :id => 'global_permission_button'}
@@ -29,13 +29,13 @@
 - content_for :permissions_filter_controls do
   %li
     = label_tag :permissions_preset_filter, _('Viewing')
-    = select_tag(:permissions_preset_filter, preset_filters_options_for_select(Permission::PRESET_FILTERS_OPTIONS, params[:permissions_preset_filter]), :include_blank => _('All Permissions'), :disabled => false)
+    = select_tag(:permissions_preset_filter, preset_filters_options_for_select(Alberich::Permission::PRESET_FILTERS_OPTIONS, params[:permissions_preset_filter]), :include_blank => _('All Permissions'), :disabled => false)
     = hidden_field_tag :current_path, request.fullpath
-    = restful_submit_tag _('Apply filters'), "filter", filter_permissions_path, 'POST', :class => 'button', :id => 'apply_permissions_preset_filter'
+    = restful_submit_tag _('Apply filters'), "filter", alberich.filter_permissions_path, 'POST', :class => 'button', :id => 'apply_permissions_preset_filter'
     %span.label.badge.dark= @permissions.count
   %li.table-search-filter
     = text_field_tag :permissions_search, params[:permissions_search], :placeholder => _('Search')
-    = restful_submit_tag "", "search", filter_permissions_path, 'POST', :class => 'button', :id => 'apply_permissions_search'
+    = restful_submit_tag "", "search", alberich.filter_permissions_path, 'POST', :class => 'button', :id => 'apply_permissions_search'
 
   :javascript
     $(document).ready(function(){
@@ -53,11 +53,11 @@
   %tr{:class => cycle('nostripe','stripe')}
     - if not(@show_inherited or @show_global)
       %td{:class => 'checkbox'}
-        - if has_admin_perms && !(prevent_admin_deletion && BasePermissionObject.is_global_admin_perm(permission))
+        - if has_admin_perms && !(prevent_admin_deletion && Alberich::BasePermissionObject.is_global_admin_perm(permission))
           - selected = params[:select] == 'all'
           = check_box_tag "permission_selected[]", permission.id, selected, :id => "permission_checkbox_#{permission.id}"
-    %td= link_to permission.entity.name, ((permission.entity.entity_target_type == "User") ? user_path(permission.entity.user) : user_group_path(permission.entity.user_group))
-    - if !(@show_inherited || @show_global) && has_admin_perms && !(prevent_admin_deletion && BasePermissionObject.is_global_admin_perm(permission))
+    %td= link_to permission.entity.name, ((permission.entity.entity_target_type == "User") ? main_app.user_path(permission.entity.user) : main_app.user_group_path(permission.entity.user_group))
+    - if !(@show_inherited || @show_global) && has_admin_perms && !(prevent_admin_deletion && Alberich::BasePermissionObject.is_global_admin_perm(permission))
       %td= select_tag "permission_role_selected[]", options_for_select(@roles.map {|r| [ t(r.name, :scope=> :role_defs, :default => r.name), "#{permission.id},#{r.id}" ] }, :selected => "#{permission.id},#{permission.role.id}", :disabled => @permission_object.permissions.where(["entity_id = ? and role_id != ?", permission.entity_id, permission.role_id]).collect {|p| "#{permission.id},#{p.role.id}"}), :id => "permission_role_selected_#{permission.id}"
       :javascript
         $("#permission_role_selected_#{permission.id}").change(function () { $("#perm_edit_button").click(); } );
