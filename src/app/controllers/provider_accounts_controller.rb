@@ -43,7 +43,7 @@ class ProviderAccountsController < ApplicationController
                                 apply_filters(:preset_filter_id => params[:provider_realms_preset_filter],
                                               :search_filter => params[:provider_realms_search])
     @account_id = @provider_account.credentials_hash['account_id']
-    require_privilege(Privilege::VIEW, @provider_account)
+    require_privilege(Alberich::Privilege::VIEW, @provider_account)
     @details_tab = params[:details_tab].blank? ? 'properties' : params[:details_tab]
     @details_tab = 'properties' unless ['properties'].include?(@details_tab)
 
@@ -68,7 +68,7 @@ class ProviderAccountsController < ApplicationController
   def new
     @title = _('New Provider Account')
     @provider = Provider.find(params[:provider_id])
-    require_privilege(Privilege::CREATE, ProviderAccount, @provider)
+    require_privilege(Alberich::Privilege::CREATE, ProviderAccount, @provider)
 
     @provider_account = ProviderAccount.new(:quota => Quota.new,
                                             :provider => @provider)
@@ -77,7 +77,7 @@ class ProviderAccountsController < ApplicationController
 
   def create
     @provider = Provider.find(params[:provider_id] || params[:provider_account][:provider_id])
-    require_privilege(Privilege::CREATE, ProviderAccount, @provider)
+    require_privilege(Alberich::Privilege::CREATE, ProviderAccount, @provider)
     credentials_hash = credentials_hash_prepare
 
     transform_quota_param(:provider_account)
@@ -129,14 +129,14 @@ class ProviderAccountsController < ApplicationController
   def edit
     @provider_account = ProviderAccount.find(params[:id])
     @title = _('Edit Account: %s') % @provider_account.name
-    require_privilege(Privilege::MODIFY,@provider_account)
+    require_privilege(Alberich::Privilege::MODIFY,@provider_account)
     load_provider
   end
 
   def update
     @provider_account = ProviderAccount.find(params[:id])
-    require_privilege(Privilege::MODIFY, @provider_account.provider)
-    require_privilege(Privilege::MODIFY, @provider_account)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_account.provider)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_account)
     credentials_hash = credentials_hash_prepare
     transform_quota_param(:provider_account)
     @provider_account.assign_attributes(params[:provider_account])
@@ -169,7 +169,7 @@ class ProviderAccountsController < ApplicationController
 
   def destroy
     @provider_account = ProviderAccount.find(params[:id])
-    require_privilege(Privilege::MODIFY, @provider_account)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_account)
 
     respond_to do |format|
       if @provider_account.safe_destroy
@@ -207,7 +207,7 @@ class ProviderAccountsController < ApplicationController
     succeeded = []
     failed = []
     ProviderAccount.find(params[:accounts_selected]).each do |account|
-      if !check_privilege(Privilege::MODIFY, account)
+      if !check_privilege(Alberich::Privilege::MODIFY, account)
         failed << _('%s: You have insufficient privileges to perform the selected action.') % account.name
       elsif account.safe_destroy
         succeeded << account.name
@@ -241,7 +241,7 @@ class ProviderAccountsController < ApplicationController
 
   def load_provider
     if params[:provider_id]
-      @provider = Provider.list_for_user(current_session, current_user, Privilege::VIEW).find(params[:provider_id])
+      @provider = Provider.list_for_user(current_session, current_user, Alberich::Privilege::VIEW).find(params[:provider_id])
     end
   end
 
@@ -250,7 +250,7 @@ class ProviderAccountsController < ApplicationController
       apply_filters(:preset_filter_id =>
                       params[:provider_accounts_preset_filter],
                     :search_filter => params[:provider_accounts_search]).
-      list_for_user(current_session, current_user, Privilege::VIEW)
+      list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
     @provider_accounts = @provider_accounts.where(:provider_id => @provider.id) if @provider
   end
 

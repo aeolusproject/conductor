@@ -39,7 +39,7 @@ class PoolFamiliesController < ApplicationController
 
   def new
     @title = _('New Environment')
-    require_privilege(Privilege::CREATE, PoolFamily)
+    require_privilege(Alberich::Privilege::CREATE, PoolFamily)
     @pool_family = PoolFamily.new(:quota => Quota.new)
   end
 
@@ -47,7 +47,7 @@ class PoolFamiliesController < ApplicationController
     transform_quota_param(:pool_family)
     @pool_family = PoolFamily.new(params[:pool_family])
     @pool_family.quota = Quota.new(params[:pool_family][:quota_attributes])
-    require_privilege(Privilege::CREATE, PoolFamily)
+    require_privilege(Alberich::Privilege::CREATE, PoolFamily)
 
     respond_to do |format|
       if @pool_family.save
@@ -69,7 +69,7 @@ class PoolFamiliesController < ApplicationController
 
   def edit
     @pool_family = PoolFamily.find(params[:id])
-    require_privilege(Privilege::MODIFY, @pool_family)
+    require_privilege(Alberich::Privilege::MODIFY, @pool_family)
     @title = @pool_family.name
     @pool_family.quota ||= Quota.new
   end
@@ -78,7 +78,7 @@ class PoolFamiliesController < ApplicationController
     transform_quota_param(:pool_family)
     @pool_family = PoolFamily.find(params[:id])
     @title = @pool_family.name
-    require_privilege(Privilege::MODIFY, @pool_family)
+    require_privilege(Alberich::Privilege::MODIFY, @pool_family)
 
     respond_to do |format|
       if @pool_family.update_attributes(params[:pool_family])
@@ -102,7 +102,7 @@ class PoolFamiliesController < ApplicationController
     @pool_family = PoolFamily.find(params[:id])
     @title = @pool_family.name
     save_breadcrumb(pool_family_path(@pool_family), @pool_family.name)
-    require_privilege(Privilege::VIEW, @pool_family)
+    require_privilege(Alberich::Privilege::VIEW, @pool_family)
     @all_images = @pool_family.base_images
     @base_images = paginate_collection(@all_images, params[:page], PER_PAGE)
 
@@ -122,7 +122,7 @@ class PoolFamiliesController < ApplicationController
 
   def destroy
     pool_family = PoolFamily.find(params[:id])
-    require_privilege(Privilege::MODIFY, pool_family)
+    require_privilege(Alberich::Privilege::MODIFY, pool_family)
 
     respond_to do |format|
       if pool_family.safe_destroy
@@ -143,7 +143,7 @@ class PoolFamiliesController < ApplicationController
 
   def add_provider_accounts
     @pool_family = PoolFamily.find(params[:id])
-    require_privilege(Privilege::MODIFY, @pool_family)
+    require_privilege(Alberich::Privilege::MODIFY, @pool_family)
 
     if ProviderAccount.count == 0
       flash[:error] = _('There are no Provider Accounts available.')
@@ -151,7 +151,7 @@ class PoolFamiliesController < ApplicationController
     end
 
     @provider_accounts = ProviderAccount.
-      list_for_user(current_session, current_user, Privilege::USE).
+      list_for_user(current_session, current_user, Alberich::Privilege::USE).
       where('provider_accounts.id not in (?)',
             @pool_family.provider_accounts.empty? ?
             0 : @pool_family.provider_accounts.map(&:id))
@@ -163,7 +163,7 @@ class PoolFamiliesController < ApplicationController
       flash[:error] = _('You must select at least one Provider Account to add.') if request.post?
     else
       ProviderAccount.find(params[:accounts_selected]).each do |provider_account|
-        if check_privilege(Privilege::USE, provider_account) and
+        if check_privilege(Alberich::Privilege::USE, provider_account) and
             !@pool_family.provider_accounts.include?(provider_account) and
             @pool_family.provider_accounts << provider_account
           added << provider_account.name
@@ -186,7 +186,7 @@ class PoolFamiliesController < ApplicationController
 
   def remove_provider_accounts
     @pool_family = PoolFamily.find(params[:id])
-    require_privilege(Privilege::MODIFY, @pool_family)
+    require_privilege(Alberich::Privilege::MODIFY, @pool_family)
     removed=[]
     not_removed=[]
 
@@ -226,7 +226,7 @@ class PoolFamiliesController < ApplicationController
 
   def load_pool_families
     @pool_families = PoolFamily.list_for_user(current_session, current_user,
-                                              Privilege::VIEW).
+                                              Alberich::Privilege::VIEW).
       order(sort_column(PoolFamily) + ' ' + sort_direction)
   end
 

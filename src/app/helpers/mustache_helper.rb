@@ -22,7 +22,7 @@ module MustacheHelper
 
   def user_info_for_mustache
     user_pools = Pool.list_for_user(current_session, current_user,
-                                    Privilege::CREATE, Deployment)
+                                    Alberich::Privilege::CREATE, Deployment)
     user_instances = current_user.owned_instances
     user_available_quota = current_user.quota.maximum_running_instances
     {
@@ -95,7 +95,7 @@ module MustacheHelper
   def pool_for_mustache(pool)
     pool_statistics = pool.statistics
     user_can_access_pool_family =
-      check_privilege(Privilege::VIEW, pool.pool_family)
+      check_privilege(Alberich::Privilege::VIEW, pool.pool_family)
 
     {
       :id               => pool.id,
@@ -121,7 +121,7 @@ module MustacheHelper
       :user_deployments => paginate_collection(pool.deployments.
                                                list_for_user(current_session,
                                                              current_user,
-                                                             Privilege::VIEW).
+                                                             Alberich::Privilege::VIEW).
                                                ascending_by_name, params[:page],
                                                PER_PAGE).map{ |deployment| deployment_for_mustache(deployment) }
 

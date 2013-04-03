@@ -27,21 +27,21 @@ Tim::TemplatesController.class_eval do
   def load_permissioned_templates
     @templates = Tim::Template.list_for_user(current_session,
                                                 current_user,
-                                                Privilege::VIEW)
+                                                Alberich::Privilege::VIEW)
   end
 
   def check_view_permission
     @template = Tim::Template.find(params[:id])
-    require_privilege(Privilege::VIEW, @template)
+    require_privilege(Alberich::Privilege::VIEW, @template)
   end
 
   def check_modify_permission
     @template = Tim::Template.find(params[:id])
-    require_privilege(Privilege::MODIFY, @template)
+    require_privilege(Alberich::Privilege::MODIFY, @template)
   end
 
   def check_create_permission
     @template = Tim::Template.new(params[:template])
-    require_privilege(Privilege::CREATE, Tim::Template, @template.pool_family)
+    require_privilege(Alberich::Privilege::CREATE, Tim::Template, @template.pool_family)
   end
 end

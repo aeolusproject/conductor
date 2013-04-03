@@ -50,7 +50,7 @@ class DeploymentsController < ApplicationController
       @deployment = Deployment.new(:pool_id => @pool.id)
     end
 
-    require_privilege(Privilege::CREATE, Deployment, @pool)
+    require_privilege(Alberich::Privilege::CREATE, Deployment, @pool)
     unless @pool.enabled
       flash[:warning] = _('Cannot launch a Deployment in this Pool. The Pool has been disabled.')
       redirect_to pool_path(@pool) and return
@@ -84,8 +84,8 @@ class DeploymentsController < ApplicationController
       render :launch_new and return
     end
 
-    require_privilege(Privilege::CREATE, Deployment, @pool)
-    require_privilege(Privilege::USE, @deployable)
+    require_privilege(Alberich::Privilege::CREATE, Deployment, @pool)
+    require_privilege(Alberich::Privilege::USE, @deployable)
     img, img2, missing, d_errors = @deployable.get_image_details
     flash[:error] = d_errors unless d_errors.empty?
 
@@ -118,8 +118,8 @@ class DeploymentsController < ApplicationController
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
     init_new_deployment_attrs
-    require_privilege(Privilege::CREATE, Deployment, @pool)
-    require_privilege(Privilege::USE, @deployable)
+    require_privilege(Alberich::Privilege::CREATE, Deployment, @pool)
+    require_privilege(Alberich::Privilege::USE, @deployable)
     @launch_parameters_encoded = Base64.encode64(ActiveSupport::JSON.encode(@deployment.launch_parameters))
     img, img2, missing, d_errors = @deployable.get_image_details
     flash[:error] = d_errors unless d_errors.empty?
@@ -145,7 +145,7 @@ class DeploymentsController < ApplicationController
   def create
     @deployment = Deployment.new(params[:deployment])
     @pool = @deployment.pool
-    require_privilege(Privilege::CREATE, Deployment, @pool)
+    require_privilege(Alberich::Privilege::CREATE, Deployment, @pool)
 
     if params[:launch_parameters_encoded].present?
       @deployment.launch_parameters = JSON.load(
@@ -153,7 +153,7 @@ class DeploymentsController < ApplicationController
     end
 
     init_new_deployment_attrs
-    require_privilege(Privilege::USE, @deployable)
+    require_privilege(Alberich::Privilege::USE, @deployable)
     @deployment.deployable_xml = @deployable.xml
     @deployment.owner = current_user
 
@@ -198,7 +198,7 @@ class DeploymentsController < ApplicationController
   def show
     @deployment = Deployment.find(params[:id])
     @title = _('%s Deployment') % @deployment.name
-    require_privilege(Privilege::VIEW, @deployment)
+    require_privilege(Alberich::Privilege::VIEW, @deployment)
     init_new_deployment_attrs
     save_breadcrumb(deployment_path(@deployment, :viewstate => viewstate_id), @deployment.name)
     @failed_instances = @deployment.failed_instances.list(sort_column(Instance), sort_direction)
@@ -242,7 +242,7 @@ class DeploymentsController < ApplicationController
   end
 
   def edit
-    require_privilege(Privilege::MODIFY, @deployment)
+    require_privilege(Alberich::Privilege::MODIFY, @deployment)
     respond_to do |format|
       format.html
       format.js { render :partial => 'edit' }
@@ -255,7 +255,7 @@ class DeploymentsController < ApplicationController
     attrs = {}
     params[:deployment].each_pair{|k,v| attrs[k] = v if Deployment::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
-      if check_privilege(Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
+      if check_privilege(Alberich::Privilege::MODIFY, @deployment) and @deployment.update_attributes(attrs)
         flash[:success] = _('The Deployment %s was succesfully updated.') % @deployment.name
         format.html { redirect_to @deployment }
         format.js { render :partial => 'properties' }
@@ -274,7 +274,7 @@ class DeploymentsController < ApplicationController
     cant_stop = false
     errors = []
     begin
-      require_privilege(Privilege::MODIFY, deployment)
+      require_privilege(Alberich::Privilege::MODIFY, deployment)
       if deployment.not_stoppable_or_destroyable_instances.empty?
         Delayed::Job.enqueue DeploymentDestroy.new(deployment)
       else
@@ -316,7 +316,7 @@ class DeploymentsController < ApplicationController
 
     ids = Array(params[:deployments_selected])
     Deployment.find(ids).each do |deployment|
-      require_privilege(Privilege::MODIFY, deployment)
+      require_privilege(Alberich::Privilege::MODIFY, deployment)
       if deployment.not_stoppable_or_destroyable_instances.empty?
         Delayed::Job.enqueue DeploymentDestroy.new(deployment)
         destroyed << deployment.name
@@ -360,7 +360,7 @@ class DeploymentsController < ApplicationController
       deployment.instances.each do |instance|
         log_prefix = "#{_('Deployment')}: #{instance.deployment.name}, #{_('Instance')}:  #{instance.name}"
         begin
-          require_privilege(Privilege::USE, instance)
+          require_privilege(Alberich::Privilege::USE, instance)
           if @inaccessible_instances.include?(instance)
             instance.forced_stop(current_user)
             notices << "#{log_prefix}: #{_('state changed to stopped.')}"
@@ -398,9 +398,9 @@ class DeploymentsController < ApplicationController
   def launch_from_catalog
     @catalog = Catalog.find(params[:catalog_id])
     @deployables = @catalog.deployables.
-      list_for_user(current_session, current_user, Privilege::VIEW).
+      list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
       paginate(:page => params[:page] || 1, :per_page => 6)
-    require_privilege(Privilege::VIEW, @catalog)
+    require_privilege(Alberich::Privilege::VIEW, @catalog)
   end
 
   def filter
@@ -438,12 +438,12 @@ class DeploymentsController < ApplicationController
 
     pool_scope = params[:pool_id] ? Pool.where(:id => params[:pool_id]) : Pool
     @pools = pool_scope.list_for_user(current_session, current_user,
-                                      Privilege::CREATE, Deployment)
+                                      Alberich::Privilege::CREATE, Deployment)
 
     unpaginated_deployments = Deployment.includes(:owner, :pool, :instances).
       apply_filters(:preset_filter_id => params[:deployments_preset_filter],
                     :search_filter => params[:deployments_search]).
-      list_for_user(current_session, current_user, Privilege::VIEW).
+      list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
       where('deployments.pool_id' => @pools).
       order(sort_column(Deployment, "deployments.name") +' '+ sort_direction)
 
@@ -475,10 +475,10 @@ class DeploymentsController < ApplicationController
 
   def init_new_deployment_attrs
     @deployables = Deployable.includes({:catalogs => :pool}).
-      list_for_user(current_session, current_user, Privilege::USE).
+      list_for_user(current_session, current_user, Alberich::Privilege::USE).
       select{|d| d.catalogs.collect{|c| c.pool}.include?(@pool)}
     @pools = Pool.list_for_user(current_session, current_user,
-                                Privilege::CREATE, Deployment)
+                                Alberich::Privilege::CREATE, Deployment)
     @deployable = params[:deployable_id] ? Deployable.find(params[:deployable_id]) : nil
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(

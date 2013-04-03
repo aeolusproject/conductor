@@ -38,7 +38,7 @@ class DeployablesController < ApplicationController
         deployables = catalogs.map { |_c| _c.deployables }.reduce([], &:+)
 
         perm_deployables = Deployable.
-          list_for_user(current_session, current_user, Privilege::VIEW)
+          list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
 
         @deployables = deployables.to_set & perm_deployables.to_set
       end
@@ -47,11 +47,11 @@ class DeployablesController < ApplicationController
         format.html {
           save_breadcrumb(deployables_path)
           @deployables = Deployable.without_catalog.
-            list_for_user(current_session, current_user, Privilege::VIEW)
+            list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
         }
         format.xml {
           @deployables = Deployable.
-            list_for_user(current_session, current_user, Privilege::VIEW)
+            list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
         }
       end
     end
@@ -69,12 +69,12 @@ class DeployablesController < ApplicationController
       # fixed
       @image = Tim::BaseImage.find(params[:create_from_image])
       @hw_profiles = HardwareProfile.frontend.
-        list_for_user(current_session, current_user, Privilege::VIEW)
+        list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
       @deployable.name = @image.name
       @selected_catalogs = Array(params[:catalog_id])
       load_catalogs
       @selected_catalogs.each do |catalog_id|
-        require_privilege(Privilege::CREATE, Deployable, Catalog.find_by_id(catalog_id))
+        require_privilege(Alberich::Privilege::CREATE, Deployable, Catalog.find_by_id(catalog_id))
       end
       flasherr = []
       flasherr << _('No Catalog exists. Please create one.') if @catalogs.empty?
@@ -83,7 +83,7 @@ class DeployablesController < ApplicationController
       flash[:error] = flasherr if not flasherr.empty?
     elsif params[:catalog_id].present?
       @catalog = Catalog.find(params[:catalog_id])
-      require_privilege(Privilege::CREATE, @catalog, Deployable)
+      require_privilege(Alberich::Privilege::CREATE, @catalog, Deployable)
     end
     @form_option= params.has_key?(:from_url) ? 'from_url' : 'upload'
     respond_to do |format|
@@ -95,11 +95,11 @@ class DeployablesController < ApplicationController
   def show
     @deployable = Deployable.find(params[:id])
     @catalog = params[:catalog_id].present? ? Catalog.find(params[:catalog_id]) : @deployable.catalogs.first
-    require_privilege(Privilege::VIEW, @deployable)
+    require_privilege(Alberich::Privilege::VIEW, @deployable)
     save_breadcrumb(polymorphic_path([@catalog, @deployable]), @deployable.name)
     @providers = Provider.all
     @catalogs_options = Catalog.list_for_user(current_session, current_user,
-                                              Privilege::MODIFY).select do |c|
+                                              Alberich::Privilege::MODIFY).select do |c|
       !@deployable.catalogs.include?(c) and
         @deployable.catalogs.first.pool_family == c.pool_family
     end
@@ -151,7 +151,7 @@ class DeployablesController < ApplicationController
 
   def definition
     @deployable = Deployable.find(params[:id])
-    require_privilege(Privilege::VIEW, @deployable)
+    require_privilege(Alberich::Privilege::VIEW, @deployable)
     render :xml => @deployable.xml
   end
 
@@ -165,7 +165,7 @@ class DeployablesController < ApplicationController
     @selected_catalogs = Catalog.find(Array(params[:catalog_id]))
     @deployable.owner = current_user
     @selected_catalogs.each do |catalog|
-      require_privilege(Privilege::CREATE, Deployable, catalog)
+      require_privilege(Alberich::Privilege::CREATE, Deployable, catalog)
     end
 
     if params.has_key? :url
@@ -183,7 +183,7 @@ class DeployablesController < ApplicationController
       end
     elsif params[:create_from_image].present?
       hw_profile = HardwareProfile.frontend.find(params[:hardware_profile])
-      require_privilege(Privilege::VIEW, hw_profile)
+      require_privilege(Alberich::Privilege::VIEW, hw_profile)
       @deployable.set_from_image(params[:create_from_image], params[:deployable][:name], hw_profile)
     end
 
@@ -221,7 +221,7 @@ class DeployablesController < ApplicationController
         @image = Tim::BaseImage.find(params[:create_from_image])
         load_catalogs
         @hw_profiles = HardwareProfile.frontend.
-          list_for_user(current_session, current_user, Privilege::VIEW)
+          list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
       else
         @catalog = @selected_catalogs.first
         params.delete(:edit_xml) if params[:edit_xml]
@@ -233,14 +233,14 @@ class DeployablesController < ApplicationController
 
   def edit
     @deployable = Deployable.find(params[:id])
-    require_privilege(Privilege::MODIFY, @deployable)
+    require_privilege(Alberich::Privilege::MODIFY, @deployable)
     @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
   end
 
   def update
     @deployable = Deployable.find(params[:id])
     @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
-    require_privilege(Privilege::MODIFY, @deployable)
+    require_privilege(Alberich::Privilege::MODIFY, @deployable)
     params[:deployable].delete(:owner_id) if params[:deployable]
 
     if @deployable.update_attributes(params[:deployable])
@@ -269,7 +269,7 @@ class DeployablesController < ApplicationController
 
     if params[:deployables_selected]
       Deployable.find(params[:deployables_selected]).to_a.each do |d|
-        if check_privilege(Privilege::MODIFY, d)
+        if check_privilege(Alberich::Privilege::MODIFY, d)
           if d.catalog_entries.where(:catalog_id => @catalog.id).first.destroy
             deleted << d.name
           else
@@ -299,7 +299,7 @@ class DeployablesController < ApplicationController
   def destroy
     deployable = Deployable.find(params[:id])
     @catalog = Catalog.find(params[:catalog_id]) if params[:catalog_id].present?
-    require_privilege(Privilege::MODIFY, deployable)
+    require_privilege(Alberich::Privilege::MODIFY, deployable)
     if deployable.destroy
       flash[:notice] = _('Deployable %s removed successfully.') % deployable.name
     else
@@ -340,7 +340,7 @@ class DeployablesController < ApplicationController
   def load_catalogs
     @pool_family = @image.pool_family
     @catalogs = Catalog.list_for_user(current_session, current_user,
-                                      Privilege::CREATE, Deployable).
+                                      Alberich::Privilege::CREATE, Deployable).
       where('pool_family_id' => @pool_family.id)
   end
 end

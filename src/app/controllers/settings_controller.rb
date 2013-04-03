@@ -27,7 +27,7 @@ class SettingsController < ApplicationController
   KEYS = [SELF_SERVICE_DEFAULT_QUOTA]
 
   def self_service
-    require_privilege(Privilege::MODIFY)
+    require_privilege(Alberich::Privilege::MODIFY)
     @self_service_default_quota = MetadataObject.lookup(SELF_SERVICE_DEFAULT_QUOTA)
   end
 

@@ -26,19 +26,19 @@ class ConfigServersController < ApplicationController
   def edit
     @config_server = ConfigServer.find(params[:id])
     @provider_account = @config_server.provider_account
-    require_privilege(Privilege::MODIFY, @provider_account)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_account)
   end
 
   def new
     @provider_account = ProviderAccount.find(params[:provider_account_id])
-    require_privilege(Privilege::MODIFY, @provider_account)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_account)
     @config_server = ConfigServer.new()
   end
 
   def test
     config_server = ConfigServer.find(params[:id])
     provider_account = config_server.provider_account
-    require_privilege(Privilege::VIEW, provider_account)
+    require_privilege(Alberich::Privilege::VIEW, provider_account)
 
     if not config_server.connection_valid?
       flash[:error] = config_server.connection_error_msg
@@ -53,7 +53,7 @@ class ConfigServersController < ApplicationController
     @provider_account = ProviderAccount.find(params[:provider_account_id])
     # for now the privileges required to create, modify, or delete a config
     # server are tied to modifying the particular associated provider account
-    require_privilege(Privilege::MODIFY, @provider_account)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_account)
 
     params[:config_server].each_value(&:strip!)
     @config_server = ConfigServer.new(params[:config_server])
@@ -70,7 +70,7 @@ class ConfigServersController < ApplicationController
   def update
     @config_server = ConfigServer.find(params[:id])
     @provider_account = @config_server.provider_account
-    require_privilege(Privilege::MODIFY, @provider_account)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_account)
 
     params[:config_server].each_value(&:strip!)
     if @config_server.update_attributes(params[:config_server])
@@ -84,7 +84,7 @@ class ConfigServersController < ApplicationController
 
   def destroy
     @config_server = ConfigServer.find(params[:id])
-    require_privilege(Privilege::MODIFY, @config_server.provider_account)
+    require_privilege(Alberich::Privilege::MODIFY, @config_server.provider_account)
     if ConfigServer.destroy(params[:id])
       flash[:notice] = _('Config Server was deleted.')
     else
