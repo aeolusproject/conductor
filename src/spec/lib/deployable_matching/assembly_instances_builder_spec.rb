@@ -26,7 +26,7 @@ describe DeployableMatching::AssemblyInstancesBuilder do
     admin = FactoryGirl.create(:admin_user)
     session = FactoryGirl.create(:session)
     permission_session =
-      PermissionSession.create!(:user => admin,
+      Alberich::PermissionSession.create!(:user => admin,
                                 :session_id => session.session_id)
 
     catalog = FactoryGirl.create(:catalog, :pool => @pool)
@@ -68,7 +68,7 @@ describe DeployableMatching::AssemblyInstancesBuilder do
     admin = FactoryGirl.create(:admin_user)
     session = FactoryGirl.create(:session)
     permission_session =
-      PermissionSession.create!(:user => admin,
+      Alberich::PermissionSession.create!(:user => admin,
                                 :session_id => session.session_id)
 
     catalog = FactoryGirl.create(:catalog, :pool => @pool)
@@ -89,7 +89,7 @@ describe DeployableMatching::AssemblyInstancesBuilder do
     admin = FactoryGirl.create(:admin_user)
     session = FactoryGirl.create(:session)
     permission_session =
-      PermissionSession.create!(:user => admin,
+      Alberich::PermissionSession.create!(:user => admin,
                                 :session_id => session.session_id)
 
     catalog = FactoryGirl.create(:catalog, :pool => @pool)

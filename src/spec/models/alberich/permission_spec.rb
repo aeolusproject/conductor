@@ -16,7 +16,7 @@
 
 require 'spec_helper'
 
-describe Permission do
+describe Alberich::Permission do
 
   before(:each) do
     @admin_permission = FactoryGirl.create :admin_permission
@@ -33,7 +33,7 @@ describe Permission do
     @pool = @pool_user_permission.pool
     @session = FactoryGirl.create :session
     @session_id = @session.session_id
-    @permission_session = PermissionSession.create!(:user => @admin,
+    @permission_session = Alberich::PermissionSession.create!(:user => @admin,
                                                     :session_id => @session_id)
     @permission_session.update_session_entities(@admin)
     @permission_session.add_to_session(@provider_admin)
@@ -41,48 +41,48 @@ describe Permission do
   end
 
   it "Admin should be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
+    Alberich::BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 @admin,
-                                                                Privilege::CREATE,
+                                                                Alberich::Privilege::CREATE,
                                                                 User).should be_true
   end
 
   it "Provider Admin should NOT be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
+    Alberich::BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 @provider_admin,
-                                                                Privilege::CREATE,
+                                                                Alberich::Privilege::CREATE,
                                                                 User).should be_false
   end
 
   it "Pool User should NOT be able to create users" do
-    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
+    Alberich::BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 @pool_user,
-                                                                Privilege::CREATE,
+                                                                Alberich::Privilege::CREATE,
                                                                 User).should be_false
   end
 
   it "Provider Admin should be able to edit provider" do
     @provider.has_privilege(@permission_session, @provider_admin,
-                            Privilege::MODIFY).should be_true
+                            Alberich::Privilege::MODIFY).should be_true
   end
 
   it "Admin should be able to edit provider" do
-    @provider.has_privilege(@permission_session, @admin, Privilege::MODIFY).should be_true
+    @provider.has_privilege(@permission_session, @admin, Alberich::Privilege::MODIFY).should be_true
   end
 
   it "Pool User should NOT be able to edit provider" do
     @provider.has_privilege(@permission_session, @pool_user,
-                            Privilege::MODIFY).should be_false
+                            Alberich::Privilege::MODIFY).should be_false
   end
 
   it "Pool User should be able to create instances in @pool" do
     @pool.has_privilege(@permission_session, @pool_user,
-                        Privilege::CREATE, Instance).should be_true
+                        Alberich::Privilege::CREATE, Instance).should be_true
   end
 
   it "Pool User should NOT be able to create instances in another pool" do
     FactoryGirl.create(:tpool).has_privilege(@permission_session, @pool_user,
-                                             Privilege::CREATE, Instance).
+                                             Alberich::Privilege::CREATE, Instance).
       should be_false
   end
 
@@ -91,16 +91,16 @@ describe Permission do
     group_admin_permission = FactoryGirl.create(:group_admin_permission)
     user_group = group_admin_permission.user_group
     @permission_session.update_session_entities(newuser)
-    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
+    Alberich::BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 newuser,
-                                                                Privilege::CREATE,
+                                                                Alberich::Privilege::CREATE,
                                                                 User).should be_false
     user_group.members << newuser
     newuser.reload
     @permission_session.update_session_entities(newuser)
-    BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
+    Alberich::BasePermissionObject.general_permission_scope.has_privilege(@permission_session,
                                                                 newuser,
-                                                                Privilege::CREATE,
+                                                                Alberich::Privilege::CREATE,
                                                                 User).should be_true
 
   end

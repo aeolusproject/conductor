@@ -16,7 +16,7 @@
 
 require 'spec_helper'
 
-describe DerivedPermission do
+describe Alberich::DerivedPermission do
 
   before(:each) do
     @admin_permission = FactoryGirl.create :admin_permission
@@ -35,8 +35,8 @@ describe DerivedPermission do
 
   it "derived permissions created for instance" do
     derived_perms_count = @instance.derived_permissions.size
-    @pool_perm = Permission.create(:entity => @admin.entity,
-                                    :role => Role.first(:conditions =>
+    @pool_perm = Alberich::Permission.create(:entity => @admin.entity,
+                                    :role => Alberich::Role.first(:conditions =>
                                                ['name = ?', 'Role|Pool Administrator']),
                                      :permission_object => @pool)
     @instance.reload
