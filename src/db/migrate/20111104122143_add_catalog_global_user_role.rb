@@ -15,6 +15,10 @@
 #
 
 class AddCatalogGlobalUserRole < ActiveRecord::Migration
+  class Role < ActiveRecord::Base; end
+  class Permission < ActiveRecord::Base; end
+  class Privilege < ActiveRecord::Base; end
+
   ROLE_NAME = "Catalog Global User"
   VIEW = "view"
   USE = "use"

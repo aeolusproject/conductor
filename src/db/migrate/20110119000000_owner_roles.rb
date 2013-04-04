@@ -15,6 +15,7 @@
 #
 
 class OwnerRoles < ActiveRecord::Migration
+  class Role < ActiveRecord::Base; end
 
   OWNER_ROLES = ["Instance Owner",
                  "Pool Family Owner",

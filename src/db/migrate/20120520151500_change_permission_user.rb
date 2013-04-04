@@ -15,6 +15,9 @@
 #
 
 class ChangePermissionUser < ActiveRecord::Migration
+  class Permission < ActiveRecord::Base; end
+  class DerivedPermission < ActiveRecord::Base; end
+
   def self.up
     add_column :permissions, :entity_id, :integer
     add_column :derived_permissions, :entity_id, :integer
@@ -22,7 +25,6 @@ class ChangePermissionUser < ActiveRecord::Migration
     Permission.reset_column_information
     DerivedPermission.reset_column_information
 
-    Permission.skip_callback(:save, :after, :update_derived_permissions)
     counter = 0
     total_perms = Permission.count
     Permission.all.each do |p|
@@ -30,7 +32,6 @@ class ChangePermissionUser < ActiveRecord::Migration
       p.entity_id = User.find(p.user_id).entity.id
       p.save!
     end
-    Permission.set_callback(:save, :after, :update_derived_permissions)
     counter = 0
     total_perms = DerivedPermission.count
     DerivedPermission.all.each do |p|
@@ -63,7 +64,6 @@ class ChangePermissionUser < ActiveRecord::Migration
     Permission.reset_column_information
     DerivedPermission.reset_column_information
 
-    Permission.skip_callback(:save, :after, :update_derived_permissions)
     Permission.all.each do |p|
       entity = Entity.find(p.entity_id)
       if entity.entity_target.class == User
@@ -71,7 +71,6 @@ class ChangePermissionUser < ActiveRecord::Migration
         p.save!
       end
     end
-    Permission.set_callback(:save, :after, :update_derived_permissions)
     DerivedPermission.all.each do |p|
       entity = Entity.find(p.entity_id)
       if entity.entity_target.class == User

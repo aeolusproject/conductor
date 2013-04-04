@@ -1,4 +1,6 @@
 class ChangeRoleNamesToGettextStrings < ActiveRecord::Migration
+  class Role < ActiveRecord::Base; end
+
   NEW_NAMES = {
     "instance.user"            => "Role|Instance User",
     "instance.owner"           => "Role|Instance Owner",

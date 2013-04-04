@@ -15,6 +15,10 @@
 #
 
 class PoolSelfServiceRole < ActiveRecord::Migration
+  class Role < ActiveRecord::Base; end
+  class Permission < ActiveRecord::Base; end
+  class Privilege < ActiveRecord::Base; end
+
   VIEW = "view"
   CRE  = "create"
   ROLE_NAME = "Pool Global User"
