@@ -4,8 +4,9 @@ Alberich.user_group_class = "UserGroup"
 Alberich.permissioned_object_classes = ["HardwareProfile", "Catalog",
                                         "Deployable", "PoolFamily", "Pool",
                                         "Deployment", "Instance", "Provider",
-                                        "ProviderAccount", "ProviderType"]
-Alberich.additional_privilege_scopes = ["FrontendRealm", "User"]
+                                        "ProviderAccount", "ProviderType",
+                                        "Tim::BaseImage", "Tim::Template"]
+Alberich.additional_privilege_scopes = ["FrontendRealm", "User", "Quota"]
 
 Alberich.require_user_method = "require_user"
 
