@@ -41,8 +41,6 @@ class UserGroup < ActiveRecord::Base
   has_one :entity, :as => :entity_target, :class_name => "Alberich::Entity",
                    :dependent => :destroy
 
-  after_save :update_entity
-
   # scope name by membership_source to prevent errors if users are later added
   # to external ldap groups that have the same name as local groups
   validates :name, :presence => true,
@@ -76,10 +74,8 @@ class UserGroup < ActiveRecord::Base
     end
   end
 
-  def update_entity
-    self.entity = Alberich::Entity.new(:entity_target => self) unless self.entity
-    self.entity.name = "#{self.name} (#{self.membership_source})"
-    self.entity.save!
+  def to_s
+    "#{self.name} (#{self.membership_source})"
   end
 
 end

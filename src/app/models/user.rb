@@ -78,7 +78,6 @@ class User < ActiveRecord::Base
 
   before_validation :strip_whitespace
   before_save :encrypt_password
-  after_save :update_entity
 
   validates :email, :presence => true,
                     :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i },
@@ -190,6 +189,10 @@ class User < ActiveRecord::Base
     group_list
   end
 
+  def to_s
+    "#{self.first_name} #{self.last_name} (#{self.username})"
+  end
+
   private
 
   def self.apply_search_filter(search)
@@ -233,9 +236,4 @@ class User < ActiveRecord::Base
     self.username = self.username.strip unless self.username.nil?
   end
 
-  def update_entity
-    self.entity = Alberich::Entity.new(:entity_target => self) unless self.entity
-    self.entity.name = "#{self.first_name} #{self.last_name} (#{self.username})"
-    self.entity.save!
-  end
 end
