@@ -5,7 +5,7 @@
     .return_to
       =_('Return to:')
       = link_to _('Images'), base_images_path
-    - if check_privilege(Privilege::MODIFY, @base_image)
+    - if check_privilege(Alberich::Privilege::MODIFY, @base_image)
       .button-group
         = link_to _('New Deployable from Image'), main_app.new_deployable_path(:create_from_image => @base_image.id), :class => 'button'
         - unless @base_image.imported?
@@ -13,7 +13,7 @@
         = button_to _('Delete'), base_image_path(@base_image.id), :method => 'delete', :confirm => _('Are you sure you want to delete?'), :class => 'button danger', :id => 'delete'
   %h1.no-icon= image_name(@base_image)
 
-- user_can_build = (check_privilege(Privilege::MODIFY, @base_image))
+- user_can_build = (check_privilege(Alberich::Privilege::MODIFY, @base_image))
 %section.content-section
   %header
     %h2=_('Properties')

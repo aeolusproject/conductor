@@ -51,7 +51,7 @@ class ProvidersController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, Provider)
+    require_privilege(Alberich::Privilege::CREATE, Provider)
     @provider = Provider.new
     @provider.url = Provider::DEFAULT_DELTACLOUD_URL
     @provider.provider_type = ProviderType.find_by_deltacloud_driver('ec2')
@@ -63,7 +63,7 @@ class ProvidersController < ApplicationController
     @title = _('Cloud Providers')
     # requiring VIEW rather than MODIFY since edit doubles as the 'show' page
     # here -- actions must be hidden explicitly in template
-    require_privilege(Privilege::VIEW, @provider)
+    require_privilege(Alberich::Privilege::VIEW, @provider)
 
     if params.delete :test_provider
       test_connection(@provider)
@@ -78,7 +78,7 @@ class ProvidersController < ApplicationController
 
   def show
     @provider = Provider.find(params[:id])
-    require_privilege(Privilege::VIEW, @provider)
+    require_privilege(Alberich::Privilege::VIEW, @provider)
 
     @alerts = provider_alerts(@provider)
     load_provider_tabs
@@ -98,7 +98,7 @@ class ProvidersController < ApplicationController
 
   def create
     @title = _('New Provider')
-    require_privilege(Privilege::CREATE, Provider)
+    require_privilege(Alberich::Privilege::CREATE, Provider)
     @provider = Provider.new(params[:provider])
 
     if @provider.save
@@ -135,7 +135,7 @@ class ProvidersController < ApplicationController
 
   def update
     @provider = Provider.find(params[:id])
-    require_privilege(Privilege::MODIFY, @provider)
+    require_privilege(Alberich::Privilege::MODIFY, @provider)
 
     @provider.assign_attributes(params[:provider])
     provider_disabled = @provider.enabled_changed? && !@provider.enabled
@@ -181,7 +181,7 @@ class ProvidersController < ApplicationController
 
   def destroy
     provider = Provider.find(params[:id])
-    require_privilege(Privilege::MODIFY, provider)
+    require_privilege(Alberich::Privilege::MODIFY, provider)
 
     respond_to do |format|
       if provider.safe_destroy
@@ -218,7 +218,7 @@ class ProvidersController < ApplicationController
 
   def load_providers
     @providers = Provider.includes(:provider_type).list_for_user(current_session, current_user,
-                                        Privilege::VIEW).order("providers.name")
+                                        Alberich::Privilege::VIEW).order("providers.name")
   end
 
   def disable_provider
@@ -324,7 +324,7 @@ class ProvidersController < ApplicationController
         apply_filters(:preset_filter_id =>
                         params[:provider_accounts_preset_filter],
                       :search_filter => params[:provider_accounts_search]).
-        list_for_user(current_session, current_user, Privilege::VIEW)
+        list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
     elsif @details_tab[:id] == 'hardware_profiles'
       @hardware_profiles = @provider.hardware_profiles
     end
@@ -449,7 +449,7 @@ class ProvidersController < ApplicationController
     historical_instances.each do |instance|
       provider_account = instance.provider_account
 
-      if check_privilege(Privilege::VIEW, provider_account)
+      if check_privilege(Alberich::Privilege::VIEW, provider_account)
         label = provider_account.nil? ?
                   'Unknown' :
                   provider_account.provider.name +

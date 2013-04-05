@@ -4,7 +4,7 @@
     .button-group
       = pretty_filter_toggle(pools_path(:view => 'pretty', :page => params[:page]),
                              pools_path(:view => 'filter', :page => params[:page]))
-    - if check_privilege(Privilege::CREATE, Pool)
+    - if check_privilege(Alberich::Privilege::CREATE, Pool)
       = link_to _('New Pool'), new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
     = link_to _('Logs'), logs_path, { :class => 'button primary', :id => 'logs_button' }
   %h1.section-index= _('Overview')

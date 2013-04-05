@@ -33,7 +33,7 @@ class ProviderTypesController < ApplicationController
 
   def destroy
     @provider_type = ProviderType.find(params[:id])
-    require_privilege(Privilege::MODIFY, @provider)
+    require_privilege(Alberich::Privilege::MODIFY, @provider)
     respond_to do |format|
       format.xml do
         if @provider_type.safe_destroy

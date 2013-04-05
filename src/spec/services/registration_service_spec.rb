@@ -39,7 +39,7 @@ describe RegistrationService do
       @user = FactoryGirl.create :user
       @session = FactoryGirl.create :session
       @session_id = @session.session_id
-      @permission_session = PermissionSession.create!(:user => @user,
+      @permission_session = Alberich::PermissionSession.create!(:user => @user,
                                                       :session_id => @session_id)
       @permission_session.update_session_entities(@user)
       @pool = MetadataObject.lookup("self_service_default_pool")
@@ -51,7 +51,7 @@ describe RegistrationService do
       @registration_service.save
 
       @pools = Pool.list_for_user(@permission_session, @user,
-                                  Privilege::CREATE, Instance)
+                                  Alberich::Privilege::CREATE, Instance)
       @pools.length.should == 1
       @pools[0].name.should == "Default"
 
@@ -72,7 +72,7 @@ describe RegistrationService do
         lambda do
           lambda do
             registration_process.save.should be_true
-          end.should change(Permission, :count).by(3)
+          end.should change(Alberich::Permission, :count).by(3)
         end.should change(User, :count).by(1)
       end.should change(Quota, :count).by(1)
 

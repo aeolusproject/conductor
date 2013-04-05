@@ -141,9 +141,9 @@ class LogsController < ApplicationController
                                   )
     deployments = Deployment.unscoped.list_for_user(current_session,
                                                     current_user,
-                                                    Privilege::VIEW)
+                                                    Alberich::Privilege::VIEW)
     instances = Instance.unscoped.list_for_user(current_session,
-                                                current_user, Privilege::VIEW)
+                                                current_user, Alberich::Privilege::VIEW)
 
     pool_option, pool_option_id = @pool_select.split(":")
     provider_option, provider_option_id = @provider_select.split(":")
@@ -222,7 +222,7 @@ class LogsController < ApplicationController
                               [_('Deployment'), "Deployment"],
                               [_('Instance'), "Instance"]]
       @pool_options = [[_('All Pools'), ""]]
-      PoolFamily.list_for_user(current_session, current_user, Privilege::VIEW).
+      PoolFamily.list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
         find(:all, :include => :pools, :order => "pool_families.name",
              :select => ["id", "name"]).each do |pool_family|
         @pool_options << [pool_family.name,
@@ -231,7 +231,7 @@ class LogsController < ApplicationController
           map{|x| [" -- " + x.name, "pool:" + x.id.to_s]}
       end
       @provider_options = [[_('All Providers'), ""]]
-      Provider.list_for_user(current_session, current_user, Privilege::VIEW).
+      Provider.list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
         find(:all, :include => :provider_accounts, :order => "providers.name",
              :select => ["id", "name"]).each do |provider|
         @provider_options << [provider.name, "provider:" + provider.id.to_s]
@@ -286,11 +286,11 @@ class LogsController < ApplicationController
 
     if @source_type == "Deployment"
       @initial_sources = Deployment.unscoped.
-        list_for_user(current_session, current_user, Privilege::VIEW).
+        list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
         find(:all, :conditions => initial_conditions)
     else
       @initial_sources = Instance.unscoped.
-        list_for_user(current_session, current_user, Privilege::VIEW).
+        list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
         find(:all, :conditions => initial_conditions)
     end
 

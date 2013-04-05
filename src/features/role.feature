@@ -14,9 +14,9 @@ Feature: Manage Roles
     And there should be a role named "Captain"
     When I follow "Captain"
     And I follow "Edit"
-    Then I should see "Editing Role:"
+    Then I should see "Editing role"
     When I fill in "role[name]" with "Admiral"
-    And I press "Save"
+    And I press "Update Alberich/role"
     Then I should see "Role updated successfully"
 
   Scenario: Show role details
@@ -29,12 +29,10 @@ Feature: Manage Roles
     Given a role "Admiral" exists
     And I am on the roles page
     And there are 2 more roles
-    When I check "Admiral" role
-    And I check "Captain" role
-    And I press "Delete"
+    When I delete the role "Admiral"
+    When I delete the role "Captain"
     Then there should be 0 more roles
     And I should be on the roles page
-    And I should see "These Roles were deleted: Captain, Admiral"
 
 #  Scenario: Search roles
 #    Given a role "Admiral" exists

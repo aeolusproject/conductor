@@ -19,7 +19,7 @@ class PoolFamiliesToProviderAccountsAssociationsController < ApplicationControll
 
   def index
     @pool_family = PoolFamily.find(params[:pool_family_id])
-    require_privilege(Privilege::VIEW, @pool_family)
+    require_privilege(Alberich::Privilege::VIEW, @pool_family)
     respond_to do |format|
       format.xml do
         render :partial => 'list.xml'
@@ -29,7 +29,7 @@ class PoolFamiliesToProviderAccountsAssociationsController < ApplicationControll
 
   def show
     pool_family = PoolFamily.find(params[:pool_family_id])
-    require_privilege(Privilege::VIEW, pool_family)
+    require_privilege(Alberich::Privilege::VIEW, pool_family)
     provider_account = ProviderAccount.find(params[:id])
     respond_to do |format|
       if pool_family.provider_accounts.where(:id => provider_account.id).size == 1
@@ -42,10 +42,10 @@ class PoolFamiliesToProviderAccountsAssociationsController < ApplicationControll
 
   def update
     @pool_family = PoolFamily.find(params[:pool_family_id])
-    require_privilege(Privilege::MODIFY, @pool_family)
+    require_privilege(Alberich::Privilege::MODIFY, @pool_family)
 
     provider_account = ProviderAccount.find(params[:id])
-    require_privilege(Privilege::USE, provider_account)
+    require_privilege(Alberich::Privilege::USE, provider_account)
 
     respond_to do |format|
       if @pool_family.provider_accounts.include?(provider_account) ||
@@ -60,7 +60,7 @@ class PoolFamiliesToProviderAccountsAssociationsController < ApplicationControll
 
   def destroy
     @pool_family = PoolFamily.find(params[:pool_family_id])
-    require_privilege(Privilege::MODIFY, @pool_family)
+    require_privilege(Alberich::Privilege::MODIFY, @pool_family)
 
     provider_account = ProviderAccount.find(params[:id])
 

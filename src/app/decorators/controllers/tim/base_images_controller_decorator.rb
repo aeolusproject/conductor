@@ -113,22 +113,22 @@ Tim::BaseImagesController.class_eval do
   def load_permissioned_images
     @base_images = Tim::BaseImage.list_for_user(current_session,
                                                 current_user,
-                                                Privilege::VIEW)
+                                                Alberich::Privilege::VIEW)
   end
 
   def check_view_permission
     @base_image = Tim::BaseImage.find(params[:id])
-    require_privilege(Privilege::VIEW, @base_image)
+    require_privilege(Alberich::Privilege::VIEW, @base_image)
   end
 
   def check_modify_permission
     @base_image = Tim::BaseImage.find(params[:id])
-    require_privilege(Privilege::MODIFY, @base_image)
+    require_privilege(Alberich::Privilege::MODIFY, @base_image)
   end
 
   def check_create_permission
     @base_image = Tim::BaseImage.new(params[:base_image])
-    require_privilege(Privilege::CREATE, Tim::BaseImage, @base_image.pool_family)
+    require_privilege(Alberich::Privilege::CREATE, Tim::BaseImage, @base_image.pool_family)
   end
 
   def set_tabs_and_headers
@@ -149,7 +149,7 @@ Tim::BaseImagesController.class_eval do
     @base_image.template ||= Tim::Template.new
 
     @accounts = @base_image.pool_family.provider_accounts.enabled.
-      list_for_user(current_session, current_user, Privilege::USE)
+      list_for_user(current_session, current_user, Alberich::Privilege::USE)
     if @accounts.empty?
       flash.now[:error] = @base_image.import ?
         _('Images cannot be imported. No Provider Accounts are currently enabled for this Environment.') :
@@ -181,7 +181,7 @@ Tim::BaseImagesController.class_eval do
   def set_targets
     # Preload up some data
     all_prov_accts = @base_image.pool_family.provider_accounts.
-      list_for_user(current_session, current_user, Privilege::USE).
+      list_for_user(current_session, current_user, Alberich::Privilege::USE).
       includes(:provider => :provider_type)
     provider_types = available_provider_types_for_base_image(@base_image)
     target_images = @version ? @version.target_images(:include => :provider_images) : []
@@ -201,7 +201,7 @@ Tim::BaseImagesController.class_eval do
     info = {}
     # Show push URL if pimg is missing of failed
     if (provider_image.nil? || provider_image.status == Tim::ProviderImage::STATUS_FAILED) &&
-      check_privilege(Privilege::MODIFY, @base_image) && target_image && target_image.built?
+      check_privilege(Alberich::Privilege::MODIFY, @base_image) && target_image && target_image.built?
         info[:pimg_push_url] = tim.provider_images_path(
           :provider_image => {
             :provider_account_id => provider_account.id,
@@ -209,7 +209,7 @@ Tim::BaseImagesController.class_eval do
           }
         )
     # Otherwise, if it's destroyable and the user has permission, show delete link
-    elsif provider_image && provider_image.destroyable? && check_privilege(Privilege::MODIFY, @base_image)
+    elsif provider_image && provider_image.destroyable? && check_privilege(Alberich::Privilege::MODIFY, @base_image)
       info[:pimg_delete_url] = tim.provider_image_path(provider_image.id)
     # Otherwise, we can neither show a push nor delete URL, so just show status:
     else
@@ -229,14 +229,14 @@ Tim::BaseImagesController.class_eval do
     info = {}
     # If there's no target image, or it's failed, show a build URL:
     if (target_image.nil? || target_image.status == Tim::TargetImage::STATUS_FAILED) &&
-      check_privilege(Privilege::MODIFY, @base_image)
+      check_privilege(Alberich::Privilege::MODIFY, @base_image)
         info[:build_url] = tim.target_images_path(:target_image => {
           :provider_type_id => provider_type.id,
           :image_version_id => @version ? @version.id : nil,
         }, :base_image_id => @version ? nil : @base_image.id)
     # otherwise, if the image is destroyable, show a delete link
     elsif target_image.present? && target_image.destroyable? &&
-      check_privilege(Privilege::MODIFY, @base_image)
+      check_privilege(Alberich::Privilege::MODIFY, @base_image)
         info[:delete_url] = tim.target_image_path(target_image.id)
     # Otherwise, we can't show either, so just show the status:
     else

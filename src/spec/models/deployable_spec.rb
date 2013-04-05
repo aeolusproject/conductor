@@ -138,12 +138,12 @@ describe Deployable do
     catalog2 = FactoryGirl.create :catalog
     catalog1.pool.should_not == catalog2.pool
     admin = FactoryGirl.create :admin_user
-    pool1_perm = Permission.create(:entity => admin.entity,
-                                   :role => Role.first(:conditions =>
+    pool1_perm = Alberich::Permission.create(:entity => admin.entity,
+                                   :role => Alberich::Role.first(:conditions =>
                                                    ['name = ?', 'Role|Pool Administrator']),
                                      :permission_object => catalog1.pool)
-    pool2_perm = Permission.create(:entity => admin.entity,
-                                   :role => Role.first(:conditions =>
+    pool2_perm = Alberich::Permission.create(:entity => admin.entity,
+                                   :role => Alberich::Role.first(:conditions =>
                                         ['name = ?', 'Role|Pool Deployable Admin']),
                                      :permission_object => catalog2.pool)
     deployable = FactoryGirl.create :deployable, :catalogs => [catalog1]

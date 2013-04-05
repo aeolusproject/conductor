@@ -18,7 +18,7 @@ class UserGroupsController < ApplicationController
   before_filter :require_user, :except => [:new, :create]
 
   def index
-    require_privilege(Privilege::VIEW, User)
+    require_privilege(Alberich::Privilege::VIEW, User)
     @title = _('User Groups')
     clear_breadcrumbs
     save_breadcrumb(user_groups_path)
@@ -34,7 +34,7 @@ class UserGroupsController < ApplicationController
 
   def show
     @user_group = UserGroup.find(params[:id])
-    require_privilege(Privilege::VIEW, User)
+    require_privilege(Alberich::Privilege::VIEW, User)
     @title = @user_group.name
     save_breadcrumb(user_group_path(@user_group), @user_group.name)
     @tab_captions = ['Properties']
@@ -58,7 +58,7 @@ class UserGroupsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, User)
+    require_privilege(Alberich::Privilege::CREATE, User)
     @title = _('New User Group')
     @user_group = UserGroup.new
   end
@@ -68,7 +68,7 @@ class UserGroupsController < ApplicationController
       redirect_to :action => 'new' and return
     end
 
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user_group = UserGroup.new(params[:user_group])
 
     respond_to do |format|
@@ -89,13 +89,13 @@ class UserGroupsController < ApplicationController
 
   def edit
     @user_group = UserGroup.find(params[:id])
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @title = _('Edit User Group')
   end
 
   def update
     @user_group = UserGroup.find(params[:id])
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
 
     if params[:commit] == "Reset"
       redirect_to edit_user_group_url(@user_group) and return
@@ -113,7 +113,7 @@ class UserGroupsController < ApplicationController
   end
 
   def multi_destroy
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
     deleted_user_groups = []
 
     begin
@@ -137,7 +137,7 @@ class UserGroupsController < ApplicationController
   end
 
   def destroy
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
     user_group = UserGroup.find(params[:id])
     if user_group.destroy
       flash[:notice] = _('User Group has been successfully deleted.')
@@ -152,7 +152,7 @@ class UserGroupsController < ApplicationController
 
   def add_members
     @user_group = UserGroup.find(params[:id])
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
 
     unless @user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
       flash[:error] = _('Only locally-managed groups can be managed here.')
@@ -192,7 +192,7 @@ class UserGroupsController < ApplicationController
 
   def remove_members
     @user_group = UserGroup.find(params[:id])
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
 
     unless @user_group.membership_source == UserGroup::MEMBERSHIP_SOURCE_LOCAL
       flash[:error] = _('Only locally-managed groups can be managed here.')

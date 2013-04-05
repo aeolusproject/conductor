@@ -18,8 +18,8 @@ class CatalogEntriesController < ApplicationController
 
   def create
     @catalog_entry = CatalogEntry.new(params[:catalog_entry])
-    require_privilege(Privilege::MODIFY, @catalog_entry.catalog)
-    require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
+    require_privilege(Alberich::Privilege::MODIFY, @catalog_entry.catalog)
+    require_privilege(Alberich::Privilege::MODIFY, @catalog_entry.deployable)
 
     if @catalog_entry.save
       redirect_to catalog_deployable_path(@catalog_entry.catalog, @catalog_entry.deployable), :notice => _('Deployable added to Catalog %s.') % @catalog_entry.catalog.name
@@ -34,8 +34,8 @@ class CatalogEntriesController < ApplicationController
     deployable = @catalog_entry.deployable
     catalog = @catalog_entry.catalog
 
-    require_privilege(Privilege::MODIFY, @catalog_entry.catalog)
-    require_privilege(Privilege::MODIFY, @catalog_entry.deployable)
+    require_privilege(Alberich::Privilege::MODIFY, @catalog_entry.catalog)
+    require_privilege(Alberich::Privilege::MODIFY, @catalog_entry.deployable)
     @catalog_entry.destroy
 
     if deployable.destroyed?

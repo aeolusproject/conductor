@@ -14,6 +14,8 @@
 #   limitations under the License.
 #
 class CreatePermissionSessions < ActiveRecord::Migration
+  class SessionEntity < ActiveRecord::Base; end
+
   def self.up
     create_table :permission_sessions do |t|
       t.references :user, :null => false

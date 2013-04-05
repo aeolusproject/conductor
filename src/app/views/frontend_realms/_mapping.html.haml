@@ -1,6 +1,6 @@
 = form_tag multi_destroy_realm_mappings_path(:frontend_realm_id => @realm.id) do
   %header
-    - if check_privilege(Privilege::MODIFY, FrontendRealm)
+    - if check_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
       .section-controls
         - if @realm.realm_backend_targets and !@realm.realm_backend_targets.empty?
           = submit_tag _('Delete Selected'), :id => 'delete_mapping_button', :class => 'button danger', :confirm => _('Are you sure you want to delete?')

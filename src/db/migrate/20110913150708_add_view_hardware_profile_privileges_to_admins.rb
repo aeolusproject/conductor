@@ -15,6 +15,9 @@
 #
 
 class AddViewHardwareProfilePrivilegesToAdmins < ActiveRecord::Migration
+  class Role < ActiveRecord::Base; end
+  class Privilege < ActiveRecord::Base; end
+
   def self.up
     return if Role.all.empty?
 

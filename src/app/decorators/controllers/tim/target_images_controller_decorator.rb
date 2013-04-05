@@ -35,18 +35,18 @@ Tim::TargetImagesController.class_eval do
   def load_permissioned_target_images
     images = Tim::BaseImage.list_for_user(current_session,
                                           current_user,
-                                          Privilege::VIEW)
+                                          Alberich::Privilege::VIEW)
     @target_images = Tim::TargetImage.find_by_images(images)
   end
 
   def check_view_permission
     @target_image = Tim::TargetImage.find(params[:id])
-    require_privilege(Privilege::VIEW, @target_image.base_image)
+    require_privilege(Alberich::Privilege::VIEW, @target_image.base_image)
   end
 
   def check_modify_permission
     @target_image = Tim::TargetImage.find(params[:id])
-    require_privilege(Privilege::MODIFY, @target_image.base_image)
+    require_privilege(Alberich::Privilege::MODIFY, @target_image.base_image)
   end
 
   def check_create_permission
@@ -56,6 +56,6 @@ Tim::TargetImagesController.class_eval do
         :base_image_id => params[:base_image_id]
       )
     end
-    require_privilege(Privilege::MODIFY, @target_image.base_image)
+    require_privilege(Alberich::Privilege::MODIFY, @target_image.base_image)
   end
 end

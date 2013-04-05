@@ -1,6 +1,6 @@
 .content
   - content_for :form_header do
-    - if check_privilege(Privilege::CREATE, ProviderAccount, @provider)
+    - if check_privilege(Alberich::Privilege::CREATE, ProviderAccount, @provider)
       %li= link_to _('New Account'), new_provider_provider_account_path(@provider), :id => 'new_provider_account', :class => 'button primary'
     %li= restful_submit_tag _('Delete'), "destroy", multi_destroy_provider_provider_accounts_path(@provider), 'DELETE', :id => 'delete_provider_account_button', :class => 'button danger'
 

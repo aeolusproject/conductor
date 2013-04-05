@@ -22,7 +22,7 @@ class Deployable < ActiveRecord::Base
   end
 
 
-  include PermissionedObject
+  include Alberich::PermissionedObject
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -31,13 +31,6 @@ class Deployable < ActiveRecord::Base
   validates_presence_of :xml
   validate :validate_deployable_xml, :if => Proc.new {|deployable|
                                               !deployable.xml.blank? }
-
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
 
   has_many :catalog_entries, :dependent => :destroy
   has_many :catalogs, :through => :catalog_entries

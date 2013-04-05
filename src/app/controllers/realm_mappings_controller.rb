@@ -18,14 +18,14 @@ class RealmMappingsController < ApplicationController
   before_filter :require_user
 
   def new
-    require_privilege(Privilege::MODIFY, FrontendRealm)
+    require_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
     @title = _('Create a new Realm Mapping')
     @realm_target = RealmBackendTarget.new(:frontend_realm_id => params[:frontend_realm_id], :provider_realm_or_provider_type => params[:provider_realm_or_provider_type])
     load_backend_targets
   end
 
   def create
-    require_privilege(Privilege::MODIFY, FrontendRealm)
+    require_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
     @realm_target = RealmBackendTarget.new(params[:realm_backend_target])
     if @realm_target.save
       flash[:notice] = _('Realm mapping was added.')
@@ -38,7 +38,7 @@ class RealmMappingsController < ApplicationController
   end
 
   def multi_destroy
-    require_privilege(Privilege::MODIFY, FrontendRealm)
+    require_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
     if params[:id].blank?
       flash[:error] = _('You must select at least one mapping to delete.')
       redirect_to frontend_realm_path(params[:frontend_realm_id], :details_tab => 'mapping')
@@ -54,11 +54,11 @@ class RealmMappingsController < ApplicationController
   def load_backend_targets
     @backend_targets = if @realm_target.provider_realm_or_provider_type == 'ProviderRealm'
       Provider.list_for_user(current_session, current_user,
-                             Privilege::USE).collect do |provider|
+                             Alberich::Privilege::USE).collect do |provider|
         provider.provider_realms
       end.flatten
     else
-      Provider.list_for_user(current_session, current_user, Privilege::USE)
+      Provider.list_for_user(current_session, current_user, Alberich::Privilege::USE)
     end
 
   end

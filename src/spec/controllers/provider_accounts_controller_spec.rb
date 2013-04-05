@@ -27,7 +27,7 @@ describe ProviderAccountsController do
       @provider_account = FactoryGirl.create :mock_provider_account
       @provider = @provider_account.provider
 
-      @admin_permission = Permission.create :role => Role.find(:first, :conditions => ['name = ?', 'Role|Global Provider Administrator']),
+      @admin_permission = Alberich::Permission.create :role => Alberich::Role.find(:first, :conditions => ['name = ?', 'Role|Global Provider Administrator']),
         :permission_object => @provider,
         :entity => FactoryGirl.create(:provider_admin_user).entity
       @admin = @admin_permission.user

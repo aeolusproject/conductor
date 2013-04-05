@@ -44,7 +44,7 @@ class HardwareProfilesController < ApplicationController
 
   def show
     @hardware_profile = HardwareProfile.find(Array(params[:id]).first)
-    require_privilege(Privilege::VIEW, @hardware_profile)
+    require_privilege(Alberich::Privilege::VIEW, @hardware_profile)
     @title = if @hardware_profile.provider_hardware_profile?
                _('%s (Provider)') % @hardware_profile.name
              else
@@ -72,7 +72,7 @@ class HardwareProfilesController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, HardwareProfile)
+    require_privilege(Alberich::Privilege::CREATE, HardwareProfile)
     @title = _('New Hardware Profile')
 
     respond_to do |format|
@@ -82,7 +82,7 @@ class HardwareProfilesController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, HardwareProfile)
+    require_privilege(Alberich::Privilege::CREATE, HardwareProfile)
 
     build_hardware_profile(params[:hardware_profile])
 
@@ -103,7 +103,7 @@ class HardwareProfilesController < ApplicationController
   end
 
   def matching_provider_hardware_profiles
-    require_privilege(Privilege::CREATE, HardwareProfile)
+    require_privilege(Alberich::Privilege::CREATE, HardwareProfile)
 
     build_hardware_profile(params[:hardware_profile])
     find_matching_provider_hardware_profiles
@@ -112,7 +112,7 @@ class HardwareProfilesController < ApplicationController
 
   def destroy
     @hardware_profile = HardwareProfile.find(params[:id])
-    require_privilege(Privilege::MODIFY, @hardware_profile)
+    require_privilege(Alberich::Privilege::MODIFY, @hardware_profile)
 
     if @hardware_profile.provider_hardware_profile?
       error_message = _('Cannot delete Provider Hardware Profiles')
@@ -151,7 +151,7 @@ class HardwareProfilesController < ApplicationController
     unless @hardware_profile
       @hardware_profile = HardwareProfile.find(params[:id])
     end
-    require_privilege(Privilege::MODIFY, @hardware_profile)
+    require_privilege(Alberich::Privilege::MODIFY, @hardware_profile)
     @title = @hardware_profile.name.titlecase
     if @hardware_profile.provider_hardware_profile?
       flash[:warning] = _('Cannot modify Provider Hardware Profiles')
@@ -164,12 +164,12 @@ class HardwareProfilesController < ApplicationController
   def update
     if params[:id]
       @hardware_profile = HardwareProfile.find(params[:id])
-      require_privilege(Privilege::MODIFY, @hardware_profile)
+      require_privilege(Alberich::Privilege::MODIFY, @hardware_profile)
       build_hardware_profile(params[:hardware_profile])
     end
 
     if params[:commit] == _('Check Matches')
-      require_privilege(Privilege::VIEW, HardwareProfile)
+      require_privilege(Alberich::Privilege::VIEW, HardwareProfile)
       find_matching_provider_hardware_profiles
       render :edit and return
     end
@@ -187,7 +187,7 @@ class HardwareProfilesController < ApplicationController
     not_deleted=[]
 
     HardwareProfile.find(params[:hardware_profile_selected]).each do |hwp|
-      if check_privilege(Privilege::MODIFY, hwp) && hwp.destroy
+      if check_privilege(Alberich::Privilege::MODIFY, hwp) && hwp.destroy
         deleted << hwp.name
       else
         not_deleted << hwp.name
@@ -212,7 +212,7 @@ class HardwareProfilesController < ApplicationController
     redirect_to hardware_profiles_path unless params[:id]
 
     @hardware_profile = HardwareProfile.find(params[:id])
-    require_privilege(Privilege::MODIFY, @hardware_profile)
+    require_privilege(Alberich::Privilege::MODIFY, @hardware_profile)
 
     begin
       Cost.transaction do
@@ -244,7 +244,7 @@ class HardwareProfilesController < ApplicationController
     redirect_to hardware_profiles_path unless params[:id]
 
     @hardware_profile = HardwareProfile.find(params[:id])
-    require_privilege(Privilege::MODIFY, @hardware_profile)
+    require_privilege(Alberich::Privilege::MODIFY, @hardware_profile)
 
     begin
       Cost.transaction do
@@ -292,7 +292,7 @@ class HardwareProfilesController < ApplicationController
     unless @hardware_profile
       @hardware_profile = HardwareProfile.find(params[:id])
     end
-    require_privilege(Privilege::MODIFY, @hardware_profile)
+    require_privilege(Alberich::Privilege::MODIFY, @hardware_profile)
 
     unless @hardware_profile.provider_hardware_profile?
       flash[:warning] = _('Cannot assign cost to Frontend Hardware Profile')
@@ -355,7 +355,7 @@ class HardwareProfilesController < ApplicationController
 
     begin
       @matching_hwps = HardwareProfile.matching_hardware_profiles(@hardware_profile)
-      @matching_hwps.reject! { |hwp| !check_privilege(Privilege::VIEW, hwp) }
+      @matching_hwps.reject! { |hwp| !check_privilege(Alberich::Privilege::VIEW, hwp) }
     rescue Exception => e
       @matching_hwps = []
     end
@@ -378,14 +378,14 @@ class HardwareProfilesController < ApplicationController
         apply_filters(:preset_filter_id =>
                         params[:hardware_profiles_preset_filter],
                       :search_filter => params[:hardware_profiles_search]).
-        list_for_user(current_session, current_user, Privilege::VIEW).
+        list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
         order("hardware_profiles.name #{sort_direction}")
     else
       @hardware_profiles = HardwareProfile.where('provider_id IS NULL', {}).
         apply_filters(:preset_filter_id =>
                         params[:hardware_profiles_preset_filter],
                       :search_filter => params[:hardware_profiles_search]).
-        list_for_user(current_session, current_user, Privilege::VIEW)
+        list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
       if sort_order == "asc"
         @hardware_profiles.sort! do |x,y|
           x.get_property_map[sort_field].sort_value(true) <=>
@@ -399,7 +399,7 @@ class HardwareProfilesController < ApplicationController
       end
     end
 
-    @hardware_profiles.reject! { |hwp| !check_privilege(Privilege::VIEW, hwp) }
+    @hardware_profiles.reject! { |hwp| !check_privilege(Alberich::Privilege::VIEW, hwp) }
   end
 
   def build_hardware_profile(params)

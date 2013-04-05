@@ -61,7 +61,7 @@ class InstancesController < ApplicationController
   end
 
   def edit
-    require_privilege(Privilege::MODIFY, @instance)
+    require_privilege(Alberich::Privilege::MODIFY, @instance)
     respond_to do |format|
       format.html
       format.js { render :partial => 'edit', :id => @instance.id }
@@ -76,7 +76,7 @@ class InstancesController < ApplicationController
     attrs = {}
     params[:instance].each_pair{|k,v| attrs[k] = v if Instance::USER_MUTABLE_ATTRS.include?(k)}
     respond_to do |format|
-      if check_privilege(Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
+      if check_privilege(Alberich::Privilege::MODIFY, @instance) and @instance.update_attributes(attrs)
         flash[:success] = _('The Instance %s was successfully updated.') % @instance.name
         format.html { redirect_to @instance }
         format.js { render :partial => 'properties' }
@@ -94,7 +94,7 @@ class InstancesController < ApplicationController
     destroyed = []
     failed = []
     Instance.find(ids_list).each do |instance|
-      if check_privilege(Privilege::MODIFY, instance) && instance.destroyable?
+      if check_privilege(Alberich::Privilege::MODIFY, instance) && instance.destroyable?
         instance.destroy
         destroyed << instance.name
       else
@@ -144,7 +144,7 @@ class InstancesController < ApplicationController
 
     @instances_to_stop.each do |instance|
       begin
-        require_privilege(Privilege::USE,instance)
+        require_privilege(Alberich::Privilege::USE,instance)
 
         if @inaccessible_instances.include?(instance)
           instance.forced_stop(current_user)
@@ -190,7 +190,7 @@ class InstancesController < ApplicationController
     errors = []
     Instance.find(params[:instance_selected] || []).each do |instance|
       begin
-        require_privilege(Privilege::USE,instance)
+        require_privilege(Alberich::Privilege::USE,instance)
         instance.reboot(current_user)
         notices << "#{instance.name}: #{_('%s: reboot action was successfully queued.') % instance.name}"
       rescue Exception => ex
@@ -216,12 +216,12 @@ class InstancesController < ApplicationController
 
   def load_instance
     @instance = Instance.find(Array(params[:id]).first)
-    require_privilege(Privilege::USE,@instance)
+    require_privilege(Alberich::Privilege::USE,@instance)
   end
 
   def init_new_instance_attrs
     @pools = Pool.list_for_user(current_session, current_user,
-                                Privilege::CREATE, Instance).
+                                Alberich::Privilege::CREATE, Instance).
       where(:enabled => true)
     @realms = FrontendRealm.all
     @hardware_profiles = HardwareProfile.all(
@@ -243,7 +243,7 @@ class InstancesController < ApplicationController
     ]
 
     @pools = Pool.list_for_user(current_session, current_user,
-                                Privilege::CREATE, Instance)
+                                Alberich::Privilege::CREATE, Instance)
   end
 
   def load_instances
@@ -252,7 +252,7 @@ class InstancesController < ApplicationController
         Instance.includes(:owner).
           apply_filters(:preset_filter_id => params[:instances_preset_filter],
                         :search_filter => params[:instances_search]).
-          list_for_user(current_session, current_user, Privilege::VIEW).
+          list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
           list(sort_column(Instance), sort_direction).
           where("instances.pool_id" => @pools),
         params[:page], PER_PAGE)
@@ -262,7 +262,7 @@ class InstancesController < ApplicationController
           apply_filters(:preset_filter_id => params[:instances_preset_filter],
                         :search_filter => params[:instances_search]).
           list(sort_column(Instance), sort_direction).
-          list_for_user(current_session, current_user, Privilege::VIEW).
+          list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
           where("instances.pool_id" => @pools,
                 "instances.deployment_id" => params[:deployment_id]),
         params[:page], PER_PAGE)
@@ -272,7 +272,7 @@ class InstancesController < ApplicationController
   def check_inaccessible_instances
     # @instance is set only on stop action
     @instances_to_stop = @instance ? Array(@instance) : Instance.find(Array(params[:instance_selected]))
-    @instances_to_stop.reject! { |inst| !check_privilege(Privilege::USE, inst) }
+    @instances_to_stop.reject! { |inst| !check_privilege(Alberich::Privilege::USE, inst) }
     @inaccessible_instances = Instance.stoppable_inaccessible_instances(@instances_to_stop)
     if params[:terminate].blank? and @inaccessible_instances.any?
       respond_to do |format|

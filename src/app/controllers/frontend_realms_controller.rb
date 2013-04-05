@@ -32,20 +32,20 @@ class FrontendRealmsController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, FrontendRealm)
+    require_privilege(Alberich::Privilege::CREATE, FrontendRealm)
     @realm = FrontendRealm.new
     load_backend_realms
   end
 
   def edit
-    require_privilege(Privilege::MODIFY, FrontendRealm)
+    require_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name
     load_backend_realms
   end
 
   def update
-    require_privilege(Privilege::MODIFY, FrontendRealm)
+    require_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
     @realm = FrontendRealm.find(params[:id])
     @title = @realm.name || _('Realm')
 
@@ -59,7 +59,7 @@ class FrontendRealmsController < ApplicationController
   end
 
   def create
-    require_privilege(Privilege::CREATE, FrontendRealm)
+    require_privilege(Alberich::Privilege::CREATE, FrontendRealm)
     #@provider = Provider.find(params[:provider_id])
     @realm = FrontendRealm.new(params[:frontend_realm])
     if @realm.save
@@ -72,7 +72,7 @@ class FrontendRealmsController < ApplicationController
   end
 
   def destroy
-    require_privilege(Privilege::MODIFY, FrontendRealm)
+    require_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
     if FrontendRealm.destroy(params[:id])
       flash[:notice] = _('Realm was deleted')
     else
@@ -88,7 +88,7 @@ class FrontendRealmsController < ApplicationController
       flash[:error] = _('You must select at least one Realm to delete.')
     else
       FrontendRealm.find(params[:realm_selected]).each do |realm|
-        require_privilege(Privilege::MODIFY, FrontendRealm)
+        require_privilege(Alberich::Privilege::MODIFY, FrontendRealm)
         if realm.destroy
           deleted << realm.name
         else
@@ -141,12 +141,12 @@ class FrontendRealmsController < ApplicationController
   def load_backend_realms
     #TODO: list only realms user has permission on
     @backend_realms = Provider.list_for_user(current_session, current_user,
-                                             Privilege::USE).collect do |provider|
+                                             Alberich::Privilege::USE).collect do |provider|
       provider.provider_realms
     end.flatten
 
     @providers = Provider.list_for_user(current_session, current_user,
-                                        Privilege::USE)
+                                        Alberich::Privilege::USE)
   end
 
   def load_realms
