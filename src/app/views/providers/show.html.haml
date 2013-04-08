@@ -6,7 +6,7 @@
       =_('Return to:')
       = link_to "#{_('Providers')}", providers_path
     .button-group
-      - if check_privilege(Privilege::MODIFY, Provider)
+      - if check_privilege(Alberich::Privilege::MODIFY, Provider)
         = link_to _('Edit'), edit_provider_path(@provider), :class => 'button'
         = button_to _('Delete'), provider_path(@provider), :method => 'delete', :confirm => _('Are you sure you want to delete?'), :class => 'button danger'
   %h1.providers{:class => @provider.enabled ? 'enabled' : 'disabled'}= @provider.name.blank? ? _('Editing Provider') : @provider.name

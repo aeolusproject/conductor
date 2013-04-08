@@ -22,8 +22,16 @@ require 'util/conductor'
 require 'will_paginate/array'
 
 class ApplicationController < ActionController::Base
-  # FIXME: not sure what we're doing aobut service layer w/ deltacloud
-  include ApplicationService
+  class ActionError < RuntimeError; end
+  class PartialSuccessError < RuntimeError
+    attr_reader :failures, :successes
+    def initialize(msg, failures={}, successes=[])
+      @failures = failures
+      @successes = successes
+      super(msg)
+    end
+  end
+
   helper_method :current_session, :current_user, :filter_view?
   before_filter :read_breadcrumbs, :set_locale, :check_session_expiration
 
@@ -112,9 +120,9 @@ class ApplicationController < ActionController::Base
   def get_nav_items
     if current_user.present?
       @providers = Provider.list_for_user(current_session, current_user,
-                                          Privilege::VIEW)
+                                          Alberich::Privilege::VIEW)
       @pools = Pool.list_for_user(current_session, current_user,
-                                  Privilege::VIEW)
+                                  Alberich::Privilege::VIEW)
     end
   end
 
@@ -209,10 +217,6 @@ class ApplicationController < ActionController::Base
     user(:api)
   end
 
-  def current_session
-    @current_session ||= PermissionSession.find_by_id(session[:permission_session_id])
-  end
-
   def require_user
     return if current_user or http_auth_user
     respond_to do |format|
@@ -298,7 +302,7 @@ class ApplicationController < ActionController::Base
   def set_admin_users_tabs(tab)
     @tabs = [{:name => _('Users'), :url => main_app.users_url, :id => 'users'},
              {:name => _('User Groups'), :url => main_app.user_groups_url, :id => 'user_groups'},
-             {:name => _('Global Role Grants'), :url => main_app.permissions_url, :id => 'permissions'},
+             {:name => _('Global Role Grants'), :url => alberich.permissions_url, :id => 'permissions'},
     ]
     unless @details_tab = @tabs.find {|t| t[:id] == tab}
       raise "Tab '#{tab}' doesn't exist"
@@ -324,103 +328,42 @@ class ApplicationController < ActionController::Base
     %w[asc desc].include?(params[:order_dir]) ? params[:order_dir] : "asc"
   end
 
-  def add_profile_permissions_inline(entity, path_prefix = '')
-    @entity = entity
-    @path_prefix = path_prefix
-    @roles = Role.all_by_scope
-    @inline = true
-    @show_inherited = params[:show_inherited]
-    @show_global = params[:show_global]
-    local_perms = @show_inherited ? @entity.derived_permissions :
-                                    @entity.permissions
-    @permissions = paginate_collection(local_perms.
+  def add_permissions_tab(perm_obj, path_prefix = '',
+                          polymorphic_path_extras = {})
+    add_permissions_common(false, perm_obj, path_prefix,
+                           polymorphic_path_extras)
+    if "permissions" == params[:details_tab]
+      require_privilege(Alberich::Privilege::PERM_VIEW, perm_obj)
+    end
+    if perm_obj.has_privilege(current_session, current_user,
+                              Alberich::Privilege::PERM_VIEW)
+      if @tabs
+        @tabs << {:name => _('Role Assignments'),
+                  :view => 'alberich/permissions/permissions',
+                  :id => 'permissions',
+                  :count => perm_obj.permissions.count,
+                  :pretty_view_toggle => 'disabled'}
+      end
+    end
+  end
+
+  def filter_permissions_for_profile(perms)
+    paginate_collection(perms.
       apply_filters(:preset_filters_options =>
-                      Permission::PROFILE_PRESET_FILTERS_OPTIONS,
+                      Alberich::Permission::PROFILE_PRESET_FILTERS_OPTIONS,
                     :preset_filter_id =>
                       params[:profile_permissions_preset_filter],
                     :search_filter =>
                       [params[:profile_permissions_search],
                        params[:profile_permissions_preset_filter]]),
                                        params[:page])
-
-    @permission_list_header = []
-    unless (@show_inherited)
-      @permission_list_header <<
-        { :name => 'checkbox', :class => 'checkbox', :sortable => false }
-    end
-    @permission_list_header += [
-      { :name => _('Resource Type')},
-      { :name => _('Resource')},
-      { :name => _('Role'), :sort_attr => :role},
-    ]
-    if @show_inherited
-      @permission_list_header <<
-        { :name => _('Inherited From'), :sortable => false }
-    end
   end
 
-  def add_permissions_inline(perm_obj, path_prefix = '', polymorphic_path_extras = {})
-    @permission_object = perm_obj
-    require_privilege(Privilege::VIEW, @permission_object)
-    @path_prefix = path_prefix
-    @polymorphic_path_extras = polymorphic_path_extras
-    @roles = Role.find_all_by_scope(@permission_object.class.name)
-    set_permissions_header
-    @inline = true
-  end
-
-  def add_permissions_tab(perm_obj, path_prefix = '', polymorphic_path_extras = {})
-    @inline = false
-    @path_prefix = path_prefix
-    @polymorphic_path_extras = polymorphic_path_extras
-    @permission_object = perm_obj
-    if "permissions" == params[:details_tab]
-      require_privilege(Privilege::PERM_VIEW, perm_obj)
-    end
-    if perm_obj.has_privilege(current_session, current_user, Privilege::PERM_VIEW)
-      @roles = Role.find_all_by_scope(@permission_object.class.name)
-      if @tabs
-        @tabs << {:name => _('Role Assignments'),
-                  :view => 'permissions/permissions',
-                  :id => 'permissions',
-                  :count => perm_obj.permissions.count,
-                  :pretty_view_toggle => 'disabled'}
-      end
-      set_permissions_header
-    end
-  end
-
-  def set_permissions_header
-    unless @permissions_object == BasePermissionObject.general_permission_scope
-      @show_inherited = params[:show_inherited]
-      @show_global = params[:show_global]
-    end
-    if @show_inherited
-      local_perms = @permission_object.derived_permissions
-    elsif @show_global
-      local_perms = BasePermissionObject.general_permission_scope.
-        permissions_for_type(@permission_object.class)
-    else
-      local_perms = @permission_object.permissions
-    end
-    @permissions = paginate_collection(local_perms.
+  def filter_permissions(perms)
+    paginate_collection(perms.
       apply_filters(:preset_filter_id => params[:permissions_preset_filter],
                     :search_filter => params[:permissions_search]),
                                        params[:page])
-
-    @permission_list_header = []
-    unless (@show_inherited or @show_global)
-      @permission_list_header <<
-        { :name => 'checkbox', :class => 'checkbox', :sortable => false }
-    end
-    @permission_list_header += [
-      { :name => _('Name')},
-      { :name => _('Role'), :sort_attr => :role},
-    ]
-    if @show_inherited
-      @permission_list_header <<
-        { :name => _('Inherited From'), :sortable => false }
-    end
   end
 
   def set_locale

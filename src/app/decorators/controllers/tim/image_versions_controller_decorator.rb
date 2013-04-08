@@ -27,22 +27,22 @@ Tim::ImageVersionsController.class_eval do
   def load_permissioned_image_versions
     images = Tim::BaseImage.list_for_user(current_session,
                                           current_user,
-                                          Privilege::VIEW)
+                                          Alberich::Privilege::VIEW)
     @image_versions = Tim::ImageVersion.where(:base_image_id => images.map{|i| i.id})
   end
 
   def check_view_permission
     @image_version = Tim::ImageVersion.find(params[:id])
-    require_privilege(Privilege::VIEW, @image_version.base_image)
+    require_privilege(Alberich::Privilege::VIEW, @image_version.base_image)
   end
 
   def check_modify_permission
     @image_version = Tim::ImageVersion.find(params[:id])
-    require_privilege(Privilege::MODIFY, @image_version.base_image)
+    require_privilege(Alberich::Privilege::MODIFY, @image_version.base_image)
   end
 
   def check_create_permission
     @image_version = Tim::ImageVersion.new(params[:image_version])
-    require_privilege(Privilege::MODIFY, @image_version.base_image)
+    require_privilege(Alberich::Privilege::MODIFY, @image_version.base_image)
   end
 end

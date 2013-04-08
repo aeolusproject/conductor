@@ -1,12 +1,12 @@
 - content_for :form_header do
-  - if check_privilege(Privilege::MODIFY)
+  - if check_privilege(Alberich::Privilege::MODIFY)
     %li= link_to _('Add Account'), add_provider_accounts_pool_family_path(@pool_family), { :class => 'button primary', :id => 'add_provider_accounts_button'}
     %li= restful_submit_tag _('Delete'), "destroy", remove_provider_accounts_pool_family_path(@pool_family), 'POST', :id => 'remove_button', :class => 'button danger'
 
 = filter_table(provider_accounts_header(:without_alert => true), @pool_family.provider_accounts) do |account|
   %tr{:class => cycle('nostripe','stripe')}
     %td{:class => 'checkbox'}
-      - if check_privilege(Privilege::MODIFY)
+      - if check_privilege(Alberich::Privilege::MODIFY)
         - selected = params[:select] == 'all'
         = check_box_tag "accounts_selected[]", account.id, selected, :id => "account_checkbox_#{account.id}"
     %td= link_to account.name, provider_provider_account_path(account.provider, account)

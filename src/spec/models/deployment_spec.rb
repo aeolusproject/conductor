@@ -219,7 +219,7 @@ describe Deployment do
       @user_for_launch.quota.maximum_running_instances = 1
       @session = FactoryGirl.create :session
       @session_id = @session.session_id
-      @permission_session = PermissionSession.create!(:user => @user_for_launch,
+      @permission_session = Alberich::PermissionSession.create!(:user => @user_for_launch,
                                                       :session_id => @session_id)
       @permission_session.update_session_entities(@user_for_launch)
       @deployment.stub(:common_provider_accounts_for).and_return(["test","test"])
@@ -235,7 +235,7 @@ describe Deployment do
       @user_for_launch = admin_perms.user
       @session = FactoryGirl.create :session
       @session_id = @session.session_id
-      @permission_session = PermissionSession.create!(:user => @user_for_launch,
+      @permission_session = Alberich::PermissionSession.create!(:user => @user_for_launch,
                                                       :session_id => @session_id)
       @permission_session.update_session_entities(@user_for_launch)
       @instance_match = FactoryGirl.build(:instance_match)

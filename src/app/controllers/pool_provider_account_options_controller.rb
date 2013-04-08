@@ -21,7 +21,7 @@ class PoolProviderAccountOptionsController < ApplicationController
   before_filter :require_privileged_user_for_modify, :except => :index
 
   def index
-    require_privilege(Privilege::VIEW, @pool)
+    require_privilege(Alberich::Privilege::VIEW, @pool)
 
     @provider_accounts = @pool.pool_family.provider_accounts
     @options =
@@ -67,7 +67,7 @@ class PoolProviderAccountOptionsController < ApplicationController
   end
 
   def require_privileged_user_for_modify
-    require_privilege(Privilege::MODIFY, @pool)
+    require_privilege(Alberich::Privilege::MODIFY, @pool)
   end
 
 end

@@ -22,7 +22,7 @@ class ProviderPriorityGroupsController < ApplicationController
   before_filter :require_privileged_user_for_modify, :except => :index
 
   def index
-    require_privilege(Privilege::VIEW, @pool)
+    require_privilege(Alberich::Privilege::VIEW, @pool)
 
     @strategy = ProviderSelection::Base.find_strategy_by_name(params[:name])
     @priority_groups = @pool.provider_priority_groups
@@ -43,14 +43,14 @@ class ProviderPriorityGroupsController < ApplicationController
 
     if params[:provider_ids].present?
       selected_providers =
-        Provider.list_for_user(current_session, current_user, Privilege::USE).
+        Provider.list_for_user(current_session, current_user, Alberich::Privilege::USE).
           find(params[:provider_ids])
       @priority_group.providers = selected_providers
     end
 
     if params[:provider_account_ids].present?
       selected_provider_accounts =
-        ProviderAccount.list_for_user(current_session, current_user, Privilege::USE).
+        ProviderAccount.list_for_user(current_session, current_user, Alberich::Privilege::USE).
           find(params[:provider_account_ids])
       @priority_group.add_provider_accounts(selected_provider_accounts)
     end
@@ -73,7 +73,7 @@ class ProviderPriorityGroupsController < ApplicationController
 
     if params[:provider_ids].present?
       selected_providers =
-        Provider.list_for_user(current_session, current_user, Privilege::USE).
+        Provider.list_for_user(current_session, current_user, Alberich::Privilege::USE).
           find(params[:provider_ids])
       @priority_group.providers = selected_providers
     end
@@ -81,7 +81,7 @@ class ProviderPriorityGroupsController < ApplicationController
     @priority_group.provider_accounts.clear
     if params[:provider_account_ids].present?
       selected_provider_accounts =
-        ProviderAccount.list_for_user(current_session, current_user, Privilege::USE).
+        ProviderAccount.list_for_user(current_session, current_user, Alberich::Privilege::USE).
           find(params[:provider_account_ids])
       @priority_group.add_provider_accounts(selected_provider_accounts)
     end
@@ -104,15 +104,15 @@ class ProviderPriorityGroupsController < ApplicationController
   def load_providers
     @providers = Provider.joins(:provider_accounts => {:pool_families => :pools}).
       where(:pools => {:id => @pool.id}).
-        list_for_user(current_session, current_user, Privilege::USE).uniq
+        list_for_user(current_session, current_user, Alberich::Privilege::USE).uniq
     @provider_account_ids = ProviderAccount.joins(:pool_families => :pools).
         where(:pools => {:id => @pool.id}).
-        list_for_user(current_session, current_user, Privilege::USE).
+        list_for_user(current_session, current_user, Alberich::Privilege::USE).
           collect(&:id)
   end
 
   def require_privileged_user_for_modify
-    require_privilege(Privilege::MODIFY, @pool)
+    require_privilege(Alberich::Privilege::MODIFY, @pool)
   end
 
 end

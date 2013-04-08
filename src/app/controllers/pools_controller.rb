@@ -48,7 +48,7 @@ class PoolsController < ApplicationController
     @details_tab = @tabs.find {|t| t[:id] == details_tab_name} || @tabs.first[:name].downcase
 
     @user_pools = Pool.list_for_user(current_session, current_user,
-                                     Privilege::CREATE, Deployment)
+                                     Alberich::Privilege::CREATE, Deployment)
 
     if filter_view?
       case @details_tab[:id]
@@ -57,7 +57,7 @@ class PoolsController < ApplicationController
           Pool.includes(:deployments, :instances).
             apply_filters(:preset_filter_id => params[:pools_preset_filter],
                           :search_filter => params[:pools_search]).
-            list_for_user(current_session, current_user, Privilege::VIEW).
+            list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
             list(sort_column(Pool), sort_direction),
           params[:page], PER_PAGE)
       when 'instances'
@@ -66,7 +66,7 @@ class PoolsController < ApplicationController
           Instance.includes({:provider_account => :provider}).
             apply_filters(:preset_filter_id => params[:instances_preset_filter],
                           :search_filter => params[:instances_search]).
-            list_for_user(current_session, current_user, Privilege::VIEW).
+            list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
             list(sort_column(Instance), sort_direction),
           params[:page], PER_PAGE)
       when 'deployments'
@@ -75,14 +75,14 @@ class PoolsController < ApplicationController
             apply_filters(:preset_filter_id =>
                             params[:deployments_preset_filter],
                           :search_filter => params[:deployments_search]).
-            list_for_user(current_session, current_user, Privilege::VIEW).
+            list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
             list(sort_column(Deployment), sort_direction),
           params[:page], PER_PAGE)
       end
     else
       @pools = paginate_collection(
         Pool.includes(:quota, :catalogs).
-          list_for_user(current_session, current_user, Privilege::VIEW).
+          list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
           list(sort_column(Pool), sort_direction),
         params[:page], PER_PAGE)
     end
@@ -123,9 +123,9 @@ class PoolsController < ApplicationController
     @pool = Pool.find(params[:id])
     @title = @pool.name
     save_breadcrumb(pool_path(@pool, :viewstate => viewstate_id), @pool.name)
-    require_privilege(Privilege::VIEW, @pool)
+    require_privilege(Alberich::Privilege::VIEW, @pool)
     @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
-                                             Privilege::VIEW)
+                                             Alberich::Privilege::VIEW)
     @statistics = @pool.statistics(current_session, current_user)
 
     if params[:details_tab]
@@ -168,7 +168,7 @@ class PoolsController < ApplicationController
       format.json do
         deployments = paginate_collection(
             @pool.deployments.list_for_user(current_session, current_user,
-                                            Privilege::VIEW),
+                                            Alberich::Privilege::VIEW),
             params[:page], PER_PAGE).
           map{ |deployment| view_context.deployment_for_mustache(deployment) }
         render :json => @pool.as_json.merge({:deployments => deployments})
@@ -189,9 +189,9 @@ class PoolsController < ApplicationController
     if params[:pool_family_id].present?
       @pool.pool_family =
         PoolFamily.list_for_user(current_session, current_user,
-                                 Privilege::CREATE, Pool).
+                                 Alberich::Privilege::CREATE, Pool).
                    find(params[:pool_family_id])
-      require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
+      require_privilege(Alberich::Privilege::CREATE, Pool, @pool.pool_family)
     end
 
     respond_to do |format|
@@ -206,9 +206,9 @@ class PoolsController < ApplicationController
     @title = _('New Pool')
     @pool = Pool.new(params[:pool])
     @pool.quota = Quota.new(params[:pool][:quota_attributes])
-    require_privilege(Privilege::CREATE, Pool, @pool.pool_family)
+    require_privilege(Alberich::Privilege::CREATE, Pool, @pool.pool_family)
     @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
-                                             Privilege::VIEW)
+                                             Alberich::Privilege::VIEW)
 
     respond_to do |format|
       if @pool.save
@@ -237,7 +237,7 @@ class PoolsController < ApplicationController
     @pool = Pool.find(params[:id])
 
     @title = _('Edit Pool')
-    require_privilege(Privilege::MODIFY, @pool)
+    require_privilege(Alberich::Privilege::MODIFY, @pool)
     @quota = @pool.quota
     respond_to do |format|
       format.html
@@ -249,9 +249,9 @@ class PoolsController < ApplicationController
   def update
     transform_quota_param(:pool)
     @pool = Pool.find(params[:id])
-    require_privilege(Privilege::MODIFY, @pool)
+    require_privilege(Alberich::Privilege::MODIFY, @pool)
     @catalogs = @pool.catalogs.list_for_user(current_session, current_user,
-                                             Privilege::VIEW)
+                                             Alberich::Privilege::VIEW)
     @quota = @pool.quota
 
     respond_to do |format|
@@ -289,7 +289,7 @@ class PoolsController < ApplicationController
       pool_id = pool.id
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
         error_messages << _('The default Pool cannot be deleted.')
-      elsif !check_privilege(Privilege::MODIFY, pool)
+      elsif !check_privilege(Alberich::Privilege::MODIFY, pool)
         permission_failed << pool.name
       elsif !pool.destroyable?
         failed << pool.name
@@ -337,7 +337,7 @@ class PoolsController < ApplicationController
       # to id of 1 and deleting it prevents new users from being created
       if pool.id == MetadataObject.lookup("self_service_default_pool").id
         error_messages << _('The default Pool cannot be deleted.')
-      elsif !check_privilege(Privilege::MODIFY, pool)
+      elsif !check_privilege(Alberich::Privilege::MODIFY, pool)
         permission_failed << pool.name
       elsif !pool.destroyable?
         failed << pool.name
@@ -411,7 +411,7 @@ class PoolsController < ApplicationController
     params[:state] = 'running' unless params.keys.include?('state')
     conditions = params[:state].present? ? ['state=?', params[:state]] : ''
     @instances = @pool.instances.list_for_user(current_session, current_user,
-                                               Privilege::VIEW).
+                                               Alberich::Privilege::VIEW).
       where(conditions)
   end
 
@@ -419,7 +419,7 @@ class PoolsController < ApplicationController
     unpaginated_deployments = @pool.deployments.includes(:owner, :pool, :instances, :events).
         apply_filters(:preset_filter_id => params[:deployments_preset_filter],
                       :search_filter => params[:deployments_search]).
-        list_for_user(current_session, current_user, Privilege::VIEW)
+        list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
 
     @deployments = if request.format.xml?
                      unpaginated_deployments
@@ -439,7 +439,7 @@ class PoolsController < ApplicationController
 
   def load_available_pool_families
     @available_pool_families =
-      PoolFamily.list_for_user(current_session, current_user, Privilege::MODIFY)
+      PoolFamily.list_for_user(current_session, current_user, Alberich::Privilege::MODIFY)
   end
 
 end

@@ -38,7 +38,7 @@ require 'util/config_server_util'
 class Deployment < ActiveRecord::Base
   acts_as_paranoid
 
-  include PermissionedObject
+  include Alberich::PermissionedObject
   class << self
     include CommonFilterMethods
   end
@@ -52,13 +52,6 @@ class Deployment < ActiveRecord::Base
 
   belongs_to :provider_realm
   belongs_to :frontend_realm
-
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
 
   belongs_to :owner, :class_name => "User", :foreign_key => "owner_id"
 

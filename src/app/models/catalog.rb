@@ -29,19 +29,13 @@ class Catalog < ActiveRecord::Base
   class << self
     include CommonFilterMethods
   end
-  include PermissionedObject
+  include Alberich::PermissionedObject
 
   belongs_to :pool
   belongs_to :pool_family
 
   has_many :catalog_entries, :dependent => :destroy
   has_many :deployables, :through => :catalog_entries
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
 
   before_destroy :destroy_deployables_related_only_to_self
   before_validation :set_pool_family

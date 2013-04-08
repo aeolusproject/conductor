@@ -35,7 +35,7 @@
 
 class Pool < ActiveRecord::Base
 
-  include PermissionedObject
+  include Alberich::PermissionedObject
   include ActionView::Helpers::NumberHelper
   class << self
     include CommonFilterMethods
@@ -51,12 +51,6 @@ class Pool < ActiveRecord::Base
   has_many :provider_selection_strategies, :dependent => :destroy
   has_many :provider_priority_groups, :dependent => :destroy
   has_many :pool_provider_account_options, :dependent => :destroy
-  has_many :permissions, :as => :permission_object, :dependent => :destroy,
-                         :include => [:role],
-                         :order => "permissions.id ASC"
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-                                 :include => [:role],
-                                 :order => "derived_permissions.id ASC"
 
   accepts_nested_attributes_for :quota
 
@@ -124,7 +118,7 @@ class Pool < ActiveRecord::Base
     avail = max - total unless max.nil?
     all_failed = instances.failed
     failed = (user.nil? || all_failed.empty? ? all_failed :
-              all_failed.list_for_user(permission_session, user, Privilege::VIEW))
+              all_failed.list_for_user(permission_session, user, Alberich::Privilege::VIEW))
     pool_family_quota_percent = pool_family.quota.percentage_used quota.running_instances
     {
       :cloud_providers => instances.includes(:provider_account).collect{|i| i.provider_account}.uniq.count,

@@ -18,7 +18,7 @@ Given /^a user "([^\"]*)" exists$/ do |username|
 end
 
 Given /^there is not a permission for the user "([^\"]*)"$/ do |username|
-  Permission.first(:include => ['entity' => ['session_entities' => 'user']], :conditions => ['users.username = ?', username]).should be_nil
+  Alberich::Permission.first(:include => ['entity' => ['session_entities' => 'user']], :conditions => ['users.username = ?', username]).should be_nil
 end
 
 Given /^there is a permission for the user "([^\"]*)"$/ do |username|

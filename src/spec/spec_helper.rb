@@ -64,7 +64,7 @@ def mock_warden(user)
   @session = ActiveRecord::SessionStore::Session.find_by_session_id(@session_id)
   @session = FactoryGirl.create :session unless @session
   if user
-    @permission_session = PermissionSession.create!(:user => user,
+    @permission_session = Alberich::PermissionSession.create!(:user => user,
                                                     :session_id => @session_id)
     request.session[:permission_session_id] = @permission_session.id
     @permission_session.update_session_entities(user)

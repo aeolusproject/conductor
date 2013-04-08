@@ -116,9 +116,9 @@ namespace :dc do
       puts "Permission already granted for user #{args.username}"
       exit(1)
     end
-    permission = Permission.new(:role => Role.find_by_name('base.admin'),
-                                :permission_object => BasePermissionObject.general_permission_scope,
-                                :entity => user.entity)
+    permission = Alberich::Permission.new(:role => Alberich::Role.find_by_name('base.admin'),
+                                :permission_object => Alberich::BasePermissionObject.general_permission_scope,
+                                :entity => Alberich::Entity.for_target(user))
     if permission.save
       puts "Granting administrator privileges for #{args.username}..."
     else
@@ -219,7 +219,7 @@ namespace :dc do
   end
 
   task :admin_exists => :environment do
-    no_admins = BasePermissionObject.general_permission_scope.permissions.includes(:role => :privileges).where("privileges.target_type" => "BasePermissionObject","privileges.action" => Privilege::PERM_SET).empty?
+    no_admins = Alberich::BasePermissionObject.general_permission_scope.permissions.includes(:role => :privileges).where("alberich_privileges.target_type" => "Alberich::BasePermissionObject","alberich_privileges.action" => Alberich::Privilege::PERM_SET).empty?
     if no_admins
       exit(1)
     end

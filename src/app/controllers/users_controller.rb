@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   before_filter :load_users, :only => [:show]
 
   def index
-    if !check_privilege(Privilege::VIEW, User)
+    if !check_privilege(Alberich::Privilege::VIEW, User)
       redirect_to account_url and return
     end
     @title = _('Users')
@@ -36,14 +36,14 @@ class UsersController < ApplicationController
   end
 
   def new
-    require_privilege(Privilege::CREATE, User)
+    require_privilege(Alberich::Privilege::CREATE, User)
     @title = _('New User')
     @user = User.new
     @user.quota = Quota.new_for_user
   end
 
   def create
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
     @user = User.new(params[:user])
     @title = _('New User')
     @user.quota ||= Quota.new
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
 
   def show
     @user = params[:id] ? User.find(params[:id]) : current_user
-    require_privilege(Privilege::VIEW, User) unless current_user == @user
+    require_privilege(Alberich::Privilege::VIEW, User) unless current_user == @user
     @title = @user.name.present? ? @user.name : @user.username
     @quota_resources = @user.quota.quota_resources
     if current_user == user
@@ -92,7 +92,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = params[:id] ? User.find(params[:id]) : current_user
-    require_privilege(Privilege::MODIFY, User) unless @user == current_user
+    require_privilege(Alberich::Privilege::MODIFY, User) unless @user == current_user
     @title = _('Edit User')
     @ldap_user = (SETTINGS_CONFIG[:auth][:strategy] == "ldap")
   end
@@ -100,9 +100,9 @@ class UsersController < ApplicationController
   def update
     @title = _('Edit User')
     @user = params[:id] ? User.find(params[:id]) : current_user
-    require_privilege(Privilege::MODIFY, User) unless @user == current_user
+    require_privilege(Alberich::Privilege::MODIFY, User) unless @user == current_user
     # A user should not be able to edit their own quota:
-    params[:user].delete(:quota_attributes) unless check_privilege(Privilege::MODIFY, User)
+    params[:user].delete(:quota_attributes) unless check_privilege(Alberich::Privilege::MODIFY, User)
 
     if params[:commit] == "Reset"
       redirect_to edit_user_url(@user) and return
@@ -119,7 +119,7 @@ class UsersController < ApplicationController
   end
 
   def multi_destroy
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
     deleted_users = []
 
     begin
@@ -146,7 +146,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    require_privilege(Privilege::MODIFY, User)
+    require_privilege(Alberich::Privilege::MODIFY, User)
     user = User.find(params[:id])
     if user == current_user
       flash[:warning] = "#{_('Cannot delete %s : You are logged in as this user') % "#{user.username}"}"

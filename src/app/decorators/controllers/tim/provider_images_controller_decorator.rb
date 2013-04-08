@@ -35,22 +35,22 @@ Tim::ProviderImagesController.class_eval do
   def load_permissioned_provider_images
     images = Tim::BaseImage.list_for_user(current_session,
                                           current_user,
-                                          Privilege::VIEW)
+                                          Alberich::Privilege::VIEW)
     @provider_images = Tim::ProviderImage.find_by_images(images)
   end
 
   def check_view_permission
     @provider_image = Tim::ProviderImage.find(params[:id])
-    require_privilege(Privilege::VIEW, @provider_image.base_image)
+    require_privilege(Alberich::Privilege::VIEW, @provider_image.base_image)
   end
 
   def check_modify_permission
     @provider_image = Tim::ProviderImage.find(params[:id])
-    require_privilege(Privilege::MODIFY, @provider_image.base_image)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_image.base_image)
   end
 
   def check_create_permission
     @provider_image = Tim::ProviderImage.new(params[:provider_image])
-    require_privilege(Privilege::MODIFY, @provider_image.base_image)
+    require_privilege(Alberich::Privilege::MODIFY, @provider_image.base_image)
   end
 end

@@ -1,5 +1,5 @@
 = render :partial => 'layouts/admin_nav'
-- modify_perm = check_privilege(Privilege::MODIFY, @deployable)
+- modify_perm = check_privilege(Alberich::Privilege::MODIFY, @deployable)
 %header.page-header
   .obj_actions
     .button-group
@@ -102,12 +102,12 @@
             %td= catalog_entry.catalog.name
             %td= catalog_entry.catalog.pool.pool_family.name
 
-- if check_privilege(Privilege::PERM_VIEW,@permission_object)
+- if check_privilege(Alberich::Privilege::PERM_VIEW,@permission_object)
   %section.content-section
     %header
       %h2.roles= _('Role Assignments')
     .content
-      = render :partial => 'permissions/permissions'
+      = render :partial => 'alberich/permissions/permissions'
 
 :javascript
   $(document).ready(function() {

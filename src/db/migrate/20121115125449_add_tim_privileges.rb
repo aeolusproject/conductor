@@ -15,6 +15,9 @@
 #
 
 class AddTimPrivileges < ActiveRecord::Migration
+  class Role < ActiveRecord::Base; end
+  class Privilege < ActiveRecord::Base; end
+
   VIEW = "view"
   USE  = "use"
   MOD  = "modify"

@@ -95,7 +95,7 @@ end
 Warden::Manager.after_authentication do |user,auth,opts|
   current_session_id = auth.request.session_options[:id]
   session = auth.env['rack.session']
-  perm_session = PermissionSession.create!(:user => user,
+  perm_session = Alberich::PermissionSession.create!(:user => user,
                                            :session_id => current_session_id)
   session[:permission_session_id] = perm_session.id
   perm_session.update_session_entities(user)
@@ -105,7 +105,7 @@ Warden::Manager.after_set_user do |user,auth,opts|
   session = auth.env['rack.session']
   perm_session_id = session[:permission_session_id]
   if perm_session_id
-    perm_session = PermissionSession.find(perm_session_id)
+    perm_session = Alberich::PermissionSession.find(perm_session_id)
     #if session_id doesn't match what we originally set, update the value
     # This isn't needed for perm checks (that's why we store
     # permission_session_id), but matching the correct session_id will facilitate

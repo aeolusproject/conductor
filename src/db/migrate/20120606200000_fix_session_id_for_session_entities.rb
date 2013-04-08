@@ -14,6 +14,8 @@
 #   limitations under the License.
 #
 class FixSessionIdForSessionEntities < ActiveRecord::Migration
+  class SessionEntity < ActiveRecord::Base; end
+
   def self.up
     rename_column :session_entities, :session_id, :session_db_id
     add_column :session_entities, :session_id, :string

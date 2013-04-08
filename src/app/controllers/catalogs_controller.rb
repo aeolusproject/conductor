@@ -25,9 +25,9 @@ class CatalogsController < ApplicationController
     @catalogs = Catalog.
       apply_filters(:preset_filter_id => params[:catalogs_preset_filter],
                     :search_filter => params[:catalogs_search]).
-      list_for_user(current_session, current_user, Privilege::VIEW)
+      list_for_user(current_session, current_user, Alberich::Privilege::VIEW)
     @can_create = Pool.list_for_user(current_session, current_user,
-                                     Privilege::CREATE, Catalog).present?
+                                     Alberich::Privilege::CREATE, Catalog).present?
     save_breadcrumb(catalogs_path(:viewstate => @viewstate ? @viewstate.id : nil))
     set_header
     set_admin_content_tabs 'catalogs'
@@ -41,7 +41,7 @@ class CatalogsController < ApplicationController
   def new
     @catalog = Catalog.new(params[:catalog]) # ...when should there be params on new?
     load_pools
-    require_privilege(Privilege::CREATE, Catalog, @pools.first)
+    require_privilege(Alberich::Privilege::CREATE, Catalog, @pools.first)
     @title = _('New Catalog')
   end
 
@@ -49,7 +49,7 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     @title = @catalog.name
     load_deployables
-    require_privilege(Privilege::VIEW, @catalog)
+    require_privilege(Alberich::Privilege::VIEW, @catalog)
     save_breadcrumb(catalog_path(@catalog), @catalog.name)
     @header = [
       { :name => 'checkbox', :class => 'checkbox', :sortable => false },
@@ -61,7 +61,7 @@ class CatalogsController < ApplicationController
   def create
     @catalog = Catalog.new(params[:catalog])
     load_pools
-    require_privilege(Privilege::CREATE, Catalog, @catalog.pool)
+    require_privilege(Alberich::Privilege::CREATE, Catalog, @catalog.pool)
 
     respond_to do |format|
       if @catalog.save
@@ -87,15 +87,15 @@ class CatalogsController < ApplicationController
     @catalog = Catalog.find(params[:id])
     @title = _('Edit Catalog')
     load_pools
-    require_privilege(Privilege::MODIFY, @catalog)
+    require_privilege(Alberich::Privilege::MODIFY, @catalog)
   end
 
   def update
     @catalog = Catalog.find(params[:id])
     load_pools
-    require_privilege(Privilege::MODIFY, @catalog)
+    require_privilege(Alberich::Privilege::MODIFY, @catalog)
     if params[:catalog][:pool_id] && @catalog.pool_id != params[:catalog][:pool_id]
-      require_privilege(Privilege::CREATE, Catalog,
+      require_privilege(Alberich::Privilege::CREATE, Catalog,
                         Pool.find(params[:catalog][:pool_id]))
     end
 
@@ -125,7 +125,7 @@ class CatalogsController < ApplicationController
     not_deleted_perms = []
     catalogs = Catalog.find(params[:catalogs_selected])
     catalogs.to_a.each do |catalog|
-      if check_privilege(Privilege::MODIFY, catalog)
+      if check_privilege(Alberich::Privilege::MODIFY, catalog)
         if catalog.destroy
           deleted << catalog.name
         else
@@ -147,7 +147,7 @@ class CatalogsController < ApplicationController
 
   def destroy
     catalog = Catalog.find(params[:id])
-    require_privilege(Privilege::MODIFY, catalog)
+    require_privilege(Alberich::Privilege::MODIFY, catalog)
     respond_to do |format|
       if catalog.destroy
         format.html do
@@ -183,7 +183,7 @@ class CatalogsController < ApplicationController
 
   def load_deployables
     @deployables = @catalog.deployables.
-      list_for_user(current_session, current_user, Privilege::VIEW).
+      list_for_user(current_session, current_user, Alberich::Privilege::VIEW).
       apply_filters(:preset_filter_id => params[:deployables_preset_filter],
                     :search_filter => params[:deployables_search])
   end
@@ -191,11 +191,11 @@ class CatalogsController < ApplicationController
   def load_pools
     if @catalog.pool_family
       @pools = @catalog.pool_family.pools.
-        list_for_user(current_session, current_user, Privilege::CREATE, Catalog)
+        list_for_user(current_session, current_user, Alberich::Privilege::CREATE, Catalog)
       @pools.unshift(@catalog.pool) unless @pools.include?(@catalog.pool)
     else
       @pools = Pool.list_for_user(current_session, current_user,
-                                  Privilege::CREATE, Catalog)
+                                  Alberich::Privilege::CREATE, Catalog)
     end
   end
 end

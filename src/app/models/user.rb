@@ -62,8 +62,10 @@ class User < ActiveRecord::Base
   has_many :view_states
   has_and_belongs_to_many :user_groups, :join_table => "members_user_groups",
                           :foreign_key => "member_id"
-  has_one :entity, :as => :entity_target, :dependent => :destroy
-  has_many :session_entities, :dependent => :destroy
+  has_one :entity, :as => :entity_target, :class_name => "Alberich::Entity",
+          :dependent => :destroy
+  has_many :session_entities, :class_name => "Alberich::SessionEntity",
+           :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   has_many :base_images, :class_name => "Tim::BaseImage"
 
@@ -76,7 +78,6 @@ class User < ActiveRecord::Base
 
   before_validation :strip_whitespace
   before_save :encrypt_password
-  after_save :update_entity
 
   validates :email, :presence => true,
                     :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i },
@@ -188,6 +189,10 @@ class User < ActiveRecord::Base
     group_list
   end
 
+  def to_s
+    "#{self.first_name} #{self.last_name} (#{self.username})"
+  end
+
   private
 
   def self.apply_search_filter(search)
@@ -231,9 +236,4 @@ class User < ActiveRecord::Base
     self.username = self.username.strip unless self.username.nil?
   end
 
-  def update_entity
-    self.entity = Entity.new(:entity_target => self) unless self.entity
-    self.entity.name = "#{self.first_name} #{self.last_name} (#{self.username})"
-    self.entity.save!
-  end
 end

@@ -38,9 +38,8 @@ class UserGroup < ActiveRecord::Base
   has_and_belongs_to_many :members, :join_table => "members_user_groups",
                                     :class_name => "User",
                                     :association_foreign_key => "member_id"
-  has_one :entity, :as => :entity_target, :dependent => :destroy
-
-  after_save :update_entity
+  has_one :entity, :as => :entity_target, :class_name => "Alberich::Entity",
+                   :dependent => :destroy
 
   # scope name by membership_source to prevent errors if users are later added
   # to external ldap groups that have the same name as local groups
@@ -75,10 +74,8 @@ class UserGroup < ActiveRecord::Base
     end
   end
 
-  def update_entity
-    self.entity = Entity.new(:entity_target => self) unless self.entity
-    self.entity.name = "#{self.name} (#{self.membership_source})"
-    self.entity.save!
+  def to_s
+    "#{self.name} (#{self.membership_source})"
   end
 
 end

@@ -1,5 +1,5 @@
 - content_for :form_header do
-  - if check_privilege(Privilege::CREATE, Pool)
+  - if check_privilege(Alberich::Privilege::CREATE, Pool)
     %li= link_to "#{_('New Pool')}", new_pool_path, { :class => 'button primary', :id => 'new_pool_button' }
   %li= restful_submit_tag "#{_('Destroy')}", "destroy", multi_destroy_pools_path, 'DELETE', :id => 'delete_button', :class => 'button danger'
 

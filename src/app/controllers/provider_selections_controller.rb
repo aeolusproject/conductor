@@ -22,7 +22,7 @@ class ProviderSelectionsController < ApplicationController
   before_filter :require_privileged_user_for_modify, :except => :show
 
   def show
-    require_privilege(Privilege::VIEW, @pool)
+    require_privilege(Alberich::Privilege::VIEW, @pool)
 
     @environment = @pool.pool_family
     @available_strategies = ProviderSelection::Base.strategies
@@ -98,7 +98,7 @@ class ProviderSelectionsController < ApplicationController
   end
 
   def require_privileged_user_for_modify
-    require_privilege(Privilege::MODIFY, @pool)
+    require_privilege(Alberich::Privilege::MODIFY, @pool)
   end
 
 end

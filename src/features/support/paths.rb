@@ -42,7 +42,7 @@ module NavigationHelpers
        user_group_path(UserGroup.find_by_name($1))
 
     when /^(.*)'s role page$/i
-       role_path(Role.find_by_name($1))
+       alberich.role_path(Alberich::Role.find_by_name($1))
 
     when /^(.*)'s frontend realm page$/i
        frontend_realm_path(FrontendRealm.find_by_name($1))
@@ -125,10 +125,13 @@ module NavigationHelpers
       hardware_profiles_pool_path
 
     when /the permissions page/
-      url_for list_permissions_path
+      url_for alberich.list_permissions_path
 
     when /the new permission page/
-      url_for new_permission_path
+      url_for alberich.new_permission_path
+
+    when /the roles page/
+      url_for alberich.roles_path
 
     when /the pool family provider accounts page/
       url_for pool_family_path(@pool_family, :details_tab => 'provider_accounts')

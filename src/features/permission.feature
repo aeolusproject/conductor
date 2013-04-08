@@ -15,11 +15,11 @@ Feature: Manage Permissions
     And there is not a permission for the user "testuser"
     When I follow "Grant Access"
     Then I should be on the new permission page
-    And I should see "Choose roles for users"
+    And I should see "Choose roles for"
     When I select "Pool User" role for the user "testuser"
     And I press "Grant Access"
     Then I should be on the page for the pool "PermissionPool"
-    And I should see "Added the following User Roles"
+    And I should see "Added the following permission grants"
     And I should see "testuser"
 
   Scenario: Create a second permission on a resource
@@ -28,11 +28,11 @@ Feature: Manage Permissions
     When I follow link with ID "details_permissions"
     When I follow "Grant Access"
     Then I should be on the new permission page
-    And I should see "Choose roles for users"
+    And I should see "Choose roles for Pool"
     When I select "Pool Admin" role for the user "testuser"
     And I press "Grant Access"
     Then I should be on the page for the pool "PermissionPool"
-    And I should see "Added the following User Roles"
+    And I should see "Added the following permission grants"
     And I should see "testuser"
 
   Scenario: Attempt to duplicate a permission
@@ -41,11 +41,11 @@ Feature: Manage Permissions
     When I follow link with ID "details_permissions"
     When I follow "Grant Access"
     Then I should be on the new permission page
-    And I should see "Choose roles for users"
+    And I should see "Choose roles for Pool"
     When I select "Pool User" role for the user "testuser"
     And I press "Grant Access"
     Then I should be on the page for the pool "PermissionPool"
-    And I should see "Could not add these User Roles"
+    And I should see "Could not add the following permission grants"
     And I should see "testuser"
 
   Scenario: Delete a permission
@@ -65,5 +65,5 @@ Feature: Manage Permissions
     When I follow "PermPool"
     When I follow link with ID "details_permissions"
     When I follow "Inherited Access"
-    Then I should see "Inherited From"
+    Then I should see "Inherited from"
     And I should see "PermFamily"

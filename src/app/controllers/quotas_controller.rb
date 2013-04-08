@@ -26,7 +26,7 @@ class QuotasController < ApplicationController
     @parent_type = params[:parent_type]
     @quota = @parent.quota
 
-    require_privilege(Privilege::VIEW, Quota, @parent)
+    require_privilege(Alberich::Privilege::VIEW, Quota, @parent)
   end
 
   def edit
@@ -36,13 +36,13 @@ class QuotasController < ApplicationController
 
     @quota = @parent.quota
 
-    require_privilege(Privilege::MODIFY, Quota, @parent)
+    require_privilege(Alberich::Privilege::MODIFY, Quota, @parent)
   end
 
   def update
     @parent = @parent = get_parent_object(params)
     @parent_type = params[:parent_type]
-    require_privilege(Privilege::MODIFY, Quota, @parent)
+    require_privilege(Alberich::Privilege::MODIFY, Quota, @parent)
 
     @quota = @parent.quota
     @name = get_parent_name(@parent, @parent_type)
@@ -58,7 +58,7 @@ class QuotasController < ApplicationController
   def reset
     @parent = @parent = get_parent_object(params)
     @parent_type = params[:parent_type]
-    require_privilege(Privilege::MODIFY, Quota, @parent)
+    require_privilege(Alberich::Privilege::MODIFY, Quota, @parent)
 
     @quota = @parent.quota
     @quota.maximum_running_instances = Quota::NO_LIMIT

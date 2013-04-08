@@ -1,7 +1,7 @@
 = render :partial => 'layouts/nav_history'
 %header.page-header
   .obj_actions
-    - if check_privilege(Privilege::MODIFY, @instance)
+    - if check_privilege(Alberich::Privilege::MODIFY, @instance)
       = link_to _('Edit'), edit_instance_path(@instance), :class => 'button',
                                                           :id => 'edit_instance_button'
   %h1.deployments= @instance.name

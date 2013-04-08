@@ -6,7 +6,7 @@
   %header
     %h2= _('Permissions')
   .content
-    - if check_privilege(Privilege::MODIFY)
+    - if check_privilege(Alberich::Privilege::MODIFY)
       %p
         = _('Modify default user settings')
         = link_to t(:continue), self_service_settings_path, :class => 'button'

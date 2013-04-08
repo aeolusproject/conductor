@@ -33,7 +33,7 @@
 
 class PoolFamily < ActiveRecord::Base
 
-  include PermissionedObject
+  include Alberich::PermissionedObject
   include ActionView::Helpers::NumberHelper
 
   DEFAULT_POOL_FAMILY_KEY = "default_pool_family"
@@ -46,11 +46,7 @@ class PoolFamily < ActiveRecord::Base
   has_many :pools,  :dependent => :destroy
   belongs_to :quota, :autosave => true, :dependent => :destroy
   has_and_belongs_to_many :provider_accounts, :uniq => true
-  has_many :permissions, :as => :permission_object, :dependent => :destroy
-  has_many :derived_permissions, :as => :permission_object, :dependent => :destroy,
-           :include => [:role],
-           :order => "derived_permissions.id ASC"
-             has_many :catalogs
+  has_many :catalogs
   has_many :deployables
   has_many :instances
   has_many :deployments
