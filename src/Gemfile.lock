@@ -165,7 +165,7 @@ GEM
       rack (>= 1.0)
     rails_warden (0.5.6)
       warden (>= 1.0.0)
-    rake (10.0.3)
+    rake (13.0.1)
     rdoc (3.12.1)
       json (~> 1.4)
     ref (1.0.2)
